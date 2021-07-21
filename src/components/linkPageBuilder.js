@@ -5,7 +5,6 @@ import axios from 'axios';
 const LinkPageBuilder = () => {
     return (
         <div>
-            Link Page Builder
             <CreateSite />
         </div>
     )

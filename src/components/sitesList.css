@@ -1,0 +1,28 @@
+.sites-list {
+    display: flex;
+    flex-flow: column;
+    padding: 0;
+}
+
+.site-box {
+    list-style: none;
+    width: 400px;
+    height: 400px;
+    background-color: cadetblue;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin: 10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.title, .subtitle {
+    margin: 10px;
+}
+
+.site-link {
+    width: 400px;
+    text-decoration: none;
+    color: black;
+}

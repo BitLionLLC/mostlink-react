@@ -1,28 +1,39 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, createRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
+import { useScreenshot } from 'use-react-screenshot'
 import './createSite.css';
 
 const CreateSite = () => {
+    const ref = createRef(null)
+    const [image, takeScreenshot] = useScreenshot()
+    const getImage = () => takeScreenshot(ref.current)
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [title, setTitle] = useState("");
+    const [subtitle, setSubtitle] = useState("");
 
     const { updateSites } = useContext(SitesContext);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
+        getImage()
     }
 
     const createSite = (e) => {
         e.preventDefault();
         axios
             .post('http://localhost:4000/sites', {
-                title
+                title,
+                subtitle,
+                screenshot: image
             })
             .then(res => {
                 setIsModalOpen(false);
                 toast("Success", { type: "success" });
+                setTitle("")
+                setSubtitle("")
                 updateSites();
             })
             .catch(err => {
@@ -34,12 +45,13 @@ const CreateSite = () => {
         <>
             <div className="create-site" onClick={toggleModal}>+</div>
             { isModalOpen ? 
-                <div className="create-site-modal">
+                <div className="create-site-modal" ref={ref}>
                     <div className="blocker"></div>
                     <div className="close-button" onClick={toggleModal}>+</div>
                     <h1>Create a site</h1>
-                    <form onSubmit={createSite}>
+                    <form onSubmit={createSite} className="create-site-form">
                         <input type="text" value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
+                        <input type="text" value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
                         <button type="submit">Create</button>
                     </form>
                 </div>

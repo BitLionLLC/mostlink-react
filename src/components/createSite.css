@@ -27,6 +27,14 @@
     border-radius: 10px;
     background-color: dodgerblue;
     color: white;
+    text-align: center;
+}
+
+.create-site-form {
+    display: flex;
+    flex-flow: column;
+    width: 50%;
+    margin: 0 auto;
 }
 
 .close-button {
@@ -46,4 +54,10 @@
     top: 0;
     left: 0;
     z-index: -1;
+}
+
+input, button {
+    margin: 5px;
+    height: 40px;
+    font-size: 25px;
 }
