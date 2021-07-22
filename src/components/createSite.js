@@ -6,9 +6,9 @@ import { useScreenshot } from 'use-react-screenshot'
 import './createSite.css';
 
 const CreateSite = () => {
-    const ref = createRef(null)
-    const [image, takeScreenshot] = useScreenshot()
-    const getImage = () => takeScreenshot(ref.current)
+    const ref = createRef(null);
+    const [image, takeScreenshot] = useScreenshot();
+    const getImage = () => takeScreenshot(ref.current);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [title, setTitle] = useState("");
@@ -18,18 +18,25 @@ const CreateSite = () => {
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
-        getImage()
+        getImage();
     }
 
     const createSite = (e) => {
+        const links = [
+            { href: "https://www.google.com", text: "Google" },
+            { href: "https://www.amazon.com", text: "Amazon" },
+            { href: "https://www.twitch.tv", text: "Twitch" }
+        ];
+
         e.preventDefault();
         axios
             .post('http://localhost:4000/sites', {
                 title,
                 subtitle,
-                screenshot: image
+                screenshot: image,
+                links
             })
-            .then(res => {
+            .then(() => {
                 setIsModalOpen(false);
                 toast("Success", { type: "success" });
                 setTitle("")
@@ -43,19 +50,20 @@ const CreateSite = () => {
 
     return (
         <>
-            <div className="create-site" onClick={toggleModal}>+</div>
-            { isModalOpen ? 
-                <div className="create-site-modal" ref={ref}>
-                    <div className="blocker"></div>
-                    <div className="close-button" onClick={toggleModal}>+</div>
-                    <h1>Create a site</h1>
-                    <form onSubmit={createSite} className="create-site-form">
-                        <input type="text" value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
-                        <input type="text" value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
-                        <button type="submit">Create</button>
-                    </form>
-                </div>
-        
+            <div className="create-site" onClick={toggleModal} ref={ref}>+</div>
+            { isModalOpen ?
+                <> 
+                    <div className="blocker" onClick={toggleModal}></div>
+                    <div className="create-site-modal">
+                        <div className="close-button" onClick={toggleModal}>+</div>
+                        <h1>Create a site</h1>
+                        <form onSubmit={createSite} className="create-site-form">
+                            <input type="text" value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
+                            <input type="text" value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
+                            <button type="submit">Create</button>
+                        </form>
+                    </div>
+                </>
             : null }
         </>
     )

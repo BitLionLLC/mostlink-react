@@ -2,6 +2,7 @@
     display: flex;
     flex-flow: column;
     padding: 0;
+    align-items: center;
 }
 
 .site-box {
@@ -25,4 +26,11 @@
     width: 400px;
     text-decoration: none;
     color: black;
+}
+
+@media (max-width: 500px) {
+    .sites-list {
+        width: 450px;
+        margin: 0 auto;
+    }
 }

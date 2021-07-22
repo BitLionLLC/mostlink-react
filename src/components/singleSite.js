@@ -16,6 +16,13 @@ const SingleSite = () => {
         <div>
             <h1>{thisSite?.title}</h1>
             <p>{thisSite?.subtitle}</p>
+            {thisSite?.links ?
+                <ul>
+                    {thisSite.links.map((link) => {
+                        return <a href={link.href}><li>{link.text}</li></a>
+                    })}
+                </ul>
+            : null}
         </div>
     )
 }
