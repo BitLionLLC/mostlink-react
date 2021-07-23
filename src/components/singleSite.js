@@ -3,22 +3,20 @@ import { useRouteMatch } from 'react-router';
 import { SitesContext } from '../contexts/sitesContext';
 
 const SingleSite = () => {
-    const { sites, updateSites } = useContext(SitesContext);
+    const { site, updateSite } = useContext(SitesContext);
     const match = useRouteMatch();
 
     useEffect(() => {
-        updateSites()
+        updateSite(match.params.id);
     }, [])
-    
-    const thisSite = sites.filter((site) => site._id === match.params.id)[0]
 
     return (
         <div>
-            <h1>{thisSite?.title}</h1>
-            <p>{thisSite?.subtitle}</p>
-            {thisSite?.links ?
+            <h1>{site?.title}</h1>
+            <p>{site?.subtitle}</p>
+            {site?.links ?
                 <ul>
-                    {thisSite.links.map((link) => {
+                    {site.links.map((link) => {
                         return <a href={link.href}><li>{link.text}</li></a>
                     })}
                 </ul>

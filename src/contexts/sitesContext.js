@@ -5,7 +5,19 @@ import { toast } from 'react-toastify';
 export const SitesContext = createContext();
 
 const SitesContextProvider = (props) => {
+    const [site, setSite] = useState({});
     const [sites, setSites] = useState([]);
+
+    const updateSite = async siteId => {
+        axios
+            .get(`http://localhost:4000/sites/${siteId}`)
+            .then(res => {
+                setSite(res.data);
+            })
+            .catch(err => {
+                toast(err, { type: "error" });
+            })
+    }
 
     const updateSites = () => {
         axios
@@ -19,7 +31,7 @@ const SitesContextProvider = (props) => {
     }
 
     return (
-        <SitesContext.Provider value={{sites, updateSites}} >
+        <SitesContext.Provider value={{ site, sites, updateSite, updateSites }} >
             {props.children}
         </SitesContext.Provider>
     )
