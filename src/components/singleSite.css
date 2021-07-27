@@ -1,0 +1,36 @@
+.single-site-container {
+    width: 800px;
+    margin: 50px auto;
+    background-color: lightblue;
+    padding: 50px;
+    border-radius: 10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.single-title, .single-subtitle {
+    text-align: center;
+}
+
+.header-image {
+    border-radius: 100%;
+}
+
+.links-list {
+    list-style: none;
+    padding: 0;
+}
+
+.individual-link {
+    min-width: 600px;
+    background-color: white;
+    height: 50px;
+    margin: 10px auto;
+    padding: 20px;
+    border-radius: 30px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+}

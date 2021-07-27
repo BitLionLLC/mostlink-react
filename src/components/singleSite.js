@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect } from 'react';
 import { useRouteMatch } from 'react-router';
 import { SitesContext } from '../contexts/sitesContext';
+import './singleSite.css';
 
 const SingleSite = () => {
     const { site, updateSite } = useContext(SitesContext);
@@ -32,13 +33,14 @@ const SingleSite = () => {
     }
 
     return (
-        <div>
-            <h1>{site?.title}</h1>
-            <p>{site?.subtitle}</p>
+        <div className="single-site-container">
+            <h1 className="single-title">{site?.title}</h1>
+            <p className="single-subtitle">{site?.subtitle}</p>
+            <img src={site.headerImage || "https://via.placeholder.com/300x300?text=image+here"} alt={site.title} className="header-image" />
             {site?.links ?
-                <ul>
+                <ul className="links-list">
                     {site.links.map((link) => {
-                        return <li onClick={() => onLinkClick(link.href)}>{link.text} {link?.hits}</li>
+                        return <li onClick={() => onLinkClick(link.href)} className="individual-link">{link.text} {link?.hits}</li>
                     })}
                 </ul>
             : null}
