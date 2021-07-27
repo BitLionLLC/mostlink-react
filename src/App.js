@@ -5,6 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Home from './components/home';
 import SitesContextProvider from './contexts/sitesContext';
 import SingleSite from './components/singleSite';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 function App() {
   return (
@@ -20,5 +23,7 @@ function App() {
     </SitesContextProvider>
   );
 }
+
+library.add(fab, far);
 
 export default App;
