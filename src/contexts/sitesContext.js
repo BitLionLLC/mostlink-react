@@ -8,7 +8,7 @@ const SitesContextProvider = (props) => {
     const [site, setSite] = useState({});
     const [sites, setSites] = useState([]);
 
-    const updateSite = async siteId => {
+    const fetchSite = async siteId => {
         axios
             .get(`http://localhost:4000/sites/${siteId}`)
             .then(res => {
@@ -19,7 +19,7 @@ const SitesContextProvider = (props) => {
             })
     }
 
-    const updateSites = () => {
+    const fetchSites = () => {
         axios
             .get('http://localhost:4000/sites')
             .then(res => {
@@ -31,7 +31,7 @@ const SitesContextProvider = (props) => {
     }
 
     return (
-        <SitesContext.Provider value={{ site, sites, updateSite, updateSites }} >
+        <SitesContext.Provider value={{ site, sites, fetchSite, fetchSites }} >
             {props.children}
         </SitesContext.Provider>
     )

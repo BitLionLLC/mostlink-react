@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import './sitesList.css';
 
 const SitesList = () => {
-    const { sites, updateSites } = useContext(SitesContext);
+    const { sites, fetchSites } = useContext(SitesContext);
 
     useEffect(() => {
-        updateSites();
+        fetchSites();
     }, [])
 
     return (
