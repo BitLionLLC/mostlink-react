@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './singleSite.css';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { toast } from 'react-toastify';
 
 const EDIT_TYPE = {
     ALL: "all",
@@ -61,6 +62,22 @@ const SingleSite = () => {
 
     const onSave = () => {
         setIsEditing(false);
+
+        const siteToSave = {
+            title,
+            subtitle,
+            headerImage,
+            links
+        }
+
+        axios
+            .put(`http://localhost:4000/sites/${match.params.id}`, siteToSave)
+            .then(() => {
+                toast("Success", {type: "success"});
+            })
+            .catch(() => {
+                toast('Error saving site.', {type: "error"});
+            })
     }
 
     const onCancel = () => {
@@ -68,7 +85,7 @@ const SingleSite = () => {
         fetchSite(match.params.id);
     }
 
-    const transformIconKey = (key) => {
+    const transformIconKey = (key, lib) => {
         const arr = key.split("").slice(2);
         const display = arr.join("");
         let valueArr = [];
@@ -83,7 +100,7 @@ const SingleSite = () => {
             }
         }
 
-        const value = valueArr.join("");
+        const value = lib + "_" + valueArr.join("");
         return [display, value];
     }
 
@@ -113,9 +130,15 @@ const SingleSite = () => {
                                     const newLinks = links.slice();
                                     newLinks[index].icon = e.target.value;
                                     setLinks(newLinks);
-                                }}>
-                                    {Object.keys(fab).map(key => {
-                                        const [display, value] = transformIconKey(key);
+                                }} value={link?.icon}>
+                                    {Object.keys(fab).concat(Object.keys(far)).sort().map(key => {
+                                        let lib;
+                                        if (Object.keys(far).includes(key)) {
+                                            lib = "far"
+                                        } else {
+                                            lib = "fab"
+                                        }
+                                        const [display, value] = transformIconKey(key, lib);
                                         return <option value={value}>{display}</option>
                                     })}
                                 </select>
@@ -149,7 +172,7 @@ const SingleSite = () => {
                         {links.map((link) => {
                             return <li onClick={() => onLinkClick(link.href)} className="individual-link">
                                 <div className="link-text">{link.text}</div>
-                                <FontAwesomeIcon icon={["fab", link.icon]} />
+                                <FontAwesomeIcon icon={link?.icon?.split("_")} size="2x" />
                             </li>
                         })}
                     </ul>
