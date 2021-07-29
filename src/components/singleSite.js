@@ -36,9 +36,6 @@ const SingleSite = () => {
         setLinks(site.links);
     }, [site])
 
-    const [, updateState] = useState();
-    const forceUpdate = useCallback(() => updateState({}), []);
-
     const onLinkClick = (linkHref) => {
         if (isEditing) {
             setWhatIsBeingEdited(EDIT_TYPE.LINKS);
@@ -106,7 +103,7 @@ const SingleSite = () => {
         return [display, value];
     }
 
-    const selectOptions = Object.keys(fab).concat(Object.keys(far)).sort().map(key => {
+    const selectOptions = Object.keys(fab).concat(Object.keys(far)).filter((key) => key !== "faFontAwesomeLogoFull").sort().map(key => {
         let lib;
         if (Object.keys(far).includes(key)) {
             lib = "far"
