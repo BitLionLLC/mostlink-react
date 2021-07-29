@@ -1,12 +1,12 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useRouteMatch } from 'react-router';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './singleSite.css';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
-import { toast } from 'react-toastify';
+import Select, { components } from "react-select";
+import './singleSite.css';
 
 const EDIT_TYPE = {
     ALL: "all",
@@ -36,6 +36,9 @@ const SingleSite = () => {
         setLinks(site.links);
     }, [site])
 
+    const [, updateState] = useState();
+    const forceUpdate = useCallback(() => updateState({}), []);
+
     const onLinkClick = (linkHref) => {
         if (isEditing) {
             setWhatIsBeingEdited(EDIT_TYPE.LINKS);
@@ -61,8 +64,6 @@ const SingleSite = () => {
     }
 
     const onSave = () => {
-        setIsEditing(false);
-
         const siteToSave = {
             title,
             subtitle,
@@ -73,10 +74,11 @@ const SingleSite = () => {
         axios
             .put(`http://localhost:4000/sites/${match.params.id}`, siteToSave)
             .then(() => {
-                toast("Success", {type: "success"});
+                setIsEditing(false);
+                fetchSite(match.params.id);
             })
-            .catch(() => {
-                toast('Error saving site.', {type: "error"});
+            .catch((e) => {
+                console.error("Error saving site: " + e);
             })
     }
 
@@ -104,6 +106,25 @@ const SingleSite = () => {
         return [display, value];
     }
 
+    const selectOptions = Object.keys(fab).concat(Object.keys(far)).sort().map(key => {
+        let lib;
+        if (Object.keys(far).includes(key)) {
+            lib = "far"
+        } else {
+            lib = "fab"
+        }
+        const [label, value] = transformIconKey(key, lib);
+        return {value, label}
+    })
+
+    const { Option } = components;
+    const IconOption = props => (
+        <Option {...props} className="icon-option">
+            {props.data.label}
+            <FontAwesomeIcon icon={props.data.value.split("_")} size="2x" className="icon-option-icon" />
+        </Option>
+    );
+
     const getEditContents = () => {
         switch (whatIsBeingEdited) {
             case "titles":
@@ -126,22 +147,16 @@ const SingleSite = () => {
                                     newLinks[index].text = e.target.value;
                                     setLinks(newLinks);
                                 }} />
-                                <select onChange={e => {
-                                    const newLinks = links.slice();
-                                    newLinks[index].icon = e.target.value;
-                                    setLinks(newLinks);
-                                }} value={link?.icon}>
-                                    {Object.keys(fab).concat(Object.keys(far)).sort().map(key => {
-                                        let lib;
-                                        if (Object.keys(far).includes(key)) {
-                                            lib = "far"
-                                        } else {
-                                            lib = "fab"
-                                        }
-                                        const [display, value] = transformIconKey(key, lib);
-                                        return <option value={value}>{display}</option>
-                                    })}
-                                </select>
+                                <Select 
+                                    onChange={e => {
+                                        const newLinks = links.slice();
+                                        newLinks[index].icon = e.value;
+                                        setLinks(newLinks);
+                                    }} 
+                                    defaultValue={selectOptions[selectOptions.indexOf(selectOptions.find(obj => obj.value === link?.icon))]} 
+                                    options={selectOptions} 
+                                    components={{ Option: IconOption }} 
+                                />
                             </>
                         })}
                     </ul>
@@ -151,7 +166,7 @@ const SingleSite = () => {
         }
     }
 
-    const getDisplayContents = (title, subtitle, headerImage, links) => {
+    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks) => {
         return <div className="single-site-container">
                 <div className="edit-button">
                     { isEditing ? 
@@ -160,16 +175,16 @@ const SingleSite = () => {
                         <FontAwesomeIcon icon={["far", "edit"]} size="3x" onClick={() => setIsEditing(true)} />
                     }
                 </div>
-                <h1 className="single-title" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>{title}</h1>
-                <p className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>{subtitle}</p>
+                <h1 className="single-title" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>{thisTitle}</h1>
+                <p className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>{thisSubtitle}</p>
                 <img 
-                    src={headerImage || "https://via.placeholder.com/300x300?text=image+here"} 
+                    src={thisHeaderImage || "https://via.placeholder.com/300x300?text=image+here"} 
                     alt={title} className="header-image"
                     onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}
                 />
                 {links ?
                     <ul className="links-list">
-                        {links.map((link) => {
+                        {theseLinks?.map((link) => {
                             return <li onClick={() => onLinkClick(link.href)} className="individual-link">
                                 <div className="link-text">{link.text}</div>
                                 <FontAwesomeIcon icon={link?.icon?.split("_")} size="2x" />

@@ -68,3 +68,8 @@
     flex-flow: column;
     align-items: center; 
 }
+
+.icon-option-icon {
+    margin-left: 10px;
+    float: right;
+}
