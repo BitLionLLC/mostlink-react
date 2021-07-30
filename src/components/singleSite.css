@@ -73,3 +73,9 @@
     margin-left: 10px;
     float: right;
 }
+
+.back-arrow {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}

@@ -8,6 +8,7 @@ import SingleSite from './components/singleSite';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   return (
@@ -24,6 +25,6 @@ function App() {
   );
 }
 
-library.add(fab, far);
+library.add(fab, far, fas);
 
 export default App;

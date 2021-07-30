@@ -6,7 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import Select, { components } from "react-select";
+import ImageUpload from 'image-upload-react'
 import './singleSite.css';
+import 'image-upload-react/dist/index.css'
 
 const EDIT_TYPE = {
     ALL: "all",
@@ -23,6 +25,7 @@ const SingleSite = () => {
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
     const [headerImage, setHeaderImage] = useState("");
+    const [backgroundImage, setBackgroundImage] = useState("");
     const [links, setLinks] = useState([]);
 
     useEffect(() => {
@@ -34,7 +37,13 @@ const SingleSite = () => {
         setSubtitle(site.subtitle);
         setHeaderImage(site.headerImage);
         setLinks(site.links);
+        setBackgroundImage(site.backgroundImage);
     }, [site])
+
+    useEffect(() => {
+        document.body.style.backgroundImage = backgroundImage;
+        console.log(backgroundImage)
+    }, [backgroundImage])
 
     const onLinkClick = (linkHref) => {
         if (isEditing) {
@@ -65,6 +74,7 @@ const SingleSite = () => {
             title,
             subtitle,
             headerImage,
+            backgroundImage,
             links
         }
 
@@ -126,15 +136,41 @@ const SingleSite = () => {
         switch (whatIsBeingEdited) {
             case "titles":
                 return <div className="edit-contents">
+                    <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h2>Title</h2>
                     <input type="text" value={title} placeholder="Title" onChange={e => setTitle(e.target.value)} />
                     <h2>Subtitle</h2>
                     <input type="text" value={subtitle} placeholder="Subtitle" onChange={e => setSubtitle(e.target.value)} />
                 </div>
             case "images":
-                return <div className="edit-contents">Images</div>
+                return <div className="edit-contents">
+                        <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
+                        <h2>Header Image</h2>
+                        <ImageUpload
+                            handleImageSelect={e => setHeaderImage(URL.createObjectURL(e.target.files[0]))}
+                            imageSrc={headerImage}
+                            setImageSrc={setHeaderImage}
+                            style={{
+                                width: 300,
+                                height: 300,
+                                background: 'gold'
+                            }}
+                        />
+                        <h2>Background Image</h2>
+                        <ImageUpload
+                            handleImageSelect={e => setBackgroundImage(URL.createObjectURL(e.target.files[0]))}
+                            imageSrc={backgroundImage}
+                            setImageSrc={setBackgroundImage}
+                            style={{
+                                width: 300,
+                                height: 300,
+                                background: 'gold'
+                            }}
+                        />
+                    </div>
             case "links":
                 return <div className="edit-contents">
+                    <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h2>Links</h2>
                     <ul>
                         {links.map((link, index) => {
@@ -178,6 +214,7 @@ const SingleSite = () => {
                     src={thisHeaderImage || "https://via.placeholder.com/300x300?text=image+here"} 
                     alt={title} className="header-image"
                     onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}
+                    width="300" height="300"
                 />
                 {links ?
                     <ul className="links-list">
