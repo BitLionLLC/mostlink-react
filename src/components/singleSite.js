@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import Select, { components } from "react-select";
-import ImageUpload from 'image-upload-react'
+import FileBase64 from 'react-file-base64';
 import './singleSite.css';
 import 'image-upload-react/dist/index.css'
 
@@ -41,7 +41,7 @@ const SingleSite = () => {
     }, [site])
 
     useEffect(() => {
-        document.body.style.backgroundImage = backgroundImage;
+        document.body.style.backgroundImage = `url(${backgroundImage?.base64})`;
         console.log(backgroundImage)
     }, [backgroundImage])
 
@@ -146,27 +146,11 @@ const SingleSite = () => {
                 return <div className="edit-contents">
                         <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                         <h2>Header Image</h2>
-                        <ImageUpload
-                            handleImageSelect={e => setHeaderImage(URL.createObjectURL(e.target.files[0]))}
-                            imageSrc={headerImage}
-                            setImageSrc={setHeaderImage}
-                            style={{
-                                width: 300,
-                                height: 300,
-                                background: 'gold'
-                            }}
-                        />
+                        <img src={headerImage.base64} width="300" height="300" />
+                        <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
                         <h2>Background Image</h2>
-                        <ImageUpload
-                            handleImageSelect={e => setBackgroundImage(URL.createObjectURL(e.target.files[0]))}
-                            imageSrc={backgroundImage}
-                            setImageSrc={setBackgroundImage}
-                            style={{
-                                width: 300,
-                                height: 300,
-                                background: 'gold'
-                            }}
-                        />
+                        <img src={backgroundImage.base64} width="300" height="300" />
+                        <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
                     </div>
             case "links":
                 return <div className="edit-contents">
@@ -243,9 +227,9 @@ const SingleSite = () => {
                 null
             }
             { isEditing ?
-                getDisplayContents(title, subtitle, headerImage, links)
+                getDisplayContents(title, subtitle, headerImage?.base64, links)
                 :
-                getDisplayContents(site.title, site.subtitle, site.headerImage, site.links)
+                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64, site.links)
             }
         </>
     )
