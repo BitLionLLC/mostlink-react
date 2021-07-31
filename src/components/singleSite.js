@@ -180,9 +180,11 @@ const SingleSite = () => {
                         <h1>Images</h1>
                         <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                         <h2>Header Image</h2>
+                        <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" />
                         <img src={headerImage.base64} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
                         <h2>Background Image</h2>
+                        <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" />
                         <img src={backgroundImage.base64} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
                     </div>
