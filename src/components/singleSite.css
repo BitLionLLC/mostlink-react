@@ -60,7 +60,8 @@
     width: 400px;
     height: 100%;
     background-color: slateblue;
-    padding: 20px;
+    padding: 50px 20px;
+    overflow: scroll;
 }
 
 .edit-contents {

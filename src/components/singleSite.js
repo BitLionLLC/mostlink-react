@@ -166,16 +166,18 @@ const SingleSite = () => {
         switch (whatIsBeingEdited) {
             case "titles":
                 return <div className="edit-contents">
+                    <h1>Titles</h1>
                     <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h2>Title</h2>
                     <input type="text" value={title} placeholder="Title" onChange={e => setTitle(e.target.value)} />
                     <h2>Subtitle</h2>
                     <input type="text" value={subtitle} placeholder="Subtitle" onChange={e => setSubtitle(e.target.value)} />
-                    <h3>Title Color</h3>
+                    <h2>Title Color</h2>
                     <HexColorPicker color={titlesColor} onChange={setTitlesColor} />
                 </div>
             case "images":
                 return <div className="edit-contents">
+                        <h1>Images</h1>
                         <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                         <h2>Header Image</h2>
                         <img src={headerImage.base64} width="300" height="300" />
@@ -187,11 +189,12 @@ const SingleSite = () => {
             case "links":
                 return <div className="edit-contents">
                     <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
-                    <h2>Links</h2>
-                    <h3>Link Text Color</h3>
+                    <h1>Links</h1>
+                    <h2>Link Text Color</h2>
                     <HexColorPicker color={linkTextColor} onChange={setLinkTextColor} />
-                    <h3>Link Background Color</h3>
+                    <h2>Link Background Color</h2>
                     <HexColorPicker color={linkBackgroundColor} onChange={setLinkBackgroundColor} />
+                    <h2>Links</h2>
                     <ul className="link-edit-list">
                         {links.map((link, index) => {
                             return <li className="link-edit-li">
@@ -219,8 +222,8 @@ const SingleSite = () => {
                 </div>
             default: // default and ALL
                 return <div className="edit-contents">
-                    <h2>General Settings</h2>
-                    <h3>Container Color</h3>
+                    <h1>General Settings</h1>
+                    <h2>Container Color</h2>
                     <HexColorPicker color={containerColor} onChange={setContainerColor} />
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>Title Settings</button>
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}>Image Settings</button>
