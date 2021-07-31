@@ -8,7 +8,6 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import Select, { components } from "react-select";
 import FileBase64 from 'react-file-base64';
 import './singleSite.css';
-import 'image-upload-react/dist/index.css'
 
 const EDIT_TYPE = {
     ALL: "all",
@@ -132,6 +131,16 @@ const SingleSite = () => {
         </Option>
     );
 
+    const addLink = () => {
+        const newLinks = links.slice();
+        newLinks.push({
+            href: "https://www.google.com",
+            text: "Google",
+            icon: "fab_google"
+        });
+        setLinks(newLinks);
+    }
+
     const getEditContents = () => {
         switch (whatIsBeingEdited) {
             case "titles":
@@ -177,6 +186,7 @@ const SingleSite = () => {
                             </>
                         })}
                     </ul>
+                    <button onClick={addLink}>+</button>
                 </div>
             default: // default and ALL
                 return <div className="edit-contents">All</div>
