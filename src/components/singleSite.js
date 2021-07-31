@@ -8,6 +8,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import Select, { components } from "react-select";
 import FileBase64 from 'react-file-base64';
 import { HexColorPicker } from "react-colorful";
+import { ToastContainer } from 'react-toastify';
 import './singleSite.css';
 
 const EDIT_TYPE = {
@@ -31,9 +32,25 @@ const SingleSite = () => {
     const [containerColor, setContainerColor] = useState("#ADD8E6");
     const [linkTextColor, setLinkTextColor] = useState("#000000");
     const [linkBackgroundColor, setLinkBackgroundColor] = useState("#FFFFFF");
+    const [isModalShowing, setIsModalShowing] = useState(false);
+    const [modalOpenedWith, setModalOpenedWith] = useState("");
+    const [photos, setPhotos] = useState([]);
+    const [query, setQuery] = useState("");
+
+    const fetchPexels = () => {
+        const headers = {
+            Authorization: "563492ad6f9170000100000180348db710564c64a1b0dc2f260570b2"
+        }
+
+        axios
+            .get(`https://api.pexels.com/v1/search?query=${query}&per_page=10`, { headers: headers })
+            .then(res => setPhotos(res.data.photos))
+            .catch(err => console.error(err))
+    }
 
     useEffect(() => {
-        fetchSite(match.params.id)
+        fetchSite(match.params.id);
+        fetchPexels();
     }, [])
 
     useEffect(() => {
@@ -49,8 +66,7 @@ const SingleSite = () => {
     }, [site])
 
     useEffect(() => {
-        document.body.style.backgroundImage = `url(${backgroundImage?.base64})`;
-        console.log(backgroundImage)
+        document.body.style.backgroundImage = `url(${backgroundImage?.base64 || backgroundImage?.url})`;
     }, [backgroundImage])
 
     const onLinkClick = (linkHref) => {
@@ -162,6 +178,11 @@ const SingleSite = () => {
         setLinks(newLinks);
     }
 
+    const openModal = (component) => {
+        setIsModalShowing(true);
+        setModalOpenedWith(component);
+    }
+
     const getEditContents = () => {
         switch (whatIsBeingEdited) {
             case "titles":
@@ -181,12 +202,14 @@ const SingleSite = () => {
                         <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                         <h2>Header Image</h2>
                         <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" />
-                        <img src={headerImage.base64} width="300" height="300" />
+                        <img src={headerImage?.base64 || headerImage?.url} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
+                        <button onClick={() => openModal("headerImage")}>Choose from Pexels</button>
                         <h2>Background Image</h2>
                         <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" />
-                        <img src={backgroundImage.base64} width="300" height="300" />
+                        <img src={backgroundImage?.base64 || backgroundImage?.url} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
+                        <button onClick={() => openModal("backgroundImage")}>Choose from Pexels</button>
                     </div>
             case "links":
                 return <div className="edit-contents">
@@ -236,6 +259,7 @@ const SingleSite = () => {
 
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, containerColor, linkTextColor, linkBackgroundColor) => {
         return <div className="single-site-container" style={{ backgroundColor: containerColor }}>
+                <ToastContainer position="top-right" autoClose={5000} />
                 <div className="edit-button">
                     { isEditing ? 
                         null
@@ -278,9 +302,26 @@ const SingleSite = () => {
                 null
             }
             { isEditing ?
-                getDisplayContents(title, subtitle, headerImage?.base64, links, titlesColor, containerColor, linkTextColor, linkBackgroundColor)
+                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, linkTextColor, linkBackgroundColor)
                 :
-                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64, site.links, site.titlesColor, site.containerColor, site.linkTextColor, site.linkBackgroundColor)
+                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.linkTextColor, site.linkBackgroundColor)
+            }
+            { isModalShowing ?
+                <>
+                    <div className="blocker" onClick={() => setIsModalShowing(false)}></div>
+                    <div className="pexels-modal">
+                        Pexels
+                        <input type="text" value={query} placeholder="Pexels query" onChange={e => setQuery(e.target.value)} />
+                        <button onClick={fetchPexels}>Search</button>
+                        {photos?.map(photo => {
+                            return <img src={photo.src.tiny} width="100" height="100" onClick={
+                                    modalOpenedWith === "backgroundImage" ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
+                                } 
+                            />
+                        })}
+                    </div>
+                </>
+                : null
             }
         </>
     )
