@@ -34,7 +34,11 @@ const CreateSite = () => {
                 title,
                 subtitle,
                 screenshot: image,
-                links
+                links,
+                titlesColor: "#000000",
+                containerColor: "#ADD8E6",
+                linkTextColor: "#000000",
+                linkBackgroundColor: "#FFFFFF"
             })
             .then(() => {
                 setIsModalOpen(false);
@@ -58,9 +62,9 @@ const CreateSite = () => {
                         <div className="close-button" onClick={toggleModal}>+</div>
                         <h1>Create a site</h1>
                         <form onSubmit={createSite} className="create-site-form">
-                            <input type="text" value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
-                            <input type="text" value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
-                            <button type="submit">Create</button>
+                            <input type="text" className="create-input" value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
+                            <input type="text" className="create-input" value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
+                            <button type="submit" className="create-button">Create</button>
                         </form>
                     </div>
                 </>

@@ -7,6 +7,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import Select, { components } from "react-select";
 import FileBase64 from 'react-file-base64';
+import { HexColorPicker } from "react-colorful";
 import './singleSite.css';
 
 const EDIT_TYPE = {
@@ -26,6 +27,10 @@ const SingleSite = () => {
     const [headerImage, setHeaderImage] = useState("");
     const [backgroundImage, setBackgroundImage] = useState("");
     const [links, setLinks] = useState([]);
+    const [titlesColor, setTitlesColor] = useState("#000000");
+    const [containerColor, setContainerColor] = useState("#ADD8E6");
+    const [linkTextColor, setLinkTextColor] = useState("#000000");
+    const [linkBackgroundColor, setLinkBackgroundColor] = useState("#FFFFFF");
 
     useEffect(() => {
         fetchSite(match.params.id)
@@ -37,6 +42,10 @@ const SingleSite = () => {
         setHeaderImage(site.headerImage);
         setLinks(site.links);
         setBackgroundImage(site.backgroundImage);
+        setTitlesColor(site.titlesColor);
+        setContainerColor(site.containerColor);
+        setLinkTextColor(site.linkTextColor);
+        setLinkBackgroundColor(site.linkBackgroundColor);
     }, [site])
 
     useEffect(() => {
@@ -74,7 +83,11 @@ const SingleSite = () => {
             subtitle,
             headerImage,
             backgroundImage,
-            links
+            links,
+            titlesColor,
+            containerColor,
+            linkTextColor,
+            linkBackgroundColor
         }
 
         axios
@@ -82,6 +95,7 @@ const SingleSite = () => {
             .then(() => {
                 setIsEditing(false);
                 fetchSite(match.params.id);
+                setWhatIsBeingEdited(EDIT_TYPE.ALL);
             })
             .catch((e) => {
                 console.error("Error saving site: " + e);
@@ -91,6 +105,7 @@ const SingleSite = () => {
     const onCancel = () => {
         setIsEditing(false);
         fetchSite(match.params.id);
+        setWhatIsBeingEdited(EDIT_TYPE.ALL);
     }
 
     const transformIconKey = (key, lib) => {
@@ -141,6 +156,12 @@ const SingleSite = () => {
         setLinks(newLinks);
     }
 
+    const deleteLink = index => {
+        const newLinks = links.slice();
+        newLinks.splice(index, 1);
+        setLinks(newLinks);
+    }
+
     const getEditContents = () => {
         switch (whatIsBeingEdited) {
             case "titles":
@@ -150,6 +171,8 @@ const SingleSite = () => {
                     <input type="text" value={title} placeholder="Title" onChange={e => setTitle(e.target.value)} />
                     <h2>Subtitle</h2>
                     <input type="text" value={subtitle} placeholder="Subtitle" onChange={e => setSubtitle(e.target.value)} />
+                    <h3>Title Color</h3>
+                    <HexColorPicker color={titlesColor} onChange={setTitlesColor} />
                 </div>
             case "images":
                 return <div className="edit-contents">
@@ -165,14 +188,20 @@ const SingleSite = () => {
                 return <div className="edit-contents">
                     <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h2>Links</h2>
-                    <ul>
+                    <h3>Link Text Color</h3>
+                    <HexColorPicker color={linkTextColor} onChange={setLinkTextColor} />
+                    <h3>Link Background Color</h3>
+                    <HexColorPicker color={linkBackgroundColor} onChange={setLinkBackgroundColor} />
+                    <ul className="link-edit-list">
                         {links.map((link, index) => {
-                            return <>
+                            return <li className="link-edit-li">
+                                
                                 <input type="text" value={links[index].text} placeholder={`Link #${index + 1}`} onChange={e => {
                                     const newLinks = links.slice();
                                     newLinks[index].text = e.target.value;
                                     setLinks(newLinks);
                                 }} />
+                                <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => deleteLink(index)} color="red" />
                                 <Select 
                                     onChange={e => {
                                         const newLinks = links.slice();
@@ -183,18 +212,25 @@ const SingleSite = () => {
                                     options={selectOptions} 
                                     components={{ Option: IconOption }} 
                                 />
-                            </>
+                            </li>
                         })}
                     </ul>
                     <button onClick={addLink}>+</button>
                 </div>
             default: // default and ALL
-                return <div className="edit-contents">All</div>
+                return <div className="edit-contents">
+                    <h2>General Settings</h2>
+                    <h3>Container Color</h3>
+                    <HexColorPicker color={containerColor} onChange={setContainerColor} />
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>Title Settings</button>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}>Image Settings</button>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.LINKS)}>Link Settings</button>
+                </div>
         }
     }
 
-    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks) => {
-        return <div className="single-site-container">
+    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, containerColor, linkTextColor, linkBackgroundColor) => {
+        return <div className="single-site-container" style={{ backgroundColor: containerColor }}>
                 <div className="edit-button">
                     { isEditing ? 
                         null
@@ -202,8 +238,8 @@ const SingleSite = () => {
                         <FontAwesomeIcon icon={["far", "edit"]} size="3x" onClick={() => setIsEditing(true)} />
                     }
                 </div>
-                <h1 className="single-title" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>{thisTitle}</h1>
-                <p className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>{thisSubtitle}</p>
+                <h1 className="single-title" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisTitle}</h1>
+                <p className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisSubtitle}</p>
                 <img 
                     src={thisHeaderImage || "https://via.placeholder.com/300x300?text=image+here"} 
                     alt={title} className="header-image"
@@ -213,7 +249,7 @@ const SingleSite = () => {
                 {links ?
                     <ul className="links-list">
                         {theseLinks?.map((link) => {
-                            return <li onClick={() => onLinkClick(link.href)} className="individual-link">
+                            return <li onClick={() => onLinkClick(link.href)} className="individual-link" style={{ color: linkTextColor, backgroundColor: linkBackgroundColor }}>
                                 <div className="link-text">{link.text}</div>
                                 <FontAwesomeIcon icon={link?.icon?.split("_")} size="2x" />
                             </li>
@@ -237,9 +273,9 @@ const SingleSite = () => {
                 null
             }
             { isEditing ?
-                getDisplayContents(title, subtitle, headerImage?.base64, links)
+                getDisplayContents(title, subtitle, headerImage?.base64, links, titlesColor, containerColor, linkTextColor, linkBackgroundColor)
                 :
-                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64, site.links)
+                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64, site.links, site.titlesColor, site.containerColor, site.linkTextColor, site.linkBackgroundColor)
             }
         </>
     )

@@ -79,3 +79,11 @@
     top: 10px;
     left: 10px;
 }
+
+.link-edit-list {
+    list-style: none;
+}
+
+.link-edit-li {
+    margin: 10px auto;
+}
