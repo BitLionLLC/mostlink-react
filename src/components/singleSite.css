@@ -88,3 +88,32 @@
 .link-edit-li {
     margin: 10px auto;
 }
+
+.pexels-modal {
+    width: 1000px;
+    height: 800px;
+    z-index: 1;
+    border: 1px solid black;
+    position: fixed;
+	top: 50%; left: 50%;
+	transform: translate(-50%, -50%);
+    border-radius: 10px;
+    background-color: dodgerblue;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    padding: 100px;
+    overflow: scroll;
+}
+
+.photos {
+    display: flex;
+    flex-flow: row wrap;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.pexels-search {
+    margin: 10px;
+}

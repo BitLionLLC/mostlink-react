@@ -17,13 +17,13 @@
 }
 
 .create-site-modal {
-    width: 50vw;
+    width: 500px;
     height: 400px;
-    position: fixed;
     z-index: 1;
     border: 1px solid black;
-    left: 25vw;
-    top: 25vh;
+    position: fixed;
+	top: 50%; left: 50%;
+	transform: translate(-50%, -50%);
     border-radius: 10px;
     background-color: dodgerblue;
     color: white;

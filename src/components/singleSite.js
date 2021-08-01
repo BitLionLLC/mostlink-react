@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Prompt } from 'react-router'
 import { useRouteMatch } from 'react-router';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +17,11 @@ const EDIT_TYPE = {
     TITLES: "titles",
     IMAGES: "images",
     LINKS: "links"
+}
+
+const IMAGE_TYPE = {
+    HEADER: "header",
+    BACKGROUND: "background"
 }
 
 const SingleSite = () => {
@@ -35,15 +41,17 @@ const SingleSite = () => {
     const [isModalShowing, setIsModalShowing] = useState(false);
     const [modalOpenedWith, setModalOpenedWith] = useState("");
     const [photos, setPhotos] = useState([]);
-    const [query, setQuery] = useState("");
+    const [query, setQuery] = useState("abstract");
 
-    const fetchPexels = () => {
+    const fetchPexels = (e) => {
+        e?.preventDefault();
+
         const headers = {
             Authorization: "563492ad6f9170000100000180348db710564c64a1b0dc2f260570b2"
         }
 
         axios
-            .get(`https://api.pexels.com/v1/search?query=${query}&per_page=10`, { headers: headers })
+            .get(`https://api.pexels.com/v1/search?query=${query}&per_page=50`, { headers: headers })
             .then(res => setPhotos(res.data.photos))
             .catch(err => console.error(err))
     }
@@ -204,12 +212,12 @@ const SingleSite = () => {
                         <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" />
                         <img src={headerImage?.base64 || headerImage?.url} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
-                        <button onClick={() => openModal("headerImage")}>Choose from Pexels</button>
+                        <button onClick={() => openModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
                         <h2>Background Image</h2>
                         <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" />
                         <img src={backgroundImage?.base64 || backgroundImage?.url} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
-                        <button onClick={() => openModal("backgroundImage")}>Choose from Pexels</button>
+                        <button onClick={() => openModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
                     </div>
             case "links":
                 return <div className="edit-contents">
@@ -257,9 +265,27 @@ const SingleSite = () => {
         }
     }
 
+    const shouldBlockNavigation = () => {
+        return (
+            title !== site.title ||
+            subtitle !== site.subtitle ||
+            (headerImage?.url !== site.headerImage?.url || headerImage?.base64 !== site.headerImage?.base64) ||
+            (backgroundImage?.url !== site.backgroundImage?.url || backgroundImage?.base64 !== site.backgroundImage?.base64) ||
+            JSON.stringify(links) !== JSON.stringify(site.links) ||
+            titlesColor !== site?.titlesColor ||
+            containerColor !== site?.containerColor ||
+            linkTextColor !== site?.linkTextColor ||
+            linkBackgroundColor !== site?.linkBackgroundColor
+        )
+    }
+
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, containerColor, linkTextColor, linkBackgroundColor) => {
         return <div className="single-site-container" style={{ backgroundColor: containerColor }}>
                 <ToastContainer position="top-right" autoClose={5000} />
+                <Prompt
+                    when={shouldBlockNavigation}
+                    message='You have unsaved changes, are you sure you want to leave?'
+                />
                 <div className="edit-button">
                     { isEditing ? 
                         null
@@ -310,15 +336,19 @@ const SingleSite = () => {
                 <>
                     <div className="blocker" onClick={() => setIsModalShowing(false)}></div>
                     <div className="pexels-modal">
-                        Pexels
-                        <input type="text" value={query} placeholder="Pexels query" onChange={e => setQuery(e.target.value)} />
-                        <button onClick={fetchPexels}>Search</button>
-                        {photos?.map(photo => {
-                            return <img src={photo.src.tiny} width="100" height="100" onClick={
-                                    modalOpenedWith === "backgroundImage" ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
-                                } 
-                            />
-                        })}
+                        <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com">Pexels</a></span>
+                        <form className="pexels-search" onSubmit={fetchPexels}>
+                            <input type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} />
+                            <button onClick={fetchPexels} type="submit">Search</button>
+                        </form>
+                        <div className="photos">
+                            {photos?.map(photo => {
+                                return <img src={photo.src.tiny} width="100" height="100" onClick={
+                                        modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
+                                    }
+                                />
+                            })}
+                        </div>
                     </div>
                 </>
                 : null
