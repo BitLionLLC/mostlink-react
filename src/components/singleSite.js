@@ -239,12 +239,17 @@ const SingleSite = () => {
                         {links.map((link, index) => {
                             return <li className="link-edit-li">
                                 
-                                <input type="text" value={links[index].text} placeholder={`Link #${index + 1}`} onChange={e => {
+                                <input type="text" value={links[index].text} placeholder={`Link #${index + 1} text`} onChange={e => {
                                     const newLinks = links.slice();
                                     newLinks[index].text = e.target.value;
                                     setLinks(newLinks);
                                 }} />
-                                <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => deleteLink(index)} color="red" />
+                                <input type="text" value={links[index].href} placeholder={`Link #${index + 1} URI`} onChange={e => {
+                                    const newLinks = links.slice();
+                                    newLinks[index].href = e.target.value;
+                                    setLinks(newLinks);
+                                }} />
+                                <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => deleteLink(index)} color="red" className="delete-link" />
                                 <Select 
                                     onChange={e => {
                                         const newLinks = links.slice();
