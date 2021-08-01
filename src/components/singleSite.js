@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router';
+import { useRouteMatch, Prompt } from 'react-router';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -301,6 +301,7 @@ const SingleSite = () => {
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, containerColor, linkTextColor, linkBackgroundColor) => {
         return <div className="single-site-container" style={{ backgroundColor: containerColor }}>
                 <ToastContainer position="top-right" autoClose={5000} />
+                <Prompt when={isDirty} />
                 <div className="edit-button">
                     { isEditing ? 
                         null
