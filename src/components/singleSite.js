@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { Prompt } from 'react-router'
 import { useRouteMatch } from 'react-router';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +9,7 @@ import Select, { components } from "react-select";
 import FileBase64 from 'react-file-base64';
 import { HexColorPicker } from "react-colorful";
 import { ToastContainer } from 'react-toastify';
+import { useBeforeunload } from 'react-beforeunload';
 import './singleSite.css';
 
 const EDIT_TYPE = {
@@ -42,6 +42,7 @@ const SingleSite = () => {
     const [modalOpenedWith, setModalOpenedWith] = useState("");
     const [photos, setPhotos] = useState([]);
     const [query, setQuery] = useState("abstract");
+    const [isDirty, setIsDirty] = useState(false);
 
     const fetchPexels = (e) => {
         e?.preventDefault();
@@ -76,6 +77,12 @@ const SingleSite = () => {
     useEffect(() => {
         document.body.style.backgroundImage = `url(${backgroundImage?.base64 || backgroundImage?.url})`;
     }, [backgroundImage])
+
+    useBeforeunload((e) => {
+        if (isDirty) {
+            e.preventDefault();
+        }
+    })
 
     const onLinkClick = (linkHref) => {
         if (isEditing) {
@@ -279,13 +286,16 @@ const SingleSite = () => {
         )
     }
 
+    useEffect(() => {
+        const isCurrentlyDirty = shouldBlockNavigation();
+        if (isCurrentlyDirty !== isDirty) {
+            setIsDirty(isCurrentlyDirty);
+        }
+    })
+
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, containerColor, linkTextColor, linkBackgroundColor) => {
         return <div className="single-site-container" style={{ backgroundColor: containerColor }}>
                 <ToastContainer position="top-right" autoClose={5000} />
-                <Prompt
-                    when={shouldBlockNavigation}
-                    message='You have unsaved changes, are you sure you want to leave?'
-                />
                 <div className="edit-button">
                     { isEditing ? 
                         null
