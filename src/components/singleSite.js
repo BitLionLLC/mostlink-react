@@ -311,7 +311,7 @@ const SingleSite = () => {
                     }
                 </div>
                 <h1 className="single-title" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisTitle}</h1>
-                <p className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisSubtitle}</p>
+                <h3 className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisSubtitle}</h3>
                 <img 
                     src={thisHeaderImage || "https://via.placeholder.com/300x300?text=image+here"} 
                     alt={title} className="header-image"
@@ -323,7 +323,7 @@ const SingleSite = () => {
                         {theseLinks?.map((link) => {
                             return <li onClick={() => onLinkClick(link.href)} className="individual-link" style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
                                 <div className="link-text">{link.text}</div>
-                                <FontAwesomeIcon icon={link?.icon?.split("_")} size="2x" />
+                                <FontAwesomeIcon icon={link?.icon?.split("_")} />
                             </li>
                         })}
                     </ul>

@@ -2,10 +2,6 @@
   box-sizing: border-box;
 }
 
-body {
-  background-size: cover;
-}
-
 .App {
   max-width: 800px;
   margin: 0 auto;
