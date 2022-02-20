@@ -30,7 +30,7 @@ const CreateSite = () => {
 
         e.preventDefault();
         axios
-            .post('http://localhost:4000/sites', {
+            .post(`${process.env.REACT_APP_API_BASE}/sites`, {
                 title,
                 subtitle,
                 screenshot: image,

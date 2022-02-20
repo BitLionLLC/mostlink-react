@@ -5,11 +5,12 @@ import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
-import Select, { components } from "react-select";
+import Select, { components as reactSelectComponents } from "react-select";
 import FileBase64 from 'react-file-base64';
 import { HexColorPicker } from "react-colorful";
 import { ToastContainer } from 'react-toastify';
 import { useBeforeunload } from 'react-beforeunload';
+import invert from 'invert-color';
 import './singleSite.css';
 
 const EDIT_TYPE = {
@@ -100,7 +101,7 @@ const SingleSite = () => {
             newSite.links = links;
 
             axios
-                .put(`http://localhost:4000/sites/${match.params.id}`, newSite)
+                .put(`${process.env.REACT_APP_API_BASE}/sites/${match.params.id}`, newSite)
                 .then(() => {
                     window.location.assign(linkHref);
                 })
@@ -122,7 +123,7 @@ const SingleSite = () => {
         }
 
         axios
-            .put(`http://localhost:4000/sites/${match.params.id}`, siteToSave)
+            .put(`${process.env.REACT_APP_API_BASE}/sites/${match.params.id}`, siteToSave)
             .then(() => {
                 setIsEditing(false);
                 fetchSite(match.params.id);
@@ -169,7 +170,7 @@ const SingleSite = () => {
         return {value, label}
     })
 
-    const { Option } = components;
+    const { Option } = reactSelectComponents;
     const IconOption = props => (
         <Option {...props} className="icon-option">
             {props.data.label}
@@ -298,11 +299,11 @@ const SingleSite = () => {
         }
     })
 
-    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, containerColor, linkTextColor, linkBackgroundColor) => {
-        return <div className="single-site-container" style={{ backgroundColor: containerColor }}>
+    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisLinkTextColor, thisLinkBackgroundColor) => {
+        return <div className="single-site-container" style={{ backgroundColor: thisContainerColor }}>
                 <ToastContainer position="top-right" autoClose={5000} />
                 <Prompt when={isDirty} />
-                <div className="edit-button">
+                <div className="edit-button" style={{color: thisContainerColor ? invert(thisContainerColor, true) : "grey"}}>
                     { isEditing ? 
                         null
                         : 
@@ -320,7 +321,7 @@ const SingleSite = () => {
                 {links ?
                     <ul className="links-list">
                         {theseLinks?.map((link) => {
-                            return <li onClick={() => onLinkClick(link.href)} className="individual-link" style={{ color: linkTextColor, backgroundColor: linkBackgroundColor }}>
+                            return <li onClick={() => onLinkClick(link.href)} className="individual-link" style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
                                 <div className="link-text">{link.text}</div>
                                 <FontAwesomeIcon icon={link?.icon?.split("_")} size="2x" />
                             </li>

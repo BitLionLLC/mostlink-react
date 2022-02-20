@@ -10,7 +10,7 @@ const SitesContextProvider = (props) => {
 
     const fetchSite = async siteId => {
         axios
-            .get(`http://localhost:4000/sites/${siteId}`)
+            .get(`${process.env.REACT_APP_API_BASE}/sites/siteId/${siteId}`)
             .then(res => {
                 setSite(res.data);
             })
@@ -21,7 +21,7 @@ const SitesContextProvider = (props) => {
 
     const fetchSites = () => {
         axios
-            .get('http://localhost:4000/sites')
+            .get(`${process.env.REACT_APP_API_BASE}/sites`)
             .then(res => {
                 setSites(res.data);
             })
