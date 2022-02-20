@@ -300,7 +300,8 @@ const SingleSite = () => {
     })
 
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisLinkTextColor, thisLinkBackgroundColor) => {
-        return <div className="single-site-container" style={{ backgroundColor: thisContainerColor }}>
+        return <div className="container">
+             <div className="single-site-container" style={{ backgroundColor: thisContainerColor }}>
                 <ToastContainer position="top-right" autoClose={5000} />
                 <Prompt when={isDirty} />
                 <div className="edit-button" style={{color: thisContainerColor ? invert(thisContainerColor, true) : "grey"}}>
@@ -329,6 +330,7 @@ const SingleSite = () => {
                     </ul>
                 : null}
             </div>
+        </div>
     }
 
     return (

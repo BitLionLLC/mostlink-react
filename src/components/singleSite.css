@@ -1,6 +1,14 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .single-site-container {
     width: 800px;
-    margin: 50px auto;
     background-color: lightblue;
     padding: 50px;
     border-radius: 10px;
@@ -24,7 +32,7 @@
 }
 
 .individual-link {
-    min-width: 600px;
+    width: 600px;
     background-color: white;
     height: 50px;
     margin: 10px auto;
@@ -127,4 +135,14 @@
 
 .pexels-search {
     margin: 10px;
+}
+
+@media (max-width: 900px) {
+    .single-site-container {
+        width: 90vw;
+    }
+
+    .individual-link {
+        width: 80vw;
+    }
 }
