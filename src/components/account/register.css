@@ -1,0 +1,47 @@
+.register-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register {
+    width: 500px;
+    min-height: 500px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-form input {
+    height: 40px;
+    font-size: 35px;
+    padding: 5px;
+    margin: 10px 0px 20px 0px;
+}
+
+.register-form label {
+    margin: 0;
+}
+
+.register-form-buttons {
+    width: 100%;
+}
+
+.register-form-buttons button {
+    width: 45%;
+    margin: 10px;
+    height: 40px;
+    font-size: 25px;
+}
+
+.cancel-button {
+    background-color: pink;
+}
+
+.submit-button {
+    background-color: lightgreen;
+}
