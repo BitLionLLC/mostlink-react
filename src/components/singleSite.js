@@ -123,7 +123,7 @@ const SingleSite = () => {
         }
 
         axios
-            .put(`${process.env.REACT_APP_API_BASE}/sites/${match.params.id}`, siteToSave)
+            .put(`${process.env.REACT_APP_API_BASE}/sites/siteId/${match.params.id}`, siteToSave)
             .then(() => {
                 setIsEditing(false);
                 fetchSite(match.params.id);
