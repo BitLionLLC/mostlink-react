@@ -1,16 +1,6 @@
-.container {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .single-site-container {
     width: 800px;
-    max-height: 90%;
-    overflow-y: auto;
+    margin: 50px auto;
     background-color: lightblue;
     padding: 50px;
     border-radius: 10px;
@@ -64,7 +54,7 @@
 }
 
 .edit-tray {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 400px;

@@ -311,14 +311,14 @@ const SingleSite = () => {
                         <FontAwesomeIcon icon={["far", "edit"]} size="3x" onClick={() => setIsEditing(true)} />
                     }
                 </div>
-                <h1 className="single-title" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisTitle}</h1>
-                <h3 className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisSubtitle}</h3>
                 <img 
                     src={thisHeaderImage || "https://via.placeholder.com/300x300?text=image+here"} 
                     alt={title} className="header-image"
                     onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}
-                    width="300" height="300"
+                    width="200" height="200"
                 />
+                <h1 className="single-title" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisTitle}</h1>
+                <h3 className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisSubtitle}</h3>
                 {links ?
                     <ul className="links-list">
                         {theseLinks?.map((link) => {
