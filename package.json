@@ -24,6 +24,7 @@
     "react-scripts": "4.0.3",
     "react-select": "^4.3.1",
     "react-toastify": "^7.0.4",
+    "react-tooltip": "^4.2.21",
     "use-react-screenshot": "^1.0.2",
     "web-vitals": "^1.1.2"
   },

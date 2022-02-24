@@ -8,7 +8,6 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import Select, { components as reactSelectComponents } from "react-select";
 import FileBase64 from 'react-file-base64';
 import { HexColorPicker } from "react-colorful";
-import { ToastContainer } from 'react-toastify';
 import { useBeforeunload } from 'react-beforeunload';
 import invert from 'invert-color';
 import './singleSite.css';
@@ -302,7 +301,6 @@ const SingleSite = () => {
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisLinkTextColor, thisLinkBackgroundColor) => {
         return <div className="container">
              <div className="single-site-container" style={{ backgroundColor: thisContainerColor }}>
-                <ToastContainer position="top-right" autoClose={5000} />
                 <Prompt when={isDirty} />
                 <div className="edit-button" style={{color: thisContainerColor ? invert(thisContainerColor, true) : "grey"}}>
                     { isEditing ? 

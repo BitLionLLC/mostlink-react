@@ -1,12 +1,5 @@
-.register-container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .register {
+    margin: 0 auto;
     width: 500px;
     min-height: 500px;
 }
@@ -29,10 +22,13 @@
 
 .register-form-buttons {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .register-form-buttons button {
-    width: 45%;
+    width: 40%;
     margin: 10px;
     height: 40px;
     font-size: 25px;
@@ -44,4 +40,32 @@
 
 .submit-button {
     background-color: lightgreen;
+}
+
+.error-text {
+    color: red;
+    margin: -10px 0 15px 0;
+}
+
+.password-and-tooltip {
+    display: flex;
+}
+
+.question-mark-tooltip {
+    margin-left: 5px;
+    color: white;
+    background-color: #222;
+    width: 17px;
+    height: 17px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+
+@media (max-width: 550px) {
+    .register {
+        width: 90vw;
+    }
 }
