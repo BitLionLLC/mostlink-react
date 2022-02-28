@@ -8,7 +8,7 @@ import './register.css';
 
 const Register = () => {
     const history = useHistory();
-    const { setJwtToken } = useContext(SitesContext);
+    const { setJwtToken, setUserId } = useContext(SitesContext);
 
     const [firstName, setFirstName] = useState("");
     const [firstNameError, setFirstNameError] = useState("");
@@ -80,6 +80,7 @@ const Register = () => {
                 })
                 .then(res => {
                     setJwtToken(res.data.token);
+                    setUserId(res.data.id);
                     toast("Success", { type: "success" });
                 })
                 .catch(err => {

@@ -7,6 +7,8 @@ import SingleSite from './components/singleSite';
 import Account from './components/account/account';
 import Login from './components/account/login';
 import Register from './components/account/register';
+import Header from './components/header';
+import Landing from './components/landing';
 import { ToastContainer } from 'react-toastify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -19,7 +21,11 @@ function App() {
     <SitesContextProvider>
       <ToastContainer position="top-right" autoClose={5000} />
       <Router>
+        <Header />
         <Route path="/" exact>
+          <Landing />
+        </Route>
+        <Route path="/home">
           <Home />
         </Route>
         <Route path="/site/:id">

@@ -8,6 +8,7 @@ const SitesContextProvider = (props) => {
     const [site, setSite] = useState({});
     const [sites, setSites] = useState([]);
     const [jwtToken, setJwtToken] = useState(null);
+    const [userId, setUserId] = useState(null);
 
     const fetchSite = async siteId => {
         axios
@@ -32,7 +33,7 @@ const SitesContextProvider = (props) => {
     }
 
     return (
-        <SitesContext.Provider value={{ site, sites, jwtToken, fetchSite, fetchSites, setJwtToken }} >
+        <SitesContext.Provider value={{ site, sites, jwtToken, userId, fetchSite, fetchSites, setJwtToken, setUserId }} >
             {props.children}
         </SitesContext.Provider>
     )

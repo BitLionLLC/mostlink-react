@@ -10,7 +10,6 @@ const Home = () => {
 
     return (
         <div className="App">
-            <h1 className="home-title">Mostcard</h1>
             <LinkPageBuilder />
             <SitesList />
         </div>
