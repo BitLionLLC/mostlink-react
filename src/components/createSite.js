@@ -14,7 +14,7 @@ const CreateSite = () => {
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
 
-    const { updateSites } = useContext(SitesContext);
+    const { fetchSites } = useContext(SitesContext);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -30,7 +30,7 @@ const CreateSite = () => {
 
         e.preventDefault();
         axios
-            .post(`${process.env.REACT_APP_API_BASE}/sites`, {
+            .post(`/sites`, {
                 title,
                 subtitle,
                 screenshot: image,
@@ -45,7 +45,7 @@ const CreateSite = () => {
                 toast("Success", { type: "success" });
                 setTitle("")
                 setSubtitle("")
-                updateSites();
+                fetchSites();
             })
             .catch(err => {
                 toast(err, { type: "error" })

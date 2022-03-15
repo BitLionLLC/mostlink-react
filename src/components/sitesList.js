@@ -12,7 +12,7 @@ const SitesList = () => {
 
     return (
         <ul className="sites-list">
-            {sites && sites.map((site, i) => {
+            {sites.length ? sites.map((site, i) => {
                 return <Link to={`/site/${site._id}`} className="site-link">
                     <li key={site._id} className="site-box" style={{backgroundColor: `rgba(0,${20*i+100},0)`}}>
                         <h2 className="title">{site.title}</h2>
@@ -20,7 +20,10 @@ const SitesList = () => {
                         <img src={site.screenshot || "https://via.placeholder.com/375x300?text=screenshot+here"} width="375" height="300"></img>
                     </li>
                 </Link>
-            })}
+            })
+            :
+            <div>Create a site with the + button to get started!</div>
+            }
         </ul>
     )
 }

@@ -32,6 +32,7 @@ const Login = () => {
             .then(res =>{
                 setJwtToken(res.data.token);
                 setUserId(res.data.id);
+                localStorage.setItem("mostcardUserId", res.data.id);
                 history.push("/home");
             })
             .catch(err => {

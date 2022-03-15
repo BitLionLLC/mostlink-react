@@ -23,7 +23,7 @@ const SitesContextProvider = (props) => {
 
     const fetchSites = () => {
         axios
-            .get(`/sites`)
+            .get(`/sites/byUserId`)
             .then(res => {
                 setSites(res.data);
             })

@@ -21,6 +21,7 @@ const Header = () => {
 
         setJwtToken(null);
         setUserId(null);
+        localStorage.removeItem("mostcardUserId");
 
         history.push("/");
     }
@@ -35,6 +36,9 @@ const Header = () => {
                 toast("Please log in.", { type: "error"});
                 history.push("/");
             })
+
+        const userId = localStorage.getItem("mostcardUserId")
+        setUserId(userId);
     }, [])
 
     return (
