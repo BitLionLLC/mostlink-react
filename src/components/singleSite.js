@@ -100,7 +100,7 @@ const SingleSite = () => {
             newSite.links = links;
 
             axios
-                .put(`${process.env.REACT_APP_API_BASE}/sites/${match.params.id}`, newSite)
+                .put(`/sites/${match.params.id}`, newSite)
                 .then(() => {
                     window.location.assign(linkHref);
                 })
@@ -122,7 +122,7 @@ const SingleSite = () => {
         }
 
         axios
-            .put(`${process.env.REACT_APP_API_BASE}/sites/siteId/${match.params.id}`, siteToSave)
+            .put(`/sites/siteId/${match.params.id}`, siteToSave)
             .then(() => {
                 setIsEditing(false);
                 fetchSite(match.params.id);

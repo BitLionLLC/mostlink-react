@@ -75,7 +75,7 @@ const Register = () => {
 
         if (isFilledOut && !hasError) {
             axios
-                .post(`${process.env.REACT_APP_API_BASE}/users/register`, {
+                .post(`/users/register`, {
                     firstName, lastName, email, username, password
                 })
                 .then(res => {
