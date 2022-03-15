@@ -25,7 +25,7 @@ const Login = () => {
         e.preventDefault();
 
         axios
-            .post(`${process.env.REACT_APP_API_BASE}/users/login`, {
+            .post(`/users/login`, {
                 username,
                 password
             })

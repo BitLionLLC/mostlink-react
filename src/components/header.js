@@ -1,7 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
+
 import './header.css';
 
 const Header = () => {
@@ -10,11 +13,29 @@ const Header = () => {
     const [isMenuShown, setIsMenuShown] = useState(false);
 
     const onLogOut = () => {
+        axios
+            .get(`/users/logout`)
+            .then(() => {
+                toast("Successfully logged out.", { type: "success"})
+            })
+
         setJwtToken(null);
         setUserId(null);
 
         history.push("/");
     }
+
+    useEffect(() => {
+        axios
+            .get(`/users/jwt`)
+            .then(res => {
+                setJwtToken(res.data.token)
+            })
+            .catch(() => {
+                toast("Please log in.", { type: "error"});
+                history.push("/");
+            })
+    }, [])
 
     return (
         <div className="header">
