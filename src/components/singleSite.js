@@ -1,15 +1,14 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useRouteMatch, Prompt } from 'react-router';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import Select, { components as reactSelectComponents } from "react-select";
 import FileBase64 from 'react-file-base64';
 import { HexColorPicker } from "react-colorful";
 import { useBeforeunload } from 'react-beforeunload';
 import invert from 'invert-color';
+import EditableLink from './editableLink';
+import update from 'immutability-helper';
 import './singleSite.css';
 
 const EDIT_TYPE = {
@@ -88,24 +87,8 @@ const SingleSite = () => {
         if (isEditing) {
             setWhatIsBeingEdited(EDIT_TYPE.LINKS);
         } else {
-            const newSite = Object.assign({}, site);
-            delete newSite._id;
-            const links = newSite.links.slice();
-            const linkInQuestion = links.filter((link) => {
-                return linkHref === link.href;
-            })[0]
-            const indexOfLink = links.indexOf(linkInQuestion);
-            linkInQuestion.hits = linkInQuestion.hits ? Number(linkInQuestion?.hits) + 1 : 1;
-            links[indexOfLink] = linkInQuestion;
-            newSite.links = links;
-
-            axios
-                .put(`/sites/${match.params.id}`, newSite)
-                .then(() => {
-                    window.location.assign(linkHref);
-                })
-                .catch(err => console.error(err))
-            }
+            window.location.assign(linkHref);
+        }
     }
 
     const onSave = () => {
@@ -139,50 +122,13 @@ const SingleSite = () => {
         setWhatIsBeingEdited(EDIT_TYPE.ALL);
     }
 
-    const transformIconKey = (key, lib) => {
-        const arr = key.split("").slice(2);
-        const display = arr.join("");
-        let valueArr = [];
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i].toUpperCase() === arr[i] && !Number.isInteger(Number(arr[i])) && i !== 0) {
-                valueArr.push("-");
-                valueArr.push(arr[i].toLowerCase());
-            } else if (arr[i].toUpperCase() === arr[i] && !Number.isInteger(Number(arr[i]))) {
-                valueArr.push(arr[i].toLowerCase());
-            } else {
-                valueArr.push(arr[i]);
-            }
-        }
-
-        const value = lib + "_" + valueArr.join("");
-        return [display, value];
-    }
-
-    const selectOptions = Object.keys(fab).concat(Object.keys(far)).filter((key) => key !== "faFontAwesomeLogoFull").sort().map(key => {
-        let lib;
-        if (Object.keys(far).includes(key)) {
-            lib = "far"
-        } else {
-            lib = "fab"
-        }
-        const [label, value] = transformIconKey(key, lib);
-        return {value, label}
-    })
-
-    const { Option } = reactSelectComponents;
-    const IconOption = props => (
-        <Option {...props} className="icon-option">
-            {props.data.label}
-            <FontAwesomeIcon icon={props.data.value.split("_")} size="2x" className="icon-option-icon" />
-        </Option>
-    );
-
     const addLink = () => {
         const newLinks = links.slice();
         newLinks.push({
             href: "https://www.google.com",
             text: "Google",
-            icon: "fab_google"
+            icon: "fab_google",
+            id: newLinks.length
         });
         setLinks(newLinks);
     }
@@ -197,6 +143,15 @@ const SingleSite = () => {
         setIsModalShowing(true);
         setModalOpenedWith(component);
     }
+
+    const moveLink = useCallback((dragIndex, hoverIndex) => {
+        setLinks((prevLinks) => update(prevLinks, {
+            $splice: [
+                [dragIndex, 1],
+                [hoverIndex, 0, prevLinks[dragIndex]],
+            ],
+        }));
+    }, []);
 
     const getEditContents = () => {
         switch (whatIsBeingEdited) {
@@ -237,30 +192,15 @@ const SingleSite = () => {
                     <h2>Links</h2>
                     <ul className="link-edit-list">
                         {links.map((link, index) => {
-                            return <li className="link-edit-li">
-                                
-                                <input type="text" value={links[index].text} placeholder={`Link #${index + 1} text`} onChange={e => {
-                                    const newLinks = links.slice();
-                                    newLinks[index].text = e.target.value;
-                                    setLinks(newLinks);
-                                }} />
-                                <input type="text" value={links[index].href} placeholder={`Link #${index + 1} URI`} onChange={e => {
-                                    const newLinks = links.slice();
-                                    newLinks[index].href = e.target.value;
-                                    setLinks(newLinks);
-                                }} />
-                                <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => deleteLink(index)} color="red" className="delete-link" />
-                                <Select 
-                                    onChange={e => {
-                                        const newLinks = links.slice();
-                                        newLinks[index].icon = e.value;
-                                        setLinks(newLinks);
-                                    }} 
-                                    defaultValue={selectOptions[selectOptions.indexOf(selectOptions.find(obj => obj.value === link?.icon))]} 
-                                    options={selectOptions} 
-                                    components={{ Option: IconOption }} 
-                                />
-                            </li>
+                            return <EditableLink 
+                                        link={link} 
+                                        links={links} 
+                                        setLinks={setLinks} 
+                                        deleteLink={deleteLink} 
+                                        moveLink={moveLink} 
+                                        index={index} 
+                                        key={link.id}
+                                        id={link.id} />
                         })}
                     </ul>
                     <button onClick={addLink}>+</button>

@@ -23,9 +23,9 @@ const CreateSite = () => {
 
     const createSite = (e) => {
         const links = [
-            { href: "https://www.google.com", text: "Google", icon: "fab_google" },
-            { href: "https://www.youtube.com", text: "YouTube", icon: "fab_youtube" },
-            { href: "https://www.twitch.tv", text: "Twitch", icon: "fab_twitch" }
+            { href: "https://www.google.com", text: "Google", icon: "fab_google", id: 0 },
+            { href: "https://www.youtube.com", text: "YouTube", icon: "fab_youtube", id: 1 },
+            { href: "https://www.twitch.tv", text: "Twitch", icon: "fab_twitch", id: 2 }
         ];
 
         e.preventDefault();
