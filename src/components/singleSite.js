@@ -51,7 +51,10 @@ const SingleSite = () => {
         }
 
         axios
-            .get(`https://api.pexels.com/v1/search?query=${query}&per_page=50`, { headers: headers })
+            .get(`https://api.pexels.com/v1/search?query=${query}&per_page=50`, {transformRequest: (data, headers) => {
+                delete headers['X-CSRF-Token'];
+                return data;
+              }})
             .then(res => setPhotos(res.data.photos))
             .catch(err => console.error(err))
     }

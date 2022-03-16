@@ -30,7 +30,11 @@ const Header = () => {
         axios
             .get(`/users/jwt`)
             .then(res => {
-                setJwtToken(res.data.token)
+                setJwtToken(res.data.token);
+                
+                if (history.location.pathname === "/") {
+                    history.push("/home");
+                }
             })
             .catch(() => {
                 toast("Please log in.", { type: "error"});
