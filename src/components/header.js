@@ -57,6 +57,16 @@ const Header = () => {
         const userId = localStorage.getItem("mostcardUserId")
         setUserId(userId);
     }, [])
+
+    useEffect(() => {
+        const allowedPathsWhenLoggedOut = ["/", "/account/login", "/account/register"];
+        
+        if (!jwtToken) {
+            if (!(allowedPathsWhenLoggedOut.includes(history.location.pathname))) {
+                history.push("/");
+            }
+        }
+    })
     
     const toggleMenu = e => {
         e.stopPropagation();
