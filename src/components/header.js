@@ -76,11 +76,13 @@ const Header = () => {
     return (
         <div className="header" style={{ backgroundColor: themeObj.headerColor, color: themeObj.color }}>
             <h1><Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>Mostcard</Link></h1>
-            <div className="account-icon" onClick={e => toggleMenu(e)}>
-                <FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/>
-            </div>
-            <div className="theme-icon" onClick={toggleTheme}>
-                <FontAwesomeIcon icon={theme === "dark" ? ["fas", "moon"] : ["fas", "sun"]}/>
+            <div className="icon-stack">
+                <div className="account-icon" onClick={e => toggleMenu(e)} style={{ right: jwtToken ? "14px" : "20px"}}>
+                    <FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/>
+                </div>
+                <div className="theme-icon" onClick={toggleTheme}>
+                    <FontAwesomeIcon icon={theme === "dark" ? ["fas", "moon"] : ["fas", "sun"]}/>
+                </div>
             </div>
             <div style={{ display: isMenuShown ? "block" : "none", backgroundColor: themeObj.menuColor }} className="account-menu">
                 <div className="attach-triangle" style={{ backgroundColor: themeObj.menuColor }}></div>

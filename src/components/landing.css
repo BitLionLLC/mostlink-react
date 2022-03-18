@@ -1,0 +1,51 @@
+body {
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.landing {
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background: inherit;
+    z-index: 2;
+}
+
+@keyframes blurAnimate {
+    0% {
+        filter: blur(3px);
+    }
+    50% {
+        filter: blur(8px);
+    }
+    100% {
+        filter: blur(3px);
+    }
+}
+
+.landing-behind {
+    width: 485px;
+    height: 485px;
+    margin: auto;
+    position: absolute;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+    background: inherit;
+    background-image: url('./assets/water.jpg');
+    background-position: center;
+    animation-name: blurAnimate;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+}
+
+.landing-container {
+    width: 100vw;
+    height: calc(100vh - 150px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
