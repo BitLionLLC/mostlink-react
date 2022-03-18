@@ -14,6 +14,8 @@ body {
     align-items: center;
     border-radius: 20px;
     background: inherit;
+    padding: 50px;
+    text-align: center;
     z-index: 2;
     animation-name: borderAnimate;
     animation-duration: 6s;

@@ -22,7 +22,7 @@ const Landing = () => {
             </div>
              <div className="landing" style={{ backgroundColor: themeObj.landingCardBackground }}>
                 <Link to="/account/login" style={{ color: themeObj.color }}><FontAwesomeIcon icon={["fas", "plus-square"]} size="3x"/></Link>
-                <h1><Link to="/account/login" style={{ color: themeObj.color }}>Log in to start creating.</Link></h1>
+                <h1><Link to="/account/login" style={{ color: themeObj.color }}>Log in to start creating custom link pages.</Link></h1>
             </div>
         </div>
     )
