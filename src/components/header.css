@@ -9,32 +9,30 @@
     align-items: center;
 }
 
-.icon-stack {
+.icon-row {
     position: absolute;
     right: 30px;
     display: flex;
-    flex-direction: column;
-    height: 100px;
+    flex-direction: row;
+    width: 100px;
     justify-content: space-evenly;
     align-items: center;
     padding-top: 20px;
 }
 
 .account-icon {
-    position: absolute;
-    top: 30px;
+    position: relative;
 }
 
 .theme-icon {
-    position: absolute;
-    top: 70px;
-    right: 20px;
+    position: relative;
+    right: 10px;
 }
 
 .account-menu {
     position: absolute;
-    right: 20px;
-    top: 95px;
+    right: 103px;
+    top: 105px;
     background-color: lightgreen;
     border: 1px solid #222;
     width: 200px;
