@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Account = () => {
+    useEffect(() => {
+        document.body.style.backgroundImage = null;
+    }, [])
+    
     return (
         <div>
             Account

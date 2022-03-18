@@ -33,6 +33,10 @@ const Register = () => {
     const REQUIRED_FIELD_ERROR = "This field is required."
 
     useEffect(() => {
+        document.body.style.backgroundImage = null;
+    }, [])
+    
+    useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             email && axios
                 .get(`${process.env.REACT_APP_API_BASE}/users/register/check-email/${email}`)

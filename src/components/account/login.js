@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
@@ -14,6 +14,10 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [isPasswordShowing, setIsPasswordShowing] = useState(false);
 
+    useEffect(() => {
+        document.body.style.backgroundImage = null;
+    }, [])
+    
     const onCancel = () => {
         setUsername("");
         setPassword("");

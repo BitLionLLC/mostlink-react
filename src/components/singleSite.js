@@ -60,6 +60,7 @@ const SingleSite = () => {
     }
 
     useEffect(() => {
+        document.body.style.backgroundImage = null;
         fetchSite(match.params.id);
         fetchPexels();
     }, [])

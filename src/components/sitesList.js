@@ -7,6 +7,7 @@ const SitesList = () => {
     const { sites, fetchSites } = useContext(SitesContext);
 
     useEffect(() => {
+        document.body.style.backgroundImage = null;
         fetchSites();
     }, [])
 
