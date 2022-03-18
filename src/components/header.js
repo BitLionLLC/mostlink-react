@@ -90,7 +90,7 @@ const Header = () => {
                     {jwtToken && <li><Link to="/account" style={{ color: themeObj.color }}>Account</Link></li>}
                     {!jwtToken && <li><Link to="/account/register" style={{ color: themeObj.color }}>Register</Link></li>}
                     {!jwtToken && <li><Link to="/account/login" style={{ color: themeObj.color }}>Log in</Link></li>}
-                    {jwtToken && <li onClick={onLogOut} style={{ color: themeObj.color }}>Log out</li>}
+                    {jwtToken && <li onClick={onLogOut} style={{ color: themeObj.color, cursor: "pointer" }}>Log out</li>}
                 </ul>   
             </div>
         </div>

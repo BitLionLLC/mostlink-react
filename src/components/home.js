@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import LinkPageBuilder from './linkPageBuilder';
 import SitesList from './sitesList';
+import { SitesContext } from '../contexts/sitesContext';
+
 import './home.css';
 
 const Home = () => {
+    const { themeObj, theme } = useContext(SitesContext);
+
     useEffect(() => {
-        document.body.style.backgroundImage = null;
-    }, [])
+        document.body.style.backgroundImage = themeObj.landingBackground;
+    }, [theme])
 
     return (
         <div className="App">

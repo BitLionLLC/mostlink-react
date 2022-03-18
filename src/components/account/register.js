@@ -2,13 +2,14 @@ import axios from 'axios';
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SitesContext } from '../../contexts/sitesContext';
 import { toast } from 'react-toastify';
 import './register.css';
 
 const Register = () => {
     const history = useHistory();
-    const { setJwtToken, setUserId } = useContext(SitesContext);
+    const { setJwtToken, setUserId, themeObj, theme } = useContext(SitesContext);
 
     const [firstName, setFirstName] = useState("");
     const [firstNameError, setFirstNameError] = useState("");
@@ -23,9 +24,11 @@ const Register = () => {
     const [usernameError, setUsernameError] = useState("");
 
     const [password, setPassword] = useState("");
+    const [isPasswordShowing, setIsPasswordShowing] = useState(false);
     const [passwordError, setPasswordError] = useState("");
 
     const [passwordAgain, setPasswordAgain] = useState("");
+    const [isPasswordAgainShowing, setIsPasswordAgainShowing] = useState(false);
     const [passwordAgainError, setPasswordAgainError] = useState("");
 
     const PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$";
@@ -33,8 +36,8 @@ const Register = () => {
     const REQUIRED_FIELD_ERROR = "This field is required."
 
     useEffect(() => {
-        document.body.style.backgroundImage = null;
-    }, [])
+        document.body.style.backgroundImage = themeObj.landingBackground;
+    }, [theme])
     
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
@@ -135,20 +138,27 @@ const Register = () => {
                     <div className="password-and-tooltip">
                         <label htmlFor="password">Password*</label>
                         <ReactTooltip place="right" html={true}/>
-                        <div className="question-mark-tooltip" data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
+                        <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className="question-mark-tooltip" data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
                     </div>
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} id="password" />
+                    <div className="password-and-eye-icon">
+                        <input type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" />
+                        <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className="eye-icon" />
+                    </div>
                     { passwordError && <div className="error-text">{passwordError}</div> }
                     
                     <div className="password-and-tooltip">
                         <label htmlFor="passwordAgain">Re-type password*</label>
                         <ReactTooltip place="right" html={true}/>
-                        <div className="question-mark-tooltip" data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
+                        <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className="question-mark-tooltip" data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
                     </div>
-                    <input type="password" value={passwordAgain} onChange={e => setPasswordAgain(e.target.value)} id="passwordAgain" />
+                    <div className="password-and-eye-icon">
+                        <input type={ isPasswordAgainShowing ? "text" : "password" } value={passwordAgain} onChange={e => setPasswordAgain(e.target.value)} id="passwordAgain" />
+                        <FontAwesomeIcon color="black" icon={isPasswordAgainShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordAgainShowing(!isPasswordAgainShowing)} className="eye-icon" />
+                    </div>
                     { passwordAgainError && <div className="error-text">{passwordAgainError}</div> }
                     
                     <div>*required field</div>
+                    <h3 style={{ color: themeObj.accentColor }}><Link to="/account/login" style={{ color: themeObj.accentColor }}>Log in</Link></h3>
                     <div className="register-form-buttons">
                         <button className="cancel-button" onClick={onCancel}>Cancel</button>
                         <button className="submit-button" type="submit">Submit</button>

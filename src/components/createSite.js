@@ -42,7 +42,7 @@ const CreateSite = () => {
             })
             .then(() => {
                 setIsModalOpen(false);
-                toast("Success", { type: "success" });
+                toast("Site created!", { type: "success" });
                 setTitle("")
                 setSubtitle("")
                 fetchSites();

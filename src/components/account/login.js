@@ -1,22 +1,23 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { SitesContext } from '../../contexts/sitesContext';
-import "./login.css";
 import { toast } from 'react-toastify';
+
+import "./login.css";
 
 const Login = () => {
     const history = useHistory();
-    const { setJwtToken, setUserId } = useContext(SitesContext);
+    const { setJwtToken, setUserId, themeObj, theme } = useContext(SitesContext);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isPasswordShowing, setIsPasswordShowing] = useState(false);
 
     useEffect(() => {
-        document.body.style.backgroundImage = null;
-    }, [])
+        document.body.style.backgroundImage = themeObj.landingBackground;
+    }, [theme])
     
     const onCancel = () => {
         setUsername("");
@@ -55,9 +56,10 @@ const Login = () => {
                     <label htmlFor="password">Password</label>
                     <div className="password-and-eye-icon">
                         <input type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" />
-                        <FontAwesomeIcon icon={isPasswordShowing ? ["fas", "eye-slash"] : ["fas", "eye"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className="eye-icon" />
+                        <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className="eye-icon" />
                     </div>
 
+                    <h3 style={{ color: themeObj.accentColor }}><Link to="/account/register" style={{ color: themeObj.accentColor }}>Register</Link></h3>
                     <div className="register-form-buttons">
                         <button className="cancel-button" onClick={onCancel}>Cancel</button>
                         <button className="submit-button" type="submit">Submit</button>
