@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './sitesList.css';
 
 const SitesList = () => {
-    const { sites, fetchSites } = useContext(SitesContext);
+    const { sites, fetchSites, themeObj } = useContext(SitesContext);
 
     useEffect(() => {
         document.body.style.backgroundImage = null;
@@ -16,8 +16,8 @@ const SitesList = () => {
             {sites.length ? sites.map((site, i) => {
                 return <Link to={`/site/${site._id}`} className="site-link">
                     <li key={site._id} className="site-box" style={{backgroundColor: `rgba(0,${20*i+100},0)`}}>
-                        <h2 className="title">{site.title}</h2>
-                        <p className="subtitle">{site.subtitle || "subtitle"}</p>
+                        <h2 className="title" style={{ color: themeObj.color }}>{site.title}</h2>
+                        <p className="subtitle" style={{ color: themeObj.color }}>{site.subtitle || "subtitle"}</p>
                         <img src={site.screenshot || "https://via.placeholder.com/375x300?text=screenshot+here"} width="375" height="300"></img>
                     </li>
                 </Link>

@@ -1,14 +1,18 @@
 import React, { createContext, useState } from 'react';
 import axios from 'axios';
+import { lightTheme, darkTheme } from '../constants/themes';
 import { toast } from 'react-toastify';
 
 export const SitesContext = createContext();
+const localTheme = localStorage.getItem("mostcardTheme");
 
 const SitesContextProvider = (props) => {
     const [site, setSite] = useState({});
     const [sites, setSites] = useState([]);
     const [jwtToken, setJwtToken] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [theme, setTheme] = useState(localTheme);
+    const [themeObj, setThemeObj] = useState(localTheme === "light" ? lightTheme : darkTheme);
 
     const fetchSite = async siteId => {
         axios
@@ -32,8 +36,33 @@ const SitesContextProvider = (props) => {
             })
     }
 
+    const toggleTheme = () => {
+        if (theme === "dark") {
+            setTheme("light");
+            setThemeObj(lightTheme);
+            localStorage.setItem("mostcardTheme", "light");
+        } else {
+            setTheme("dark");
+            setThemeObj(darkTheme);
+            localStorage.setItem("mostcardTheme", "dark");
+        }
+    }
+
     return (
-        <SitesContext.Provider value={{ site, sites, jwtToken, userId, fetchSite, fetchSites, setJwtToken, setUserId }} >
+        <SitesContext.Provider value={{ 
+            site, 
+            sites, 
+            jwtToken, 
+            userId, 
+            theme, 
+            themeObj, 
+            fetchSite, 
+            fetchSites, 
+            setJwtToken, 
+            setUserId, 
+            setTheme, 
+            toggleTheme 
+        }} >
             {props.children}
         </SitesContext.Provider>
     )

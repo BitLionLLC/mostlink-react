@@ -14,6 +14,12 @@
     right: 30px;
 }
 
+.theme-icon {
+    position: absolute;
+    right: 35px;
+    top: 100px;
+}
+
 .account-menu {
     position: absolute;
     right: 20px;
@@ -28,7 +34,7 @@
     padding: 0 10px;
 }
 
-.account-menu-list a {
+a, a:hover, a:active, a:visited, a:link {
     text-decoration: none;
     color: black;
 }
