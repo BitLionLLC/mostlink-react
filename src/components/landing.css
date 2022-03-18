@@ -14,26 +14,48 @@ body {
     border-radius: 20px;
     background: inherit;
     z-index: 2;
+    animation-name: borderAnimate;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
 }
 
 @keyframes blurAnimate {
     0% {
-        filter: blur(3px);
+        filter: blur(0px);
+        border-radius: 100px;
+        width: 495px;
+        height: 495px;
     }
     50% {
         filter: blur(8px);
+        border-radius: 15px;
+        width: 455px;
+        height: 455px;
     }
     100% {
-        filter: blur(3px);
+        filter: blur(0px);
+        border-radius: 100px;
+        width: 495px;
+        height: 495px;
+    }
+}
+
+@keyframes borderAnimate {
+    0% {
+        border-radius: 100px;
+    }
+    50% {
+        border-radius: 15px;
+    }
+    100% {
+        border-radius: 100px;
     }
 }
 
 .landing-behind {
-    width: 485px;
-    height: 485px;
     margin: auto;
     position: absolute;
-    border-radius: 15px;
     box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
     background: inherit;
     background-image: url('./assets/water.jpg');
@@ -41,6 +63,7 @@ body {
     animation-name: blurAnimate;
     animation-duration: 6s;
     animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
 }
 
 .landing-container {
