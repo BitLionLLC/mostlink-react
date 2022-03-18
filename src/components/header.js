@@ -27,6 +27,12 @@ const Header = () => {
     }
 
     useEffect(() => {
+        document.body.addEventListener('click', () => setIsMenuShown(false));
+
+        return document.body.removeEventListener('click', () => setIsMenuShown(false));
+    }, [])
+
+    useEffect(() => {
         axios
             .get(`/users/jwt`)
             .then(res => {
@@ -46,11 +52,16 @@ const Header = () => {
         const userId = localStorage.getItem("mostcardUserId")
         setUserId(userId);
     }, [])
+    
+    const toggleMenu = e => {
+        e.stopPropagation();
+        setIsMenuShown(!isMenuShown);
+    }
 
     return (
         <div className="header">
             <h1><Link to={jwtToken ? "/home" : "/"}>Mostcard</Link></h1>
-            <div className="account-icon" onClick={() => setIsMenuShown(!isMenuShown)}>
+            <div className="account-icon" onClick={e => toggleMenu(e)}>
                 <FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/>
             </div>
             <div style={{ display: isMenuShown ? "block" : "none"}} className="account-menu">
