@@ -33,6 +33,7 @@ body {
     height: 485px;
     margin: auto;
     position: absolute;
+    border-radius: 15px;
     box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
     background: inherit;
     background-image: url('./assets/water.jpg');
