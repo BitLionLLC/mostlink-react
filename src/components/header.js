@@ -30,10 +30,12 @@ const Header = () => {
         axios
             .get(`/users/jwt`)
             .then(res => {
-                setJwtToken(res.data.token);
+                if (res.data.token) {
+                    setJwtToken(res.data.token);
                 
-                if (history.location.pathname === "/") {
-                    history.push("/home");
+                    if (history.location.pathname === "/") {
+                        history.push("/home");
+                    }
                 }
             })
             .catch(() => {
