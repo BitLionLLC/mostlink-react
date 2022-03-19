@@ -4,6 +4,8 @@ import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
+import lightLogo from './assets/logo-light.png';
+import darkLogo from './assets/logo-dark.png';
 
 import './header.css';
 
@@ -75,7 +77,12 @@ const Header = () => {
 
     return (
         <div className="header" style={{ backgroundColor: themeObj.headerColor, color: themeObj.color }}>
-            <h1><Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>Mostcard</Link></h1>
+            <div className="logo-and-title">
+                <Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>
+                    <img src={theme === "light" ? lightLogo : darkLogo} width="100" />
+                    <h1>Mostcard</h1>
+                </Link>
+            </div>
             <div className="icon-row">
                 <div className="account-icon" onClick={e => toggleMenu(e)} style={{ right: jwtToken ? "15px" : "18px"}}>
                     <FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/>

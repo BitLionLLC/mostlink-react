@@ -60,3 +60,9 @@ a, a:hover, a:active, a:visited, a:link {
     right: 11px;
     transform: rotate(45deg);
 }
+
+.logo-and-title a {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
