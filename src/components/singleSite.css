@@ -39,7 +39,7 @@
 
 .edit-button, .save-and-cancel-buttons {
     position: absolute;
-    top: 10px;
+    top: 160px;
     right: 10px;
     cursor: pointer;
 }
@@ -65,6 +65,7 @@
     padding: 50px 20px;
     overflow: scroll;
     z-index: 2;
+    padding-top: 230px;
 }
 
 .edit-contents {
@@ -80,7 +81,7 @@
 
 .back-arrow {
     position: absolute;
-    top: 10px;
+    top: 160px;
     left: 10px;
 }
 
