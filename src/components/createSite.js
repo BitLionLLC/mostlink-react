@@ -14,7 +14,7 @@ const CreateSite = () => {
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
 
-    const { fetchSites } = useContext(SitesContext);
+    const { fetchSites, themeObj } = useContext(SitesContext);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -54,7 +54,7 @@ const CreateSite = () => {
 
     return (
         <>
-            <div className="create-site" onClick={toggleModal} ref={ref}>+</div>
+            <div className="create-site" onClick={toggleModal} ref={ref} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
             { isModalOpen ?
                 <> 
                     <div className="blocker" onClick={toggleModal}></div>

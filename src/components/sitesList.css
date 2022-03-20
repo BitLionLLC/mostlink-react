@@ -59,3 +59,18 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.create-site-clone {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    border-radius: 5px;
+    border: 1px solid black;
+    cursor: default;
+    position: relative;
+    padding-bottom: 5px;
+    margin-left: 10px;
+}
