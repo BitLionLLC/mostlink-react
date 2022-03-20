@@ -39,12 +39,16 @@
 
 .edit-button, .save-and-cancel-buttons {
     position: absolute;
-    top: 160px;
     right: 10px;
     cursor: pointer;
 }
 
+.edit-button {
+    top: 10px;
+}
+
 .save-and-cancel-buttons {
+    top: 160px;
     display: flex;
     flex-flow: row;
     width: 100px;
