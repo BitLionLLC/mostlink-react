@@ -110,6 +110,7 @@ const SingleSite = () => {
             links,
             titlesColor,
             containerColor,
+            bodyColor,
             linkTextColor,
             linkBackgroundColor
         }
