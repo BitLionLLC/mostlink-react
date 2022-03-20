@@ -84,7 +84,7 @@ const Header = () => {
                 </Link>
             </div>
             <div className="icon-row">
-                <div className="account-icon" onClick={e => toggleMenu(e)} style={{ right: jwtToken ? "15px" : "18px"}}>
+                <div className="account-icon" onClick={e => toggleMenu(e)} style={{ right: jwtToken ? "15px" : "18px", color: jwtToken && themeObj.loggedInColor }}>
                     <FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/>
                 </div>
                 <div className="theme-icon" onClick={toggleTheme}>

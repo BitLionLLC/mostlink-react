@@ -5,7 +5,8 @@ export const lightTheme = {
     menuColor: "lightgreen",
     landingBackground: "linear-gradient(to top, #e66465, lightblue)",
     landingCardBackground: "rgba(255, 255, 255, 0.3)",
-    accentColor: "blue"
+    accentColor: "blue",
+    loggedInColor: "green"
 }
 
 export const darkTheme = {
@@ -15,5 +16,6 @@ export const darkTheme = {
     menuColor: "#054A05",
     landingBackground: "linear-gradient(to top, darkred, midnightblue)",
     landingCardBackground: "rgba(34, 34, 34, 0.3)",
-    accentColor: "dodgerblue"
+    accentColor: "dodgerblue",
+    loggedInColor: "lightgreen"
 }
