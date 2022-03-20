@@ -190,7 +190,8 @@ const SingleSite = () => {
                             <h2>Header Image</h2>
                             <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" className="clear-image" />
                         </div>
-                        <img src={headerImage?.base64 || headerImage?.url} width="300" height="300" />
+                        {headerImage && headerEmoji && <div className="header-warning">You have an image and an emoji selected. Emojis override images in the header. Clear the emoji to use the image.</div>}
+                        <img src={headerImage?.base64 || headerImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
                         <button onClick={() => openModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
                         
@@ -198,14 +199,14 @@ const SingleSite = () => {
                             <h2>Header Emoji</h2>
                             <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderEmoji("")} color="red" className="clear-image"/>
                         </div>
-                        {headerEmoji && <div>{headerEmoji}</div>}
+                        {headerEmoji && <div className="selected-emoji">{headerEmoji}</div>}
                         <Picker onEmojiClick={onEmojiClick} />
                         
                         <div className="title-and-clear">
                             <h2>Background Image</h2>
                             <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" className="clear-image"/>
                         </div>
-                        <img src={backgroundImage?.base64 || backgroundImage?.url} width="300" height="300" />
+                        <img src={backgroundImage?.base64 || backgroundImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
                         <button onClick={() => openModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
                     </div>
