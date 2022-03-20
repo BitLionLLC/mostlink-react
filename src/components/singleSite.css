@@ -170,6 +170,7 @@
     height: 640px;
     position: absolute;
     top: 200px;
+    border: 1px solid red;
 }
 
 @media (max-width: 900px) {

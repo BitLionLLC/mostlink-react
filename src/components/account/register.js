@@ -42,7 +42,7 @@ const Register = () => {
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             email && axios
-                .get(`${process.env.REACT_APP_API_BASE}/users/register/check-email/${email}`)
+                .get(`/users/register/check-email/${email}`)
                 .then(() => setEmailError(""))
                 .catch(() => setEmailError("This email is already in use."))
         }, 2000)
@@ -53,7 +53,7 @@ const Register = () => {
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             username && axios
-                .get(`${process.env.REACT_APP_API_BASE}/users/register/check-username/${username}`)
+                .get(`/users/register/check-username/${username}`)
                 .then(() => setUsernameError(""))
                 .catch(() => setUsernameError("That username is already in use. Please try another one."))
         }, 2000)

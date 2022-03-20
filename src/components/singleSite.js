@@ -10,7 +10,7 @@ import invert from 'invert-color';
 import EditableLink from './editableLink';
 import update from 'immutability-helper';
 import Picker from 'emoji-picker-react';
-import { useScreenshot } from 'use-react-screenshot';
+import html2canvas from 'html2canvas';
 import './singleSite.css';
 
 const EDIT_TYPE = {
@@ -27,11 +27,9 @@ const IMAGE_TYPE = {
 
 const SingleSite = () => {
     const { site, fetchSite } = useContext(SitesContext);
-    const screenshotRef = createRef(null);
-    const getImage = () => takeScreenshot(screenshotRef.current);
     const match = useRouteMatch();
 
-    const [image, takeScreenshot] = useScreenshot();
+    const [screenshot, setScreenshot] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [whatIsBeingEdited, setWhatIsBeingEdited] = useState(EDIT_TYPE.ALL);
     const [title, setTitle] = useState("");
@@ -52,6 +50,13 @@ const SingleSite = () => {
     const [isDirty, setIsDirty] = useState(false);
     const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
 
+    const captureScreenshot = () => {
+        html2canvas(document.getElementById("screenshot-area"), { allowTaint: true, useCORS: true, letterRendering: 1, }).then((canvas) => {      
+            const imgData = canvas.toDataURL('image/png');
+            setScreenshot(imgData);
+        });
+    }
+    
     const fetchPexels = (e) => {
         e?.preventDefault();
 
@@ -88,7 +93,7 @@ const SingleSite = () => {
         setLinkBackgroundColor(site.linkBackgroundColor);
 
         setIsEditButtonVisible(false);
-        getImage();
+        captureScreenshot();
         setTimeout(() => {
             setIsEditButtonVisible(true);
         }, 1000)
@@ -114,7 +119,7 @@ const SingleSite = () => {
 
     const onSave = () => {
         setIsEditButtonVisible(false);
-        getImage();
+        captureScreenshot();
         setTimeout(() => {
             setIsEditButtonVisible(true);
         }, 1000)
@@ -131,7 +136,7 @@ const SingleSite = () => {
             bodyColor,
             linkTextColor,
             linkBackgroundColor,
-            screenshot: image
+            screenshot
         }
 
         axios
@@ -294,7 +299,7 @@ const SingleSite = () => {
         document.body.style.backgroundColor = thisBodyColor;
         
         return <div className="single-site-wrapper">
-            <div className="screenshot-area" ref={screenshotRef}>
+            <div className="screenshot-area" id="screenshot-area">
              <div className="single-site-container" style={{ backgroundColor: thisContainerColor }}>
                 <Prompt when={isDirty} />
                 <div className="edit-button" style={{color: thisContainerColor ? invert(thisContainerColor, true) : "grey"}}>
