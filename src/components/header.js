@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -11,8 +11,9 @@ import './header.css';
 
 const Header = () => {
     const history = useHistory();
-    const { jwtToken, setJwtToken, setUserId, theme, themeObj, setTheme, toggleTheme } = useContext(SitesContext);
+    const { jwtToken, setJwtToken, setUserId, theme, themeObj, toggleTheme } = useContext(SitesContext);
     const [isMenuShown, setIsMenuShown] = useState(false);
+    let jwtTokenRef = useRef(jwtToken);
 
     const onLogOut = () => {
         axios
@@ -35,8 +36,14 @@ const Header = () => {
     }, [])
 
     useEffect(() => {
-        document.body.style.backgroundColor = themeObj.bodyColor;
+        if (!(history.location.pathname.includes('site'))) {
+            document.body.style.backgroundColor = themeObj.bodyColor;
+        }
     })
+
+    useEffect(() => {
+        jwtTokenRef.current = jwtToken
+    }, [jwtToken])
 
     useEffect(() => {
         document.body.style.backgroundColor = themeObj.bodyColor;
@@ -66,13 +73,14 @@ const Header = () => {
 
     useEffect(() => {
         const allowedPathsWhenLoggedOut = ["/", "/account/login", "/account/register"];
-        
-        if (!jwtToken) {
-            if (!(allowedPathsWhenLoggedOut.includes(history.location.pathname))) {
-                history.push("/");
+        setTimeout(() => {
+            if (!jwtTokenRef.current) {
+                if (!(allowedPathsWhenLoggedOut.includes(history.location.pathname))) {
+                    history.push("/");
+                }
             }
-        }
-    })
+        }, 500)
+    }, [jwtToken])
     
     const toggleMenu = e => {
         e.stopPropagation();
