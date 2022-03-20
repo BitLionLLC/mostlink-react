@@ -9,6 +9,7 @@ import { useBeforeunload } from 'react-beforeunload';
 import invert from 'invert-color';
 import EditableLink from './editableLink';
 import update from 'immutability-helper';
+import Picker from 'emoji-picker-react';
 import './singleSite.css';
 
 const EDIT_TYPE = {
@@ -31,10 +32,12 @@ const SingleSite = () => {
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
     const [headerImage, setHeaderImage] = useState("");
+    const [headerEmoji, setHeaderEmoji] = useState("");
     const [backgroundImage, setBackgroundImage] = useState("");
     const [links, setLinks] = useState([]);
     const [titlesColor, setTitlesColor] = useState("#000000");
     const [containerColor, setContainerColor] = useState("#ADD8E6");
+    const [bodyColor, setBodyColor] = useState("#ffffff");
     const [linkTextColor, setLinkTextColor] = useState("#000000");
     const [linkBackgroundColor, setLinkBackgroundColor] = useState("#FFFFFF");
     const [isModalShowing, setIsModalShowing] = useState(false);
@@ -69,10 +72,12 @@ const SingleSite = () => {
         setTitle(site.title);
         setSubtitle(site.subtitle);
         setHeaderImage(site.headerImage);
+        setHeaderEmoji(site.headerEmoji);
         setLinks(site.links);
         setBackgroundImage(site.backgroundImage);
         setTitlesColor(site.titlesColor);
         setContainerColor(site.containerColor);
+        setBodyColor(site.bodyColor);
         setLinkTextColor(site.linkTextColor);
         setLinkBackgroundColor(site.linkBackgroundColor);
     }, [site])
@@ -100,10 +105,12 @@ const SingleSite = () => {
             title,
             subtitle,
             headerImage,
+            headerEmoji,
             backgroundImage,
             links,
             titlesColor,
             containerColor,
+            bodyColor,
             linkTextColor,
             linkBackgroundColor
         }
@@ -157,6 +164,10 @@ const SingleSite = () => {
         }));
     }, []);
 
+    const onEmojiClick = (event, emojiObject) => {
+        setHeaderEmoji(emojiObject.emoji);
+    };
+
     const getEditContents = () => {
         switch (whatIsBeingEdited) {
             case "titles":
@@ -174,13 +185,26 @@ const SingleSite = () => {
                 return <div className="edit-contents">
                         <h1>Images</h1>
                         <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
-                        <h2>Header Image</h2>
-                        <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" />
+                        
+                        <div className="title-and-clear">
+                            <h2>Header Image</h2>
+                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" className="clear-image" />
+                        </div>
                         <img src={headerImage?.base64 || headerImage?.url} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
                         <button onClick={() => openModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
-                        <h2>Background Image</h2>
-                        <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" />
+                        
+                        <div className="title-and-clear">
+                            <h2>Header Emoji</h2>
+                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderEmoji("")} color="red" className="clear-image"/>
+                        </div>
+                        {headerEmoji && <div>{headerEmoji}</div>}
+                        <Picker onEmojiClick={onEmojiClick} />
+                        
+                        <div className="title-and-clear">
+                            <h2>Background Image</h2>
+                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" className="clear-image"/>
+                        </div>
                         <img src={backgroundImage?.base64 || backgroundImage?.url} width="300" height="300" />
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
                         <button onClick={() => openModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
@@ -212,6 +236,8 @@ const SingleSite = () => {
             default: // default and ALL
                 return <div className="edit-contents">
                     <h1>General Settings</h1>
+                    <h2>Body Color</h2>
+                    <HexColorPicker color={bodyColor} onChange={setBodyColor} />
                     <h2>Container Color</h2>
                     <HexColorPicker color={containerColor} onChange={setContainerColor} />
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>Title Settings</button>
@@ -242,7 +268,9 @@ const SingleSite = () => {
         }
     })
 
-    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisLinkTextColor, thisLinkBackgroundColor) => {
+    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisBodyColor, thisLinkTextColor, thisLinkBackgroundColor) => {
+        document.body.style.backgroundColor = thisBodyColor;
+        
         return <div className="container">
              <div className="single-site-container" style={{ backgroundColor: thisContainerColor }}>
                 <Prompt when={isDirty} />
@@ -253,12 +281,18 @@ const SingleSite = () => {
                         <FontAwesomeIcon icon={["far", "edit"]} size="3x" onClick={() => setIsEditing(true)} />
                     }
                 </div>
-                <img 
-                    src={thisHeaderImage || "https://via.placeholder.com/300x300?text=image+here"} 
-                    alt={title} className="header-image"
-                    onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}
-                    width="200" height="200"
-                />
+                {
+                    headerEmoji 
+                    ?
+                        <div className="header-emoji">{headerEmoji}</div>
+                    :
+                        <img 
+                            src={thisHeaderImage || "https://via.placeholder.com/300x300?text=image+here"} 
+                            alt={title} className="header-image"
+                            onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}
+                            width="200" height="200"
+                        />
+                }
                 <h1 className="single-title" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisTitle}</h1>
                 <h3 className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisSubtitle}</h3>
                 {links ?
@@ -289,9 +323,9 @@ const SingleSite = () => {
                 null
             }
             { isEditing ?
-                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, linkTextColor, linkBackgroundColor)
+                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor)
                 :
-                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.linkTextColor, site.linkBackgroundColor)
+                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.bodyColor, site.linkTextColor, site.linkBackgroundColor)
             }
             { isModalShowing ?
                 <>

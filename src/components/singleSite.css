@@ -18,6 +18,10 @@
     border-radius: 100%;
 }
 
+.header-emoji {
+    font-size: 175px;
+}
+
 .links-list {
     list-style: none;
     padding: 0;
@@ -135,6 +139,15 @@
 
 .pexels-search {
     margin: 10px;
+}
+
+.title-and-clear {
+    display: flex;
+    align-items: center;
+}
+
+.clear-image {
+    margin-left: 10px;
 }
 
 @media (max-width: 900px) {
