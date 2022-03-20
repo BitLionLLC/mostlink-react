@@ -21,12 +21,21 @@
     text-align: center;
 }
 
+.single-title {
+    margin: 20px 0 5px 0;
+}
+
+.single-subtitle {
+    margin: 10px 0;
+}
+
 .header-image {
     border-radius: 100%;
 }
 
 .header-emoji {
     font-size: 175px;
+    line-height: 160px;
 }
 
 .links-list {
