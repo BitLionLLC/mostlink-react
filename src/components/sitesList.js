@@ -25,7 +25,7 @@ const SitesList = () => {
             :
                 <div className="empty-sites-container">
                     <div className="empty-sites" style={{backgroundColor: themeObj.landingCardBackground}}>
-                        <h1>Create a site with the 
+                        <h1>Create a site with the
                             <div className="create-site-clone" style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div> 
                             button to get started!
                         </h1>
