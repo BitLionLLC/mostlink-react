@@ -36,6 +36,10 @@ const Header = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = themeObj.bodyColor;
+    })
+
+    useEffect(() => {
+        document.body.style.backgroundColor = themeObj.bodyColor;
         document.body.style.color = themeObj.color;
     }, [theme])
 
