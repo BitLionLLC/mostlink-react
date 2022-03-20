@@ -88,6 +88,7 @@ const Register = () => {
                 .then(res => {
                     setJwtToken(res.data.token);
                     setUserId(res.data.id);
+                    history.push("/home");
                     toast("Success", { type: "success" });
                 })
                 .catch(err => {

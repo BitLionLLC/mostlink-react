@@ -39,16 +39,23 @@ body {
     }
 }
 
-.pexels-modal {
-    width: 50vw;
-    height: 400px;
-    position: fixed;
-    z-index: 1;
-    border: 1px solid black;
-    left: 25vw;
-    top: 25vh;
-    border-radius: 10px;
-    background-color: dodgerblue;
-    color: white;
+.empty-sites {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
     text-align: center;
+    margin: auto;
+    position: relative;
+    border-radius: 15px;
+}
+
+.empty-sites-container {
+    width: 100vw;
+    height: calc(100vh - 200px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
