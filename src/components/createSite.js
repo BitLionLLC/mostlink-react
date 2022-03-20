@@ -1,15 +1,10 @@
-import React, { useState, useContext, createRef } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
-import { useScreenshot } from 'use-react-screenshot'
 import './createSite.css';
 
 const CreateSite = () => {
-    const ref = createRef(null);
-    const [image, takeScreenshot] = useScreenshot();
-    const getImage = () => takeScreenshot(ref.current);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
@@ -18,7 +13,6 @@ const CreateSite = () => {
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
-        getImage();
     }
 
     const createSite = (e) => {
@@ -33,7 +27,6 @@ const CreateSite = () => {
             .post(`/sites`, {
                 title,
                 subtitle,
-                screenshot: image,
                 links,
                 titlesColor: "#000000",
                 containerColor: "#ADD8E6",
@@ -54,7 +47,7 @@ const CreateSite = () => {
 
     return (
         <>
-            <div className="create-site" onClick={toggleModal} ref={ref} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
+            <div className="create-site" onClick={toggleModal} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
             { isModalOpen ?
                 <> 
                     <div className="blocker" onClick={toggleModal}></div>

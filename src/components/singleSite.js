@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useState, useCallback, createRef } from 'react';
 import { useRouteMatch, Prompt } from 'react-router';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +10,7 @@ import invert from 'invert-color';
 import EditableLink from './editableLink';
 import update from 'immutability-helper';
 import Picker from 'emoji-picker-react';
+import { useScreenshot } from 'use-react-screenshot';
 import './singleSite.css';
 
 const EDIT_TYPE = {
@@ -26,7 +27,11 @@ const IMAGE_TYPE = {
 
 const SingleSite = () => {
     const { site, fetchSite } = useContext(SitesContext);
+    const screenshotRef = createRef(null);
+    const getImage = () => takeScreenshot(screenshotRef.current);
     const match = useRouteMatch();
+
+    const [image, takeScreenshot] = useScreenshot();
     const [isEditing, setIsEditing] = useState(false);
     const [whatIsBeingEdited, setWhatIsBeingEdited] = useState(EDIT_TYPE.ALL);
     const [title, setTitle] = useState("");
@@ -45,6 +50,7 @@ const SingleSite = () => {
     const [photos, setPhotos] = useState([]);
     const [query, setQuery] = useState("abstract");
     const [isDirty, setIsDirty] = useState(false);
+    const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
 
     const fetchPexels = (e) => {
         e?.preventDefault();
@@ -80,6 +86,12 @@ const SingleSite = () => {
         setBodyColor(site.bodyColor);
         setLinkTextColor(site.linkTextColor);
         setLinkBackgroundColor(site.linkBackgroundColor);
+
+        setIsEditButtonVisible(false);
+        getImage();
+        setTimeout(() => {
+            setIsEditButtonVisible(true);
+        }, 1000)
     }, [site])
 
     useEffect(() => {
@@ -101,6 +113,12 @@ const SingleSite = () => {
     }
 
     const onSave = () => {
+        setIsEditButtonVisible(false);
+        getImage();
+        setTimeout(() => {
+            setIsEditButtonVisible(true);
+        }, 1000)
+
         const siteToSave = {
             title,
             subtitle,
@@ -112,7 +130,8 @@ const SingleSite = () => {
             containerColor,
             bodyColor,
             linkTextColor,
-            linkBackgroundColor
+            linkBackgroundColor,
+            screenshot: image
         }
 
         axios
@@ -258,7 +277,9 @@ const SingleSite = () => {
             titlesColor !== site?.titlesColor ||
             containerColor !== site?.containerColor ||
             linkTextColor !== site?.linkTextColor ||
-            linkBackgroundColor !== site?.linkBackgroundColor
+            linkBackgroundColor !== site?.linkBackgroundColor ||
+            bodyColor !== site?.bodyColor ||
+            headerEmoji !== site?.headerEmoji
         )
     }
 
@@ -272,11 +293,12 @@ const SingleSite = () => {
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisBodyColor, thisLinkTextColor, thisLinkBackgroundColor) => {
         document.body.style.backgroundColor = thisBodyColor;
         
-        return <div className="container">
+        return <div className="single-site-wrapper">
+            <div className="screenshot-area" ref={screenshotRef}>
              <div className="single-site-container" style={{ backgroundColor: thisContainerColor }}>
                 <Prompt when={isDirty} />
                 <div className="edit-button" style={{color: thisContainerColor ? invert(thisContainerColor, true) : "grey"}}>
-                    { isEditing ? 
+                    { isEditing || !isEditButtonVisible ? 
                         null
                         : 
                         <FontAwesomeIcon icon={["far", "edit"]} size="3x" onClick={() => setIsEditing(true)} />
@@ -306,6 +328,7 @@ const SingleSite = () => {
                         })}
                     </ul>
                 : null}
+            </div>
             </div>
         </div>
     }
