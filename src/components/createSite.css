@@ -14,6 +14,7 @@
     right: 200px;
     top: 200px;
     padding-bottom: 10px;
+    z-index: 50;
 }
 
 .create-site-modal {

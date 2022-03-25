@@ -2,17 +2,31 @@ body {
     background-position: center;
 }
 
-.sites-list {
+.sites-container {
+    width: 100vw;
+    height: calc(100vh - 150px);
     display: flex;
-    flex-flow: column;
-    padding: 0;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
+    top: 150px;
+    left: 0;
+    position: absolute;
+}
+
+.sites-list {
+    width: 90vw;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    padding-top: 50px;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .site-box {
     list-style: none;
     width: 400px;
-    height: 400px;
+    height: 380px;
     background-color: cadetblue;
     border: 1px solid black;
     border-radius: 3px;
@@ -30,6 +44,7 @@ body {
     width: 400px;
     text-decoration: none;
     color: black;
+    margin: 0 10px;
 }
 
 @media (max-width: 500px) {
@@ -74,4 +89,8 @@ body {
     padding-bottom: 5px;
     margin-left: 10px;
     font-weight: normal;
+}
+
+.site-screenshot {
+    border-radius: 5px;
 }
