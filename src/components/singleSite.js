@@ -93,7 +93,9 @@ const SingleSite = () => {
         setLinkBackgroundColor(site.linkBackgroundColor);
 
         setIsEditButtonVisible(false);
-        captureScreenshot();
+        setTimeout(() => {
+            captureScreenshot();
+        }, 500)
         setTimeout(() => {
             setIsEditButtonVisible(true);
         }, 1000)
@@ -102,6 +104,14 @@ const SingleSite = () => {
     useEffect(() => {
         document.body.style.backgroundImage = `url(${backgroundImage?.base64 || backgroundImage?.url})`;
     }, [backgroundImage])
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            captureScreenshot();
+        }, 500)
+    
+        return () => clearTimeout(delayDebounceFn)
+    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor])
 
     useBeforeunload((e) => {
         if (isDirty) {
