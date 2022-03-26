@@ -19,6 +19,7 @@ body {
     flex-flow: row;
     flex-wrap: wrap;
     padding-top: 50px;
+    padding-right: 160px;
     justify-content: flex-start;
     align-items: flex-start;
 }
