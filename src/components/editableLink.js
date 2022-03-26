@@ -5,6 +5,8 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { useDrag, useDrop } from 'react-dnd';
 
+import './editableLink.css';
+
 const style = {
     border: '1px dashed gray',
     padding: '0.5rem 1rem',

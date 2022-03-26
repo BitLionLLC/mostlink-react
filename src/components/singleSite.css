@@ -98,11 +98,6 @@
     align-items: center; 
 }
 
-.icon-option-icon {
-    margin-left: 10px;
-    float: right;
-}
-
 .back-arrow {
     position: absolute;
     top: 160px;
@@ -112,20 +107,6 @@
 .link-edit-list {
     list-style: none;
     padding: 0;
-}
-
-.link-edit-li {
-    margin: 10px auto;
-    display: flex;
-    flex-flow: column;
-    width: 300px;
-    position: relative;
-}
-
-.delete-link {
-    position: absolute;
-    top: 0;
-    right: 0;
 }
 
 .pexels-modal {

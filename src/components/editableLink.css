@@ -1,0 +1,24 @@
+.icon-option {
+    color: black !important;
+    margin: 5px 0;
+}
+
+.icon-option-icon {
+    top: 0;
+    margin-left: 10px;
+    float: right;
+}
+
+.link-edit-li {
+    margin: 10px auto;
+    display: flex;
+    flex-flow: column;
+    width: 300px;
+    position: relative;
+}
+
+.delete-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
