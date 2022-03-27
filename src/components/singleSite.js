@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useRouteMatch, Prompt } from 'react-router';
+import { Link } from 'react-router-dom';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FileBase64 from 'react-file-base64';
@@ -333,10 +334,10 @@ const SingleSite = () => {
                 {links ?
                     <ul className="links-list">
                         {theseLinks?.map((link) => {
-                            return <li onClick={() => onLinkClick(link.href)} className="individual-link" style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
+                            return <a href={link.href} target="_blank" rel="noreferrer" className="individual-link" style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
                                 <div className="link-text">{link.text}</div>
                                 <FontAwesomeIcon icon={link?.icon?.split("_")} />
-                            </li>
+                            </a>
                         })}
                     </ul>
                 : null}
