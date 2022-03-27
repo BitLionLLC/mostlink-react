@@ -31,7 +31,8 @@ const CreateSite = () => {
                 titlesColor: "#000000",
                 containerColor: "#ADD8E6",
                 linkTextColor: "#000000",
-                linkBackgroundColor: "#FFFFFF"
+                linkBackgroundColor: "#FFFFFF",
+                bodyColor: "seagreen"
             })
             .then(() => {
                 setIsModalOpen(false);
