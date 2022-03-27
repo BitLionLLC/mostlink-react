@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState, useCallback, createRef } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useRouteMatch, Prompt } from 'react-router';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -60,13 +60,10 @@ const SingleSite = () => {
     const fetchPexels = (e) => {
         e?.preventDefault();
 
-        const headers = {
-            Authorization: "563492ad6f9170000100000180348db710564c64a1b0dc2f260570b2"
-        }
-
         axios
             .get(`https://api.pexels.com/v1/search?query=${query}&per_page=50`, {transformRequest: (data, headers) => {
                 delete headers['X-CSRF-Token'];
+                headers['Authorization'] = "563492ad6f9170000100000180348db710564c64a1b0dc2f260570b2";
                 return data;
               }})
             .then(res => setPhotos(res.data.photos))
@@ -225,7 +222,7 @@ const SingleSite = () => {
                             <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" className="clear-image" />
                         </div>
                         {headerImage && headerEmoji && <div className="header-warning">You have an image and an emoji selected. Emojis override images in the header. Clear the emoji to use the image.</div>}
-                        <img src={headerImage?.base64 || headerImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" />
+                        <img src={headerImage?.base64 || headerImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" alt="header" />
                         <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
                         <button onClick={() => openModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
                         
@@ -240,7 +237,7 @@ const SingleSite = () => {
                             <h2>Background Image</h2>
                             <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" className="clear-image"/>
                         </div>
-                        <img src={backgroundImage?.base64 || backgroundImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" />
+                        <img src={backgroundImage?.base64 || backgroundImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" alt="background" />
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
                         <button onClick={() => openModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
                     </div>
@@ -303,7 +300,7 @@ const SingleSite = () => {
         if (isCurrentlyDirty !== isDirty) {
             setIsDirty(isCurrentlyDirty);
         }
-    })
+    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor])
 
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisBodyColor, thisLinkTextColor, thisLinkBackgroundColor) => {
         document.body.style.backgroundColor = thisBodyColor;
@@ -377,7 +374,7 @@ const SingleSite = () => {
                         </form>
                         <div className="photos">
                             {photos?.map(photo => {
-                                return <img src={photo.src.tiny} width="100" height="100" onClick={
+                                return <img src={photo.src.tiny} alt="pexel result" width="100" height="100" onClick={
                                         modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
                                     }
                                 />
