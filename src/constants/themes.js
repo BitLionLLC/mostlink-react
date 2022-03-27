@@ -6,7 +6,8 @@ export const lightTheme = {
     landingBackground: "linear-gradient(to top, #e66465, lightblue)",
     landingCardBackground: "rgba(255, 255, 255, 0.3)",
     accentColor: "blue",
-    loggedInColor: "green"
+    loggedInColor: "green",
+    sitesBoxColor: "lightblue"
 }
 
 export const darkTheme = {
@@ -17,5 +18,6 @@ export const darkTheme = {
     landingBackground: "linear-gradient(to top, darkred, midnightblue)",
     landingCardBackground: "rgba(34, 34, 34, 0.3)",
     accentColor: "dodgerblue",
-    loggedInColor: "lightgreen"
+    loggedInColor: "lightgreen",
+    sitesBoxColor: "midnightblue"
 }

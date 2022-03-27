@@ -116,14 +116,6 @@ const SingleSite = () => {
         }
     })
 
-    const onLinkClick = (linkHref) => {
-        if (isEditing) {
-            setWhatIsBeingEdited(EDIT_TYPE.LINKS);
-        } else {
-            window.location.assign(linkHref);
-        }
-    }
-
     const onSave = () => {
         setIsEditButtonVisible(false);
         captureScreenshot();

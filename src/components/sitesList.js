@@ -18,7 +18,7 @@ const SitesList = () => {
                 <ul className="sites-list">
                     {sites.map((site, i) => {
                         return <Link to={`/site/${site._id}`} className="site-link">
-                            <li key={site._id} className="site-box" style={{backgroundColor: `rgba(0,${20*i+100},0)`}}>
+                            <li key={site._id} className="site-box" style={{backgroundColor: themeObj.sitesBoxColor}}>
                                 <h2 className="title" style={{ color: themeObj.color }}>{site.title}</h2>
                                 <p className="subtitle" style={{ color: themeObj.color }}>{site.subtitle || "subtitle"}</p>
                                 <img src={site.screenshot || defaultScreenshot} width="375" height="280" className="site-screenshot" alt="screenshot for this site"></img>
