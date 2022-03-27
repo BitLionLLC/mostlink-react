@@ -29,6 +29,10 @@
     background-color: dodgerblue;
     color: white;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .create-site-form {

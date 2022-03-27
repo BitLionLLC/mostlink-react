@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
 import './createSite.css';
 
-const CreateSite = () => {
+const CreateSite = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
@@ -48,7 +48,7 @@ const CreateSite = () => {
 
     return (
         <>
-            <div className="create-site" onClick={toggleModal} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
+            <div className={props.className || "create-site"}onClick={toggleModal} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
             { isModalOpen ?
                 <> 
                     <div className="blocker" onClick={toggleModal}></div>

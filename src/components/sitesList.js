@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { SitesContext } from '../contexts/sitesContext';
 import { Link } from 'react-router-dom';
+import CreateSite from './createSite';
 import defaultScreenshot from './assets/default-screenshot.png';
 import './sitesList.css';
 
@@ -28,10 +29,10 @@ const SitesList = () => {
             :
                 <div className="empty-sites-container">
                     <div className="empty-sites" style={{backgroundColor: themeObj.landingCardBackground}}>
-                        <h1>Create a site with the
-                            <div className="create-site-clone" style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div> 
-                            button to get started!
-                        </h1>
+                        <div className="title-and-create">
+                            <h1>Create a site with the</h1><CreateSite className="create-site-clone" />
+                        </div>
+                        <h1 className="just-title">button to get started!</h1>
                     </div>
                 </div>
             }
