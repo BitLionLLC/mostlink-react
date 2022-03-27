@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useRouteMatch, Prompt } from 'react-router';
-import { Link } from 'react-router-dom';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FileBase64 from 'react-file-base64';
