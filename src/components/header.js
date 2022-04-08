@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
+import { useGoogleLogout } from 'react-google-login'
 import lightLogo from './assets/logo-light.png';
 import darkLogo from './assets/logo-dark.png';
 
@@ -15,7 +16,16 @@ const Header = () => {
     const [isMenuShown, setIsMenuShown] = useState(false);
     let jwtTokenRef = useRef(jwtToken);
 
+    const { signOut } = useGoogleLogout({
+        jsSrc: "https://apis.google.com/js/api.js",
+        onFailure: (err) => toast(err, { type: "error"}),
+        clientId: "481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com",
+        redirectUri: "/",
+        onLogoutSuccess: () => {}
+    })
+
     const onLogOut = () => {
+        signOut();
         axios
             .get(`/users/logout`)
             .then(() => {

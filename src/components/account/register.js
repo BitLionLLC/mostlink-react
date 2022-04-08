@@ -5,6 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SitesContext } from '../../contexts/sitesContext';
 import { toast } from 'react-toastify';
+import GoogleLogin from 'react-google-login';
 import './register.css';
 
 const Register = () => {
@@ -104,6 +105,29 @@ const Register = () => {
         }
     }
 
+    const responseGoogle = (response) => {
+        const { profileObj } = response;
+
+        const firstName = profileObj.givenName;
+        const lastName = profileObj.familyName;
+        const { email } = profileObj;
+        const username = email;
+
+        axios
+            .post(`/users/register/google`, {
+                firstName, lastName, email, username
+            })
+            .then(res => {
+                setJwtToken(res.data.token);
+                setUserId(res.data.id);
+                history.push("/home");
+                toast("Success", { type: "success" });
+            })
+            .catch(err => {
+                toast(err, { type: "error" });
+            })
+    }
+
     const onCancel = () => {
         setFirstName("");
         setLastName("");
@@ -119,6 +143,14 @@ const Register = () => {
         <div className="register-container">
             <div className="register">
                 <h1>Register</h1>
+                <GoogleLogin
+                    clientId="481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                    isSignedIn={true}
+                />
                 <form className="register-form" onSubmit={onSubmit}>
                     <label htmlFor="firstName">First name*</label>
                     <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} id="firstName" />

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { SitesContext } from '../../contexts/sitesContext';
 import { toast } from 'react-toastify';
+import GoogleLogin from 'react-google-login';
 
 import "./login.css";
 
@@ -45,10 +46,38 @@ const Login = () => {
             })
     }
 
+    const responseGoogle = (response) => {
+        const { profileObj } = response;
+        
+        const username = profileObj.email;
+
+        axios
+            .post(`/users/login/google`, {
+                username
+            })
+            .then(res => {
+                setJwtToken(res.data.token);
+                setUserId(res.data.id);
+                history.push("/home");
+                toast("Success", { type: "success" });
+            })
+            .catch(err => {
+                toast(err, { type: "error" });
+            })
+    }
+
     return (
         <div className="login-container">
             <div className="login">
                 <h1>Log in</h1>
+                <GoogleLogin
+                    clientId="481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com"
+                    buttonText="Log in"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                    isSignedIn={true}
+                />
                 <form onSubmit={onSubmit} className="login-form">
                     <label htmlFor="username">Username</label>
                     <input type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" />
