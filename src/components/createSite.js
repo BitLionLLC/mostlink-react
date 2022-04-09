@@ -48,7 +48,7 @@ const CreateSite = (props) => {
 
     return (
         <>
-            <div className={props.className || "create-site"}onClick={toggleModal} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
+            <div className={props.className || "create-site"} onClick={toggleModal} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
             { isModalOpen ?
                 <> 
                     <div className="blocker" onClick={toggleModal}></div>

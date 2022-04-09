@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useRouteMatch, Prompt } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FileBase64 from 'react-file-base64';
@@ -12,6 +13,7 @@ import update from 'immutability-helper';
 import Picker from 'emoji-picker-react';
 import html2canvas from 'html2canvas';
 import './singleSite.css';
+import { toast } from 'react-toastify';
 
 const EDIT_TYPE = {
     ALL: "all",
@@ -28,6 +30,7 @@ const IMAGE_TYPE = {
 const SingleSite = () => {
     const { site, fetchSite } = useContext(SitesContext);
     const match = useRouteMatch();
+    const history = useHistory();
 
     const [screenshot, setScreenshot] = useState("");
     const [isEditing, setIsEditing] = useState(false);
@@ -43,12 +46,13 @@ const SingleSite = () => {
     const [bodyColor, setBodyColor] = useState("#ffffff");
     const [linkTextColor, setLinkTextColor] = useState("#000000");
     const [linkBackgroundColor, setLinkBackgroundColor] = useState("#FFFFFF");
-    const [isModalShowing, setIsModalShowing] = useState(false);
+    const [isPexelsModalShowing, setIsPexelsModalShowing] = useState(false);
     const [modalOpenedWith, setModalOpenedWith] = useState("");
     const [photos, setPhotos] = useState([]);
     const [query, setQuery] = useState("abstract");
     const [isDirty, setIsDirty] = useState(false);
     const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
+    const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false);
 
     const captureScreenshot = () => {
         html2canvas(document.getElementById("screenshot-area"), { allowTaint: true, useCORS: true, letterRendering: 1, }).then((canvas) => {      
@@ -173,8 +177,8 @@ const SingleSite = () => {
         setLinks(newLinks);
     }
 
-    const openModal = (component) => {
-        setIsModalShowing(true);
+    const openPexelsModal = (component) => {
+        setIsPexelsModalShowing(true);
         setModalOpenedWith(component);
     }
 
@@ -216,7 +220,7 @@ const SingleSite = () => {
                         {headerImage && headerEmoji && <div className="header-warning">You have an image and an emoji selected. Emojis override images in the header. Clear the emoji to use the image.</div>}
                         <img src={headerImage?.base64 || headerImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" alt="header" />
                         <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
-                        <button onClick={() => openModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
+                        <button onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
                         
                         <div className="title-and-clear">
                             <h2>Header Emoji</h2>
@@ -231,7 +235,7 @@ const SingleSite = () => {
                         </div>
                         <img src={backgroundImage?.base64 || backgroundImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" alt="background" />
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
-                        <button onClick={() => openModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
+                        <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
                     </div>
             case "links":
                 return <div className="edit-contents">
@@ -267,6 +271,7 @@ const SingleSite = () => {
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>Title Settings</button>
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}>Image Settings</button>
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.LINKS)}>Link Settings</button>
+                    <button onClick={() => setIsDeleteModalShowing(true)}>Delete Site</button>
                 </div>
         }
     }
@@ -285,6 +290,18 @@ const SingleSite = () => {
             bodyColor !== site?.bodyColor ||
             headerEmoji !== site?.headerEmoji
         )
+    }
+
+    const deleteSite = () => {
+        axios
+            .delete(`/sites/siteId/${site._id}`)
+            .then(res => {
+                toast("Site deleted.", { type: "success" })
+                history.push("/home");
+            })
+            .catch(err => {
+                toast(err, { type: "error" })
+            })
     }
 
     useEffect(() => {
@@ -355,9 +372,9 @@ const SingleSite = () => {
                 :
                 getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.bodyColor, site.linkTextColor, site.linkBackgroundColor)
             }
-            { isModalShowing ?
+            { isPexelsModalShowing ?
                 <>
-                    <div className="blocker" onClick={() => setIsModalShowing(false)}></div>
+                    <div className="blocker" onClick={() => setIsPexelsModalShowing(false)}></div>
                     <div className="pexels-modal">
                         <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com">Pexels</a></span>
                         <form className="pexels-search" onSubmit={fetchPexels}>
@@ -376,6 +393,20 @@ const SingleSite = () => {
                 </>
                 : null
             }
+            { isDeleteModalShowing ?
+                <> 
+                    <div className="blocker" onClick={() => setIsDeleteModalShowing(false)}></div>
+                    <div className="delete-site-modal">
+                        <div className="close-button" onClick={() => setIsDeleteModalShowing(false)}>+</div>
+                        <h1>Delete site</h1>
+                        <p>Are you sure you want to delete this site? This action cannot be undone.</p>
+                        <div className="delete-site-buttons">
+                            <button className="cancel-button" onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
+                            <button className="delete-button" onClick={deleteSite}>Delete</button>
+                        </div>
+                    </div>
+                </>
+            : null }
         </>
     )
 }
