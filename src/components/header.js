@@ -8,7 +8,7 @@ import { useGoogleLogout } from 'react-google-login'
 import lightLogo from './assets/logo-light.png';
 import darkLogo from './assets/logo-dark.png';
 
-import './header.css';
+import styles from './header.module.css';
 
 const Header = () => {
     const history = useHistory();
@@ -98,24 +98,24 @@ const Header = () => {
     }
 
     return (
-        <div className="header" style={{ backgroundColor: themeObj.headerColor, color: themeObj.color }}>
-            <div className="logo-and-title">
+        <div className={styles.header} style={{ backgroundColor: themeObj.headerColor, color: themeObj.color }}>
+            <div className={styles.logoAndTitle}>
                 <Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>
                     <img src={theme === "light" ? lightLogo : darkLogo} width="100" />
                     <h1>Mostcard</h1>
                 </Link>
             </div>
-            <div className="icon-row">
-                <div className="account-icon" onClick={e => toggleMenu(e)} style={{ right: jwtToken ? "15px" : "18px", color: jwtToken && themeObj.loggedInColor }}>
+            <div className={styles.iconRow}>
+                <div className={styles.accountIcon} onClick={e => toggleMenu(e)} style={{ right: jwtToken ? "15px" : "18px", color: jwtToken && themeObj.loggedInColor }}>
                     <FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/>
                 </div>
-                <div className="theme-icon" onClick={toggleTheme}>
+                <div className={styles.themeIcon} onClick={toggleTheme}>
                     <FontAwesomeIcon icon={theme === "dark" ? ["fas", "moon"] : ["fas", "sun"]}/>
                 </div>
             </div>
-            <div style={{ display: isMenuShown ? "block" : "none", backgroundColor: themeObj.menuColor }} className="account-menu">
-                <div className="attach-triangle" style={{ backgroundColor: themeObj.menuColor }}></div>
-                <ul className="account-menu-list" >
+            <div style={{ display: isMenuShown ? "block" : "none", backgroundColor: themeObj.menuColor }} className={styles.accountMenu}>
+                <div className={styles.attachTriangle} style={{ backgroundColor: themeObj.menuColor }}></div>
+                <ul className={styles.accountMenuList} >
                     {jwtToken && <li><Link to="/account" style={{ color: themeObj.color }}>Account</Link></li>}
                     {!jwtToken && <li><Link to="/account/register" style={{ color: themeObj.color }}>Register</Link></li>}
                     {!jwtToken && <li><Link to="/account/login" style={{ color: themeObj.color }}>Log in</Link></li>}

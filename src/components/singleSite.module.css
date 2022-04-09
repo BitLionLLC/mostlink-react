@@ -1,11 +1,11 @@
-.single-site-wrapper {
+.singleSiteWrapper {
     width: 100vw;
     height: calc(100vh - 150px);
     display: flex;
     justify-content: center;
 }
 
-.single-site-container {
+.singleSiteContainer {
     width: 800px;
     margin: auto;
     background-color: lightblue;
@@ -17,33 +17,33 @@
     position: relative;
 }
 
-.single-title, .single-subtitle {
+.singleTitle, .singleSubtitle {
     text-align: center;
 }
 
-.single-title {
+.singleTitle {
     margin: 20px 0 5px 0;
 }
 
-.single-subtitle {
+.singleSubtitle {
     margin: 10px 0;
 }
 
-.header-image {
+.headerImage {
     border-radius: 100%;
 }
 
-.header-emoji {
+.headerEmoji {
     font-size: 175px;
     line-height: 160px;
 }
 
-.links-list {
+.linksList {
     list-style: none;
     padding: 0;
 }
 
-.individual-link {
+.individualLink {
     width: 600px;
     background-color: white;
     height: 50px;
@@ -57,17 +57,17 @@
     cursor: pointer;
 }
 
-.edit-button, .save-and-cancel-buttons {
+.editButton, .saveAndCancelButtons {
     position: absolute;
     right: 10px;
     cursor: pointer;
 }
 
-.edit-button {
+.editButton {
     top: 10px;
 }
 
-.save-and-cancel-buttons {
+.saveAndCancelButtons {
     top: 160px;
     display: flex;
     flex-flow: row;
@@ -75,11 +75,11 @@
     justify-content: space-between;
 }
 
-.link-text {
+.linkText {
     font-weight: bold;
 }
 
-.edit-tray {
+.editTray {
     position: fixed;
     top: 0;
     left: 0;
@@ -92,27 +92,27 @@
     padding-top: 230px;
 }
 
-.edit-contents {
+.editContents {
     display: flex;
     flex-flow: column;
     align-items: center; 
 }
 
-.back-arrow {
+.backArrow {
     position: absolute;
     top: 160px;
     left: 10px;
 }
 
-.link-edit-list {
+.linkEditList {
     list-style: none;
     padding: 0;
 }
 
-.pexels-modal {
+.pexelsModal {
     width: 1000px;
     height: 800px;
-    z-index: 3;
+    z-index: 10;
     border: 1px solid black;
     position: fixed;
 	top: 50%; left: 50%;
@@ -127,8 +127,8 @@
     overflow: scroll;
 }
 
-.delete-site-modal {
-    z-index: 3;
+.deleteSiteModal {
+    z-index: 10;
     width: 500px;
     height: 400px;
     border: 1px solid black;
@@ -152,28 +152,37 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 2;
+    z-index: 9;
 }
 
-.delete-site-buttons {
+.closeButton {
+    transform: rotate(45deg);
+    cursor: default;
+    font-size: 50px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.deleteSiteButtons {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-top: 10px;
 }
 
-.delete-site-buttons button {
+.deleteSiteButtons button {
     width: 40%;
     margin: 10px;
     height: 40px;
     font-size: 25px;
 }
 
-.cancel-button {
+.cancelButton {
     background-color: lightgreen;
 }
 
-.delete-button {
+.deleteButton {
     background-color: red;
 }
 
@@ -184,28 +193,28 @@
     margin: 0 auto;
 }
 
-.pexels-search {
+.pexelsSearch {
     margin: 10px;
 }
 
-.title-and-clear {
+.titleAndClear {
     display: flex;
     align-items: center;
 }
 
-.clear-image {
+.clearImage {
     margin-left: 10px;
 }
 
-.selected-emoji {
+.selectedEmoji {
     font-size: 50px;
 }
 
-.header-warning {
+.headerWarning {
     margin-bottom: 20px;
 }
 
-.screenshot-area {
+.screenshotArea {
     width: 800px;
     height: 600px;
     position: absolute;
@@ -213,11 +222,11 @@
 }
 
 @media (max-width: 900px) {
-    .single-site-container {
+    .singleSiteContainer {
         width: 90vw;
     }
 
-    .individual-link {
+    .individualLink {
         width: 80vw;
     }
 }

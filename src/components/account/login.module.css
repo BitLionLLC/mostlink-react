@@ -4,61 +4,61 @@
     min-height: 500px;
 }
 
-.login-form {
+.loginForm {
     display: flex;
     flex-direction: column;
 }
 
-.login-form input {
+.loginForm input {
     height: 40px;
     font-size: 20px;
     padding: 5px;
     margin: 10px 0px 20px 0px;
 }
 
-.login-form label {
+.loginForm label {
     margin: 0;
 }
 
-.login-form-buttons {
+.loginFormButtons {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-top: 10px;
 }
 
-.login-form-buttons button {
+.loginFormButtons button {
     width: 40%;
     margin: 10px;
     height: 40px;
     font-size: 25px;
 }
 
-.cancel-button {
+.cancelButton {
     background-color: pink;
 }
 
-.submit-button {
+.submitButton {
     background-color: lightgreen;
 }
 
-.error-text {
+.errorText {
     color: red;
     margin: -10px 0 15px 0;
 }
 
-.password-and-eye-icon {
+.passwordAndEyeIcon {
     display: flex;
     position: relative;
 }
 
-.eye-icon {
+.eyeIcon {
     position: absolute;
     right: 25px;
     top: 22px;  
 }
 
-#password {
+.password {
     width: 100%;
 }
 

@@ -6,7 +6,7 @@ import { SitesContext } from '../../contexts/sitesContext';
 import { toast } from 'react-toastify';
 import GoogleLogin from 'react-google-login';
 
-import "./login.css";
+import styles from "./login.module.css";
 
 const Login = () => {
     const history = useHistory();
@@ -67,8 +67,8 @@ const Login = () => {
     }
 
     return (
-        <div className="login-container">
-            <div className="login">
+        <div className={styles.loginContainer}>
+            <div className={styles.login}>
                 <h1>Log in</h1>
                 <GoogleLogin
                     clientId="481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com"
@@ -78,20 +78,20 @@ const Login = () => {
                     cookiePolicy={'single_host_origin'}
                     isSignedIn={true}
                 />
-                <form onSubmit={onSubmit} className="login-form">
+                <form onSubmit={onSubmit} className={styles.loginForm}>
                     <label htmlFor="username">Username</label>
                     <input type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" />
 
                     <label htmlFor="password">Password</label>
-                    <div className="password-and-eye-icon">
-                        <input type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" />
-                        <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className="eye-icon" />
+                    <div className={styles.passwordAndEyeIcon}>
+                        <input type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" className={styles.password} />
+                        <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
                     </div>
 
                     <h3 style={{ color: themeObj.accentColor }}><Link to="/account/register" style={{ color: themeObj.accentColor }}>Register</Link></h3>
-                    <div className="register-form-buttons">
-                        <button className="cancel-button" onClick={onCancel}>Cancel</button>
-                        <button className="submit-button" type="submit">Submit</button>
+                    <div className={styles.loginFormButtons}>
+                        <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
+                        <button className={styles.submitButton} type="submit">Submit</button>
                     </div>
                 </form>
             </div>

@@ -4,12 +4,12 @@
     min-height: 500px;
 }
 
-.register-form {
+.registerForm {
     display: flex;
     flex-direction: column;
 }
 
-.register-form input {
+.registerForm input {
     width: 100%;
     height: 40px;
     font-size: 20px;
@@ -17,42 +17,53 @@
     margin: 10px 0px 20px 0px;
 }
 
-.register-form label {
+.registerForm label {
     margin: 0;
 }
 
-.register-form-buttons {
+.registerFormButtons {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-top: 10px;
 }
 
-.register-form-buttons button {
+.registerFormButtons button {
     width: 40%;
     margin: 10px;
     height: 40px;
     font-size: 25px;
 }
 
-.cancel-button {
+.cancelButton {
     background-color: pink;
 }
 
-.submit-button {
+.submitButton {
     background-color: lightgreen;
 }
 
-.error-text {
+.errorText {
     color: red;
     margin: -10px 0 15px 0;
 }
 
-.password-and-tooltip {
+.passwordAndTooltip {
     display: flex;
 }
 
-.question-mark-tooltip {
+.passwordAndEyeIcon {
+    display: flex;
+    position: relative;
+}
+
+.eyeIcon {
+    position: absolute;
+    right: 25px;
+    top: 22px;  
+}
+
+.questionMarkTooltip {
     margin-left: 5px;
     color: white;
     background-color: #222;

@@ -1,15 +1,15 @@
-.icon-option {
+.iconOption {
     color: black !important;
     margin: 5px 0;
 }
 
-.icon-option-icon {
+.iconOptionIcon {
     top: 0;
     margin-left: 10px;
     float: right;
 }
 
-.link-edit-li {
+.linkEditLi {
     margin: 10px auto;
     display: flex;
     flex-flow: column;
@@ -17,7 +17,7 @@
     position: relative;
 }
 
-.delete-link {
+.deleteLink {
     position: absolute;
     top: 0;
     right: 0;

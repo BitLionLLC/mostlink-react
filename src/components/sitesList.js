@@ -3,7 +3,7 @@ import { SitesContext } from '../contexts/sitesContext';
 import { Link } from 'react-router-dom';
 import CreateSite from './createSite';
 import defaultScreenshot from './assets/default-screenshot.png';
-import './sitesList.css';
+import styles from './sitesList.module.css';
 
 const SitesList = () => {
     const { sites, fetchSites, themeObj } = useContext(SitesContext);
@@ -13,26 +13,26 @@ const SitesList = () => {
     }, [])
 
     return (
-        <div className="sites-container">
+        <div className={styles.sitesContainer}>
             {sites.length ? 
-                <ul className="sites-list">
+                <ul className={styles.sitesList}>
                     {sites.map((site, i) => {
-                        return <Link to={`/site/${site._id}`} className="site-link">
-                            <li key={site._id} className="site-box" style={{backgroundColor: themeObj.sitesBoxColor}}>
-                                <h2 className="title" style={{ color: themeObj.color }}>{site.title}</h2>
-                                <p className="subtitle" style={{ color: themeObj.color }}>{site.subtitle || "subtitle"}</p>
-                                <img src={site.screenshot || defaultScreenshot} width="375" height="280" className="site-screenshot" alt="screenshot for this site"></img>
+                        return <Link to={`/site/${site._id}`} className={styles.siteLink} key={site._id}>
+                            <li key={site._id} className={styles.siteBox} style={{backgroundColor: themeObj.sitesBoxColor}}>
+                                <h2 className={styles.title} style={{ color: themeObj.color }}>{site.title}</h2>
+                                <p className={styles.subtitle} style={{ color: themeObj.color }}>{site.subtitle || "subtitle"}</p>
+                                <img src={site.screenshot || defaultScreenshot} width="375" height="280" className={styles.siteScreenshot} alt="screenshot for this site"></img>
                             </li>
                         </Link>
                     })}
                 </ul>
             :
-                <div className="empty-sites-container">
-                    <div className="empty-sites" style={{backgroundColor: themeObj.landingCardBackground}}>
-                        <div className="title-and-create">
-                            <h1>Create a site with the</h1><CreateSite className="create-site-clone" />
+                <div className={styles.emptySitesContainer}>
+                    <div className={styles.emptySites} style={{backgroundColor: themeObj.landingCardBackground}}>
+                        <div className={styles.titleAndCreate}>
+                            <h1>Create a site with the</h1><CreateSite className={styles.createSiteClone} />
                         </div>
-                        <h1 className="just-title">button to get started!</h1>
+                        <h1 className={styles.justTitle}>button to get started!</h1>
                     </div>
                 </div>
             }

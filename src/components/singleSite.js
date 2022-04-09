@@ -12,7 +12,7 @@ import EditableLink from './editableLink';
 import update from 'immutability-helper';
 import Picker from 'emoji-picker-react';
 import html2canvas from 'html2canvas';
-import './singleSite.css';
+import styles from './singleSite.module.css';
 import { toast } from 'react-toastify';
 
 const EDIT_TYPE = {
@@ -198,9 +198,9 @@ const SingleSite = () => {
     const getEditContents = () => {
         switch (whatIsBeingEdited) {
             case "titles":
-                return <div className="edit-contents">
+                return <div className={styles.editContents}>
                     <h1>Titles</h1>
-                    <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
+                    <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h2>Title</h2>
                     <input type="text" value={title} placeholder="Title" onChange={e => setTitle(e.target.value)} />
                     <h2>Subtitle</h2>
@@ -209,44 +209,44 @@ const SingleSite = () => {
                     <HexColorPicker color={titlesColor} onChange={setTitlesColor} />
                 </div>
             case "images":
-                return <div className="edit-contents">
+                return <div className={styles.editContents}>
                         <h1>Images</h1>
-                        <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
+                        <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                         
-                        <div className="title-and-clear">
+                        <div className={styles.titleAndClear}>
                             <h2>Header Image</h2>
-                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" className="clear-image" />
+                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" className={styles.clearImage} />
                         </div>
-                        {headerImage && headerEmoji && <div className="header-warning">You have an image and an emoji selected. Emojis override images in the header. Clear the emoji to use the image.</div>}
+                        {headerImage && headerEmoji && <div className={styles.headerWarning}>You have an image and an emoji selected. Emojis override images in the header. Clear the emoji to use the image.</div>}
                         <img src={headerImage?.base64 || headerImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" alt="header" />
                         <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
                         <button onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
                         
-                        <div className="title-and-clear">
+                        <div className={styles.titleAndClear}>
                             <h2>Header Emoji</h2>
-                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderEmoji("")} color="red" className="clear-image"/>
+                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderEmoji("")} color="red" className={styles.clearImage}/>
                         </div>
-                        {headerEmoji && <div className="selected-emoji">{headerEmoji}</div>}
+                        {headerEmoji && <div className={styles.selectedEmoji}>{headerEmoji}</div>}
                         <Picker onEmojiClick={onEmojiClick} />
                         
-                        <div className="title-and-clear">
+                        <div className={styles.titleAndClear}>
                             <h2>Background Image</h2>
-                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" className="clear-image"/>
+                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" className={styles.clearImage}/>
                         </div>
                         <img src={backgroundImage?.base64 || backgroundImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" alt="background" />
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
                         <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
                     </div>
             case "links":
-                return <div className="edit-contents">
-                    <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className="back-arrow" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
+                return <div className={styles.editContents}>
+                    <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h1>Links</h1>
                     <h2>Link Text Color</h2>
                     <HexColorPicker color={linkTextColor} onChange={setLinkTextColor} />
                     <h2>Link Background Color</h2>
                     <HexColorPicker color={linkBackgroundColor} onChange={setLinkBackgroundColor} />
                     <h2>Links</h2>
-                    <ul className="link-edit-list">
+                    <ul className={styles.linkEditList}>
                         {links.map((link, index) => {
                             return <EditableLink 
                                         link={link} 
@@ -262,7 +262,7 @@ const SingleSite = () => {
                     <button onClick={addLink}>+</button>
                 </div>
             default: // default and ALL
-                return <div className="edit-contents">
+                return <div className={styles.editContents}>
                     <h1>General Settings</h1>
                     <h2>Body Color</h2>
                     <HexColorPicker color={bodyColor} onChange={setBodyColor} />
@@ -314,11 +314,11 @@ const SingleSite = () => {
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisBodyColor, thisLinkTextColor, thisLinkBackgroundColor) => {
         document.body.style.backgroundColor = thisBodyColor;
         
-        return <div className="single-site-wrapper">
-            <div className="screenshot-area" id="screenshot-area">
-             <div className="single-site-container" style={{ backgroundColor: thisContainerColor }}>
+        return <div className={styles.singleSiteWrapper}>
+            <div className={styles.screenshotArea} id="screenshot-area">
+             <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor }}>
                 <Prompt when={isDirty} />
-                <div className="edit-button" style={{color: thisContainerColor ? invert(thisContainerColor, true) : "grey"}}>
+                <div className={styles.editButton} style={{color: thisContainerColor ? invert(thisContainerColor, true) : "grey"}}>
                     { isEditing || !isEditButtonVisible ? 
                         null
                         : 
@@ -328,22 +328,22 @@ const SingleSite = () => {
                 {
                     headerEmoji 
                     ?
-                        <div className="header-emoji">{headerEmoji}</div>
+                        <div className={styles.headerEmoji}>{headerEmoji}</div>
                     :
                         <img 
                             src={thisHeaderImage || "https://via.placeholder.com/300x300?text=image+here"} 
-                            alt={title} className="header-image"
+                            alt={title} className={styles.headerImage}
                             onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}
                             width="200" height="200"
                         />
                 }
-                <h1 className="single-title" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisTitle}</h1>
-                <h3 className="single-subtitle" onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisSubtitle}</h3>
+                <h1 className={styles.singleTitle} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisTitle}</h1>
+                <h3 className={styles.singleSubtitle} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisSubtitle}</h3>
                 {links ?
-                    <ul className="links-list">
+                    <ul className={styles.linksList}>
                         {theseLinks?.map((link) => {
-                            return <a href={link.href} target="_blank" rel="noreferrer" className="individual-link" style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
-                                <div className="link-text">{link.text}</div>
+                            return <a href={link.href} target="_blank" rel="noreferrer" className={styles.individualLink} style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
+                                <div className={styles.linkText}>{link.text}</div>
                                 <FontAwesomeIcon icon={link?.icon?.split("_")} />
                             </a>
                         })}
@@ -357,8 +357,8 @@ const SingleSite = () => {
     return (
         <>
             { isEditing ? 
-                <div className="edit-tray">
-                    <div className="save-and-cancel-buttons">
+                <div className={styles.editTray}>
+                    <div className={styles.saveAndCancelButtons}>
                         <FontAwesomeIcon icon={["far", "save"]} size="3x" onClick={onSave} color="lightgreen" />
                         <FontAwesomeIcon icon={["far", "window-close"]} size="3x" onClick={onCancel} color="red" />
                     </div>
@@ -374,14 +374,14 @@ const SingleSite = () => {
             }
             { isPexelsModalShowing ?
                 <>
-                    <div className="blocker" onClick={() => setIsPexelsModalShowing(false)}></div>
-                    <div className="pexels-modal">
+                    <div className={styles.blocker} onClick={() => setIsPexelsModalShowing(false)}></div>
+                    <div className={styles.pexelsModal}>
                         <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com">Pexels</a></span>
-                        <form className="pexels-search" onSubmit={fetchPexels}>
+                        <form className={styles.pexelsSearch} onSubmit={fetchPexels}>
                             <input type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} />
                             <button onClick={fetchPexels} type="submit">Search</button>
                         </form>
-                        <div className="photos">
+                        <div className={styles.photos}>
                             {photos?.map(photo => {
                                 return <img src={photo.src.tiny} alt="pexel result" width="100" height="100" onClick={
                                         modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
@@ -395,14 +395,14 @@ const SingleSite = () => {
             }
             { isDeleteModalShowing ?
                 <> 
-                    <div className="blocker" onClick={() => setIsDeleteModalShowing(false)}></div>
-                    <div className="delete-site-modal">
-                        <div className="close-button" onClick={() => setIsDeleteModalShowing(false)}>+</div>
+                    <div className={styles.blocker} onClick={() => setIsDeleteModalShowing(false)}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
                         <h1>Delete site</h1>
                         <p>Are you sure you want to delete this site? This action cannot be undone.</p>
-                        <div className="delete-site-buttons">
-                            <button className="cancel-button" onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
-                            <button className="delete-button" onClick={deleteSite}>Delete</button>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
+                            <button className={styles.deleteButton} onClick={deleteSite}>Delete</button>
                         </div>
                     </div>
                 </>

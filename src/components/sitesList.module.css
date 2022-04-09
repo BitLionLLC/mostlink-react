@@ -2,7 +2,7 @@ body {
     background-position: center;
 }
 
-.sites-container {
+.sitesContainer {
     width: 100vw;
     height: calc(100vh - 150px);
     display: flex;
@@ -13,7 +13,7 @@ body {
     position: absolute;
 }
 
-.sites-list {
+.sitesList {
     width: 90vw;
     display: flex;
     flex-flow: row;
@@ -24,7 +24,7 @@ body {
     align-items: flex-start;
 }
 
-.site-box {
+.siteBox {
     list-style: none;
     width: 400px;
     height: 380px;
@@ -40,7 +40,7 @@ body {
     margin: 10px;
 }
 
-.site-link {
+.siteLink {
     width: 400px;
     text-decoration: none;
     color: black;
@@ -48,13 +48,13 @@ body {
 }
 
 @media (max-width: 500px) {
-    .sites-list {
+    .sitesList {
         width: 450px;
         margin: 0 auto;
     }
 }
 
-.empty-sites {
+.emptySites {
     width: 500px;
     height: 500px;
     display: flex;
@@ -68,16 +68,16 @@ body {
     border-radius: 15px;
 }
 
-.title-and-create {
+.titleAndCreate {
     display: flex;
     align-items: center;
 }
 
-.just-title, .title-and-create h1 {
+.justTitle, .titleAndCreate h1 {
     margin: 5px;
 }
 
-.empty-sites-container {
+.emptySitesContainer {
     width: 100vw;
     height: calc(100vh - 200px);
     display: flex;
@@ -85,7 +85,7 @@ body {
     align-items: center;
 }
 
-.create-site-clone {
+.createSiteClone {
     width: 30px;
     height: 30px;
     display: inline-flex;
@@ -101,6 +101,6 @@ body {
     font-weight: normal;
 }
 
-.site-screenshot {
+.siteScreenshot {
     border-radius: 5px;
 }

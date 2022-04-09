@@ -5,7 +5,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { useDrag, useDrop } from 'react-dnd';
 
-import './editableLink.css';
+import styles from './editableLink.module.css';
 
 const style = {
     border: '1px dashed gray',
@@ -52,9 +52,9 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
 
     const { Option } = reactSelectComponents;
     const IconOption = props => (
-        <Option {...props} className="icon-option">
+        <Option {...props} className={styles.iconOption}>
             {props.data.label}
-            <FontAwesomeIcon icon={props.data.value.split("_")} size="2x" className="icon-option-icon" />
+            <FontAwesomeIcon icon={props.data.value.split("_")} size="2x" className={styles.iconOptionIcon} />
         </Option>
     );
 
@@ -118,7 +118,7 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
     drag(drop(ref));
 
     return (
-        <li className="link-edit-li" style={{...style, opacity}} ref={ref} data-handler-id={handlerId}>
+        <li className={styles.linkEditLi} style={{...style, opacity}} ref={ref} data-handler-id={handlerId}>
                                 
             <input type="text" value={link.text} placeholder={`Link #${index + 1} text`} onChange={e => {
                 const newLinks = links.slice();
@@ -130,7 +130,7 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
                 newLinks[index].href = e.target.value;
                 setLinks(newLinks);
             }} />
-            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => deleteLink(index)} color="red" className="delete-link" />
+            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => deleteLink(index)} color="red" className={styles.deleteLink} />
             <Select 
                 onChange={e => {
                     const newLinks = links.slice();

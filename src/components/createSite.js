@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
-import './createSite.css';
+import styles from './createSite.module.css';
 
 const CreateSite = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,17 +48,17 @@ const CreateSite = (props) => {
 
     return (
         <>
-            <div className={props.className || "create-site"} onClick={toggleModal} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
+            <div className={styles[props.className] || styles.createSite} onClick={toggleModal} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
             { isModalOpen ?
                 <> 
-                    <div className="blocker" onClick={toggleModal}></div>
-                    <div className="create-site-modal">
-                        <div className="close-button" onClick={toggleModal}>+</div>
+                    <div className={styles.blocker} onClick={toggleModal}></div>
+                    <div className={styles.createSiteModal}>
+                        <div className={styles.closeButton} onClick={toggleModal}>+</div>
                         <h1>Create a site</h1>
-                        <form onSubmit={createSite} className="create-site-form">
-                            <input type="text" className="create-input" value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
-                            <input type="text" className="create-input" value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
-                            <button type="submit" className="create-button">Create</button>
+                        <form onSubmit={createSite} className={styles.createSiteForm}>
+                            <input type="text" className={styles.createInput} value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
+                            <input type="text" className={styles.createInput} value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
+                            <button type="submit" className={styles.createButton}>Create</button>
                         </form>
                     </div>
                 </>
