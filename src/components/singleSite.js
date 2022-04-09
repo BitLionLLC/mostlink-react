@@ -263,15 +263,15 @@ const SingleSite = () => {
                 </div>
             default: // default and ALL
                 return <div className={styles.editContents}>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} className={styles.generalButton}>Title Settings</button>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)} className={styles.generalButton}>Image Settings</button>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.LINKS)} className={styles.generalButton}>Link Settings</button>
                     <h1>General Settings</h1>
                     <h2>Body Color</h2>
                     <HexColorPicker color={bodyColor} onChange={setBodyColor} />
                     <h2>Container Color</h2>
                     <HexColorPicker color={containerColor} onChange={setContainerColor} />
-                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)}>Title Settings</button>
-                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}>Image Settings</button>
-                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.LINKS)}>Link Settings</button>
-                    <button onClick={() => setIsDeleteModalShowing(true)}>Delete Site</button>
+                    <button onClick={() => setIsDeleteModalShowing(true)} className={styles.deleteSiteButton}>Delete Site</button>
                 </div>
         }
     }

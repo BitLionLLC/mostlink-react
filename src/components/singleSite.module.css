@@ -92,6 +92,19 @@
     padding-top: 230px;
 }
 
+.generalButton, .deleteSiteButton {
+    width: 40%;
+    height: 50px;
+    margin-top: 25px;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: lightblue;
+}
+
+.deleteSiteButton {
+    background-color: lightcoral;
+}
+
 .editContents {
     display: flex;
     flex-flow: column;
@@ -184,6 +197,7 @@
 
 .deleteButton {
     background-color: red;
+    color: white;
 }
 
 .photos {
