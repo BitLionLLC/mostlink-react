@@ -30,7 +30,7 @@ const SitesList = () => {
                 <div className={styles.emptySitesContainer}>
                     <div className={styles.emptySites} style={{backgroundColor: themeObj.landingCardBackground}}>
                         <div className={styles.titleAndCreate}>
-                            <h1>Create a site with the</h1><CreateSite className={styles.createSiteClone} />
+                            <h1>Create a site with the</h1><CreateSite className="createSiteClone" />
                         </div>
                         <h1 className={styles.justTitle}>button to get started!</h1>
                     </div>
