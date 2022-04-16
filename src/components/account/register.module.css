@@ -46,6 +46,9 @@
 .errorText {
     color: red;
     margin: -10px 0 15px 0;
+    background-color: white;
+    padding: 10px;
+    border-radius: 2px;
 }
 
 .passwordAndTooltip {

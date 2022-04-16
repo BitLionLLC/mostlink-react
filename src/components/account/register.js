@@ -194,7 +194,13 @@ const Register = () => {
                     <div>*required field</div>
                     <div className={styles.registerFormButtons}>
                         <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
-                        <button className={styles.submitButton} type="submit">Submit</button>
+                        <button 
+                            className={styles.submitButton} 
+                            type="submit"
+                            disabled={firstNameError || lastNameError || emailError || usernameError || passwordError || passwordAgainError}
+                        >
+                                Submit
+                        </button>
                     </div>
                 </form>
             </div>
