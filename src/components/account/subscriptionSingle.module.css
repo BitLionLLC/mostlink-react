@@ -1,0 +1,16 @@
+.table {
+    width: 75%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.td, .tdCentered {
+    width: 33.33%;
+    height: 40px;
+    padding: 5px;
+}
+
+.tdCentered {
+    text-align: center;
+}

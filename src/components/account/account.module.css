@@ -1,0 +1,12 @@
+.accountContainer {
+    width: 100vw;
+    height: calc(100vh - 150px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.account {
+    width: 1000px;
+    height: 500px;
+}
