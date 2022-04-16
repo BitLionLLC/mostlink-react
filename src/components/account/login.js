@@ -72,12 +72,13 @@ const Login = () => {
                 <h1>Log in</h1>
                 <GoogleLogin
                     clientId="481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com"
-                    buttonText="Log in"
+                    buttonText="Continue with Google"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
                     isSignedIn={true}
                 />
+                <h3 style={{ color: themeObj.accentColor }}><Link to="/account/register" style={{ color: themeObj.accentColor }}>Don't have an account? Register instead.</Link></h3>
                 <form onSubmit={onSubmit} className={styles.loginForm}>
                     <label htmlFor="username">Username</label>
                     <input type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" />
@@ -88,7 +89,6 @@ const Login = () => {
                         <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
                     </div>
 
-                    <h3 style={{ color: themeObj.accentColor }}><Link to="/account/register" style={{ color: themeObj.accentColor }}>Register</Link></h3>
                     <div className={styles.loginFormButtons}>
                         <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
                         <button className={styles.submitButton} type="submit">Submit</button>

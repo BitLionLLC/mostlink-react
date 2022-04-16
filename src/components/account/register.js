@@ -145,12 +145,13 @@ const Register = () => {
                 <h1>Register</h1>
                 <GoogleLogin
                     clientId="481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com"
-                    buttonText="Login"
+                    buttonText="Continue with Google"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
                     isSignedIn={true}
                 />
+                <h3 style={{ color: themeObj.accentColor }}><Link to="/account/login" style={{ color: themeObj.accentColor }}>Already have an account? Log in instead.</Link></h3>
                 <form className={styles.registerForm} onSubmit={onSubmit}>
                     <label htmlFor="firstName">First name*</label>
                     <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} id="firstName" />
@@ -191,7 +192,6 @@ const Register = () => {
                     { passwordAgainError && <div className={styles.errorText}>{passwordAgainError}</div> }
                     
                     <div>*required field</div>
-                    <h3 style={{ color: themeObj.accentColor }}><Link to="/account/login" style={{ color: themeObj.accentColor }}>Log in</Link></h3>
                     <div className={styles.registerFormButtons}>
                         <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
                         <button className={styles.submitButton} type="submit">Submit</button>
