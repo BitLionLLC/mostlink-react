@@ -23,10 +23,12 @@
 
 .accountIcon {
     position: relative;
+    cursor: pointer;
 }
 
 .themeIcon {
     position: relative;
+    cursor: pointer;
     right: 10px;
 }
 

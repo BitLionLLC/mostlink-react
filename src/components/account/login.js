@@ -38,8 +38,9 @@ const Login = () => {
             .then(res =>{
                 setJwtToken(res.data.token);
                 setUserId(res.data.id);
-                localStorage.setItem("mostlinkUserId", res.data.id);
                 history.push("/home");
+                localStorage.setItem("mostlinkUserId", res.data.id);
+                toast("Successfully logged in.", { type: "success" });
             })
             .catch(err => {
                 toast("Wrong username or password.", { type: "error"})
@@ -59,7 +60,8 @@ const Login = () => {
                 setJwtToken(res.data.token);
                 setUserId(res.data.id);
                 history.push("/home");
-                toast("Success", { type: "success" });
+                localStorage.setItem("mostlinkUserId", res.data.id);
+                toast("Successfully logged in.", { type: "success" });
             })
             .catch(err => {
                 toast(err, { type: "error" });

@@ -9,12 +9,13 @@
     font-size: 50px;
     border-radius: 5px;
     border: 1px solid black;
-    cursor: default;
+    cursor: pointer;
     position: absolute;
     right: 200px;
     top: 200px;
     padding-bottom: 10px;
     z-index: 9;
+    user-select: none;
 }
 
 .createSiteClone {
@@ -26,11 +27,12 @@
     font-size: 30px;
     border-radius: 5px;
     border: 1px solid black;
-    cursor: default;
+    cursor: pointer;
     position: relative;
     padding-bottom: 5px;
     margin-left: 10px;
     font-weight: normal;
+    user-select: none;
 }
 
 .createSiteModal {
