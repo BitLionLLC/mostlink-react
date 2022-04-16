@@ -15,21 +15,14 @@
     right: 30px;
     display: flex;
     flex-direction: row;
-    width: 100px;
+    width: 200px;
     justify-content: space-evenly;
     align-items: center;
     padding-top: 20px;
 }
 
-.accountIcon {
-    position: relative;
+.accountIcon, .themeIcon {
     cursor: pointer;
-}
-
-.themeIcon {
-    position: relative;
-    cursor: pointer;
-    right: 10px;
 }
 
 .accountMenu {

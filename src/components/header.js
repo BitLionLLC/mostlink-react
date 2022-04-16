@@ -106,6 +106,7 @@ const Header = () => {
                 </Link>
             </div>
             <div className={styles.iconRow}>
+                <Link to="/pricing" className={styles.pricingLink} style={{ color: themeObj.color }}>Pricing</Link>
                 <div className={styles.accountIcon} onClick={e => toggleMenu(e)} style={{ right: jwtToken ? "15px" : "18px", color: jwtToken && themeObj.loggedInColor }}>
                     <FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/>
                 </div>

@@ -1,4 +1,4 @@
-.accountContainer {
+.pricingContainer {
     width: 100vw;
     height: calc(100vh - 150px);
     display: flex;
@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-.account {
+.pricing {
     width: 1000px;
     height: 500px;
 }

@@ -9,6 +9,7 @@ import Login from './components/account/login';
 import Register from './components/account/register';
 import Header from './components/header';
 import Landing from './components/landing';
+import Pricing from './components/pricing';
 import { ToastContainer } from 'react-toastify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -51,6 +52,9 @@ function App() {
         </Route>
         <Route path="/account/login">
           <Login />
+        </Route>
+        <Route path="/pricing">
+          <Pricing />
         </Route>
       </Router>
     </SitesContextProvider>
