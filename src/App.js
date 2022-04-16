@@ -17,6 +17,8 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
+import PaymentSuccess from './components/payment/paymentSuccess';
+import PaymentCanceled from './components/payment/paymentCanceled';
 
 function App() {
   useEffect(() => {
@@ -52,6 +54,12 @@ function App() {
         </Route>
         <Route path="/account/login">
           <Login />
+        </Route>
+        <Route path="/payment/success">
+          <PaymentSuccess />
+        </Route>
+        <Route path="/payment/canceled">
+          <PaymentCanceled />
         </Route>
         <Route path="/pricing">
           <Pricing />
