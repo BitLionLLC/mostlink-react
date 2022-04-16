@@ -34,7 +34,7 @@ const Header = () => {
 
         setJwtToken(null);
         setUserId(null);
-        localStorage.removeItem("mostcardUserId");
+        localStorage.removeItem("mostlinkUserId");
 
         history.push("/");
     }
@@ -77,7 +77,7 @@ const Header = () => {
                 history.push("/");
             })
 
-        const userId = localStorage.getItem("mostcardUserId")
+        const userId = localStorage.getItem("mostlinkUserId")
         setUserId(userId);
     }, [])
 
@@ -102,7 +102,7 @@ const Header = () => {
             <div className={styles.logoAndTitle}>
                 <Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>
                     <img src={theme === "light" ? lightLogo : darkLogo} width="100" />
-                    <h1>Mostcard</h1>
+                    <h1>Mostlink</h1>
                 </Link>
             </div>
             <div className={styles.iconRow}>
@@ -110,7 +110,7 @@ const Header = () => {
                     <FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/>
                 </div>
                 <div className={styles.themeIcon} onClick={toggleTheme}>
-                    <FontAwesomeIcon icon={theme === "dark" ? ["fas", "moon"] : ["fas", "sun"]}/>
+                    <FontAwesomeIcon icon={theme === "dark" ? ["fas", "sun"] : ["fas", "moon"]}/>
                 </div>
             </div>
             <div style={{ display: isMenuShown ? "block" : "none", backgroundColor: themeObj.menuColor }} className={styles.accountMenu}>

@@ -4,7 +4,7 @@ import { lightTheme, darkTheme } from '../constants/themes';
 import { toast } from 'react-toastify';
 
 export const SitesContext = createContext();
-const localTheme = localStorage.getItem("mostcardTheme");
+const localTheme = localStorage.getItem("mostlinkTheme");
 
 const SitesContextProvider = (props) => {
     const [site, setSite] = useState({});
@@ -40,11 +40,11 @@ const SitesContextProvider = (props) => {
         if (theme === "dark") {
             setTheme("light");
             setThemeObj(lightTheme);
-            localStorage.setItem("mostcardTheme", "light");
+            localStorage.setItem("mostlinkTheme", "light");
         } else {
             setTheme("dark");
             setThemeObj(darkTheme);
-            localStorage.setItem("mostcardTheme", "dark");
+            localStorage.setItem("mostlinkTheme", "dark");
         }
     }
 
