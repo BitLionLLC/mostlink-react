@@ -45,14 +45,13 @@ const Pricing = () => {
                 <div className={styles.subscription}>
                     {
                         windowDimensions.width >= 1000 ?
-                        <SubscriptionTable attributes={SUBSCRIPTION_ATTRIBUTES} />
+                            <SubscriptionTable attributes={SUBSCRIPTION_ATTRIBUTES} />
                         :
-                        <div>
-                            <SubscriptionSingle attributes={SUBSCRIPTION_ATTRIBUTES} tierName="Free" />
-                            <SubscriptionSingle attributes={SUBSCRIPTION_ATTRIBUTES} tierName="Premium" />
-                        </div>
+                            <>
+                                <SubscriptionSingle attributes={SUBSCRIPTION_ATTRIBUTES} tierName="Free" />
+                                <SubscriptionSingle attributes={SUBSCRIPTION_ATTRIBUTES} tierName="Premium" />
+                            </>
                     }
-                    
                 </div>
             </div>
         </div>

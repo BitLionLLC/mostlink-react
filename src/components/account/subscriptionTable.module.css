@@ -1,6 +1,11 @@
-.table {
+.tableContainer {
     width: 75%;
-    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.table {
+    width: 80%;
     border-collapse: collapse;
 }
 

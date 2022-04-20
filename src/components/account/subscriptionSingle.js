@@ -32,7 +32,7 @@ const SubscriptionSingle = (props) => {
     }
 
     return (
-        <div>
+        <div className={styles.tableContainer}>
             <table className={styles.table} style={{...tableStyle}}>
                 <thead>
                     <tr style={{...trStyle}}>

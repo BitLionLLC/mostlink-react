@@ -1,6 +1,9 @@
-.table {
+.tableContainer {
     width: 75%;
-    margin: 0 auto;
+}
+
+.table {
+    width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
