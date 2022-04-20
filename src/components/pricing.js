@@ -1,27 +1,9 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import SubscriptionCard from './account/subscriptionCard';
 import { SitesContext } from '../contexts/sitesContext';
+import SUBSCRIPTION_ATTRIBUTES from '../constants/subscriptionAttributes';
 
 import styles from './pricing.module.css';
-
-const SUBSCRIPTION_ATTRIBUTES = {
-    name: {
-        free: "Free forever",
-        premium: "Premium"
-    },
-    price: {
-        free: "Free!",
-        premium: "$5/mo"
-    },
-    sites: {
-        free: 3,
-        premium: "unlimited"
-    },
-    socialLiveNotice: {
-        free: false,
-        premium: true
-    }
-}
 
 const Pricing = () => {
     const { themeObj, theme } = useContext(SitesContext);
