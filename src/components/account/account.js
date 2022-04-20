@@ -5,7 +5,7 @@ import { SitesContext } from '../../contexts/sitesContext';
 import styles from './account.module.css';
 
 const Account = () => {
-    const { themeObj, theme } = useContext(SitesContext);
+    const { themeObj, theme, isSubscribed } = useContext(SitesContext);
 
     useEffect(() => {
         document.body.style.backgroundImage = themeObj.landingBackground;
@@ -20,12 +20,21 @@ const Account = () => {
             .catch(err => console.log(err))
     }
 
+    const createPortalSession = () => {
+        axios
+            .get('/payment/create-portal-session')
+            .then((res) => {
+                window.location.href = res.data.redirect;
+            })
+            .catch(err => console.log(err))
+    }
+
     return (
         <div className={styles.accountContainer}>
             <div className={styles.account} style={{backgroundColor: themeObj.landingCardBackground}}>
                 <h1>Account</h1>
-                <button onClick={subscribeToPremium}>Subscribe to Premium</button>
-                <button>Cancel subscription</button>
+                {!isSubscribed && <button onClick={subscribeToPremium}>Subscribe to Premium</button>}
+                <button onClick={createPortalSession}>Log into Stripe portal</button> to cancel or modify your subscription.
             </div>
         </div>
     )

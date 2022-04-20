@@ -8,7 +8,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    top: 150px;
     left: 0;
     position: absolute;
 }
@@ -65,7 +64,7 @@ body {
     text-align: center;
     margin: auto;
     position: relative;
-    border-radius: 15px;
+    border-radius: 20px;
 }
 
 .titleAndCreate {
@@ -79,10 +78,10 @@ body {
 
 .emptySitesContainer {
     width: 100vw;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 150px);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .siteScreenshot {

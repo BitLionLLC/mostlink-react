@@ -10,7 +10,7 @@ import styles from './register.module.css';
 
 const Register = () => {
     const history = useHistory();
-    const { setJwtToken, setUserId, themeObj, theme } = useContext(SitesContext);
+    const { setJwtToken, setUserId, setIsSubscribed, themeObj, theme } = useContext(SitesContext);
 
     const [firstName, setFirstName] = useState("");
     const [firstNameError, setFirstNameError] = useState("");
@@ -89,6 +89,7 @@ const Register = () => {
                 .then(res => {
                     setJwtToken(res.data.token);
                     setUserId(res.data.id);
+                    setIsSubscribed(res.data.isSubscribed);
                     history.push("/home");
                     toast("Success", { type: "success" });
                 })
@@ -120,6 +121,7 @@ const Register = () => {
             .then(res => {
                 setJwtToken(res.data.token);
                 setUserId(res.data.id);
+                setIsSubscribed(res.data.isSubscribed);
                 history.push("/home");
                 toast("Success", { type: "success" });
             })

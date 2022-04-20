@@ -1,9 +1,20 @@
-import React from 'react';
+import React , { useContext, useEffect} from 'react';
+import { SitesContext } from '../../contexts/sitesContext';
+
+import styles from './paymentCanceled.module.css';
 
 const PaymentCanceled = () => {
+    const { theme, themeObj } = useContext(SitesContext);
+
+    useEffect(() => {
+        document.body.style.backgroundImage = themeObj.landingBackground;
+    }, [theme])
+
     return (
-        <div>
-            Canceled
+        <div className={styles.canceledContainer}>
+            <div className={styles.canceled} style={{backgroundColor: themeObj.landingCardBackground}}>
+                Payment canceled
+            </div>
         </div>
     )
 }

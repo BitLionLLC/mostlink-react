@@ -1,4 +1,4 @@
-.accountContainer {
+.successContainer {
     width: 100vw;
     height: calc(100vh - 150px);
     display: flex;
@@ -6,7 +6,7 @@
     justify-content: center;
 }
 
-.account {
+.success {
     width: 500px;
     height: 500px;
     display: flex;

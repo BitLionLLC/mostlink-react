@@ -13,6 +13,7 @@ const SitesContextProvider = (props) => {
     const [userId, setUserId] = useState(null);
     const [theme, setTheme] = useState(localTheme);
     const [themeObj, setThemeObj] = useState(localTheme === "light" ? lightTheme : darkTheme);
+    const [isSubscribed, setIsSubscribed] = useState(false);
 
     const fetchSite = async siteId => {
         axios
@@ -55,13 +56,15 @@ const SitesContextProvider = (props) => {
             jwtToken, 
             userId, 
             theme, 
-            themeObj, 
+            themeObj,
+            isSubscribed, 
             fetchSite, 
             fetchSites, 
             setJwtToken, 
             setUserId, 
             setTheme, 
-            toggleTheme 
+            toggleTheme,
+            setIsSubscribed
         }} >
             {props.children}
         </SitesContext.Provider>
