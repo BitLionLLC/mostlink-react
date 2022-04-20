@@ -8,7 +8,7 @@
 
 .pricing {
     width: 1000px;
-    height: 500px;
+    height: 550px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -20,6 +20,15 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    flex-direction: column;
-    align-items: center;
+}
+
+@media(max-width: 700px) {
+    .subscription {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pricing {
+        height: 950px;
+    }
 }
