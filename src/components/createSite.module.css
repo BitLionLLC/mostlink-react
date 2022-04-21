@@ -85,6 +85,20 @@
     font-size: 25px;
 }
 
+.createInputShort {
+    margin: 5px;
+    height: 40px;
+    font-size: 25px;
+    width: 55%;
+}
+
+.errorText {
+    color: red;
+    background-color: #222;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 @media (max-width: 500px) {
     .createSiteModal {
         width: 75vw;

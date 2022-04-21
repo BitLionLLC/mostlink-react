@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
@@ -8,8 +8,25 @@ const CreateSite = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
+    const [subdomain, setSubdomain] = useState("");
+    const [isSubdomainValid, setIsSubdomainValid] = useState(true);
 
     const { fetchSites, themeObj } = useContext(SitesContext);
+
+    useEffect(() => {
+        if (!subdomain) {
+            setIsSubdomainValid(true);
+        }
+
+        const delayDebounceFn = setTimeout(() => {
+            subdomain && axios
+                .get(`/sites/register-subdomain/${subdomain}`)
+                .then(() => setIsSubdomainValid(true))
+                .catch(() => setIsSubdomainValid(false))
+        }, 1000)
+    
+        return () => clearTimeout(delayDebounceFn)
+    }, [subdomain])
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -23,11 +40,12 @@ const CreateSite = (props) => {
         ];
 
         e.preventDefault();
-        axios
+        isSubdomainValid && axios
             .post(`/sites`, {
                 title,
                 subtitle,
                 links,
+                subdomain,
                 titlesColor: "#000000",
                 containerColor: "#ADD8E6",
                 linkTextColor: "#000000",
@@ -39,6 +57,7 @@ const CreateSite = (props) => {
                 toast("Site created!", { type: "success" });
                 setTitle("")
                 setSubtitle("")
+                setSubdomain("");
                 fetchSites();
             })
             .catch(err => {
@@ -58,7 +77,14 @@ const CreateSite = (props) => {
                         <form onSubmit={createSite} className={styles.createSiteForm}>
                             <input type="text" className={styles.createInput} value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
                             <input type="text" className={styles.createInput} value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
-                            <button type="submit" className={styles.createButton}>Create</button>
+                            <div><input type="text" className={styles.createInputShort} value={subdomain} name="subdomain" onChange={e => setSubdomain(e.target.value)} placeholder="Subdomain" />.mostcard.io</div>
+                            {subdomain && !isSubdomainValid && <div className={styles.errorText}>That subdomain is taken. Please choose another.</div>}
+                            <button 
+                                type="submit" 
+                                className={styles.createButton} 
+                                disabled={!title || !subtitle || !subdomain || !isSubdomainValid}>
+                                    Create
+                            </button>
                         </form>
                     </div>
                 </>
