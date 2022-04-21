@@ -19,7 +19,8 @@ const EDIT_TYPE = {
     ALL: "all",
     TITLES: "titles",
     IMAGES: "images",
-    LINKS: "links"
+    LINKS: "links",
+    DOMAINS: "domains"
 }
 
 const IMAGE_TYPE = {
@@ -53,6 +54,7 @@ const SingleSite = () => {
     const [isDirty, setIsDirty] = useState(false);
     const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
     const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false);
+    const [domains, setDomains] = useState([]);
 
     const captureScreenshot = () => {
         html2canvas(document.getElementById("screenshot-area"), { allowTaint: true, useCORS: true, letterRendering: 1, }).then((canvas) => {      
@@ -74,10 +76,17 @@ const SingleSite = () => {
             .catch(err => console.error(err))
     }
 
+    const fetchSiteDomains = () => {
+        axios
+            .get(`/sites/fetch-domains/${match.params.id}`)
+            .then(res => setDomains(res.data))
+    }
+
     useEffect(() => {
         document.body.style.backgroundImage = null;
         fetchSite(match.params.id);
         fetchPexels();
+        fetchSiteDomains();
     }, [])
 
     useEffect(() => {
@@ -197,7 +206,7 @@ const SingleSite = () => {
 
     const getEditContents = () => {
         switch (whatIsBeingEdited) {
-            case "titles":
+            case EDIT_TYPE.TITLES:
                 return <div className={styles.editContents}>
                     <h1>Titles</h1>
                     <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
@@ -208,7 +217,7 @@ const SingleSite = () => {
                     <h2>Title Color</h2>
                     <HexColorPicker color={titlesColor} onChange={setTitlesColor} />
                 </div>
-            case "images":
+            case EDIT_TYPE.IMAGES:
                 return <div className={styles.editContents}>
                         <h1>Images</h1>
                         <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
@@ -237,7 +246,7 @@ const SingleSite = () => {
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
                         <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
                     </div>
-            case "links":
+            case EDIT_TYPE.LINKS:
                 return <div className={styles.editContents}>
                     <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h1>Links</h1>
@@ -261,11 +270,31 @@ const SingleSite = () => {
                     </ul>
                     <button onClick={addLink}>+</button>
                 </div>
+            case EDIT_TYPE.DOMAINS:
+                return <div className={styles.editContents}>
+                    <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
+                    <h1>Domains</h1>
+                    <h2>Subdomain</h2>
+                    {site.subdomain}.mostcard.io
+                    <h2>Domains</h2>
+                    {
+                        domains.length ?
+                            <ul>
+                                {domains.map(domain => {
+                                    return <li>{domain}</li>
+                                })}
+                            </ul>
+                        :
+                        <div>You have no domains.</div>
+                    }
+                    <button>Add a domain</button>
+                </div>
             default: // default and ALL
                 return <div className={styles.editContents}>
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} className={styles.generalButton}>Title Settings</button>
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)} className={styles.generalButton}>Image Settings</button>
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.LINKS)} className={styles.generalButton}>Link Settings</button>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.DOMAINS)} className={styles.generalButton}>Domain Settings</button>
                     <h1>General Settings</h1>
                     <h2>Body Color</h2>
                     <HexColorPicker color={bodyColor} onChange={setBodyColor} />
