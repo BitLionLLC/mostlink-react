@@ -54,7 +54,15 @@ const SingleSite = () => {
     const [isDirty, setIsDirty] = useState(false);
     const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
     const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false);
+    const [isCheckDomainModalShowing, setIsCheckDomainModalShowing] = useState(false);
+    const [isRegisterDomainModalShowing, setIsRegisterDomainModalShowing] = useState(false);
+    const [isDeleteDomainModalShowing, setIsDeleteDomainModalShowing] = useState(false);
     const [domains, setDomains] = useState([]);
+    const [domainToAdd, setDomainToAdd] = useState("");
+    const [domainToDelete, setDomainToDelete] = useState("");
+    const [isDomainAvailable, setIsDomainAvailable] = useState(false);
+    const [hasDomainBeenChecked, setHasDomainBeenChecked] = useState(false);
+    const [hasDomainBeenRegistered, setHasDomainBeenRegistered] = useState(false);
 
     const captureScreenshot = () => {
         html2canvas(document.getElementById("screenshot-area"), { allowTaint: true, useCORS: true, letterRendering: 1, }).then((canvas) => {      
@@ -191,6 +199,91 @@ const SingleSite = () => {
         setModalOpenedWith(component);
     }
 
+    const openCheckDomainModal = () => {
+        setIsCheckDomainModalShowing(true);
+    }
+
+    const closeCheckDomainModal = () => {
+        setIsCheckDomainModalShowing(false);
+        setDomainToAdd("");
+        setIsDomainAvailable(false);
+        setHasDomainBeenChecked(false);
+        setHasDomainBeenRegistered(false);
+    }
+
+    const openRegisterDomainModal = () => {
+        setIsCheckDomainModalShowing(false);
+        setIsRegisterDomainModalShowing(true);
+    }
+
+    const closeRegisterDomainModal = () => {
+        setIsRegisterDomainModalShowing(false);
+        setDomainToAdd("");
+        setIsDomainAvailable(false);
+        setHasDomainBeenChecked(false);
+        setHasDomainBeenRegistered(false);
+    }
+
+    const openDeleteDomainModal = (domain) => {
+        setIsDeleteDomainModalShowing(true);
+        setDomainToDelete(domain);
+    }
+
+    const closeDeleteDomainModal = () => {
+        setIsDeleteDomainModalShowing(false);
+        setDomainToDelete("");
+    }
+
+    const checkDomain = () => {
+        let properDomain = domainToAdd;
+
+        if (properDomain.startsWith('https://')) {
+            properDomain = properDomain.replace('https://', '')
+        }
+
+        if (properDomain.startsWith('http://')) {
+            properDomain = properDomain.replace('http://', '')
+        }
+
+        if (properDomain.startsWith('www.')) {
+            properDomain = properDomain.replace('www.', '')
+        }
+
+        axios
+            .get(`/sites/check-domain/${properDomain}`)
+            .then(res => {
+                setIsDomainAvailable(res.data.domain.isAvailable);
+                setHasDomainBeenChecked(true);
+            })
+            .catch(err => toast(err, { type: "error" }))
+    }
+
+    const registerDomain = () => {
+        const body = {
+            domain: domainToAdd,
+            siteId: match.params.id
+        }
+
+        axios
+            .post('/sites/register-domain', body)
+            .then(() => {
+                setHasDomainBeenRegistered(true);
+                fetchSiteDomains();
+            })
+            .catch(err => toast(err, { type: "error" }))
+    }
+
+    const deleteDomain = () => {
+        axios
+            .delete(`/sites/delete-domain/${domainToDelete}`)
+            .then(() => {
+                toast("Domain successfully deleted.", { type: "success" })
+                setIsDeleteDomainModalShowing(false);
+                fetchSiteDomains();
+            })
+            .catch(err => toast("Could not delete the domain. Please try again.", { type: "error" }))
+    }
+
     const moveLink = useCallback((dragIndex, hoverIndex) => {
         setLinks((prevLinks) => update(prevLinks, {
             $splice: [
@@ -277,17 +370,22 @@ const SingleSite = () => {
                     <h2>Subdomain</h2>
                     {site.subdomain}.mostcard.io
                     <h2>Domains</h2>
+                    <button onClick={openCheckDomainModal}>Add a domain</button>
                     {
                         domains.length ?
-                            <ul>
-                                {domains.map(domain => {
-                                    return <li>{domain}</li>
-                                })}
-                            </ul>
+                            <>
+                                <ul className={styles.domainList}>
+                                    {domains.map(data => {
+                                        return <li key={data.domain}>{data.domain} - <button onClick={() => openDeleteDomainModal(data.domain)}>Delete</button></li>
+                                    })}
+                                </ul>
+                                <p>Reminder: make sure your domains have A records pointing to our server address: {process.env.REACT_APP_SERVER_IP}</p>
+                            </>
+                            
                         :
                         <div>You have no domains.</div>
                     }
-                    <button>Add a domain</button>
+                    
                 </div>
             default: // default and ALL
                 return <div className={styles.editContents}>
@@ -436,6 +534,94 @@ const SingleSite = () => {
                     </div>
                 </>
             : null }
+            { isCheckDomainModalShowing ?
+                !hasDomainBeenChecked ?
+                <>
+                    <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
+                        <h1>Add a domain</h1>
+                        <input type="text" name="domainToAdd" value={domainToAdd} onChange={(e) => setDomainToAdd(e.target.value)} placeholder="Domain" className={styles.domainToAdd} />
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.deleteButton} onClick={closeCheckDomainModal}>Cancel</button>
+                            <button className={styles.cancelButton} onClick={checkDomain}>Add</button>
+                        </div>
+                    </div>
+                </>
+                :
+                isDomainAvailable ?
+                <>
+                    <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
+                        <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
+                        <h1>This domain is available</h1>
+                        <h2>{domainToAdd}</h2>
+                        <p>Please register this domain through your favorite registrar and come back. We plan on adding a domain registration feature in the future.</p>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.cancelButton} onClick={closeCheckDomainModal}>Okay</button>
+                        </div>
+                    </div>
+                </>
+                :
+                <>
+                    <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
+                        <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
+                        <h1>Domain taken</h1>
+                        <h2>Do you own this domain?</h2>
+                        <h2>{domainToAdd}</h2>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.deleteButton} onClick={closeCheckDomainModal}>No</button>
+                            <button className={styles.cancelButton} onClick={openRegisterDomainModal}>Yes</button>
+                        </div>
+                    </div>
+                </>
+            : null
+            }
+            { isRegisterDomainModalShowing ?
+                !hasDomainBeenRegistered ?
+                <>
+                    <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
+                        <h1>Register a domain</h1>
+                        <h2>Do you want to register this domain? {domainToAdd}</h2>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.deleteButton} onClick={closeRegisterDomainModal}>Cancel</button>
+                            <button className={styles.cancelButton} onClick={registerDomain}>Register</button>
+                        </div>
+                    </div>
+                </>
+                :
+                <>
+                    <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
+                        <h1>Registered!</h1>
+                        <h2>{domainToAdd}</h2>
+                        <p>Please add an A record at your</p><p>registrar that points at our server: {process.env.REACT_APP_SERVER_IP}</p>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.cancelButton} onClick={closeRegisterDomainModal}>Okay</button>
+                        </div>
+                    </div>
+                </>
+            : null
+            }
+            { isDeleteDomainModalShowing ?
+                <>
+                    <div className={styles.blocker} onClick={closeDeleteDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeDeleteDomainModal}>+</div>
+                        <h1>Delete domain</h1>
+                        <h2>Are you sure you want to delete this domain? {domainToDelete}</h2>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.cancelButton} onClick={closeDeleteDomainModal}>Cancel</button>
+                            <button className={styles.deleteButton} onClick={deleteDomain}>Delete</button>
+                        </div>
+                    </div>
+                </>
+            : null
+            }
         </>
     )
 }

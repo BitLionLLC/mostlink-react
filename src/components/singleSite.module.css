@@ -235,6 +235,16 @@
     top: 200px;
 }
 
+.domainToAdd {
+    width: 75%;
+    height: 40px;
+    font-size: 25px;
+}
+
+.domainList {
+    list-style: none;
+}
+
 @media (max-width: 900px) {
     .singleSiteContainer {
         width: 90vw;
