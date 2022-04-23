@@ -249,6 +249,8 @@ const SingleSite = () => {
             properDomain = properDomain.replace('www.', '')
         }
 
+        setDomainToAdd(properDomain);
+
         axios
             .get(`/sites/check-domain/${properDomain}`)
             .then(res => {
@@ -379,7 +381,7 @@ const SingleSite = () => {
                                         return <li key={data.domain}>{data.domain} - <button onClick={() => openDeleteDomainModal(data.domain)}>Delete</button></li>
                                     })}
                                 </ul>
-                                <p>Reminder: make sure your domains have A records pointing to our server address: {process.env.REACT_APP_SERVER_IP}</p>
+                                <p>Reminder: make sure each domain has an<br/>A record at its registrar pointing to our server address: {process.env.REACT_APP_SERVER_IP}</p>
                             </>
                             
                         :
@@ -599,7 +601,7 @@ const SingleSite = () => {
                         <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
                         <h1>Registered!</h1>
                         <h2>{domainToAdd}</h2>
-                        <p>Please add an A record at your</p><p>registrar that points at our server: {process.env.REACT_APP_SERVER_IP}</p>
+                        <p>Please add an A record at your registrar<br/>that points at our server: {process.env.REACT_APP_SERVER_IP}</p>
                         <div className={styles.deleteSiteButtons}>
                             <button className={styles.cancelButton} onClick={closeRegisterDomainModal}>Okay</button>
                         </div>
