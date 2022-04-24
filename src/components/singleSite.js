@@ -87,7 +87,18 @@ const SingleSite = () => {
     const fetchSiteDomains = () => {
         axios
             .get(`/sites/fetch-domains/${match.params.id}`)
-            .then(res => setDomains(res.data))
+            .then(res => {
+                const domains = res.data;
+                domains.forEach(data => {
+                    axios
+                        .put(`/sites/update-domain/`, { domain: data.domain })
+                })
+            })
+            .then(() => {
+                axios
+                    .get(`/sites/fetch-domains/${match.params.id}`)
+                    .then(res => setDomains(res.data))
+            })
     }
 
     useEffect(() => {
@@ -378,7 +389,17 @@ const SingleSite = () => {
                             <>
                                 <ul className={styles.domainList}>
                                     {domains.map(data => {
-                                        return <li key={data.domain}>{data.domain} - <button onClick={() => openDeleteDomainModal(data.domain)}>Delete</button></li>
+                                        return <li key={data.domain}>
+                                            {data.domain}
+                                            &nbsp;
+                                            { data.isPointing ?
+                                                <FontAwesomeIcon icon={["fas", "check"]} color="lightgreen" />
+                                                :
+                                                <FontAwesomeIcon icon={["fas", "window-close"]} color="red" />
+                                            }
+                                            &nbsp;
+                                            <button onClick={() => openDeleteDomainModal(data.domain)}>Delete</button>
+                                        </li>
                                     })}
                                 </ul>
                                 <p>Reminder: make sure each domain has an<br/>A record at its registrar pointing to our server address: {process.env.REACT_APP_SERVER_IP}</p>
