@@ -31,7 +31,7 @@ const Login = () => {
         e.preventDefault();
 
         axios
-            .post(`/users/login`, {
+            .post(`/api/users/login`, {
                 username,
                 password
             })
@@ -50,24 +50,26 @@ const Login = () => {
 
     const responseGoogle = (response) => {
         const { profileObj } = response;
-        
-        const username = profileObj.email;
 
-        axios
-            .post(`/users/login/google`, {
-                username
-            })
-            .then(res => {
-                setJwtToken(res.data.token);
-                setUserId(res.data.id);
-                setIsSubscribed(res.data.isSubscribed);
-                history.push("/home");
-                localStorage.setItem("mostlinkUserId", res.data.id);
-                toast("Successfully logged in.", { type: "success" });
-            })
-            .catch(err => {
-                toast(err, { type: "error" });
-            })
+        if (Object.keys(profileObj).length) {
+            const username = profileObj.email;
+
+            axios
+                .post(`/api/users/login/google`, {
+                    username
+                })
+                .then(res => {
+                    setJwtToken(res.data.token);
+                    setUserId(res.data.id);
+                    setIsSubscribed(res.data.isSubscribed);
+                    history.push("/home");
+                    localStorage.setItem("mostlinkUserId", res.data.id);
+                    toast("Successfully logged in.", { type: "success" });
+                })
+                .catch(err => {
+                    toast(err, { type: "error" });
+                })
+            } 
     }
 
     return (

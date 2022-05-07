@@ -86,17 +86,17 @@ const SingleSite = () => {
 
     const fetchSiteDomains = () => {
         axios
-            .get(`/sites/fetch-domains/${match.params.id}`)
+            .get(`/api/sites/fetch-domains/${match.params.id}`)
             .then(res => {
                 const domains = res.data;
                 domains.forEach(data => {
                     axios
-                        .put(`/sites/update-domain/`, { domain: data.domain })
+                        .put(`/api/sites/update-domain/`, { domain: data.domain })
                 })
             })
             .then(() => {
                 axios
-                    .get(`/sites/fetch-domains/${match.params.id}`)
+                    .get(`/api/sites/fetch-domains/${match.params.id}`)
                     .then(res => setDomains(res.data))
             })
     }
@@ -171,7 +171,7 @@ const SingleSite = () => {
         }
 
         axios
-            .put(`/sites/siteId/${match.params.id}`, siteToSave)
+            .put(`/api/sites/siteId/${match.params.id}`, siteToSave)
             .then(() => {
                 setIsEditing(false);
                 fetchSite(match.params.id);
@@ -263,7 +263,7 @@ const SingleSite = () => {
         setDomainToAdd(properDomain);
 
         axios
-            .get(`/sites/check-domain/${properDomain}`)
+            .get(`/api/sites/check-domain/${properDomain}`)
             .then(res => {
                 setIsDomainAvailable(res.data.domain.isAvailable);
                 setHasDomainBeenChecked(true);
@@ -278,7 +278,7 @@ const SingleSite = () => {
         }
 
         axios
-            .post('/sites/register-domain', body)
+            .post('/api/sites/register-domain', body)
             .then(() => {
                 setHasDomainBeenRegistered(true);
                 fetchSiteDomains();
@@ -288,7 +288,7 @@ const SingleSite = () => {
 
     const deleteDomain = () => {
         axios
-            .delete(`/sites/delete-domain/${domainToDelete}`)
+            .delete(`/api/sites/delete-domain/${domainToDelete}`)
             .then(() => {
                 toast("Domain successfully deleted.", { type: "success" })
                 setIsDeleteDomainModalShowing(false);
@@ -444,7 +444,7 @@ const SingleSite = () => {
 
     const deleteSite = () => {
         axios
-            .delete(`/sites/siteId/${site._id}`)
+            .delete(`/api/sites/siteId/${site._id}`)
             .then(res => {
                 toast("Site deleted.", { type: "success" })
                 history.push("/home");

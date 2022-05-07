@@ -13,7 +13,7 @@ const Account = () => {
 
     const subscribeToPremium = () => {
         axios
-            .post('/payment/create-checkout-session', {priceId: "price_1Kmff1KTiWhpJMC56gGnA8J5"})
+            .post('/api/payment/create-checkout-session', {priceId: "price_1Kmff1KTiWhpJMC56gGnA8J5"})
             .then((res) => {
                 window.location.href = res.data.redirect;
             })
@@ -22,7 +22,7 @@ const Account = () => {
 
     const createPortalSession = () => {
         axios
-            .get('/payment/create-portal-session')
+            .get('/api/payment/create-portal-session')
             .then((res) => {
                 window.location.href = res.data.redirect;
             })

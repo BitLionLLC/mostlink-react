@@ -43,7 +43,7 @@ const Register = () => {
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             email && axios
-                .get(`/users/register/check-email/${email}`)
+                .get(`/api/users/register/check-email/${email}`)
                 .then(() => setEmailError(""))
                 .catch(() => setEmailError("This email is already in use."))
         }, 2000)
@@ -54,7 +54,7 @@ const Register = () => {
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             username && axios
-                .get(`/users/register/check-username/${username}`)
+                .get(`/api/users/register/check-username/${username}`)
                 .then(() => setUsernameError(""))
                 .catch(() => setUsernameError("That username is already in use. Please try another one."))
         }, 2000)
@@ -83,7 +83,7 @@ const Register = () => {
 
         if (isFilledOut && !hasError) {
             axios
-                .post(`/users/register`, {
+                .post(`/api/users/register`, {
                     firstName, lastName, email, username, password
                 })
                 .then(res => {
@@ -109,25 +109,27 @@ const Register = () => {
     const responseGoogle = (response) => {
         const { profileObj } = response;
 
-        const firstName = profileObj.givenName;
-        const lastName = profileObj.familyName;
-        const { email } = profileObj;
-        const username = email;
+        if (Object.keys(profileObj).length) {
+            const firstName = profileObj.givenName;
+            const lastName = profileObj.familyName;
+            const { email } = profileObj;
+            const username = email;
 
-        axios
-            .post(`/users/register/google`, {
-                firstName, lastName, email, username
-            })
-            .then(res => {
-                setJwtToken(res.data.token);
-                setUserId(res.data.id);
-                setIsSubscribed(res.data.isSubscribed);
-                history.push("/home");
-                toast("Success", { type: "success" });
-            })
-            .catch(err => {
-                toast(err, { type: "error" });
-            })
+            axios
+                .post(`/api/users/register/google`, {
+                    firstName, lastName, email, username
+                })
+                .then(res => {
+                    setJwtToken(res.data.token);
+                    setUserId(res.data.id);
+                    setIsSubscribed(res.data.isSubscribed);
+                    history.push("/home");
+                    toast("Success", { type: "success" });
+                })
+                .catch(err => {
+                    toast(err, { type: "error" });
+                })
+            }
     }
 
     const onCancel = () => {

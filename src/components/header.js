@@ -27,7 +27,7 @@ const Header = () => {
     const onLogOut = () => {
         signOut();
         axios
-            .get(`/users/logout`)
+            .get(`/api/users/logout`)
             .then(() => {
                 toast("Successfully logged out.", { type: "success"})
             })
@@ -62,7 +62,7 @@ const Header = () => {
 
     useEffect(() => {
         axios
-            .get(`/users/jwt`)
+            .get(`/api/users/jwt`)
             .then(res => {
                 if (res.data.token) {
                     setJwtToken(res.data.token);
@@ -82,7 +82,7 @@ const Header = () => {
     }, [])
 
     useEffect(() => {
-        const allowedPathsWhenLoggedOut = ["/", "/account/login", "/account/register"];
+        const allowedPathsWhenLoggedOut = ["/", "/account/login", "/account/register", '/pricing'];
         setTimeout(() => {
             if (!jwtTokenRef.current) {
                 if (!(allowedPathsWhenLoggedOut.includes(history.location.pathname))) {
