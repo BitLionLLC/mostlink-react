@@ -492,7 +492,7 @@ const SingleSite = () => {
                 {links ?
                     <ul className={styles.linksList}>
                         {theseLinks?.map((link) => {
-                            return <a href={link.href} target="_blank" rel="noreferrer" className={styles.individualLink} style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
+                            return <a href={link.href.startsWith("http") ? link.href : "https://" + link.href} target="_blank" rel="noreferrer" className={styles.individualLink} style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
                                 <div className={styles.linkText}>{link.text}</div>
                                 <FontAwesomeIcon icon={link?.icon?.split("_")} />
                             </a>
