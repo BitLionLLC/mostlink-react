@@ -109,6 +109,30 @@ const SingleSite = () => {
     }, [])
 
     useEffect(() => {
+        const linksWithLive = links && links.map(link => {
+            if (link.live) {
+                const { type, meta } = link.live;
+
+                axios
+                    .get(`/api/sites/${type}/${meta}`)
+                    .then(res => {
+                        if (res.data.isLive) {
+                            link.live.isLive = true;
+                        } else {
+                            link.live.isLive = false;
+                        }
+                    })
+                    .catch(err => console.error(err))
+            }
+            return link;
+        })
+
+        if (JSON.stringify(links) !== JSON.stringify(linksWithLive)) {
+            setLinks(linksWithLive);
+        }
+    }, [])
+
+    useEffect(() => {
         setTitle(site.title);
         setSubtitle(site.subtitle);
         setHeaderImage(site.headerImage);
@@ -493,7 +517,10 @@ const SingleSite = () => {
                     <ul className={styles.linksList}>
                         {theseLinks?.map((link) => {
                             return <a href={link.href.startsWith("http") ? link.href : "https://" + link.href} target="_blank" rel="noreferrer" className={styles.individualLink} style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
-                                <div className={styles.linkText}>{link.text}</div>
+                                <div className={styles.linkTextAndLiveStatus}>
+                                    <div className={styles.linkText}>{link.text}</div>
+                                    {link.live ? <div>{link.live.isLive ? "- LIVE!" : "- not live"}</div> : null}
+                                </div>
                                 <FontAwesomeIcon icon={link?.icon?.split("_")} />
                             </a>
                         })}

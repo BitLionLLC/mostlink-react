@@ -77,6 +77,11 @@
 
 .linkText {
     font-weight: bold;
+    margin-right: 10px;
+}
+
+.linkTextAndLiveStatus {
+    display: flex;
 }
 
 .editTray {

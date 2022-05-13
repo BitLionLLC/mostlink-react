@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext, useState } from 'react';
 import Select, { components as reactSelectComponents } from "react-select";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { useDrag, useDrop } from 'react-dnd';
+import { SitesContext } from '../contexts/sitesContext';
 
 import styles from './editableLink.module.css';
 
@@ -19,7 +20,18 @@ const ItemTypes = {
     LINK: "link"
 }
 
+const LIVE_TYPES = {
+    NONE: "none",
+    TWITCH: "twitch",
+    YOUTUBE: "youtube"
+}
+
 const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, key }) => {
+    const { isSubscribed } = useContext(SitesContext);
+
+    const [typeOfLiveNotification, setTypeOfLiveNotification] = useState(link.live?.type || LIVE_TYPES.NONE);
+    const [liveMeta, setLiveMeta] = useState(link.live?.meta || "");
+
     const transformIconKey = (key, lib) => {
         const arr = key.split("").slice(2);
         const display = arr.join("");
@@ -141,6 +153,45 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
                 options={selectOptions} 
                 components={{ Option: IconOption }} 
             />
+
+            {
+                isSubscribed 
+                ?
+                    <>
+                        <select 
+                            value={typeOfLiveNotification} 
+                            onChange={e => {
+                                console.log(e)
+                                setTypeOfLiveNotification(e.target.value);
+                                const newLinks = links.slice();
+                                newLinks[index].live = Object.assign({}, newLinks[index].live, {type: e.target.value}); 
+                                setLinks(newLinks);
+                            }}
+                        >
+                            <option value={LIVE_TYPES.NONE}>Not a live notification</option>
+                            <option value={LIVE_TYPES.TWITCH}>Twitch live notification</option>
+                            <option value={LIVE_TYPES.YOUTUBE}>YouTube Live Notification</option>
+                        </select>
+                        {
+                            typeOfLiveNotification !== LIVE_TYPES.NONE 
+                            ?
+                                <input 
+                                    value={liveMeta} 
+                                    onChange={e => {
+                                        setLiveMeta(e.target.value);
+                                        const newLinks = links.slice();
+                                        newLinks[index].live = Object.assign({}, newLinks[index].live, {meta: e.target.value}); 
+                                        setLinks(newLinks);
+                                    }}
+                                    placeholder={typeOfLiveNotification === LIVE_TYPES.TWITCH ? "channel name" : "channel ID" }
+                                />
+                            :
+                                    null
+                        }
+                    </>
+                :
+                    null
+            }
         </li>
     )
 }

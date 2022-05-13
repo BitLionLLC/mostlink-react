@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { lightTheme, darkTheme } from '../constants/themes';
 import { toast } from 'react-toastify';
@@ -14,6 +14,13 @@ const SitesContextProvider = (props) => {
     const [theme, setTheme] = useState(localTheme);
     const [themeObj, setThemeObj] = useState(localTheme === "light" ? lightTheme : darkTheme);
     const [isSubscribed, setIsSubscribed] = useState(false);
+
+    useEffect(() => {
+        axios
+            .get(`/api/users/`)
+            .then(res => setIsSubscribed(res.data.isSubscribed))
+            .catch(err => console.log(err));
+    }, [])
 
     const fetchSite = async siteId => {
         axios
