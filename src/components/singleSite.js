@@ -130,7 +130,7 @@ const SingleSite = () => {
         if (JSON.stringify(links) !== JSON.stringify(linksWithLive)) {
             setLinks(linksWithLive);
         }
-    }, [])
+    }, [links])
 
     useEffect(() => {
         setTitle(site.title);
@@ -172,6 +172,16 @@ const SingleSite = () => {
         }
     })
 
+    const stripIsLiveFromLinks = () => {
+        return links.map(link => {
+            if (link.live) {
+                delete link.live.isLive;
+            }
+
+            return link;
+        })
+    }
+
     const onSave = () => {
         setIsEditButtonVisible(false);
         captureScreenshot();
@@ -185,7 +195,7 @@ const SingleSite = () => {
             headerImage,
             headerEmoji,
             backgroundImage,
-            links,
+            links: stripIsLiveFromLinks(),
             titlesColor,
             containerColor,
             bodyColor,
