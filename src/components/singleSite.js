@@ -13,6 +13,7 @@ import update from 'immutability-helper';
 import Picker from 'emoji-picker-react';
 import html2canvas from 'html2canvas';
 import styles from './singleSite.module.css';
+import defaultHeader from './assets/default-header.png';
 import { toast } from 'react-toastify';
 
 const EDIT_TYPE = {
@@ -515,7 +516,7 @@ const SingleSite = () => {
                         <div className={styles.headerEmoji}>{headerEmoji}</div>
                     :
                         <img 
-                            src={thisHeaderImage || "https://via.placeholder.com/300x300?text=image+here"} 
+                            src={thisHeaderImage || defaultHeader} 
                             alt={title} className={styles.headerImage}
                             onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)}
                             width="200" height="200"
