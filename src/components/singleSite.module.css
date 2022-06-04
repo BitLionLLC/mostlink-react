@@ -1,17 +1,17 @@
 .singleSiteWrapper {
     width: 100vw;
-    height: calc(100vh - 150px);
+    height: 100vh;
     display: flex;
     justify-content: center;
 }
 
 .singleSiteContainer {
     width: 800px;
-    margin: auto;
+    margin: 0 auto 50px auto;
     background-color: lightblue;
     padding: 50px;
     border-radius: 10px;
-    display: flex;
+    display: inline-flex;
     flex-flow: column;
     align-items: center;
     position: relative;
@@ -252,8 +252,13 @@
 }
 
 @media (max-width: 900px) {
+    .singleSiteWrapper {
+        justify-content: flex-start;
+    }
+
     .singleSiteContainer {
         width: 90vw;
+        margin-left: 20px;
     }
 
     .individualLink {
