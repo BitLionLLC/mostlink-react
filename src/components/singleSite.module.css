@@ -3,6 +3,7 @@
     height: 100vh;
     display: flex;
     justify-content: center;
+    position: absolute;
 }
 
 .singleSiteContainer {
@@ -36,6 +37,11 @@
 .headerEmoji {
     font-size: 175px;
     line-height: 160px;
+}
+
+input {
+    height: 30px;
+    width: 70%;
 }
 
 .linksList {
@@ -98,7 +104,7 @@
 }
 
 .generalButton, .deleteSiteButton {
-    width: 40%;
+    width: 70%;
     height: 50px;
     margin-top: 25px;
     border-radius: 5px;
@@ -253,15 +259,22 @@
 
 @media (max-width: 900px) {
     .singleSiteWrapper {
-        justify-content: flex-start;
+        display: block;
+        justify-content: flex-end;
     }
 
     .singleSiteContainer {
         width: 90vw;
-        margin-left: 20px;
+        margin-left: 5vw;
     }
 
     .individualLink {
         width: 80vw;
+    }
+}
+
+@media (max-width: 500px) {
+    .editTray {
+        width: 100vw;
     }
 }

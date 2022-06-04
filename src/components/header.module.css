@@ -67,3 +67,9 @@ a, a:hover, a:active, a:visited, a:link {
         justify-content: flex-start;
     }
 }
+
+@media(max-width: 600px) {
+    .iconRow {
+        right: 50px;
+    }
+}
