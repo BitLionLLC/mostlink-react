@@ -499,7 +499,7 @@ const SingleSite = () => {
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisBodyColor, thisLinkTextColor, thisLinkBackgroundColor) => {
         document.body.style.backgroundColor = thisBodyColor;
         
-        return <div className={styles.singleSiteWrapper}>
+        return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
             <div className={styles.screenshotArea} id="screenshot-area">
              <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor }}>
                 <Prompt when={isDirty} />
