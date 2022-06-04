@@ -14,12 +14,11 @@ body {
 }
 
 .sitesList {
-    width: 90vw;
+    width: 95vw;
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
     padding-top: 50px;
-    padding-right: 160px;
     justify-content: flex-start;
     align-items: flex-start;
 }
@@ -45,13 +44,6 @@ body {
     text-decoration: none;
     color: black;
     margin: 0 10px;
-}
-
-@media (max-width: 500px) {
-    .sitesList {
-        width: 450px;
-        margin: 0 auto;
-    }
 }
 
 .emptySites {
@@ -87,4 +79,11 @@ body {
 
 .siteScreenshot {
     border-radius: 5px;
+}
+
+@media (max-width: 500px) {
+    .sitesList {
+        width: 450px;
+        margin: 0 auto;
+    }
 }
