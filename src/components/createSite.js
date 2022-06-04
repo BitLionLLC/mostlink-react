@@ -11,7 +11,7 @@ const CreateSite = (props) => {
     const [subdomain, setSubdomain] = useState("");
     const [isSubdomainValid, setIsSubdomainValid] = useState(true);
 
-    const { fetchSites, themeObj } = useContext(SitesContext);
+    const { fetchSites, themeObj, isSubscribed, sites } = useContext(SitesContext);
 
     useEffect(() => {
         if (!subdomain) {
@@ -67,7 +67,14 @@ const CreateSite = (props) => {
 
     return (
         <>
-            <div className={styles[props.className] || styles.createSite} onClick={toggleModal} style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}>+</div>
+            <button 
+                className={styles[props.className] || styles.createSite} 
+                onClick={toggleModal} 
+                style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}
+                disabled={!isSubscribed && sites.length > 2 && false} // TODO: remove both of these AND conditions when out of beta
+                title={!isSubscribed && sites.length > 2 && false ? 'Subscribe to Premium to add more sites' : null}>
+                    +
+            </button>
             { isModalOpen ?
                 <> 
                     <div className={styles.blocker} onClick={toggleModal}></div>

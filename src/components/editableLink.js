@@ -155,7 +155,7 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
             />
 
             {
-                isSubscribed 
+                isSubscribed || true // TODO: remove OR condition when out of beta
                 ?
                     <>
                         <select 
