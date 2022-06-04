@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useGoogleLogout } from 'react-google-login';
 import { SitesContext } from '../../contexts/sitesContext';
 
 import styles from './account.module.css';
@@ -35,7 +36,17 @@ const Account = () => {
             })
     }
 
+    const { signOut } = useGoogleLogout({
+        jsSrc: "https://apis.google.com/js/api.js",
+        onFailure: (err) => toast(err, { type: "error"}),
+        clientId: "481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com",
+        redirectUri: "/",
+        onLogoutSuccess: () => {}
+    })
+
     const deleteAccount = () => {
+        signOut();
+
         axios
             .delete('/api/users')
             .then(res => {
