@@ -6,7 +6,7 @@ body {
 .landing {
     width: 500px;
     height: 500px;
-    margin: auto;
+    top: 200px;
     display: flex;
     position: absolute;
     flex-direction: column;
@@ -29,18 +29,21 @@ body {
         border-radius: 80px;
         width: 485px;
         height: 485px;
+        margin-top: 208px;
     }
     50% {
         filter: blur(8px);
         border-radius: 15px;
         width: 455px;
         height: 455px;
+        margin-top: 220px;
     }
     100% {
         filter: blur(0px);
         border-radius: 80px;
         width: 485px;
         height: 485px;
+        margin-top: 208px;
     }
 }
 
@@ -57,7 +60,6 @@ body {
 }
 
 .landingBehind video {
-    margin: auto;
     position: relative;
     animation-name: blurAnimate;
     animation-duration: 6s;
@@ -71,5 +73,4 @@ body {
     height: calc(100vh - 150px);
     display: flex;
     justify-content: center;
-    align-items: center;
 }

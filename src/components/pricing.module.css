@@ -3,15 +3,14 @@
     height: calc(100vh - 150px);
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .pricing {
-    margin-top: 250px;
+    margin: 175px 0 50px 0;
     width: 1000px;
     height: 550px;
     border-radius: 20px;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -31,5 +30,11 @@
 
     .pricing {
         height: 950px;
+    }
+}
+
+@media(max-width: 1100px) {
+    .pricing {
+        width: 90vw;
     }
 }
