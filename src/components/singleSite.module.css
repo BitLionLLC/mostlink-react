@@ -73,6 +73,15 @@ input {
     top: 10px;
 }
 
+.editImage {
+    margin-bottom: 10px;
+}
+
+.imageInput input {
+    display: flex;
+    margin: 0 auto;
+}
+
 .saveAndCancelButtons {
     top: 160px;
     display: flex;

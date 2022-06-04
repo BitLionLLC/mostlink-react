@@ -365,26 +365,26 @@ const SingleSite = () => {
                         
                         <div className={styles.titleAndClear}>
                             <h2>Header Image</h2>
-                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" className={styles.clearImage} />
+                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="salmon" className={styles.clearImage} />
                         </div>
-                        {headerImage && headerEmoji && <div className={styles.headerWarning}>You have an image and an emoji selected. Emojis override images in the header. Clear the emoji to use the image.</div>}
-                        <img src={headerImage?.base64 || headerImage?.url || defaultHeader} width="300" height="300" alt="header" />
-                        <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
+                        <div className={styles.headerWarning}>Note: Emojis override images in the header. You can clear an emoji to use an image.</div>
+                        <img src={headerImage?.base64 || headerImage?.url || defaultHeader} width="200" height="200" alt="header" className={styles.editImage} />
+                        <div className={styles.imageInput}><FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} /></div>
                         <button onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
                         
                         <div className={styles.titleAndClear}>
                             <h2>Header Emoji</h2>
-                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderEmoji("")} color="red" className={styles.clearImage}/>
+                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderEmoji("")} color="salmon" className={styles.clearImage}/>
                         </div>
                         {headerEmoji && <div className={styles.selectedEmoji}>{headerEmoji}</div>}
                         <Picker onEmojiClick={onEmojiClick} />
                         
                         <div className={styles.titleAndClear}>
                             <h2>Background Image</h2>
-                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" className={styles.clearImage}/>
+                            <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="salmon" className={styles.clearImage}/>
                         </div>
-                        <img src={backgroundImage?.base64 || backgroundImage?.url || defaultHeader} width="300" height="300" alt="background" />
-                        <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
+                        <img src={backgroundImage?.base64 || backgroundImage?.url || defaultHeader} width="200" height="200" alt="background" className={styles.editImage} />
+                        <div className={styles.imageInput}><FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)}  /></div>
                         <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
                     </div>
             case EDIT_TYPE.LINKS:
@@ -430,7 +430,7 @@ const SingleSite = () => {
                                             { data.isPointing ?
                                                 <FontAwesomeIcon icon={["fas", "check"]} color="lightgreen" />
                                                 :
-                                                <FontAwesomeIcon icon={["fas", "window-close"]} color="red" />
+                                                <FontAwesomeIcon icon={["fas", "window-close"]} color="salmon" />
                                             }
                                             &nbsp;
                                             <button onClick={() => openDeleteDomainModal(data.domain)}>Delete</button>
@@ -548,7 +548,7 @@ const SingleSite = () => {
                 <div className={styles.editTray}>
                     <div className={styles.saveAndCancelButtons}>
                         <FontAwesomeIcon icon={["far", "save"]} size="3x" onClick={onSave} color="lightgreen" />
-                        <FontAwesomeIcon icon={["far", "window-close"]} size="3x" onClick={onCancel} color="red" />
+                        <FontAwesomeIcon icon={["far", "window-close"]} size="3x" onClick={onCancel} color="salmon" />
                     </div>
                     { getEditContents() }
                 </div>
