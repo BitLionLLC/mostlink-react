@@ -13,7 +13,7 @@ const PaymentCanceled = () => {
     return (
         <div className={styles.canceledContainer}>
             <div className={styles.canceled} style={{backgroundColor: themeObj.landingCardBackground}}>
-                Payment canceled
+                <h1>Payment canceled</h1>
             </div>
         </div>
     )
