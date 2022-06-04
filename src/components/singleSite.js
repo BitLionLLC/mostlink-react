@@ -368,7 +368,7 @@ const SingleSite = () => {
                             <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="red" className={styles.clearImage} />
                         </div>
                         {headerImage && headerEmoji && <div className={styles.headerWarning}>You have an image and an emoji selected. Emojis override images in the header. Clear the emoji to use the image.</div>}
-                        <img src={headerImage?.base64 || headerImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" alt="header" />
+                        <img src={headerImage?.base64 || headerImage?.url || defaultHeader} width="300" height="300" alt="header" />
                         <FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} />
                         <button onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
                         
@@ -383,7 +383,7 @@ const SingleSite = () => {
                             <h2>Background Image</h2>
                             <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="red" className={styles.clearImage}/>
                         </div>
-                        <img src={backgroundImage?.base64 || backgroundImage?.url || "https://via.placeholder.com/300x300?text=select+an+image"} width="300" height="300" alt="background" />
+                        <img src={backgroundImage?.base64 || backgroundImage?.url || defaultHeader} width="300" height="300" alt="background" />
                         <FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)} />
                         <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>Choose from Pexels</button>
                     </div>
