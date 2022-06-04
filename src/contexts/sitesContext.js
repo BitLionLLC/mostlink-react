@@ -11,7 +11,7 @@ const SitesContextProvider = (props) => {
     const [sites, setSites] = useState([]);
     const [jwtToken, setJwtToken] = useState(null);
     const [userId, setUserId] = useState(null);
-    const [theme, setTheme] = useState(localTheme);
+    const [theme, setTheme] = useState(localTheme || "dark");
     const [themeObj, setThemeObj] = useState(localTheme === "light" ? lightTheme : darkTheme);
     const [isSubscribed, setIsSubscribed] = useState(false);
 
