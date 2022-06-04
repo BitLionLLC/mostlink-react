@@ -91,10 +91,10 @@ const Register = () => {
                     setUserId(res.data.id);
                     setIsSubscribed(res.data.isSubscribed);
                     history.push("/home");
-                    toast("Success", { type: "success" });
+                    toast("Registered successfully.", { type: "success" });
                 })
                 .catch(err => {
-                    toast(err, { type: "error" });
+                    toast("A user with that username already exists. Please log in.", { type: "error" });
                 })
         } else {
             if (!firstName) {setFirstNameError(REQUIRED_FIELD_ERROR)}
@@ -124,10 +124,10 @@ const Register = () => {
                     setUserId(res.data.id);
                     setIsSubscribed(res.data.isSubscribed);
                     history.push("/home");
-                    toast("Success", { type: "success" });
+                    toast("Registered successfully.", { type: "success" });
                 })
                 .catch(err => {
-                    toast(err, { type: "error" });
+                    toast("A user with that username already exists. Please log in.", { type: "error" });
                 })
             }
     }

@@ -34,7 +34,6 @@ button:disabled {
     border: 1px solid black;
     cursor: pointer;
     position: relative;
-    padding-bottom: 5px;
     margin-left: 10px;
     font-weight: normal;
     user-select: none;

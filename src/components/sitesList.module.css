@@ -53,9 +53,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 50px;
     text-align: center;
-    margin: auto;
+    margin: 100px auto 0 auto;
     position: relative;
     border-radius: 20px;
 }
@@ -73,8 +72,7 @@ body {
     width: 100vw;
     height: calc(100vh - 150px);
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
 }
 
 .siteScreenshot {

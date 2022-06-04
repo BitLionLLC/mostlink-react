@@ -1,12 +1,15 @@
 import axios from 'axios';
-import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { SitesContext } from '../../contexts/sitesContext';
 
 import styles from './account.module.css';
 
 const Account = () => {
-    const { themeObj, theme, isSubscribed } = useContext(SitesContext);
+    const { themeObj, theme, isSubscribed, setJwtToken, setUserId } = useContext(SitesContext);
+    const history = useHistory();
+    const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false);
 
     useEffect(() => {
         document.body.style.backgroundImage = themeObj.landingBackground;
@@ -28,7 +31,23 @@ const Account = () => {
                 window.location.href = res.data.redirect;
             })
             .catch(err => {
-                toast('Could not create portal session. Please subscribe first.', { type: "error" })
+                toast('Could not create portal session. Please subscribe first.', { type: "error" });
+            })
+    }
+
+    const deleteAccount = () => {
+        axios
+            .delete('/api/users')
+            .then(res => {
+                setJwtToken(null);
+                setUserId(null);
+                localStorage.removeItem("mostlinkUserId");
+
+                toast('Successfully deleted your account.', { type: "success" });
+                history.push("/");
+            })
+            .catch(err => {
+                toast('Could not delete your account. Please try again.', { type: "error" });
             })
     }
 
@@ -36,9 +55,24 @@ const Account = () => {
         <div className={styles.accountContainer}>
             <div className={styles.account} style={{backgroundColor: themeObj.landingCardBackground}}>
                 <h1>Account</h1>
-                <button onClick={subscribeToPremium} disabled={isSubscribed}>Subscribe to Premium</button>
-                <button onClick={createPortalSession}>Log into Stripe portal</button> to cancel or modify your subscription.
+                <button className={styles.generalButton} onClick={subscribeToPremium} disabled={isSubscribed}>Subscribe to Premium</button>
+                <button className={styles.generalButton} onClick={createPortalSession}>Log into Stripe portal</button> to cancel or modify your subscription.
+                <button className={styles.deleteAccountButton} onClick={() => setIsDeleteModalShowing(true)}>Delete account</button>
             </div>
+            { isDeleteModalShowing ?
+                <> 
+                    <div className={styles.blocker} onClick={() => setIsDeleteModalShowing(false)}></div>
+                    <div className={styles.deleteAccountModal}>
+                        <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
+                        <h1>Delete account</h1>
+                        <p>Are you sure you want to delete your account? This action cannot be undone. Your sites will be lost forever (a long time!)</p>
+                        <div className={styles.deleteAccountButtons}>
+                            <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
+                            <button className={styles.deleteButton} onClick={deleteAccount}>Delete</button>
+                        </div>
+                    </div>
+                </>
+            : null }
         </div>
     )
 }
