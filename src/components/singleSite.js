@@ -48,6 +48,7 @@ const SingleSite = () => {
     const [bodyColor, setBodyColor] = useState("#ffffff");
     const [linkTextColor, setLinkTextColor] = useState("#000000");
     const [linkBackgroundColor, setLinkBackgroundColor] = useState("#FFFFFF");
+    const [liveNotificationColor, setLiveNotificationColor] = useState("#FF0000");
     const [isPexelsModalShowing, setIsPexelsModalShowing] = useState(false);
     const [modalOpenedWith, setModalOpenedWith] = useState("");
     const [photos, setPhotos] = useState([]);
@@ -202,7 +203,8 @@ const SingleSite = () => {
             bodyColor,
             linkTextColor,
             linkBackgroundColor,
-            screenshot
+            screenshot,
+            liveNotificationColor
         }
 
         axios
@@ -395,6 +397,8 @@ const SingleSite = () => {
                     <HexColorPicker color={linkTextColor} onChange={setLinkTextColor} />
                     <h2>Link Background Color</h2>
                     <HexColorPicker color={linkBackgroundColor} onChange={setLinkBackgroundColor} />
+                    <h2>Live Notification Color</h2>
+                    <HexColorPicker color={liveNotificationColor} onChange={setLiveNotificationColor} />
                     <h2>Links</h2>
                     <ul className={styles.linkEditList}>
                         {links.map((link, index) => {
@@ -473,7 +477,8 @@ const SingleSite = () => {
             linkTextColor !== site?.linkTextColor ||
             linkBackgroundColor !== site?.linkBackgroundColor ||
             bodyColor !== site?.bodyColor ||
-            headerEmoji !== site?.headerEmoji
+            headerEmoji !== site?.headerEmoji ||
+            liveNotificationColor !== site?.liveNotificationColor
         )
     }
 
@@ -494,9 +499,9 @@ const SingleSite = () => {
         if (isCurrentlyDirty !== isDirty) {
             setIsDirty(isCurrentlyDirty);
         }
-    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor])
+    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor, liveNotificationColor])
 
-    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisBodyColor, thisLinkTextColor, thisLinkBackgroundColor) => {
+    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisBodyColor, thisLinkTextColor, thisLinkBackgroundColor, thisLiveNotificationColor) => {
         document.body.style.backgroundColor = thisBodyColor;
         
         return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
@@ -530,7 +535,7 @@ const SingleSite = () => {
                             return <a href={link.href.startsWith("http") ? link.href : "https://" + link.href} target="_blank" rel="noreferrer" className={styles.individualLink} style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
                                 <div className={styles.linkTextAndLiveStatus}>
                                     <div className={styles.linkText}>{link.text}</div>
-                                    {link.live ? <div>{link.live.isLive ? "- LIVE!" : "- not live"}</div> : null}
+                                    {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: thisLiveNotificationColor}}> LIVE!</span></> : "- not live"}</div> : null}
                                 </div>
                                 <FontAwesomeIcon icon={link?.icon?.split("_")} />
                             </a>
@@ -556,9 +561,9 @@ const SingleSite = () => {
                 null
             }
             { isEditing ?
-                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor)
+                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor, liveNotificationColor)
                 :
-                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.bodyColor, site.linkTextColor, site.linkBackgroundColor)
+                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.bodyColor, site.linkTextColor, site.linkBackgroundColor, site.liveNotificationColor)
             }
             { isPexelsModalShowing ?
                 <>
