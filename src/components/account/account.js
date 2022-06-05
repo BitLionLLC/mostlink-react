@@ -18,10 +18,12 @@ const Account = () => {
     const [isChangePasswordModalShowing, setIsChangePasswordModalShowing] = useState(false);
     const [oldPassword, setOldPassword] = useState("");
     const [isOldPasswordShowing, setIsOldPasswordShowing] = useState(false);
+    const [oldPasswordError, setOldPasswordError] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [isNewPasswordShowing, setIsNewPasswordShowing] = useState(false);
-    const [oldPasswordError, setOldPasswordError] = useState("");
     const [newPasswordError, setNewPasswordError] = useState("");
+    const [password, setPassword] = useState("");
+    const [isPasswordShowing, setIsPasswordShowing] = useState(false);
 
     const PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$";
     const PASSWORD_ERROR = "This password does not meet the requirements: minimum 12 characters, at least 1 uppercase letter, at least 1 lowercase letter, at least 1 special character, and at least 1 numerical digit.";
@@ -73,7 +75,7 @@ const Account = () => {
         signOut();
 
         axios
-            .delete('/api/users')
+            .put('/api/users/delete', { password })
             .then(res => {
                 setJwtToken(null);
                 setUserId(null);
@@ -83,7 +85,7 @@ const Account = () => {
                 history.push("/");
             })
             .catch(err => {
-                toast('Could not delete your account. Please try again.', { type: "error" });
+                toast('Could not delete your account. Please check your password and try again.', { type: "error" });
             })
     }
 
@@ -114,9 +116,20 @@ const Account = () => {
                         <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
                         <h1>Delete account</h1>
                         <p>Are you sure you want to delete your account? This action cannot be undone. Your sites will be lost forever (a long time!)</p>
+                        <div className={styles.labelAndInput}>
+                            <div className={styles.passwordAndTooltip}>
+                                <label htmlFor="password">Password*</label>
+                                <ReactTooltip place="right" html={true}/>
+                                <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
+                            </div>
+                            <div className={styles.passwordAndEyeIcon}>
+                                <input type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" />
+                                <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
+                            </div>
+                        </div>
                         <div className={styles.deleteAccountButtons}>
                             <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
-                            <button className={styles.deleteButton} onClick={deleteAccount}>Delete</button>
+                            <button className={styles.deleteButton} onClick={deleteAccount} disabled={!password}>Delete</button>
                         </div>
                     </div>
                 </>
