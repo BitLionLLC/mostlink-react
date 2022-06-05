@@ -95,6 +95,8 @@ const Login = () => {
                         <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
                     </div>
 
+                    <h3 style={{ color: themeObj.accentColor }}><Link to="/account/forgot-password" style={{ color: themeObj.accentColor }}>Forgot password</Link></h3>
+
                     <div className={styles.loginFormButtons}>
                         <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
                         <button className={styles.submitButton} type="submit">Submit</button>

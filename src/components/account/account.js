@@ -24,16 +24,20 @@ const Account = () => {
     const [newPasswordError, setNewPasswordError] = useState("");
     const [password, setPassword] = useState("");
     const [isPasswordShowing, setIsPasswordShowing] = useState(false);
+    const [passwordError, setPasswordError] = useState("");
 
     const PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$";
     const PASSWORD_ERROR = "This password does not meet the requirements: minimum 12 characters, at least 1 uppercase letter, at least 1 lowercase letter, at least 1 special character, and at least 1 numerical digit.";
+    const SAME_PASSWORD_ERROR = "You cannot use the same password for your new one.";
 
     useEffect(() => {
         document.body.style.backgroundImage = themeObj.landingBackground;
     }, [theme])
 
     useEffect(() => {
-        if (oldPassword && !oldPassword.match(PASSWORD_REGEX)) {
+        if (oldPassword === newPassword) {
+            setNewPasswordError(SAME_PASSWORD_ERROR)
+        } else if (oldPassword && !oldPassword.match(PASSWORD_REGEX)) {
             setOldPasswordError(PASSWORD_ERROR);
         } else if (newPassword && !newPassword.match(PASSWORD_REGEX)) {
             setNewPasswordError(PASSWORD_ERROR);
@@ -42,6 +46,14 @@ const Account = () => {
             setNewPasswordError("");
         }
     }, [oldPassword, newPassword])
+
+    useEffect(() => {
+        if (password && !password.match(PASSWORD_REGEX)) {
+            setPasswordError(PASSWORD_ERROR);
+        } else {
+            setPasswordError("");
+        }
+    }, [password])
 
     const subscribeToPremium = () => {
         axios
@@ -126,10 +138,11 @@ const Account = () => {
                                 <input type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" />
                                 <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
                             </div>
+                            { passwordError && <div className={styles.errorText}>{passwordError}</div> }
                         </div>
                         <div className={styles.deleteAccountButtons}>
                             <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
-                            <button className={styles.deleteButton} onClick={deleteAccount} disabled={!password}>Delete</button>
+                            <button className={styles.deleteButton} onClick={deleteAccount} disabled={!password || passwordError}>Delete</button>
                         </div>
                     </div>
                 </>
@@ -171,7 +184,7 @@ const Account = () => {
 
                             <div className={styles.deleteAccountButtons}>
                                 <button className={styles.cancelChangeButton} onClick={() => setIsChangePasswordModalShowing(false)}>Cancel</button>
-                                <button className={styles.submitButton} onClick={changePassword} disabled={!oldPassword || !newPassword}>Submit</button>
+                                <button className={styles.submitButton} onClick={changePassword} disabled={!oldPassword || !newPassword || oldPasswordError || newPasswordError}>Submit</button>
                             </div>
                         </div>
                     </div>

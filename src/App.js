@@ -7,6 +7,8 @@ import SingleSite from './components/singleSite';
 import Account from './components/account/account';
 import Login from './components/account/login';
 import Register from './components/account/register';
+import ResetPassword from './components/account/resetPassword';
+import ForgotPassword from './components/account/forgotPassword';
 import Header from './components/header';
 import Landing from './components/landing';
 import Pricing from './components/pricing';
@@ -54,6 +56,12 @@ function App() {
         </Route>
         <Route path="/account/login">
           <Login />
+        </Route>
+        <Route path="/account/reset-password/:token/:userId">
+          <ResetPassword />
+        </Route>
+        <Route path="/account/forgot-password">
+          <ForgotPassword />
         </Route>
         <Route path="/payment/success">
           <PaymentSuccess />

@@ -82,10 +82,13 @@ const Header = () => {
     }, [])
 
     useEffect(() => {
-        const allowedPathsWhenLoggedOut = ["/", "/account/login", "/account/register", '/pricing'];
+        const allowedPathsWhenLoggedOut = ["/account/login", "/account/register", "/account/reset-password", "/account/forgot-password", '/pricing'];
+        
         setTimeout(() => {
             if (!jwtTokenRef.current) {
-                if (!(allowedPathsWhenLoggedOut.includes(history.location.pathname))) {
+                const matches = allowedPathsWhenLoggedOut.filter(path => history.location.pathname.startsWith(path));
+                
+                if (!matches.length) {
                     history.push("/");
                 }
             }

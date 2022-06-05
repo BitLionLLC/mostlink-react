@@ -1,0 +1,50 @@
+import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { SitesContext } from '../../contexts/sitesContext';
+
+import styles from './forgotPassword.module.css';
+
+const ForgotPassword = () => {
+    const history = useHistory();
+    const { themeObj, theme } = useContext(SitesContext);
+    const [email, setEmail] = useState("");
+
+    useEffect(() => {
+        document.body.style.backgroundImage = themeObj.landingBackground;
+    }, [theme])
+
+    const onSubmit = () => {
+        axios
+            .post('/api/users/forgot-password/initiate', { email })
+            .then(res => {
+                toast('Password reset initiated. Check your email inbox.', { type: "success" });
+            })
+            .catch(err => {
+                toast('Could not intitiate a password reset. Check your email address and try again.', { type: "error" });
+            })
+    }
+
+    const onCancel = () => {
+        history.push("/");
+    }
+
+    return ( 
+        <div className={styles.forgotPasswordContainer}>
+            <div className={styles.forgotPassword} style={{backgroundColor: themeObj.landingCardBackground}}>
+                <h1>Reset password</h1>
+                <div className={styles.label}>
+                    <label htmlFor='email'>Email*</label>
+                </div>
+                <input type="text" value={email} onChange={e => setEmail(e.target.value)} id="email" className={styles.email} />
+                <div className={styles.forgotPasswordButtons}>
+                    <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
+                    <button className={styles.submitButton} onClick={onSubmit} disabled={!email}>Submit</button>
+                </div>    
+            </div>
+        </div>
+    )
+}
+
+export default ForgotPassword;
