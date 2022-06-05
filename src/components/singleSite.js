@@ -587,7 +587,7 @@ const SingleSite = () => {
                     <div className={styles.deleteSiteModal}>
                         <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
                         <h1>Delete site</h1>
-                        <p>Are you sure you want to delete this site? This action cannot be undone.</p>
+                        <p>Are you sure you want to delete this site? Your site will be lost forever (a long time!)</p>
                         <div className={styles.deleteSiteButtons}>
                             <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
                             <button className={styles.deleteButton} onClick={deleteSite}>Delete</button>
