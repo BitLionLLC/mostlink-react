@@ -266,6 +266,11 @@ input {
     list-style: none;
 }
 
+.hexInput {
+    width:  50%;
+    margin: 10px;
+}
+
 @media (max-width: 900px) {
     .singleSiteWrapper {
         display: block;

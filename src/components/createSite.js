@@ -50,7 +50,7 @@ const CreateSite = (props) => {
                 containerColor: "#ADD8E6",
                 linkTextColor: "#000000",
                 linkBackgroundColor: "#FFFFFF",
-                bodyColor: "seagreen"
+                bodyColor: "#2E8B57"
             })
             .then(() => {
                 setIsModalOpen(false);

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { useRouteMatch, Prompt } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { SitesContext } from '../contexts/sitesContext';
@@ -14,6 +14,7 @@ import Picker from 'emoji-picker-react';
 import html2canvas from 'html2canvas';
 import styles from './singleSite.module.css';
 import defaultHeader from './assets/default-header.png';
+import toHex from 'colornames';
 import { toast } from 'react-toastify';
 
 const EDIT_TYPE = {
@@ -44,11 +45,16 @@ const SingleSite = () => {
     const [backgroundImage, setBackgroundImage] = useState("");
     const [links, setLinks] = useState([]);
     const [titlesColor, setTitlesColor] = useState("#000000");
+    const titlesColorRef = useRef(titlesColor);
     const [containerColor, setContainerColor] = useState("#ADD8E6");
-    const [bodyColor, setBodyColor] = useState("#ffffff");
+    const [bodyColor, setBodyColor] = useState("#FFFFFF");
+    const bodyColorRef = useRef(bodyColor);
     const [linkTextColor, setLinkTextColor] = useState("#000000");
+    const linkTextColorRef = useRef(linkTextColor);
     const [linkBackgroundColor, setLinkBackgroundColor] = useState("#FFFFFF");
+    const linkBackgroundColorRef = useRef(linkBackgroundColor);
     const [liveNotificationColor, setLiveNotificationColor] = useState("#FF0000");
+    const liveNotificationColorRef = useRef(liveNotificationColor);
     const [isPexelsModalShowing, setIsPexelsModalShowing] = useState(false);
     const [modalOpenedWith, setModalOpenedWith] = useState("");
     const [photos, setPhotos] = useState([]);
@@ -65,6 +71,8 @@ const SingleSite = () => {
     const [isDomainAvailable, setIsDomainAvailable] = useState(false);
     const [hasDomainBeenChecked, setHasDomainBeenChecked] = useState(false);
     const [hasDomainBeenRegistered, setHasDomainBeenRegistered] = useState(false);
+
+    const HEX_COLOR_REGEX = "^#(?:[0-9a-fA-F]{3}){1,2}$"
 
     const captureScreenshot = () => {
         html2canvas(document.getElementById("screenshot-area"), { allowTaint: true, useCORS: true, letterRendering: 1, }).then((canvas) => {      
@@ -146,6 +154,7 @@ const SingleSite = () => {
         setBodyColor(site.bodyColor);
         setLinkTextColor(site.linkTextColor);
         setLinkBackgroundColor(site.linkBackgroundColor);
+        setLiveNotificationColor(site.liveNotificationColor);
 
         setIsEditButtonVisible(false);
         setTimeout(() => {
@@ -347,6 +356,32 @@ const SingleSite = () => {
         setHeaderEmoji(emojiObject.emoji);
     };
 
+    const standardizeColorInput = (input, setterCallback, ref) => {
+        setterCallback(input);
+    
+        const isHex = input.match(HEX_COLOR_REGEX);
+        const allColorNames = toHex.all().map(color => color.name);
+
+        if (isHex) {
+            setterCallback(input.toUpperCase());
+            ref.current = input.toUpperCase();
+        } else if (allColorNames.includes(input)) {
+            setterCallback(toHex(input).toUpperCase());
+            ref.current = toHex(input).toUpperCase();
+        } else {
+            ref.current = input;
+        }
+
+        setTimeout(() => {
+            const { current } = ref;
+
+            if (!current.match(HEX_COLOR_REGEX)) {
+                setterCallback("#000000");
+                ref.current = "#000000";
+            }
+        }, 5000)
+    }
+
     const getEditContents = () => {
         switch (whatIsBeingEdited) {
             case EDIT_TYPE.TITLES:
@@ -359,6 +394,7 @@ const SingleSite = () => {
                     <input type="text" value={subtitle} placeholder="Subtitle" onChange={e => setSubtitle(e.target.value)} />
                     <h2>Title Color</h2>
                     <HexColorPicker color={titlesColor} onChange={setTitlesColor} />
+                    <input type="text" value={titlesColor} onChange={e => standardizeColorInput(e.target.value, setTitlesColor, titlesColorRef)} className={styles.hexInput} />
                 </div>
             case EDIT_TYPE.IMAGES:
                 return <div className={styles.editContents}>
@@ -394,11 +430,14 @@ const SingleSite = () => {
                     <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h1>Links</h1>
                     <h2>Link Text Color</h2>
-                    <HexColorPicker color={linkTextColor} onChange={setLinkTextColor} />
+                    <HexColorPicker color={linkTextColor} onChange={e => setLinkTextColor(e.toUpperCase())} />
+                    <input type="text" value={linkTextColor} onChange={e => standardizeColorInput(e.target.value, setLinkTextColor, linkBackgroundColorRef)} className={styles.hexInput} />
                     <h2>Link Background Color</h2>
-                    <HexColorPicker color={linkBackgroundColor} onChange={setLinkBackgroundColor} />
+                    <HexColorPicker color={linkBackgroundColor} onChange={e => setLinkBackgroundColor(e.toUpperCase())} />
+                    <input type="text" value={linkBackgroundColor} onChange={e => standardizeColorInput(e.target.value, setLinkBackgroundColor, linkBackgroundColorRef)} className={styles.hexInput} />
                     <h2>Live Notification Color</h2>
-                    <HexColorPicker color={liveNotificationColor} onChange={setLiveNotificationColor} />
+                    <HexColorPicker color={liveNotificationColor} onChange={e => setLiveNotificationColor(e.toUpperCase())} />
+                    <input type="text" value={liveNotificationColor} onChange={e => standardizeColorInput(e.target.value, setLiveNotificationColor, liveNotificationColorRef)} className={styles.hexInput} />
                     <h2>Links</h2>
                     <ul className={styles.linkEditList}>
                         {links.map((link, index) => {
@@ -457,9 +496,10 @@ const SingleSite = () => {
                     <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.DOMAINS)} className={styles.generalButton}>Domain Settings</button>
                     <h1>General Settings</h1>
                     <h2>Body Color</h2>
-                    <HexColorPicker color={bodyColor} onChange={setBodyColor} />
+                    <HexColorPicker color={bodyColor} onChange={e => setBodyColor(e.toUpperCase())} />
+                    <input type="text" value={bodyColor} onChange={e => standardizeColorInput(e.target.value, setBodyColor, bodyColorRef)} className={styles.hexInput} />
                     <h2>Container Color</h2>
-                    <HexColorPicker color={containerColor} onChange={setContainerColor} />
+                    <HexColorPicker color={containerColor} onChange={e => setContainerColor(e.toUpperCase())} />
                     <button onClick={() => setIsDeleteModalShowing(true)} className={styles.deleteSiteButton}>Delete Site</button>
                 </div>
         }
