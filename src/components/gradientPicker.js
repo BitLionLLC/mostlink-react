@@ -118,6 +118,7 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                                             <div className={styles.colorBox} key={i} style={{backgroundColor: color}} onClick={() => {
                                                 setIsEditingColor(true);
                                                 setColorToEdit(i);
+                                                setEditColorResult(color);
                                             }}/>
                                             <button onClick={() => removeColor(i)}>-</button>
                                         </div>
