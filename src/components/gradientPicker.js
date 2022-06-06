@@ -6,7 +6,10 @@ import styles from './gradientPicker.module.css';
 
 const GRADIENT_PRESETS = {
     'rainbow': ['#F41414', '#ED9909', '#FFEF1F', '#12CC3B', '#1E90FF', '#D633D5'],
-    'sunset': ['#1C85F2', '#EFB710']
+    'sunset': ['#1C85F2', '#EFB710'],
+    'warm': ['#F41414', '#ED9909', '#FFEF1F'],
+    'cool': ['#389CFF', '#5E23B0'],
+    'neon': ['#1E90FF', '#DD0BAF']
 }
 
 const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' }) => {
@@ -88,8 +91,8 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
             const { current } = ref;
 
             if (!current.match(HEX_COLOR_REGEX)) {
-                setterCallback("#000000");
-                ref.current = "#000000";
+                setterCallback("#1E90FF");
+                ref.current = "#1E90FF";
             }
         }, 5000)
     }
@@ -172,6 +175,9 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                                 <option value=''>Custom</option>
                                 <option value='rainbow'>Rainbow</option>
                                 <option value='sunset'>Sunset</option>
+                                <option value='warm'>Warm</option>
+                                <option value='cool'>Cool</option>
+                                <option value='neon'>Neon</option>
                             </select>
                         </div>
                     </>
