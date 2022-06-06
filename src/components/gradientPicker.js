@@ -1,9 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import toHex from 'colornames';
 import { HexColorPicker } from 'react-colorful';
 
 import styles from './gradientPicker.module.css';
 
+const GRADIENT_PRESETS = {
+    'rainbow': ['#F41414', '#ED9909', '#FFEF1F', '#12CC3B', '#1E90FF', '#D633D5'],
+    'sunset': ['#1C85F2', '#EFB710']
+}
+
 const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' }) => {
+    const HEX_COLOR_REGEX = "^#(?:[0-9a-fA-F]{3}){1,2}$";
+
     const passedType = value?.split("(")[0]?.split("-")[0];
     const passedAngle = value.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
     const passedDirection = value.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
@@ -13,26 +21,33 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
     const [gradientType, setGradientType] = useState(passedType || 'linear');
     const [conicAngle, setConicAngle] = useState(passedAngle);
     const [gradientArr, setGradientArr] = useState(passedArr || ['#e66465', '#9198e5']);
+    const [colorBoxArr, setColorBoxArr] = useState(passedArr || ['#e66465', '#9198e5']);
     const [gradientStr, setGradientStr] = useState(value);
     const [linearDirection, setLinearDirection] = useState(passedDirection)
     const [isEditingColor, setIsEditingColor] = useState(false);
     const [colorToEdit, setColorToEdit] = useState(0);
     const [editColorResult, setEditColorResult] = useState('#1E90FF');
+    const editColorRef = useRef(editColorResult);
+    const [selectedPreset, setSelectedPreset] = useState(null);
 
     useEffect(() => {
         if (useGradient) {
             const angleStr = gradientType === 'conic' ? `from ${conicAngle}deg,` : '';
             const directionStr = gradientType === 'linear' ? linearDirection +',' : '';
-            const joinedColors = gradientArr.join(", ");
+            const joinedColors = colorBoxArr.join(", ");
             setGradientStr(`${gradientType}-gradient(${directionStr || angleStr} ${joinedColors})`);
         } else {
             setGradientStr('');
         }
-    }, [gradientType, conicAngle, gradientArr, linearDirection, useGradient])
+    }, [gradientType, conicAngle, colorBoxArr, linearDirection, useGradient])
 
     useEffect(() => {
         setter(gradientStr);
     }, [gradientStr])
+
+    useEffect(() => {
+        setColorBoxArr(selectedPreset ?  GRADIENT_PRESETS[selectedPreset] : gradientArr);
+    }, [selectedPreset, gradientArr])
 
     const addColor = () => {
         const currentColors = gradientArr.slice();
@@ -53,6 +68,32 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
         setGradientArr(currentColors);
     }
 
+    const standardizeColorInput = (input, setterCallback, ref) => {
+        setterCallback(input);
+    
+        const isHex = input.match(HEX_COLOR_REGEX);
+        const allColorNames = toHex.all().map(color => color.name);
+
+        if (isHex) {
+            setterCallback(input.toUpperCase());
+            ref.current = input.toUpperCase();
+        } else if (allColorNames.includes(input)) {
+            setterCallback(toHex(input).toUpperCase());
+            ref.current = toHex(input).toUpperCase();
+        } else {
+            ref.current = input;
+        }
+
+        setTimeout(() => {
+            const { current } = ref;
+
+            if (!current.match(HEX_COLOR_REGEX)) {
+                setterCallback("#000000");
+                ref.current = "#000000";
+            }
+        }, 5000)
+    }
+
     return (
         <div className={styles.gradientPicker}>
             {
@@ -61,10 +102,10 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                     <>
                         <HexColorPicker color={editColorResult} onChange={e => editColor(e)}/>
                         <span onClick={() => setIsEditingColor(false)} className={styles.closeButton}>+</span>
+                        <input type="text" value={editColorResult.toUpperCase()} onChange={e => standardizeColorInput(e.target.value, setEditColorResult, editColorRef)} className={styles.hexInput} />
                     </>
                 :
                     <>
-                        Gradient Picker
                         <div className={styles.row}>
                             <label htmlFor='useGradient'>Use</label>
                             <input type="checkbox" checked={useGradient} onChange={e => setUseGradient(e.target.checked)} id="useGradient" className={styles.useGradient} />
@@ -111,7 +152,7 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                             <div className={styles.previewBox} style={{backgroundImage: gradientStr}} />
                             Colors <button onClick={addColor}>+</button>
                             <div className={styles.colorBoxes}>
-                                {gradientArr.map((color, i) => {
+                                {colorBoxArr.map((color, i) => {
                                     return (
                                         <div>
                                             <div className={styles.colorBox} key={i} style={{backgroundColor: color}} onClick={() => {
@@ -124,6 +165,14 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                                     )
                                 })}
                             </div>
+                        </div>
+                        <div className={styles.column}>
+                            Color presets
+                            <select onChange={e => setSelectedPreset(e.target.value)} value={selectedPreset} className={styles.presetSelect}>
+                                <option value=''>Custom</option>
+                                <option value='rainbow'>Rainbow</option>
+                                <option value='sunset'>Sunset</option>
+                            </select>
                         </div>
                     </>
                 }

@@ -75,7 +75,7 @@ const SingleSite = () => {
     const [hasDomainBeenChecked, setHasDomainBeenChecked] = useState(false);
     const [hasDomainBeenRegistered, setHasDomainBeenRegistered] = useState(false);
 
-    const HEX_COLOR_REGEX = "^#(?:[0-9a-fA-F]{3}){1,2}$"
+    const HEX_COLOR_REGEX = "^#(?:[0-9a-fA-F]{3}){1,2}$";
 
     const captureScreenshot = () => {
         html2canvas(document.getElementById("screenshot-area"), { allowTaint: true, useCORS: true, letterRendering: 1, }).then((canvas) => {      
@@ -509,9 +509,11 @@ const SingleSite = () => {
                     <h2>Body Color</h2>
                     <HexColorPicker color={bodyColor} onChange={e => setBodyColor(e.toUpperCase())} />
                     <input type="text" value={bodyColor} onChange={e => standardizeColorInput(e.target.value, setBodyColor, bodyColorRef)} className={styles.hexInput} />
+                    <h2>Body Gradient</h2>
                     <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} />
                     <h2>Container Color</h2>
                     <HexColorPicker color={containerColor} onChange={e => setContainerColor(e.toUpperCase())} />
+                    <h2>Container Gradient</h2>
                     <GradientPicker setter={value => setContainerGradient(value)} value={containerGradient} />
                     <button onClick={() => setIsDeleteModalShowing(true)} className={styles.deleteSiteButton}>Delete Site</button>
                 </div>

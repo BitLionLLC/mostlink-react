@@ -14,6 +14,7 @@
     justify-content: space-between;
     align-items: center;
     height: 25px;
+    margin: 10px 0;
 }
 
 .useGradient {
@@ -23,6 +24,7 @@
 .colorBoxes {
     display: flex;
     justify-content: space-evenly;
+    margin: 10px 0;
 }
 
 .colorBox {
@@ -34,6 +36,7 @@
 .previewBox {
     width: 100%;
     height: 30px;
+    margin: 10px 0;
 }
 
 .angleInput {
@@ -47,4 +50,8 @@
     top: -5px;
     right: 5px;
     font-size: 36px;
+}
+
+.hexInput, .presetSelect {
+    margin-left: 20px;
 }
