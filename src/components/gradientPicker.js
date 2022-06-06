@@ -121,7 +121,7 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                     <>
                         <HexColorPicker color={editColorResult} onChange={e => editColor(e)}/>
                         <span onClick={() => setIsEditingColor(false)} className={styles.closeButton}>+</span>
-                        <input type="text" value={editColorResult.toUpperCase()} onChange={e => standardizeColorInput(e.target.value, setEditColorResult, editColorRef)} className={styles.hexInput} />
+                        <input type="text" value={editColorResult} onChange={e => standardizeColorInput(e.target.value, editColor, editColorRef)} className={styles.hexInput} />
                     </>
                 :
                     <>
