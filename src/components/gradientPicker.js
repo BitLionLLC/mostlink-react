@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import toHex from 'colornames';
 import { HexColorPicker } from 'react-colorful';
+import update from 'immutability-helper';
+import GradientColorBox from './gradientColorBox';
 
 import styles from './gradientPicker.module.css';
 
@@ -102,6 +104,15 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
         setSelectedPreset('');
     }
 
+    const moveBox = useCallback((dragIndex, hoverIndex) => {
+        setGradientArr((prevBoxes) => update(prevBoxes, {
+            $splice: [
+                [dragIndex, 1],
+                [hoverIndex, 0, prevBoxes[dragIndex]],
+            ],
+        }));
+    }, []);
+
     return (
         <div className={styles.gradientPicker}>
             {
@@ -162,14 +173,16 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                             <div className={styles.colorBoxes}>
                                 {colorBoxArr.map((color, i) => {
                                     return (
-                                        <div>
-                                            <div className={styles.colorBox} key={i} style={{backgroundColor: color}} onClick={() => {
-                                                setIsEditingColor(true);
-                                                setColorToEdit(i);
-                                                setEditColorResult(color);
-                                            }}/>
-                                            <button onClick={() => removeColor(i)}>-</button>
-                                        </div>
+                                        <GradientColorBox 
+                                            color={color} 
+                                            index={i} 
+                                            setIsEditingColor={setIsEditingColor} 
+                                            setColorToEdit={setColorToEdit}
+                                            setEditColorResult={setEditColorResult}
+                                            removeColor={removeColor}
+                                            moveBox={moveBox}
+                                            id={i}
+                                        />
                                     )
                                 })}
                             </div>

@@ -1,11 +1,15 @@
 .gradientPicker {
     width: 70%;
+    height: 400px;
     background-color: midnightblue;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid white;
     border-radius: 5px;
     margin-top: 10px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .row {
@@ -25,12 +29,7 @@
     display: flex;
     justify-content: space-evenly;
     margin: 10px 0;
-}
-
-.colorBox {
-    width: 20px;
-    height: 20px;
-    border: 1px solid white;
+    flex-wrap: wrap;
 }
 
 .previewBox {
@@ -52,6 +51,10 @@
     font-size: 36px;
 }
 
-.hexInput, .presetSelect {
+.presetSelect {
     margin-left: 20px;
+}
+
+.hexInput {
+    margin: 20px;
 }
