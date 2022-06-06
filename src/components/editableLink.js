@@ -161,7 +161,6 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
                         <select 
                             value={typeOfLiveNotification} 
                             onChange={e => {
-                                console.log(e)
                                 setTypeOfLiveNotification(e.target.value);
                                 const newLinks = links.slice();
                                 newLinks[index].live = Object.assign({}, newLinks[index].live, {type: e.target.value}); 

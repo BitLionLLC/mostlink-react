@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FileBase64 from 'react-file-base64';
 import { HexColorPicker } from "react-colorful";
 import { useBeforeunload } from 'react-beforeunload';
+import GradientPicker from './gradientPicker';
 import invert from 'invert-color';
 import EditableLink from './editableLink';
 import update from 'immutability-helper';
@@ -47,8 +48,10 @@ const SingleSite = () => {
     const [titlesColor, setTitlesColor] = useState("#000000");
     const titlesColorRef = useRef(titlesColor);
     const [containerColor, setContainerColor] = useState("#ADD8E6");
+    const [containerGradient, setContainerGradient] = useState("");
     const [bodyColor, setBodyColor] = useState("#FFFFFF");
     const bodyColorRef = useRef(bodyColor);
+    const [bodyGradient, setBodyGradient] = useState("");
     const [linkTextColor, setLinkTextColor] = useState("#000000");
     const linkTextColorRef = useRef(linkTextColor);
     const [linkBackgroundColor, setLinkBackgroundColor] = useState("#FFFFFF");
@@ -119,6 +122,10 @@ const SingleSite = () => {
     }, [])
 
     useEffect(() => {
+        document.body.style.backgroundImage = bodyGradient || null;
+    }, [bodyGradient])
+
+    useEffect(() => {
         const linksWithLive = links && links.map(link => {
             if (link.live) {
                 const { type, meta } = link.live;
@@ -155,6 +162,8 @@ const SingleSite = () => {
         setLinkTextColor(site.linkTextColor);
         setLinkBackgroundColor(site.linkBackgroundColor);
         setLiveNotificationColor(site.liveNotificationColor);
+        setBodyGradient(site.bodyGradient);
+        setContainerGradient(site.containerGradient);
 
         setIsEditButtonVisible(false);
         setTimeout(() => {
@@ -213,7 +222,9 @@ const SingleSite = () => {
             linkTextColor,
             linkBackgroundColor,
             screenshot,
-            liveNotificationColor
+            liveNotificationColor,
+            bodyGradient,
+            containerGradient
         }
 
         axios
@@ -498,8 +509,10 @@ const SingleSite = () => {
                     <h2>Body Color</h2>
                     <HexColorPicker color={bodyColor} onChange={e => setBodyColor(e.toUpperCase())} />
                     <input type="text" value={bodyColor} onChange={e => standardizeColorInput(e.target.value, setBodyColor, bodyColorRef)} className={styles.hexInput} />
+                    <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} />
                     <h2>Container Color</h2>
                     <HexColorPicker color={containerColor} onChange={e => setContainerColor(e.toUpperCase())} />
+                    <GradientPicker setter={value => setContainerGradient(value)} value={containerGradient} />
                     <button onClick={() => setIsDeleteModalShowing(true)} className={styles.deleteSiteButton}>Delete Site</button>
                 </div>
         }
@@ -539,14 +552,15 @@ const SingleSite = () => {
         if (isCurrentlyDirty !== isDirty) {
             setIsDirty(isCurrentlyDirty);
         }
-    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor, liveNotificationColor])
+    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor])
 
-    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisBodyColor, thisLinkTextColor, thisLinkBackgroundColor, thisLiveNotificationColor) => {
+    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisContainerGradient, thisBodyColor, thisBodyGradient, thisLinkTextColor, thisLinkBackgroundColor, thisLiveNotificationColor) => {
         document.body.style.backgroundColor = thisBodyColor;
+        document.body.style.backgroundImage = thisBodyGradient;
         
         return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
             <div className={styles.screenshotArea} id="screenshot-area">
-             <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor }}>
+             <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient }}>
                 <Prompt when={isDirty} />
                 <div className={styles.editButton} style={{color: thisContainerColor ? invert(thisContainerColor, true) : "grey"}}>
                     { isEditing || !isEditButtonVisible ? 
@@ -601,9 +615,9 @@ const SingleSite = () => {
                 null
             }
             { isEditing ?
-                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor, liveNotificationColor)
+                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor)
                 :
-                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.bodyColor, site.linkTextColor, site.linkBackgroundColor, site.liveNotificationColor)
+                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.containerGradient, site.bodyColor, site.bodyGradient, site.linkTextColor, site.linkBackgroundColor, site.liveNotificationColor)
             }
             { isPexelsModalShowing ?
                 <>

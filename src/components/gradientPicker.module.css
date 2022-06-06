@@ -1,0 +1,50 @@
+.gradientPicker {
+    width: 70%;
+    background-color: midnightblue;
+    padding: 20px;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    height: 25px;
+}
+
+.useGradient {
+    width: 16px;
+}
+
+.colorBoxes {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.colorBox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid white;
+}
+
+.previewBox {
+    width: 100%;
+    height: 30px;
+}
+
+.angleInput {
+    width: 70px;
+}
+
+.closeButton {
+    transform: rotate(45deg);
+    cursor: default;
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    font-size: 36px;
+}
