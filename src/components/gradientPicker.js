@@ -97,6 +97,11 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
         }, 5000)
     }
 
+    const copyPresetToCustom = () => {
+        setGradientArr(GRADIENT_PRESETS[selectedPreset]);
+        setSelectedPreset('');
+    }
+
     return (
         <div className={styles.gradientPicker}>
             {
@@ -153,7 +158,7 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                         <div className={styles.column}>
                             Preview
                             <div className={styles.previewBox} style={{backgroundImage: gradientStr}} />
-                            Colors <button onClick={addColor}>+</button>
+                            Colors <button onClick={addColor} disabled={selectedPreset}>+</button>
                             <div className={styles.colorBoxes}>
                                 {colorBoxArr.map((color, i) => {
                                     return (
@@ -179,6 +184,7 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                                 <option value='cool'>Cool</option>
                                 <option value='neon'>Neon</option>
                             </select>
+                            {selectedPreset && <button onClick={copyPresetToCustom}>Copy preset to custom</button>}
                         </div>
                     </>
                 }
