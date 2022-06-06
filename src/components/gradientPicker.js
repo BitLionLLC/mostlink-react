@@ -1,4 +1,3 @@
-import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
 import { HexColorPicker } from 'react-colorful';
 
