@@ -1,38 +1,41 @@
+import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
 import { HexColorPicker } from 'react-colorful';
 
 import styles from './gradientPicker.module.css';
 
 const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' }) => {
-    const passedType = value.split("(")[0].split("-")[0];
-    const passedAngle = value.includes('conic') ? Number(value.split("from ")[1].split("deg")[0]) : 0;
+    const passedType = value?.split("(")[0]?.split("-")[0];
+    const passedAngle = value.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
+    const passedDirection = value.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
     const passedArr = value && value?.split(')')[0]?.split('-gradient(')[1]?.split(',')?.map(str => str.trim())?.filter(str => str.startsWith('#'));
 
     const [useGradient, setUseGradient] = useState(!!value);
     const [gradientType, setGradientType] = useState(passedType || 'linear');
-    const [gradientAngle, setGradientAngle] = useState(passedAngle);
+    const [conicAngle, setConicAngle] = useState(passedAngle);
     const [gradientArr, setGradientArr] = useState(passedArr || ['#e66465', '#9198e5']);
     const [gradientStr, setGradientStr] = useState(value);
+    const [linearDirection, setLinearDirection] = useState(passedDirection)
     const [isEditingColor, setIsEditingColor] = useState(false);
     const [colorToEdit, setColorToEdit] = useState(0);
     const [editColorResult, setEditColorResult] = useState('#1E90FF');
 
     useEffect(() => {
         if (useGradient) {
-            const angleStr = gradientType === 'conic' ? `from ${gradientAngle}deg,` : '';
+            const angleStr = gradientType === 'conic' ? `from ${conicAngle}deg,` : '';
+            const directionStr = gradientType === 'linear' ? linearDirection +',' : '';
             const joinedColors = gradientArr.join(", ");
-            setGradientStr(`${gradientType}-gradient(${angleStr} ${joinedColors})`)
+            setGradientStr(`${gradientType}-gradient(${directionStr || angleStr} ${joinedColors})`);
         } else {
             setGradientStr('');
         }
-    }, [gradientType, gradientAngle, gradientArr, useGradient])
+    }, [gradientType, conicAngle, gradientArr, linearDirection, useGradient])
 
     useEffect(() => {
         setter(gradientStr);
     }, [gradientStr])
 
     const addColor = () => {
-        console.log(value, passedArr)
         const currentColors = gradientArr.slice();
         currentColors.push('#1E90FF');
         setGradientArr(currentColors);
@@ -76,11 +79,30 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                             </select>
                         </div>
                         {
+                            gradientType === 'linear' 
+                            ?
+                                <div className={styles.row}>
+                                    <label htmlFor='linearDirection'>Direction</label>
+                                    <select onChange={e => setLinearDirection(e.target.value)} value={linearDirection}>
+                                        <option value='to top'>To top</option>
+                                        <option value='to top right'>To top right</option>
+                                        <option value='to right'>To right</option>
+                                        <option value='to bottom right'>To bottom right</option>
+                                        <option value='to bottom'>To bottom</option>
+                                        <option value='to bottom left'>To bottom left</option>
+                                        <option value='to left'>To left</option>
+                                        <option value='to top left'>To top left</option>
+                                    </select>
+                                </div>
+                            : 
+                            null
+                        }
+                        {
                             gradientType === 'conic' 
                             ?
                                 <div className={styles.row}>
-                                    <label htmlFor='gradientAngle'>Angle</label>
-                                    <input type="number" value={gradientAngle} onChange={e => setGradientAngle(e.target.value)} className={styles.angleInput} />
+                                    <label htmlFor='conicAngle'>Angle</label>
+                                    <input type="number" value={conicAngle} onChange={e => setConicAngle(e.target.value)} className={styles.angleInput} />
                                 </div>
                             : 
                             null
