@@ -22,7 +22,7 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
     const passedDirection = value.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
     const passedArr = value && value?.split(')')[0]?.split('-gradient(')[1]?.split(',')?.map(str => str.trim())?.filter(str => str.startsWith('#'));
 
-    const [useGradient, setUseGradient] = useState(!!value);
+    const [useGradient, setUseGradient] = useState(false);
     const [gradientType, setGradientType] = useState(passedType || 'linear');
     const [conicAngle, setConicAngle] = useState(passedAngle);
     const [gradientArr, setGradientArr] = useState(passedArr || ['#e66465', '#9198e5']);
