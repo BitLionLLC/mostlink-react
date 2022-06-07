@@ -73,6 +73,10 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
         setGradientArr(currentColors);
     }
 
+    const reverseColors = () => {
+        setGradientArr(gradientArr.slice().reverse());
+    }
+
     const standardizeColorInput = (input, setterCallback, ref) => {
         setterCallback(input);
     
@@ -169,7 +173,11 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                         <div className={styles.column}>
                             Preview
                             <div className={styles.previewBox} style={{backgroundImage: gradientStr}} />
-                            Colors <button onClick={addColor} disabled={selectedPreset}>+</button>
+                            <div className={styles.colorsTitleAndButtons}>
+                                Colors 
+                                {!selectedPreset && <button onClick={addColor} disabled={gradientArr.length > 11}>+</button>}
+                                {!selectedPreset && <button onClick={reverseColors}>Reverse</button>}
+                            </div>
                             <div className={styles.colorBoxes}>
                                 {colorBoxArr.map((color, i) => {
                                     return (
@@ -197,7 +205,7 @@ const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' })
                                 <option value='cool'>Cool</option>
                                 <option value='neon'>Neon</option>
                             </select>
-                            {selectedPreset && <button onClick={copyPresetToCustom}>Copy preset to custom</button>}
+                            {selectedPreset && <button onClick={copyPresetToCustom} className={styles.copyButton}>Copy preset to custom</button>}
                         </div>
                     </>
                 }

@@ -2,7 +2,7 @@
     width: 70%;
     height: 400px;
     background-color: midnightblue;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid white;
     border-radius: 5px;
     margin-top: 10px;
@@ -11,7 +11,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: scroll;
 }
 
 .row {
@@ -26,6 +25,23 @@
 .row:nth-child(1) {
     margin-top: 30px;
 }
+
+.column {
+    width: 100%;
+}
+
+.column:last-child {
+    margin-bottom: 20px;
+}
+
+.colorsTitleAndButtons {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
 
 .useGradient {
     width: 16px;
@@ -63,4 +79,9 @@
 
 .hexInput {
     margin: 20px;
+}
+
+.copyButton {
+    width: 80%;
+    margin: 10px 20px;
 }
