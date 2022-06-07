@@ -17,6 +17,9 @@ import styles from './singleSite.module.css';
 import defaultHeader from './assets/default-header.png';
 import toHex from 'colornames';
 import { toast } from 'react-toastify';
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
+import ANIMATION_PRESETS from "./assets/particlesPresets";
 
 const EDIT_TYPE = {
     ALL: "all",
@@ -52,6 +55,7 @@ const SingleSite = () => {
     const [bodyColor, setBodyColor] = useState("#FFFFFF");
     const bodyColorRef = useRef(bodyColor);
     const [bodyGradient, setBodyGradient] = useState("");
+    const [bodyAnimationStyle, setBodyAnimationStyle] = useState("");
     const [linkTextColor, setLinkTextColor] = useState("#000000");
     const linkTextColorRef = useRef(linkTextColor);
     const [linkBackgroundColor, setLinkBackgroundColor] = useState("#FFFFFF");
@@ -164,6 +168,7 @@ const SingleSite = () => {
         setLiveNotificationColor(site.liveNotificationColor);
         setBodyGradient(site.bodyGradient);
         setContainerGradient(site.containerGradient);
+        setBodyAnimationStyle(site.bodyAnimationStyle);
 
         setIsEditButtonVisible(false);
         setTimeout(() => {
@@ -184,7 +189,7 @@ const SingleSite = () => {
         }, 500)
     
         return () => clearTimeout(delayDebounceFn)
-    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor])
+    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor, bodyAnimationStyle])
 
     useBeforeunload((e) => {
         if (isDirty) {
@@ -224,7 +229,8 @@ const SingleSite = () => {
             screenshot,
             liveNotificationColor,
             bodyGradient,
-            containerGradient
+            containerGradient,
+            bodyAnimationStyle
         }
 
         axios
@@ -511,6 +517,46 @@ const SingleSite = () => {
                     <input type="text" value={bodyColor} onChange={e => standardizeColorInput(e.target.value, setBodyColor, bodyColorRef)} className={styles.hexInput} />
                     <h2>Body Gradient</h2>
                     <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} />
+                    <h2>Body Animation</h2>
+                    <select value={bodyAnimationStyle} onChange={e => setBodyAnimationStyle(e.target.value)}>
+                        <option value="">none</option>
+                        <option value="absorbers">absorbers</option>
+                        <option value="amongUs">amongUs</option>
+                        <option value="background">background</option>
+                        <option value="big">big</option>
+                        <option value="bubble">bubble</option>
+                        <option value="chars">chars</option>
+                        <option value="collisions">collisions</option>
+                        <option value="confetti">confetti</option>
+                        <option value="connect">connect</option>
+                        <option value="defaultAnim">default</option>
+                        <option value="divRepulse">divRepulse</option>
+                        <option value="emmiterAbsorber">emmiterAbsorber</option>
+                        <option value="emitters">emitters</option>
+                        <option value="fontawesome">fontawesome</option>
+                        <option value="growing">growing</option>
+                        <option value="hollowknight">hollowknight</option>
+                        <option value="images">images</option>
+                        <option value="multiplePolygonMasks">multiplePolygonMasks</option>
+                        <option value="nasa">nasa</option>
+                        <option value="noconfig">noconfig</option>
+                        <option value="nyancat">nyancat</option>
+                        <option value="nyancat2">nyancat2</option>
+                        <option value="parallax">parallax</option>
+                        <option value="polygonMask">polygonMask</option>
+                        <option value="polygons">polygons</option>
+                        <option value="preset">preset</option>
+                        <option value="random">random</option>
+                        <option value="shadow">shadow</option>
+                        <option value="slow">slow</option>
+                        <option value="snow">snow</option>
+                        <option value="star">star</option>
+                        <option value="trail">trail</option>
+                        <option value="twinkle">twinkle</option>
+                        <option value="virus">virus</option>
+                        <option value="warp">warp</option>
+                    </select>
+
                     <h2>Container Color</h2>
                     <HexColorPicker color={containerColor} onChange={e => setContainerColor(e.toUpperCase())} />
                     <h2>Container Gradient</h2>
@@ -549,18 +595,32 @@ const SingleSite = () => {
             })
     }
 
+    const particlesInit = async (main) => {
+        // console.log(main);
+    
+        // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
+        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+        // starting from v2 you can add only the features you need reducing the bundle size
+        await loadFull(main);
+    };
+    
+      const particlesLoaded = (container) => {
+        // console.log(container);
+    };
+
     useEffect(() => {
         const isCurrentlyDirty = shouldBlockNavigation();
         if (isCurrentlyDirty !== isDirty) {
             setIsDirty(isCurrentlyDirty);
         }
-    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor])
+    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle])
 
-    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisContainerGradient, thisBodyColor, thisBodyGradient, thisLinkTextColor, thisLinkBackgroundColor, thisLiveNotificationColor) => {
+    const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisContainerGradient, thisBodyColor, thisBodyGradient, thisLinkTextColor, thisLinkBackgroundColor, thisLiveNotificationColor, thisBodyAnimationStyle) => {
         document.body.style.backgroundColor = thisBodyColor;
         document.body.style.backgroundImage = thisBodyGradient;
         
         return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
+            {thisBodyAnimationStyle && <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[thisBodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />}
             <div className={styles.screenshotArea} id="screenshot-area">
              <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient }}>
                 <Prompt when={isDirty} />
@@ -617,9 +677,9 @@ const SingleSite = () => {
                 null
             }
             { isEditing ?
-                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor)
+                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle)
                 :
-                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.containerGradient, site.bodyColor, site.bodyGradient, site.linkTextColor, site.linkBackgroundColor, site.liveNotificationColor)
+                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.containerGradient, site.bodyColor, site.bodyGradient, site.linkTextColor, site.linkBackgroundColor, site.liveNotificationColor, site.bodyAnimationStyle)
             }
             { isPexelsModalShowing ?
                 <>
