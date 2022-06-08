@@ -8,7 +8,6 @@ import FileBase64 from 'react-file-base64';
 import { HexColorPicker } from "react-colorful";
 import { useBeforeunload } from 'react-beforeunload';
 import GradientPicker from './gradientPicker';
-import invert from 'invert-color';
 import EditableLink from './editableLink';
 import update from 'immutability-helper';
 import Picker from 'emoji-picker-react';
@@ -184,6 +183,16 @@ const SingleSite = () => {
     useEffect(() => {
         document.body.style.backgroundImage = `url(${backgroundImage?.base64 || backgroundImage?.url})`;
     }, [backgroundImage])
+
+    useEffect(() => {
+        if (bodyAnimationStyle) {
+            const color = ANIMATION_PRESETS[bodyAnimationStyle]['background']['color'];
+        
+            if (color?.match(HEX_COLOR_REGEX_SHORT) ||  color?.match(HEX_COLOR_REGEX_LONG)) {
+                setBodyColor(color);
+            }
+        }
+    }, [bodyAnimationStyle])
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
