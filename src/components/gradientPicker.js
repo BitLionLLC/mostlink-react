@@ -14,21 +14,21 @@ const GRADIENT_PRESETS = {
     'neon': ['#1E90FF', '#DD0BAF']
 }
 
-const GradientPicker = ({ setter, value = 'linear-gradient(#e66465, #9198e5)' }) => {
+const GradientPicker = ({ setter, value }) => {
     const HEX_COLOR_REGEX = "^#(?:[0-9a-fA-F]{3}){1,2}$";
 
     const passedType = value?.split("(")[0]?.split("-")[0];
-    const passedAngle = value.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
-    const passedDirection = value.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
+    const passedAngle = value?.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
+    const passedDirection = value?.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
     const passedArr = value && value?.split(')')[0]?.split('-gradient(')[1]?.split(',')?.map(str => str.trim())?.filter(str => str.startsWith('#'));
 
-    const [useGradient, setUseGradient] = useState(false);
+    const [useGradient, setUseGradient] = useState(!!value);
     const [gradientType, setGradientType] = useState(passedType || 'linear');
     const [conicAngle, setConicAngle] = useState(passedAngle);
     const [gradientArr, setGradientArr] = useState(passedArr || ['#e66465', '#9198e5']);
     const [colorBoxArr, setColorBoxArr] = useState(passedArr || ['#e66465', '#9198e5']);
     const [gradientStr, setGradientStr] = useState(value);
-    const [linearDirection, setLinearDirection] = useState(passedDirection)
+    const [linearDirection, setLinearDirection] = useState(passedDirection || 'to top')
     const [isEditingColor, setIsEditingColor] = useState(false);
     const [colorToEdit, setColorToEdit] = useState(0);
     const [editColorResult, setEditColorResult] = useState('#1E90FF');
