@@ -64,7 +64,7 @@
     width: 70px;
 }
 
-.rgbaInput {
+.alphaInput {
     width: 50px;
 }
 
@@ -81,8 +81,12 @@
     margin-left: 20px;
 }
 
-.hexInput {
-    margin: 20px;
+.hexInput, .hexInputShort {
+    margin: 15px;
+}
+
+.hexInputShort {
+    width: 90px;
 }
 
 .copyButton {

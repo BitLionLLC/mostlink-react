@@ -32,6 +32,7 @@ const GradientPicker = ({ setter, value, place }) => {
     const [editColorResult, setEditColorResult] = useState('#1E90FF');
     const editColorRef = useRef(editColorResult);
     const [selectedPreset, setSelectedPreset] = useState(null);
+    const [containerAlphaPercent, setContainerAlphaPercent] = useState(100);
 
     const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
     const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
@@ -54,6 +55,27 @@ const GradientPicker = ({ setter, value, place }) => {
     useEffect(() => {
         setColorBoxArr(selectedPreset ?  GRADIENT_PRESETS[selectedPreset] : gradientArr);
     }, [selectedPreset, gradientArr])
+
+    useEffect(() => {
+        if (+containerAlphaPercent <= 100) {
+            let alphaHex = (parseInt((+containerAlphaPercent)/100*255, 10)).toString(16);
+            if (alphaHex.length === 1) {alphaHex = '0' + alphaHex}
+            const color = gradientArr[colorToEdit]?.slice(0, 7) + alphaHex;
+            editColor(color);
+        } else {
+            setContainerAlphaPercent(100);
+            const color = gradientArr[colorToEdit]?.slice(0, 7) + 'FF';
+            editColor(color);
+        }
+    }, [containerAlphaPercent])
+
+    useEffect(() => {
+        if (place === 'container' && gradientArr[colorToEdit].length === 9) {
+            const color = gradientArr[colorToEdit];
+            const alphaPercent = Math.round(parseInt(color.slice(7), 16)/255*100);
+            setContainerAlphaPercent(alphaPercent)
+        }
+    }, [gradientArr])
 
     const addColor = () => {
         const currentColors = gradientArr.slice();
@@ -126,8 +148,19 @@ const GradientPicker = ({ setter, value, place }) => {
                     <>
                         <HexColorPicker color={editColorResult} onChange={e => editColor(e)}/>
                         <span onClick={() => setIsEditingColor(false)} className={styles.closeButton}>+</span>
-                        <input type="text" value={editColorResult} onChange={e => standardizeColorInput(e.target.value, editColor, editColorRef)} className={styles.hexInput} />
-                        {place === "container" && editColorResult.length === 9 && <div>If you want transparency, please check the container color 'Transparent?' checkbox above.</div>}
+                        <div className={styles.row}>
+                            Color
+                            <input type="text" value={editColorResult} onChange={e => standardizeColorInput(e.target.value, editColor, editColorRef)} className={styles.hexInputShort} />
+                        </div>
+                        
+                        {
+                            place === "container" && 
+                            <div className={styles.row}>
+                                Alpha %
+                                <input type="number" min={0} max={100} value={containerAlphaPercent} onChange={e => setContainerAlphaPercent(e.target.value)} className={styles.alphaInput} />
+                            </div>
+                        }
+                        {place === "container" && editColorResult.length === 9 && +containerAlphaPercent < 100 && <div>If you want transparency, please check the checkbox above for container color (called 'Transparent?')</div>}
                     </>
                 :
                     <>
