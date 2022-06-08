@@ -72,6 +72,7 @@ input {
 
 .editButton {
     top: 10px;
+    mix-blend-mode: difference;
 }
 
 .editImage {

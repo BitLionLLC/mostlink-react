@@ -64,6 +64,10 @@
     width: 70px;
 }
 
+.rgbaInput {
+    width: 50px;
+}
+
 .closeButton {
     transform: rotate(45deg);
     cursor: default;

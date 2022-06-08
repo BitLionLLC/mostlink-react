@@ -14,9 +14,7 @@ const GRADIENT_PRESETS = {
     'neon': ['#1E90FF', '#DD0BAF']
 }
 
-const GradientPicker = ({ setter, value }) => {
-    const HEX_COLOR_REGEX = "^#(?:[0-9a-fA-F]{3}){1,2}$";
-
+const GradientPicker = ({ setter, value, place }) => {
     const passedType = value?.split("(")[0]?.split("-")[0];
     const passedAngle = value?.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
     const passedDirection = value?.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
@@ -34,6 +32,9 @@ const GradientPicker = ({ setter, value }) => {
     const [editColorResult, setEditColorResult] = useState('#1E90FF');
     const editColorRef = useRef(editColorResult);
     const [selectedPreset, setSelectedPreset] = useState(null);
+
+    const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
+    const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
 
     useEffect(() => {
         if (useGradient) {
@@ -80,7 +81,7 @@ const GradientPicker = ({ setter, value }) => {
     const standardizeColorInput = (input, setterCallback, ref) => {
         setterCallback(input);
     
-        const isHex = input.match(HEX_COLOR_REGEX);
+        const isHex = input.match(HEX_COLOR_REGEX_SHORT) || input.match(HEX_COLOR_REGEX_LONG);
         const allColorNames = toHex.all().map(color => color.name);
 
         if (isHex) {
@@ -96,9 +97,9 @@ const GradientPicker = ({ setter, value }) => {
         setTimeout(() => {
             const { current } = ref;
 
-            if (!current.match(HEX_COLOR_REGEX)) {
-                setterCallback("#1E90FF");
-                ref.current = "#1E90FF";
+            if (!(current.match(HEX_COLOR_REGEX_SHORT)) && !(current.match(HEX_COLOR_REGEX_LONG)) ) {
+                setterCallback("#000000");
+                ref.current = "#000000";
             }
         }, 5000)
     }
@@ -126,6 +127,7 @@ const GradientPicker = ({ setter, value }) => {
                         <HexColorPicker color={editColorResult} onChange={e => editColor(e)}/>
                         <span onClick={() => setIsEditingColor(false)} className={styles.closeButton}>+</span>
                         <input type="text" value={editColorResult} onChange={e => standardizeColorInput(e.target.value, editColor, editColorRef)} className={styles.hexInput} />
+                        {place === "container" && editColorResult.length === 9 && <div>If you want transparency, please check the container color 'Transparent?' checkbox above.</div>}
                     </>
                 :
                     <>

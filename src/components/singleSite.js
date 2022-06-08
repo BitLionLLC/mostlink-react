@@ -51,6 +51,7 @@ const SingleSite = () => {
     const [titlesColor, setTitlesColor] = useState("#000000");
     const titlesColorRef = useRef(titlesColor);
     const [containerColor, setContainerColor] = useState("#ADD8E6");
+    const containerColorRef = useRef(containerColor);
     const [containerGradient, setContainerGradient] = useState("");
     const [bodyColor, setBodyColor] = useState("#FFFFFF");
     const bodyColorRef = useRef(bodyColor);
@@ -79,7 +80,8 @@ const SingleSite = () => {
     const [hasDomainBeenChecked, setHasDomainBeenChecked] = useState(false);
     const [hasDomainBeenRegistered, setHasDomainBeenRegistered] = useState(false);
 
-    const HEX_COLOR_REGEX = "^#(?:[0-9a-fA-F]{3}){1,2}$";
+    const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
+    const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
 
     const captureScreenshot = () => {
         html2canvas(document.getElementById("screenshot-area"), { allowTaint: true, useCORS: true, letterRendering: 1, }).then((canvas) => {      
@@ -376,7 +378,7 @@ const SingleSite = () => {
     const standardizeColorInput = (input, setterCallback, ref) => {
         setterCallback(input);
     
-        const isHex = input.match(HEX_COLOR_REGEX);
+        const isHex = input.match(HEX_COLOR_REGEX_SHORT) || input.match(HEX_COLOR_REGEX_LONG);
         const allColorNames = toHex.all().map(color => color.name);
 
         if (isHex) {
@@ -392,7 +394,7 @@ const SingleSite = () => {
         setTimeout(() => {
             const { current } = ref;
 
-            if (!current.match(HEX_COLOR_REGEX)) {
+            if (!(current.match(HEX_COLOR_REGEX_SHORT)) && !(current.match(HEX_COLOR_REGEX_LONG)) ) {
                 setterCallback("#000000");
                 ref.current = "#000000";
             }
@@ -448,7 +450,7 @@ const SingleSite = () => {
                     <h1>Links</h1>
                     <h2>Link Text Color</h2>
                     <HexColorPicker color={linkTextColor} onChange={e => setLinkTextColor(e.toUpperCase())} />
-                    <input type="text" value={linkTextColor} onChange={e => standardizeColorInput(e.target.value, setLinkTextColor, linkBackgroundColorRef)} className={styles.hexInput} />
+                    <input type="text" value={linkTextColor} onChange={e => standardizeColorInput(e.target.value, setLinkTextColor, linkTextColorRef)} className={styles.hexInput} />
                     <h2>Link Background Color</h2>
                     <HexColorPicker color={linkBackgroundColor} onChange={e => setLinkBackgroundColor(e.toUpperCase())} />
                     <input type="text" value={linkBackgroundColor} onChange={e => standardizeColorInput(e.target.value, setLinkBackgroundColor, linkBackgroundColorRef)} className={styles.hexInput} />
@@ -516,7 +518,7 @@ const SingleSite = () => {
                     <HexColorPicker color={bodyColor} onChange={e => setBodyColor(e.toUpperCase())} />
                     <input type="text" value={bodyColor} onChange={e => standardizeColorInput(e.target.value, setBodyColor, bodyColorRef)} className={styles.hexInput} />
                     <h2>Body Gradient</h2>
-                    <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} />
+                    <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} place="body" />
                     <h2>Body Animation</h2>
                     <select value={bodyAnimationStyle} onChange={e => setBodyAnimationStyle(e.target.value)}>
                         <option value="">none</option>
@@ -559,8 +561,11 @@ const SingleSite = () => {
 
                     <h2>Container Color</h2>
                     <HexColorPicker color={containerColor} onChange={e => setContainerColor(e.toUpperCase())} />
+                    <input type="text" value={containerColor} onChange={e => standardizeColorInput(e.target.value, setContainerColor, containerColorRef)} className={styles.hexInput} />
+                    <h3>Transparent?</h3>
+                    <input type="checkbox" checked={containerColor === '#00000000'} onChange={e => e.target.checked ? setContainerColor('#00000000'): setContainerColor("#ADD8E6")}/>
                     <h2>Container Gradient</h2>
-                    <GradientPicker setter={value => setContainerGradient(value)} value={containerGradient} />
+                    <GradientPicker setter={value => setContainerGradient(value)} value={containerGradient} place="container" />
                     <button onClick={() => setIsDeleteModalShowing(true)} className={styles.deleteSiteButton}>Delete Site</button>
                 </div>
         }
@@ -624,7 +629,7 @@ const SingleSite = () => {
             <div className={styles.screenshotArea} id="screenshot-area">
              <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient }}>
                 <Prompt when={isDirty} />
-                <div className={styles.editButton} style={{color: thisContainerColor ? invert(thisContainerColor, true) : "grey"}}>
+                <div className={styles.editButton} style={{color: "darkgrey"}}>
                     { isEditing || !isEditButtonVisible ? 
                         null
                         : 
