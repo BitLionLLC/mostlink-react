@@ -14,7 +14,7 @@ const GRADIENT_PRESETS = {
     'neon': ['#1E90FF', '#DD0BAF']
 }
 
-const GradientPicker = ({ setter, value, place }) => {
+const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     const passedType = value?.split("(")[0]?.split("-")[0];
     const passedAngle = value?.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
     const passedDirection = value?.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
@@ -75,7 +75,7 @@ const GradientPicker = ({ setter, value, place }) => {
             const alphaPercent = Math.round(parseInt(color.slice(7), 16)/255*100);
             setContainerAlphaPercent(alphaPercent)
         }
-    }, [gradientArr])
+    }, [gradientArr, colorToEdit])
 
     const addColor = () => {
         const currentColors = gradientArr.slice();
@@ -160,7 +160,7 @@ const GradientPicker = ({ setter, value, place }) => {
                                 <input type="number" min={0} max={100} value={containerAlphaPercent} onChange={e => setContainerAlphaPercent(e.target.value)} className={styles.alphaInput} />
                             </div>
                         }
-                        {place === "container" && editColorResult.length === 9 && +containerAlphaPercent < 100 && <div>If you want transparency, please check the checkbox above for container color (called 'Transparent?')</div>}
+                        {place === "container" && editColorResult.length === 9 && +containerAlphaPercent < 100 && !isContainerTransparent && <div>If you want transparency, please check the checkbox above for container color (called 'Transparent?')</div>}
                     </>
                 :
                     <>

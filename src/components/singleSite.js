@@ -518,7 +518,7 @@ const SingleSite = () => {
                     <HexColorPicker color={bodyColor} onChange={e => setBodyColor(e.toUpperCase())} />
                     <input type="text" value={bodyColor} onChange={e => standardizeColorInput(e.target.value, setBodyColor, bodyColorRef)} className={styles.hexInput} />
                     <h2>Body Gradient</h2>
-                    <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} place="body" />
+                    <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} place="body" isContainerTransparent={null} />
                     <h2>Body Animation</h2>
                     <select value={bodyAnimationStyle} onChange={e => setBodyAnimationStyle(e.target.value)}>
                         <option value="">none</option>
@@ -565,7 +565,7 @@ const SingleSite = () => {
                     <h3>Transparent?</h3>
                     <input type="checkbox" checked={containerColor === '#00000000'} onChange={e => e.target.checked ? setContainerColor('#00000000'): setContainerColor("#ADD8E6")}/>
                     <h2>Container Gradient</h2>
-                    <GradientPicker setter={value => setContainerGradient(value)} value={containerGradient} place="container" />
+                    <GradientPicker setter={value => setContainerGradient(value)} value={containerGradient} place="container" isContainerTransparent={containerColor === '#00000000'} />
                     <button onClick={() => setIsDeleteModalShowing(true)} className={styles.deleteSiteButton}>Delete Site</button>
                 </div>
         }
