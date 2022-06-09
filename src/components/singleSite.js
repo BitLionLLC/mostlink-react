@@ -607,7 +607,7 @@ const SingleSite = () => {
         
         return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
             {thisBodyAnimationStyle && <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[thisBodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />}
-             <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient }}>
+             <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient, position: isEditing ? 'absolute' : 'relative', top: isEditing && '125px' }}>
                 <Prompt when={isDirty} message='Reload site? Changes you made may not be saved.' />
                 <div className={styles.editButton} style={{color: "darkgrey"}}>
                     { isEditing || !isEditButtonVisible ? 

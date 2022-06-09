@@ -1,23 +1,22 @@
 .singleSiteWrapper {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: center;
-    position: absolute;
+    z-index: 2;
 }
 
 .singleSiteContainer {
     width: 800px;
-    position: absolute;
+    position: relative;
     top: 200px;
-    margin: 0 auto 50px auto;
+    margin: 0 auto 250px auto;
     background-color: lightblue;
     padding: 50px;
     border-radius: 10px;
     display: inline-flex;
     flex-flow: column;
     align-items: center;
-    position: absolute;
     z-index: 10;
 }
 
