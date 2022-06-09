@@ -34,9 +34,9 @@ const MiniSite = ({site}) => {
                     return <li className={styles.linkRow} key={i} style={{backgroundColor: linkBackgroundColor}}>
                         <div>
                             <span style={{color: linkTextColor}} className={styles.linkText}>{link.text}</span>
-                            {link.live && <span className={styles.liveNotification}> - not live</span>}
+                            {link.live && <span className={styles.liveNotification} style={{color: linkTextColor}}> - not live</span>}
                         </div>   
-                        <FontAwesomeIcon icon={link?.icon?.split("_")} />
+                        <FontAwesomeIcon icon={link?.icon?.split("_")} style={{color: linkTextColor}} />
                     </li>
                 })}
             </ul>
