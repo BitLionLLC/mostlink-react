@@ -11,7 +11,6 @@ import GradientPicker from './gradientPicker';
 import EditableLink from './editableLink';
 import update from 'immutability-helper';
 import Picker from 'emoji-picker-react';
-import html2canvas from 'html2canvas';
 import styles from './singleSite.module.css';
 import defaultHeader from './assets/default-header.png';
 import toHex from 'colornames';
@@ -38,7 +37,6 @@ const SingleSite = () => {
     const match = useRouteMatch();
     const history = useHistory();
 
-    const [screenshot, setScreenshot] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [whatIsBeingEdited, setWhatIsBeingEdited] = useState(EDIT_TYPE.ALL);
     const [title, setTitle] = useState("");
@@ -81,13 +79,6 @@ const SingleSite = () => {
 
     const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
     const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
-
-    const captureScreenshot = () => {
-        html2canvas(document.getElementById("screenshot-area"), { allowTaint: true, useCORS: true, letterRendering: 1, }).then((canvas) => {      
-            const imgData = canvas.toDataURL('image/png');
-            setScreenshot(imgData);
-        });
-    }
     
     const fetchPexels = (e) => {
         e?.preventDefault();
@@ -170,14 +161,6 @@ const SingleSite = () => {
         setBodyGradient(site.bodyGradient);
         setContainerGradient(site.containerGradient);
         setBodyAnimationStyle(site.bodyAnimationStyle);
-
-        setIsEditButtonVisible(false);
-        setTimeout(() => {
-            captureScreenshot();
-        }, 500)
-        setTimeout(() => {
-            setIsEditButtonVisible(true);
-        }, 1000)
     }, [site])
 
     useEffect(() => {
@@ -194,22 +177,6 @@ const SingleSite = () => {
         }
     }, [bodyAnimationStyle])
 
-    useEffect(() => {
-        axios
-            .put(`/api/sites/siteId/${match.params.id}`, { screenshot })
-            .then(() => {})
-            .catch((e) => {
-                console.error("Error saving screenshot: " + e);
-            })
-    }, [screenshot])
-
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            captureScreenshot();
-        }, 500)
-    
-        return () => clearTimeout(delayDebounceFn)
-    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyGradient, containerGradient, bodyAnimationStyle])
 
     useBeforeunload((e) => {
         if (isDirty) {
@@ -228,12 +195,6 @@ const SingleSite = () => {
     }
 
     const onSave = () => {
-        setIsEditButtonVisible(false);
-        captureScreenshot();
-        setTimeout(() => {
-            setIsEditButtonVisible(true);
-        }, 1000)
-
         const siteToSave = {
             title,
             subtitle,
@@ -246,7 +207,6 @@ const SingleSite = () => {
             bodyColor,
             linkTextColor,
             linkBackgroundColor,
-            screenshot,
             liveNotificationColor,
             bodyGradient,
             containerGradient,
@@ -647,7 +607,6 @@ const SingleSite = () => {
         
         return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
             {thisBodyAnimationStyle && <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[thisBodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />}
-            <div className={styles.screenshotArea} id="screenshot-area">
              <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient }}>
                 <Prompt when={isDirty} message='Reload site? Changes you made may not be saved.' />
                 <div className={styles.editButton} style={{color: "darkgrey"}}>
@@ -684,7 +643,6 @@ const SingleSite = () => {
                         })}
                     </ul>
                 : null}
-            </div>
             </div>
         </div>
     }

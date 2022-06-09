@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { SitesContext } from '../contexts/sitesContext';
 import { Link } from 'react-router-dom';
 import CreateSite from './createSite';
-import defaultScreenshot from './assets/default-screenshot.png';
 import styles from './sitesList.module.css';
+import MiniSite from './miniSite';
 
 const SitesList = () => {
     const { sites, fetchSites, themeObj } = useContext(SitesContext);
@@ -21,7 +21,7 @@ const SitesList = () => {
                             <li key={site._id} className={styles.siteBox} style={{backgroundColor: themeObj.sitesBoxColor}}>
                                 <h2 className={styles.title} style={{ color: themeObj.color }}>{site.title}</h2>
                                 <p className={styles.subtitle} style={{ color: themeObj.color }}>{site.subtitle || "subtitle"}</p>
-                                <img src={site.screenshot || defaultScreenshot} width="375" height="280" className={styles.siteScreenshot} alt="screenshot for this site"></img>
+                                <MiniSite site={site} />
                             </li>
                         </Link>
                     })}

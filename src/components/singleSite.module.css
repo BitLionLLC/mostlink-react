@@ -8,6 +8,8 @@
 
 .singleSiteContainer {
     width: 800px;
+    position: absolute;
+    top: 200px;
     margin: 0 auto 50px auto;
     background-color: lightblue;
     padding: 50px;
@@ -15,7 +17,7 @@
     display: inline-flex;
     flex-flow: column;
     align-items: center;
-    position: relative;
+    position: absolute;
     z-index: 10;
 }
 
@@ -249,13 +251,6 @@ input {
 
 .headerWarning {
     margin-bottom: 20px;
-}
-
-.screenshotArea {
-    width: 800px;
-    height: 600px;
-    position: absolute;
-    top: 200px;
 }
 
 .domainToAdd {
