@@ -219,6 +219,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
                                         <GradientColorBox 
                                             color={color} 
                                             index={i} 
+                                            key={i}
                                             setIsEditingColor={setIsEditingColor} 
                                             setColorToEdit={setColorToEdit}
                                             setEditColorResult={setEditColorResult}

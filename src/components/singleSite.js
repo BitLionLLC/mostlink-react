@@ -637,7 +637,7 @@ const SingleSite = () => {
             {thisBodyAnimationStyle && <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[thisBodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />}
             <div className={styles.screenshotArea} id="screenshot-area">
              <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient }}>
-                <Prompt when={isDirty} />
+                <Prompt when={isDirty} message='Reload site? Changes you made may not be saved.' />
                 <div className={styles.editButton} style={{color: "darkgrey"}}>
                     { isEditing || !isEditButtonVisible ? 
                         null
@@ -661,8 +661,8 @@ const SingleSite = () => {
                 <h3 className={styles.singleSubtitle} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} style={{ color: titlesColor }}>{thisSubtitle}</h3>
                 {links ?
                     <ul className={styles.linksList}>
-                        {theseLinks?.map((link) => {
-                            return <a href={link.href.startsWith("http") ? link.href : "https://" + link.href} target="_blank" rel="noreferrer" className={styles.individualLink} style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }}>
+                        {theseLinks?.map((link, i) => {
+                            return <a href={link.href.startsWith("http") ? link.href : "https://" + link.href} target="_blank" rel="noreferrer" className={styles.individualLink} style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }} key={i} >
                                 <div className={styles.linkTextAndLiveStatus}>
                                     <div className={styles.linkText}>{link.text}</div>
                                     {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: thisLiveNotificationColor}}> LIVE!</span></> : "- not live"}</div> : null}
