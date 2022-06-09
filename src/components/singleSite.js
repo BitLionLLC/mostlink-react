@@ -209,7 +209,7 @@ const SingleSite = () => {
         }, 500)
     
         return () => clearTimeout(delayDebounceFn)
-    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor, bodyAnimationStyle])
+    }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, bodyColor, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyGradient, containerGradient, bodyAnimationStyle])
 
     useBeforeunload((e) => {
         if (isDirty) {
@@ -602,7 +602,10 @@ const SingleSite = () => {
             linkBackgroundColor !== site?.linkBackgroundColor ||
             bodyColor !== site?.bodyColor ||
             headerEmoji !== site?.headerEmoji ||
-            liveNotificationColor !== site?.liveNotificationColor
+            liveNotificationColor !== site?.liveNotificationColor ||
+            bodyGradient !== site?.bodyGradient ||
+            containerGradient !== site?.containerGradient ||
+            bodyAnimationStyle !== site?.bodyAnimationStyle
         )
     }
 
