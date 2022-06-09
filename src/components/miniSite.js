@@ -11,23 +11,24 @@ const MiniSite = ({site}) => {
         headerImage,
         headerEmoji,
         links,
-        backgroundImage,
         titlesColor,
         containerColor,
-        bodyColor,
         linkTextColor,
         linkBackgroundColor,
-        liveNotificationColor,
-        bodyGradient,
         containerGradient,
-        bodyAnimationStyle
     } = site
 
     return (
         <div className={styles.miniSiteWrapper} style={{backgroundColor: containerColor, backgroundImage: containerGradient}}>
-            <img src={headerImage?.url || headerImage?.base64 || defaultHeader} alt='header' width="75" height="75" className={styles.headerImage} />
-            <span className={styles.title}>{title}</span>
-            <span className={styles.subtitle}>{subtitle}</span>
+            {
+                headerEmoji 
+                ?
+                    <span className={styles.headerEmoji}>{headerEmoji}</span>
+                :
+                    <img src={headerImage?.url || headerImage?.base64 || defaultHeader} alt='header' width="75" height="75" className={styles.headerImage} />
+            }
+            <span className={styles.title} style={{color: titlesColor}}>{title}</span>
+            <span className={styles.subtitle} style={{color: titlesColor}}>{subtitle}</span>
             <ul className={styles.linksList}>
                 {links.map((link, i) => {
                     return <li className={styles.linkRow} key={i} style={{backgroundColor: linkBackgroundColor}}>
