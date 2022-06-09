@@ -195,6 +195,15 @@ const SingleSite = () => {
     }, [bodyAnimationStyle])
 
     useEffect(() => {
+        axios
+            .put(`/api/sites/siteId/${match.params.id}`, { screenshot })
+            .then(() => {})
+            .catch((e) => {
+                console.error("Error saving screenshot: " + e);
+            })
+    }, [screenshot])
+
+    useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             captureScreenshot();
         }, 500)
