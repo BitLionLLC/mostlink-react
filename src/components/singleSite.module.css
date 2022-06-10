@@ -73,7 +73,6 @@ input {
 
 .editButton {
     top: 10px;
-    mix-blend-mode: exclusion;
 }
 
 .editImage {

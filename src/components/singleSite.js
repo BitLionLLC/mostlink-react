@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import ANIMATION_PRESETS from "./assets/particlesPresets";
+import invert from 'invert-color';
 
 const EDIT_TYPE = {
     ALL: "all",
@@ -48,6 +49,7 @@ const SingleSite = () => {
     const [titlesColor, setTitlesColor] = useState("#000000");
     const titlesColorRef = useRef(titlesColor);
     const [containerColor, setContainerColor] = useState("#ADD8E6");
+    const [editButtonColor, setEditButtonColor] = useState("#000000");
     const containerColorRef = useRef(containerColor);
     const [containerGradient, setContainerGradient] = useState("");
     const [bodyColor, setBodyColor] = useState("#FFFFFF");
@@ -176,6 +178,21 @@ const SingleSite = () => {
             }
         }
     }, [bodyAnimationStyle])
+
+    useEffect(() => {
+        let rgb = containerColor?.slice(0, 7);
+
+        if (rgb?.match(HEX_COLOR_REGEX_SHORT) || rgb?.match(HEX_COLOR_REGEX_LONG)) {
+            setEditButtonColor(invert(rgb, true));
+        } else {
+            const hex = toHex(rgb);
+            if (hex?.match(HEX_COLOR_REGEX_SHORT) || hex?.match(HEX_COLOR_REGEX_LONG)) {
+                setEditButtonColor(invert(hex, true));
+            } else {
+                setEditButtonColor("#888888");
+            }
+        }
+    }, [containerColor])
 
 
     useBeforeunload((e) => {
@@ -609,7 +626,7 @@ const SingleSite = () => {
             {thisBodyAnimationStyle && <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[thisBodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />}
              <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient, position: isEditing ? 'absolute' : 'relative', top: isEditing && '125px' }}>
                 <Prompt when={isDirty} message='Reload site? Changes you made may not be saved.' />
-                <div className={styles.editButton} style={{color: "darkgrey"}}>
+                <div className={styles.editButton} style={{color: editButtonColor}}>
                     { isEditing || !isEditButtonVisible ? 
                         null
                         : 
