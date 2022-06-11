@@ -15,18 +15,13 @@ const GRADIENT_PRESETS = {
 }
 
 const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
-    const passedType = value?.split("(")[0]?.split("-")[0];
-    const passedAngle = value?.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
-    const passedDirection = value?.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
-    const passedArr = value && value?.split(')')[0]?.split('-gradient(')[1]?.split(',')?.map(str => str.trim())?.filter(str => str.startsWith('#'));
-
-    const [useGradient, setUseGradient] = useState(!!value);
-    const [gradientType, setGradientType] = useState(passedType || 'linear');
-    const [conicAngle, setConicAngle] = useState(passedAngle);
-    const [gradientArr, setGradientArr] = useState(passedArr || ['#e66465', '#9198e5']);
-    const [colorBoxArr, setColorBoxArr] = useState(passedArr || ['#e66465', '#9198e5']);
-    const [gradientStr, setGradientStr] = useState(value);
-    const [linearDirection, setLinearDirection] = useState(passedDirection || 'to top')
+    const [useGradient, setUseGradient] = useState(false);
+    const [gradientType, setGradientType] = useState('linear');
+    const [conicAngle, setConicAngle] = useState(0);
+    const [gradientArr, setGradientArr] = useState(['#e66465', '#9198e5']);
+    const [colorBoxArr, setColorBoxArr] = useState(['#e66465', '#9198e5']);
+    const [gradientStr, setGradientStr] = useState('');
+    const [linearDirection, setLinearDirection] = useState('to top')
     const [isEditingColor, setIsEditingColor] = useState(false);
     const [colorToEdit, setColorToEdit] = useState(0);
     const [editColorResult, setEditColorResult] = useState('#1E90FF');
@@ -36,6 +31,23 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
 
     const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
     const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
+
+    useEffect(() => {
+        setUseGradient(!!value);
+        
+        if (value) {
+            const passedType = value?.split("(")[0]?.split("-")[0];
+            const passedAngle = value?.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
+            const passedDirection = value?.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
+            const passedArr = value && value?.split(')')[0]?.split('-gradient(')[1]?.split(',')?.map(str => str.trim())?.filter(str => str.startsWith('#'));
+            setGradientType(passedType);
+            setGradientArr(passedArr);
+            setColorBoxArr(passedArr);
+            setConicAngle(passedAngle || 0);
+            setGradientStr(value);
+            setLinearDirection(passedDirection || 'to top');
+        }
+    }, [value])
 
     useEffect(() => {
         if (useGradient) {
