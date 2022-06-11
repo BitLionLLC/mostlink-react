@@ -628,28 +628,28 @@ const SingleSite = () => {
             }
 
             100% {
-                top: 150px;
+                top: 160px;
                 left: calc(100vw - 850px);
-                right: 100px;
+                right: 50px;
             }
         }
     `
 
     const singleSiteStyle = {
-        top: isEditing ? '150px': '200px',
+        top: isEditing ? '160px': '200px',
         position: 'absolute',
         marginLeft: 'auto',
         marginRight: 'auto',
         left: isEditing ? 'calc(100vw - 850px)' : 0,
-        right: isEditing ? '100px' :  0
+        right: isEditing ? '50px' :  0
     }
 
     const keyFramesEndEdit = `
         @keyframes single-site-move-left {
             0% {
-                top: 150px;
+                top: 160px;
                 left: calc(100vw - 850px);
-                right: 100px;
+                right: 50px;
             }
 
             100% {

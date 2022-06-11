@@ -8,9 +8,7 @@
 
 .singleSiteContainer {
     width: 800px;
-    position: relative;
     top: 200px;
-    margin: 0 auto 250px auto;
     background-color: lightblue;
     padding: 50px;
     border-radius: 10px;
@@ -118,7 +116,7 @@ input {
     background-color: slateblue;
     padding: 50px 20px;
     overflow: scroll;
-    z-index: 2;
+    z-index: 11;
     padding-top: 230px;
 }
 
