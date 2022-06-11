@@ -710,19 +710,45 @@ const SingleSite = () => {
         </div>
     }
 
+    const keyFramesStartEditTray = `
+        @keyframes edit-tray-move-right {
+            0% {
+                left: -400px;
+            }
+
+            100% {
+                left: 0;
+            }
+        }
+    `
+
+    const editTrayStyle = {
+        left: isEditing ? 0 : '-400px',
+    }
+
+    const keyFramesEndEditTray = `
+        @keyframes edit-tray-move-left {
+            0% {
+                left: 0;
+            }
+
+            100% {
+                left: -400px;
+            }
+        }
+    `
+
     return (
         <>
-            { isEditing ? 
-                <div className={styles.editTray}>
-                    <div className={styles.saveAndCancelButtons}>
-                        <FontAwesomeIcon icon={["far", "save"]} size="3x" onClick={onSave} color="lightgreen" />
-                        <FontAwesomeIcon icon={["far", "window-close"]} size="3x" onClick={onCancel} color="salmon" />
-                    </div>
-                    { getEditContents() }
+            <style children={isEditing ? keyFramesStartEditTray : keyFramesEndEditTray} />
+            <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'edit-tray-move-right' : 'edit-tray-move-left'), animationDuration: '2s'}}>
+                <div className={styles.saveAndCancelButtons}>
+                    <FontAwesomeIcon icon={["far", "save"]} size="3x" onClick={onSave} color="lightgreen" />
+                    <FontAwesomeIcon icon={["far", "window-close"]} size="3x" onClick={onCancel} color="salmon" />
                 </div>
-                :
-                null
-            }
+                { getEditContents() }
+            </div>
+
             { isEditing ?
                 getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle)
                 :
