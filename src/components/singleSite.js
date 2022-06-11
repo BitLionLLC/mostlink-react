@@ -39,6 +39,7 @@ const SingleSite = () => {
     const history = useHistory();
 
     const [isEditing, setIsEditing] = useState(false);
+    const [hasEditButtonBeenClicked, setHasEditButtonBeenClicked] = useState(false);
     const [whatIsBeingEdited, setWhatIsBeingEdited] = useState(EDIT_TYPE.ALL);
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
@@ -618,19 +619,64 @@ const SingleSite = () => {
         }
     }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle])
 
+    const keyFramesStartEdit = `
+        @keyframes single-site-move-right {
+            0% {
+                top: 200px;
+                left: 0;
+                right: 0;
+            }
+
+            100% {
+                top: 150px;
+                left: calc(100vw - 850px);
+                right: 100px;
+            }
+        }
+    `
+
+    const singleSiteStyle = {
+        top: isEditing ? '150px': '200px',
+        position: 'absolute',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        left: isEditing ? 'calc(100vw - 850px)' : 0,
+        right: isEditing ? '100px' :  0
+    }
+
+    const keyFramesEndEdit = `
+        @keyframes single-site-move-left {
+            0% {
+                top: 150px;
+                left: calc(100vw - 850px);
+                right: 100px;
+            }
+
+            100% {
+                top: 200px;
+                left: 0;
+                right: 0;
+            }
+        }
+    `
+
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisContainerGradient, thisBodyColor, thisBodyGradient, thisLinkTextColor, thisLinkBackgroundColor, thisLiveNotificationColor, thisBodyAnimationStyle) => {
         document.body.style.backgroundColor = thisBodyColor;
         document.body.style.backgroundImage = thisBodyGradient;
         
         return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
             {thisBodyAnimationStyle && <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[thisBodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />}
-             <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient, position: isEditing ? 'absolute' : 'relative', top: isEditing && '150px' }}>
+             <style children={isEditing ? keyFramesStartEdit : keyFramesEndEdit} />
+             <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient, ...singleSiteStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'single-site-move-right' : 'single-site-move-left'), animationDuration: '2s' }}>
                 <Prompt when={isDirty} message='Reload site? Changes you made may not be saved.' />
                 <div className={styles.editButton} style={{color: editButtonColor}}>
                     { isEditing || !isEditButtonVisible ? 
                         null
                         : 
-                        <FontAwesomeIcon icon={["far", "edit"]} size="3x" onClick={() => setIsEditing(true)} />
+                        <FontAwesomeIcon icon={["far", "edit"]} size="3x" onClick={() => {
+                            setIsEditing(true)
+                            setHasEditButtonBeenClicked(true);
+                        }} />
                     }
                 </div>
                 {
