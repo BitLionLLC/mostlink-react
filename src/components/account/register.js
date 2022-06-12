@@ -132,6 +132,8 @@ const Register = () => {
             }
     }
 
+    const failureGoogle = (failure) => console.log(failure);
+
     const onCancel = () => {
         setFirstName("");
         setLastName("");
@@ -151,7 +153,7 @@ const Register = () => {
                     clientId="481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com"
                     buttonText="Continue with Google"
                     onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
+                    onFailure={failureGoogle}
                     isSignedIn={true}
                 />
                 <h3 style={{ color: themeObj.accentColor }}><Link to="/account/login" style={{ color: themeObj.accentColor }}>Already have an account? Log in instead.</Link></h3>
