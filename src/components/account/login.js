@@ -81,7 +81,6 @@ const Login = () => {
                     buttonText="Continue with Google"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
                     isSignedIn={true}
                 />
                 <h3 style={{ color: themeObj.accentColor }}><Link to="/account/register" style={{ color: themeObj.accentColor }}>Don't have an account? Register instead.</Link></h3>

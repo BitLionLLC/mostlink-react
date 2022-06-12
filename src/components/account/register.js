@@ -152,7 +152,6 @@ const Register = () => {
                     buttonText="Continue with Google"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
                     isSignedIn={true}
                 />
                 <h3 style={{ color: themeObj.accentColor }}><Link to="/account/login" style={{ color: themeObj.accentColor }}>Already have an account? Log in instead.</Link></h3>
