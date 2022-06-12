@@ -24,7 +24,7 @@ import PaymentCanceled from './components/payment/paymentCanceled';
 
 function App() {
   useEffect(() => {
-    fetch(`/api/users/csrf-token`)
+    fetch(`${process.env.REACT_APP_API_BASE}/users/csrf-token`)
       .then(async res => {
         const json = await res.json();
         axios.defaults.headers['X-CSRF-Token'] = json.csrfToken;
