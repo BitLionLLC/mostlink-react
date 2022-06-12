@@ -83,7 +83,7 @@ const Register = () => {
 
         if (isFilledOut && !hasError) {
             axios
-                .post(`/api/users/register`, {
+                .post(`${process.env.REACT_APP_API_BASE}/api/users/register`, {
                     firstName, lastName, email, username, password
                 })
                 .then(res => {
@@ -116,7 +116,7 @@ const Register = () => {
             const username = email;
 
             axios
-                .post(`/api/users/register/google`, {
+                .post(`${process.env.REACT_APP_API_BASE}/api/users/register/google`, {
                     firstName, lastName, email, username
                 })
                 .then(res => {

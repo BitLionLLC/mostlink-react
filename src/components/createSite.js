@@ -20,7 +20,7 @@ const CreateSite = (props) => {
 
         const delayDebounceFn = setTimeout(() => {
             subdomain && axios
-                .get(`/api/sites/register-subdomain/${subdomain}`)
+                .get(`${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`)
                 .then(() => setIsSubdomainValid(true))
                 .catch(() => setIsSubdomainValid(false))
         }, 1000)
@@ -41,7 +41,7 @@ const CreateSite = (props) => {
 
         e.preventDefault();
         isSubdomainValid && axios
-            .post(`/api/sites`, {
+            .post(`${process.env.REACT_APP_API_BASE}/api/sites`, {
                 title,
                 subtitle,
                 links,

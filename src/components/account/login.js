@@ -31,7 +31,7 @@ const Login = () => {
         e.preventDefault();
 
         axios
-            .post(`/api/users/login`, {
+            .post(`${process.env.REACT_APP_API_BASE}/api/users/login`, {
                 username,
                 password
             })
@@ -55,7 +55,7 @@ const Login = () => {
             const username = profileObj.email;
 
             axios
-                .post(`/api/users/login/google`, {
+                .post(`${process.env.REACT_APP_API_BASE}/api/users/login/google`, {
                     username
                 })
                 .then(res => {

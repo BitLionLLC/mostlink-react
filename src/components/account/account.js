@@ -57,7 +57,7 @@ const Account = () => {
 
     const subscribeToPremium = () => {
         axios
-            .post('/api/payment/create-checkout-session', {priceId: "price_1L70lyKTiWhpJMC5zJmDcOWx"})
+            .post(`${process.env.REACT_APP_API_BASE}/api/payment/create-checkout-session`, {priceId: "price_1L70lyKTiWhpJMC5zJmDcOWx"})
             .then((res) => {
                 window.location.href = res.data.redirect;
             })
@@ -66,7 +66,7 @@ const Account = () => {
 
     const createPortalSession = () => {
         axios
-            .get('/api/payment/create-portal-session')
+            .get(`${process.env.REACT_APP_API_BASE}/api/payment/create-portal-session`)
             .then((res) => {
                 window.location.href = res.data.redirect;
             })
@@ -87,7 +87,7 @@ const Account = () => {
         signOut();
 
         axios
-            .put('/api/users/delete', { password })
+            .put(`${process.env.REACT_APP_API_BASE}/api/users/delete`, { password })
             .then(res => {
                 setJwtToken(null);
                 setUserId(null);
@@ -103,7 +103,7 @@ const Account = () => {
 
     const changePassword = () => {
         axios
-            .put('/api/users/change-password', { oldPassword, newPassword })
+            .put(`${process.env.REACT_APP_API_BASE}/api/users/change-password`, { oldPassword, newPassword })
             .then(() => {
                 toast('Successfully changed your password.', { type: "success" });
             })
@@ -116,8 +116,8 @@ const Account = () => {
         <div className={styles.accountContainer}>
             <div className={styles.account} style={{backgroundColor: themeObj.landingCardBackground}}>
                 <h1>Account</h1>
-                <button className={styles.generalButton} onClick={subscribeToPremium} disabled={isSubscribed}>Subscribe to Premium</button>
-                <button className={styles.generalButton} onClick={createPortalSession}>Log into Stripe portal</button> to cancel or modify your subscription.
+                {/* <button className={styles.generalButton} onClick={subscribeToPremium} disabled={isSubscribed}>Subscribe to Premium</button>
+                <button className={styles.generalButton} onClick={createPortalSession}>Log into Stripe portal</button> to cancel or modify your subscription. */}
                 <button className={styles.generalButton} onClick={() => setIsChangePasswordModalShowing(true)}>Change password</button>
                 <button className={styles.deleteAccountButton} onClick={() => setIsDeleteModalShowing(true)}>Delete account</button> 
             </div>

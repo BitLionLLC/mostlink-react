@@ -98,17 +98,17 @@ const SingleSite = () => {
 
     const fetchSiteDomains = () => {
         axios
-            .get(`/api/sites/fetch-domains/${match.params.id}`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`)
             .then(res => {
                 const domains = res.data;
                 domains.forEach(data => {
                     axios
-                        .put(`/api/sites/update-domain/`, { domain: data.domain })
+                        .put(`${process.env.REACT_APP_API_BASE}/api/sites/update-domain/`, { domain: data.domain })
                 })
             })
             .then(() => {
                 axios
-                    .get(`/api/sites/fetch-domains/${match.params.id}`)
+                    .get(`${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`)
                     .then(res => setDomains(res.data))
             })
     }
@@ -130,7 +130,7 @@ const SingleSite = () => {
                 const { type, meta } = link.live;
 
                 axios
-                    .get(`/api/sites/${type}/${meta}`)
+                    .get(`${process.env.REACT_APP_API_BASE}/api/sites/${type}/${meta}`)
                     .then(res => {
                         if (res.data.isLive) {
                             link.live.isLive = true;
@@ -232,7 +232,7 @@ const SingleSite = () => {
         }
 
         axios
-            .put(`/api/sites/siteId/${match.params.id}`, siteToSave)
+            .put(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${match.params.id}`, siteToSave)
             .then(() => {
                 setIsEditing(false);
                 fetchSite(match.params.id);
@@ -324,7 +324,7 @@ const SingleSite = () => {
         setDomainToAdd(properDomain);
 
         axios
-            .get(`/api/sites/check-domain/${properDomain}`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/sites/check-domain/${properDomain}`)
             .then(res => {
                 setIsDomainAvailable(res.data.domain.isAvailable);
                 setHasDomainBeenChecked(true);
@@ -339,7 +339,7 @@ const SingleSite = () => {
         }
 
         axios
-            .post('/api/sites/register-domain', body)
+            .post(`${process.env.REACT_APP_API_BASE}/api/sites/register-domain`, body)
             .then(() => {
                 setHasDomainBeenRegistered(true);
                 fetchSiteDomains();
@@ -349,7 +349,7 @@ const SingleSite = () => {
 
     const deleteDomain = () => {
         axios
-            .delete(`/api/sites/delete-domain/${domainToDelete}`)
+            .delete(`${process.env.REACT_APP_API_BASE}/api/sites/delete-domain/${domainToDelete}`)
             .then(() => {
                 toast("Domain successfully deleted.", { type: "success" })
                 setIsDeleteDomainModalShowing(false);
@@ -589,7 +589,7 @@ const SingleSite = () => {
 
     const deleteSite = () => {
         axios
-            .delete(`/api/sites/siteId/${site._id}`)
+            .delete(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${site._id}`)
             .then(res => {
                 toast("Site deleted.", { type: "success" })
                 history.push("/home");

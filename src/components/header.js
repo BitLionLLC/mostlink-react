@@ -27,7 +27,7 @@ const Header = () => {
     const onLogOut = () => {
         signOut();
         axios
-            .get(`/api/users/logout`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/users/logout`)
             .then(() => {
                 toast("Successfully logged out.", { type: "success"})
             })
@@ -62,7 +62,7 @@ const Header = () => {
 
     useEffect(() => {
         axios
-            .get(`/api/users/jwt`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/users/jwt`)
             .then(res => {
                 if (res.data.token) {
                     setJwtToken(res.data.token);

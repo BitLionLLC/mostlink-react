@@ -17,7 +17,7 @@ const ForgotPassword = () => {
 
     const onSubmit = () => {
         axios
-            .post('/api/users/forgot-password/initiate', { email })
+            .post(`${process.env.REACT_APP_API_BASE}/api/users/forgot-password/initiate`, { email })
             .then(res => {
                 toast('Password reset initiated. Check your email inbox.', { type: "success" });
             })
