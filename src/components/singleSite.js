@@ -474,7 +474,7 @@ const SingleSite = () => {
                     <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h1>Domains</h1>
                     <h2>Subdomain</h2>
-                    {site.subdomain}.mostcard.io
+                    <a href={`https://${site.subdomain}.mostlink.io`}>{site.subdomain}.mostlink.io</a>
                     <h2>Domains</h2>
                     <button onClick={openCheckDomainModal}>Add a domain</button>
                     {

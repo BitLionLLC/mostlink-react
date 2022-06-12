@@ -84,7 +84,7 @@ const CreateSite = (props) => {
                         <form onSubmit={createSite} className={styles.createSiteForm}>
                             <input type="text" className={styles.createInput} value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
                             <input type="text" className={styles.createInput} value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
-                            <div><input type="text" className={styles.createInputShort} value={subdomain} name="subdomain" onChange={e => setSubdomain(e.target.value)} placeholder="Subdomain" />.mostcard.io</div>
+                            <div><input type="text" className={styles.createInputShort} value={subdomain} name="subdomain" onChange={e => setSubdomain(e.target.value)} placeholder="Subdomain" />.mostlink.io</div>
                             {subdomain && !isSubdomainValid && <div className={styles.errorText}>That subdomain is taken. Please choose another.</div>}
                             <button 
                                 type="submit" 
