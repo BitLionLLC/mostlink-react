@@ -23,17 +23,17 @@ import PaymentSuccess from './components/payment/paymentSuccess';
 import PaymentCanceled from './components/payment/paymentCanceled';
 
 function App() {
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_BASE}/api/users/csrf-token`)
-      .then(async res => {
-        const json = await res.json();
-        axios.defaults.headers['X-CSRF-Token'] = json.csrfToken;
-        axios.defaults.withCredentials = true
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  })
+  // useEffect(() => {
+  //   fetch(`${process.env.REACT_APP_API_BASE}/api/users/csrf-token`)
+  //     .then(async res => {
+  //       const json = await res.json();
+  //       axios.defaults.headers['X-CSRF-Token'] = json.csrfToken;
+  //       axios.defaults.withCredentials = true
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     })
+  // })
 
   return (
     <SitesContextProvider>
