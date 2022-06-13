@@ -28,6 +28,7 @@ function App() {
       .then(async res => {
         const json = await res.json();
         axios.defaults.headers['X-CSRF-Token'] = json.csrfToken;
+        axios.defaults.withCredentials = true
       })
       .catch(err => {
         console.log(err);
