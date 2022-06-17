@@ -57,7 +57,7 @@ const Account = () => {
 
     const subscribeToPremium = () => {
         axios
-            .post(`${process.env.REACT_APP_API_BASE}/api/payment/create-checkout-session`, {priceId: "price_1L70lyKTiWhpJMC5zJmDcOWx"})
+            .post(`${process.env.REACT_APP_API_BASE}/api/payment/create-checkout-session`, {priceId: "price_1L70lyKTiWhpJMC5zJmDcOWx"}, { withCredentials: true })
             .then((res) => {
                 window.location.href = res.data.redirect;
             })
@@ -66,7 +66,7 @@ const Account = () => {
 
     const createPortalSession = () => {
         axios
-            .get(`${process.env.REACT_APP_API_BASE}/api/payment/create-portal-session`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/payment/create-portal-session`, { withCredentials: true })
             .then((res) => {
                 window.location.href = res.data.redirect;
             })
@@ -87,7 +87,7 @@ const Account = () => {
         signOut();
 
         axios
-            .put(`${process.env.REACT_APP_API_BASE}/api/users/delete`, { password })
+            .put(`${process.env.REACT_APP_API_BASE}/api/users/delete`, { password }, { withCredentials: true })
             .then(res => {
                 setJwtToken(null);
                 setUserId(null);
@@ -103,7 +103,7 @@ const Account = () => {
 
     const changePassword = () => {
         axios
-            .put(`${process.env.REACT_APP_API_BASE}/api/users/change-password`, { oldPassword, newPassword })
+            .put(`${process.env.REACT_APP_API_BASE}/api/users/change-password`, { oldPassword, newPassword }, { withCredentials: true })
             .then(() => {
                 toast('Successfully changed your password.', { type: "success" });
             })

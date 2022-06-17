@@ -35,7 +35,7 @@ const ResetPassword = () => {
 
     const onSubmit = () => {
         axios
-            .post(`${process.env.REACT_APP_API_BASE}/api/users/forgot-password/reset`, { token, userId, password })
+            .post(`${process.env.REACT_APP_API_BASE}/api/users/forgot-password/reset`, { token, userId, password }, { withCredentials: true })
             .then(res => {
                 toast('Password successfully reset. Refresh and you\'ll log in.', { type: "success" });
                 history.push("/");

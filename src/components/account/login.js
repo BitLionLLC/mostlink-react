@@ -34,7 +34,7 @@ const Login = () => {
             .post(`${process.env.REACT_APP_API_BASE}/api/users/login`, {
                 username,
                 password
-            })
+            }, { withCredentials: true })
             .then(res =>{
                 setJwtToken(res.data.token);
                 setUserId(res.data.id);
@@ -57,7 +57,7 @@ const Login = () => {
             axios
                 .post(`${process.env.REACT_APP_API_BASE}/api/users/login/google`, {
                     username
-                })
+                }, { withCredentials: true })
                 .then(res => {
                     setJwtToken(res.data.token);
                     setUserId(res.data.id);

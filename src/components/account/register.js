@@ -85,7 +85,7 @@ const Register = () => {
             axios
                 .post(`${process.env.REACT_APP_API_BASE}/api/users/register`, {
                     firstName, lastName, email, username, password
-                })
+                }, { withCredentials: true })
                 .then(res => {
                     setJwtToken(res.data.token);
                     setUserId(res.data.id);
@@ -118,7 +118,7 @@ const Register = () => {
             axios
                 .post(`${process.env.REACT_APP_API_BASE}/api/users/register/google`, {
                     firstName, lastName, email, username
-                })
+                }, { withCredentials: true })
                 .then(res => {
                     setJwtToken(res.data.token);
                     setUserId(res.data.id);

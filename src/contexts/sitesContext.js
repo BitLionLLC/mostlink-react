@@ -17,14 +17,14 @@ const SitesContextProvider = (props) => {
 
     useEffect(() => {
         axios
-            .get(`${process.env.REACT_APP_API_BASE}/api/users/`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/users/`, { withCredentials: true })
             .then(res => setIsSubscribed(res.data.isSubscribed))
             .catch(err => console.log(err));
     }, [])
 
     const fetchSite = async siteId => {
         axios
-            .get(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${siteId}`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${siteId}`, { withCredentials: true })
             .then(res => {
                 setSite(res.data);
             })
@@ -35,7 +35,7 @@ const SitesContextProvider = (props) => {
 
     const fetchSites = () => {
         axios
-            .get(`${process.env.REACT_APP_API_BASE}/api/sites/byUserId`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/sites/byUserId`, { withCredentials: true })
             .then(res => {
                 setSites(res.data);
             })

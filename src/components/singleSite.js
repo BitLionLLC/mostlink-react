@@ -98,17 +98,17 @@ const SingleSite = () => {
 
     const fetchSiteDomains = () => {
         axios
-            .get(`${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`, { withCredentials: true })
             .then(res => {
                 const domains = res.data;
                 domains.forEach(data => {
                     axios
-                        .put(`${process.env.REACT_APP_API_BASE}/api/sites/update-domain/`, { domain: data.domain })
+                        .put(`${process.env.REACT_APP_API_BASE}/api/sites/update-domain/`, { domain: data.domain }, { withCredentials: true })
                 })
             })
             .then(() => {
                 axios
-                    .get(`${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`)
+                    .get(`${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`, { withCredentials: true })
                     .then(res => setDomains(res.data))
             })
     }
@@ -130,7 +130,7 @@ const SingleSite = () => {
                 const { type, meta } = link.live;
 
                 axios
-                    .get(`${process.env.REACT_APP_API_BASE}/api/sites/${type}/${meta}`)
+                    .get(`${process.env.REACT_APP_API_BASE}/api/sites/${type}/${meta}`, { withCredentials: true })
                     .then(res => {
                         if (res.data.isLive) {
                             link.live.isLive = true;
@@ -232,7 +232,7 @@ const SingleSite = () => {
         }
 
         axios
-            .put(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${match.params.id}`, siteToSave)
+            .put(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${match.params.id}`, siteToSave, { withCredentials: true })
             .then(() => {
                 setIsEditing(false);
                 fetchSite(match.params.id);
@@ -324,7 +324,7 @@ const SingleSite = () => {
         setDomainToAdd(properDomain);
 
         axios
-            .get(`${process.env.REACT_APP_API_BASE}/api/sites/check-domain/${properDomain}`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/sites/check-domain/${properDomain}`, { withCredentials: true })
             .then(res => {
                 setIsDomainAvailable(res.data.domain.isAvailable);
                 setHasDomainBeenChecked(true);
@@ -339,7 +339,7 @@ const SingleSite = () => {
         }
 
         axios
-            .post(`${process.env.REACT_APP_API_BASE}/api/sites/register-domain`, body)
+            .post(`${process.env.REACT_APP_API_BASE}/api/sites/register-domain`, body, { withCredentials: true })
             .then(() => {
                 setHasDomainBeenRegistered(true);
                 fetchSiteDomains();
@@ -349,7 +349,7 @@ const SingleSite = () => {
 
     const deleteDomain = () => {
         axios
-            .delete(`${process.env.REACT_APP_API_BASE}/api/sites/delete-domain/${domainToDelete}`)
+            .delete(`${process.env.REACT_APP_API_BASE}/api/sites/delete-domain/${domainToDelete}`, { withCredentials: true })
             .then(() => {
                 toast("Domain successfully deleted.", { type: "success" })
                 setIsDeleteDomainModalShowing(false);
@@ -473,8 +473,8 @@ const SingleSite = () => {
                 return <div className={styles.editContents}>
                     <FontAwesomeIcon icon={["fas", "arrow-left"]} size="3x" className={styles.backArrow} onClick={() => setWhatIsBeingEdited(EDIT_TYPE.ALL)} />
                     <h1>Domains</h1>
-                    <h2>Subdomain</h2>
-                    <a href={`https://${site.subdomain}.mostlink.io`}>{site.subdomain}.mostlink.io</a>
+                    <h2>Live Site</h2>
+                    <a href={`https://www.mostlink.io/${site.subdomain}`}>www.mostlink.io/{site.subdomain}</a>
                     <h2>Domains</h2>
                     <button onClick={openCheckDomainModal}>Add a domain</button>
                     {
@@ -589,7 +589,7 @@ const SingleSite = () => {
 
     const deleteSite = () => {
         axios
-            .delete(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${site._id}`)
+            .delete(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${site._id}`, { withCredentials: true })
             .then(res => {
                 toast("Site deleted.", { type: "success" })
                 history.push("/home");

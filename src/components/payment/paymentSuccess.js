@@ -14,14 +14,14 @@ const PaymentSuccess = () => {
 
     useEffect(() => {
         axios
-            .get(`${process.env.REACT_APP_API_BASE}/api/users`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/users`, { withCredentials: true })
             .then(res => setIsSubscribed(res.data.isSubscribed))
             .catch(err => toast("Could not retrieve your subscription status.", { type: "error" }))
     }, [])
 
     const createPortalSession = () => {
         axios
-            .get(`${process.env.REACT_APP_API_BASE}/api/payment/create-portal-session`)
+            .get(`${process.env.REACT_APP_API_BASE}/api/payment/create-portal-session`, { withCredentials: true })
             .then((res) => {
                 window.location.href = res.data.redirect;
             })

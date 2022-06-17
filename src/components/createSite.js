@@ -20,7 +20,7 @@ const CreateSite = (props) => {
 
         const delayDebounceFn = setTimeout(() => {
             subdomain && axios
-                .get(`${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`)
+                .get(`${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`, { withCredentials: true })
                 .then(() => setIsSubdomainValid(true))
                 .catch(() => setIsSubdomainValid(false))
         }, 1000)
@@ -51,7 +51,7 @@ const CreateSite = (props) => {
                 linkTextColor: "#000000",
                 linkBackgroundColor: "#FFFFFF",
                 bodyColor: "#2E8B57"
-            })
+            }, { withCredentials: true })
             .then(() => {
                 setIsModalOpen(false);
                 toast("Site created!", { type: "success" });
