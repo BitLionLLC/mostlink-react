@@ -89,7 +89,7 @@ const SingleSite = () => {
         axios
             .get(`https://api.pexels.com/v1/search?query=${query}&per_page=50`, {transformRequest: (data, headers) => {
                 delete headers['X-CSRF-Token'];
-                headers['Authorization'] = "563492ad6f9170000100000180348db710564c64a1b0dc2f260570b2";
+                headers['Authorization'] = process.env.REACT_APP_PEXELS_API_KEY;
                 return data;
               }})
             .then(res => setPhotos(res.data.photos))
