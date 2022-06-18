@@ -69,6 +69,15 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     }, [selectedPreset, gradientArr])
 
     useEffect(() => {
+        if (!containerAlphaPercent.length) {
+            return;
+        }
+
+        if (Number.isNaN(+containerAlphaPercent)) {
+            setContainerAlphaPercent(100);
+            return;
+        }
+        
         if (+containerAlphaPercent <= 100) {
             let alphaHex = (parseInt((+containerAlphaPercent)/100*255, 10)).toString(16);
             if (alphaHex.length === 1) {alphaHex = '0' + alphaHex}
@@ -85,7 +94,9 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
         if (place === 'container' && gradientArr[colorToEdit].length === 9) {
             const color = gradientArr[colorToEdit];
             const alphaPercent = Math.round(parseInt(color.slice(7), 16)/255*100);
-            setContainerAlphaPercent(alphaPercent)
+            if (alphaPercent !== !containerAlphaPercent) {
+                setContainerAlphaPercent(alphaPercent)
+            }
         }
     }, [gradientArr, colorToEdit])
 
@@ -102,9 +113,12 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     }
 
     const editColor = (color) => {
-        setEditColorResult(color);
+        let alphaHex = (parseInt((+containerAlphaPercent)/100*255, 10)).toString(16);
+        if (alphaHex.length === 1) {alphaHex = '0' + alphaHex}
+        const newColor = color.slice(0,7)+ alphaHex;
+        setEditColorResult(newColor);
         const currentColors = gradientArr.slice();
-        currentColors.splice(colorToEdit, 1, color);
+        currentColors.splice(colorToEdit, 1, newColor);
         setGradientArr(currentColors);
     }
 
@@ -169,7 +183,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
                             place === "container" && 
                             <div className={styles.row}>
                                 Alpha %
-                                <input type="number" min={0} max={100} value={containerAlphaPercent} onChange={e => setContainerAlphaPercent(e.target.value)} className={styles.alphaInput} />
+                                <input type="text" value={containerAlphaPercent} onChange={e => setContainerAlphaPercent(e.target.value)} className={styles.alphaInput} />
                             </div>
                         }
                         {place === "container" && editColorResult.length === 9 && +containerAlphaPercent < 100 && !isContainerTransparent && <div>If you want transparency, please check the checkbox above for container color (called 'Transparent?')</div>}

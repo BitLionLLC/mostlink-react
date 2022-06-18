@@ -50,6 +50,7 @@ const SingleSite = () => {
     const [titlesColor, setTitlesColor] = useState("#000000");
     const titlesColorRef = useRef(titlesColor);
     const [containerColor, setContainerColor] = useState("#ADD8E6");
+    const [isContainerTransparent, setIsContainerTransparent] = useState(false);
     const [editButtonColor, setEditButtonColor] = useState("#000000");
     const containerColorRef = useRef(containerColor);
     const [containerGradient, setContainerGradient] = useState("");
@@ -194,6 +195,23 @@ const SingleSite = () => {
             }
         }
     }, [containerColor])
+
+    useEffect(() => {
+        if (containerColor.length === 9) {
+            const hex = containerColor.slice(7);
+            if (hex === "00" && !isContainerTransparent) {
+                setIsContainerTransparent(true);
+            }
+        }
+    }, [containerColor])
+
+    useEffect(() => {
+        if (isContainerTransparent && containerColor !== "#00000000") {
+            setContainerColor(containerColor + "00");
+        } else {
+            setContainerColor(containerColor.slice(0, 7))
+        }
+    }, [isContainerTransparent])
 
 
     useBeforeunload((e) => {
@@ -559,7 +577,7 @@ const SingleSite = () => {
                     <HexColorPicker color={containerColor} onChange={e => setContainerColor(e.toUpperCase())} />
                     <input type="text" value={containerColor} onChange={e => standardizeColorInput(e.target.value, setContainerColor, containerColorRef)} className={styles.hexInput} />
                     <h3>Transparent?</h3>
-                    <input type="checkbox" checked={containerColor === '#00000000'} onChange={e => e.target.checked ? setContainerColor('#00000000'): setContainerColor("#ADD8E6")}/>
+                    <input type="checkbox" checked={isContainerTransparent} onChange={e => setIsContainerTransparent(e.target.checked)}/>
                     <h2>Container Gradient</h2>
                     <GradientPicker setter={value => setContainerGradient(value)} value={containerGradient} place="container" isContainerTransparent={containerColor === '#00000000'} />
                     <button onClick={() => setIsDeleteModalShowing(true)} className={styles.deleteSiteButton}>Delete Site</button>
