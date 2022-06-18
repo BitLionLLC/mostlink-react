@@ -103,6 +103,11 @@ button:disabled {
     border-radius: 5px;
 }
 
+.siteAndPath {
+    display: flex;
+    align-items: center;
+}
+
 @media (max-width: 500px) {
     .createSiteModal {
         width: 75vw;
