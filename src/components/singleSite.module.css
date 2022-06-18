@@ -145,6 +145,15 @@ input {
     left: 10px;
 }
 
+.closeButton {
+    transform: rotate(45deg);
+    cursor: default;
+    font-size: 50px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 .linkEditList {
     list-style: none;
     padding: 0;
@@ -153,7 +162,7 @@ input {
 .pexelsModal {
     width: 1000px;
     height: 800px;
-    z-index: 10;
+    z-index: 16;
     border: 1px solid black;
     position: fixed;
 	top: 50%; left: 50%;
@@ -169,7 +178,7 @@ input {
 }
 
 .deleteSiteModal {
-    z-index: 10;
+    z-index: 16;
     width: 500px;
     height: 400px;
     border: 1px solid black;
@@ -194,7 +203,7 @@ input {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9;
+    z-index: 15;
 }
 
 .closeButton {

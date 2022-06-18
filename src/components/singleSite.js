@@ -774,8 +774,9 @@ const SingleSite = () => {
             }
             { isPexelsModalShowing ?
                 <>
-                    <div className={styles.blocker} onClick={() => setIsPexelsModalShowing(false)}></div>
+                    <div className={styles.blocker} onClick={() => setIsPexelsModalShowing(false)} />
                     <div className={styles.pexelsModal}>
+                        <div className={styles.closeButton} onClick={() => setIsPexelsModalShowing(false)}>+</div>
                         <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com">Pexels</a></span>
                         <form className={styles.pexelsSearch} onSubmit={fetchPexels}>
                             <input type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} />
