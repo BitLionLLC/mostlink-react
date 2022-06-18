@@ -5,7 +5,7 @@ const SUBSCRIPTION_ATTRIBUTES = {
     },
     price: {
         free: "Free!",
-        premium: "$5/mo"
+        premium: "$1/mo"
     },
     sites: {
         free: 3,
