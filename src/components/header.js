@@ -104,8 +104,7 @@ const Header = () => {
         <div className={styles.header} style={{ backgroundColor: themeObj.headerColor, color: themeObj.color }}>
             <div className={styles.logoAndTitle}>
                 <Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>
-                    <img src={theme === "light" ? lightLogo : darkLogo} width="100" alt="Mostlink logo" />
-                    <h1>Mostlink</h1>
+                    <img src={theme === "light" ? lightLogo : darkLogo} width="300" alt="Mostlink logo" />
                 </Link>
             </div>
             <div className={styles.iconRow}>

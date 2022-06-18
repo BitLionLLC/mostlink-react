@@ -1,6 +1,6 @@
 export const lightTheme = {
     bodyColor: "white",
-    color: "black",
+    color: "#001036",
     headerColor: "lightblue",
     menuColor: "lightgreen",
     landingBackground: "linear-gradient(to top, #e66465, lightblue)",
