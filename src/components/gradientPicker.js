@@ -36,9 +36,8 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
 
     useEffect(() => {
-        setUseGradient(!!value);
-        
         if (value) {
+            setUseGradient(!!value);
             const passedType = value?.split("(")[0]?.split("-")[0];
             const passedAngle = value?.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
             const passedDirection = value?.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';

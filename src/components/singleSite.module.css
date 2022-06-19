@@ -9,7 +9,6 @@
 .singleSiteContainer {
     width: 800px;
     top: 200px;
-    background-color: lightblue;
     padding: 50px;
     border-radius: 10px;
     display: inline-flex;

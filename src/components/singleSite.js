@@ -690,7 +690,7 @@ const SingleSite = () => {
         return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
             {thisBodyAnimationStyle && !isEditing && <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[thisBodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />}
              <style children={isEditing ? keyFramesStartEdit : keyFramesEndEdit} />
-             <div className={styles.singleSiteContainer} style={{ backgroundColor: thisContainerColor, backgroundImage: thisContainerGradient, ...singleSiteStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'single-site-move-right' : 'single-site-move-left'), animationDuration: '2s' }}>
+             <div className={styles.singleSiteContainer} style={{ backgroundColor: !thisContainerGradient && thisContainerColor, backgroundImage: thisContainerGradient, ...singleSiteStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'single-site-move-right' : 'single-site-move-left'), animationDuration: '2s' }}>
                 <Prompt when={isDirty} message='Reload site? Changes you made may not be saved.' />
                 <div className={styles.editButton} style={{color: editButtonColor}}>
                     { isEditing || !isEditButtonVisible ? 
