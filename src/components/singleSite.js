@@ -607,7 +607,7 @@ const SingleSite = () => {
                         <div className={styles.editContents}>
                             <h1>Domains</h1>
                             <h2>Live Site</h2>
-                            <a href={`https://www.mostlink.io/${site.subdomain}`} style={{color: themeObj.color}}>www.mostlink.io/{site.subdomain}</a>
+                            <a href={`${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">{process.env.REACT_APP_HOSTED_BASE}/{site.subdomain}</a>
                             <h2>Domains</h2>
                             <button onClick={openCheckDomainModal}>Add a domain</button>
                             {
