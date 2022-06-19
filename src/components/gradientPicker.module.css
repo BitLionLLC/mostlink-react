@@ -41,8 +41,6 @@
     justify-content: space-evenly;
 }
 
-
-
 .useGradient {
     width: 16px;
 }
@@ -72,8 +70,8 @@
     transform: rotate(45deg);
     cursor: default;
     position: absolute;
-    top: -5px;
-    right: 5px;
+    top: -12px;
+    right: -2px;
     font-size: 36px;
 }
 

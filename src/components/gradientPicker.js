@@ -26,6 +26,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     const [gradientStr, setGradientStr] = useState('');
     const [linearDirection, setLinearDirection] = useState('to top')
     const [isEditingColor, setIsEditingColor] = useState(false);
+    const [isColorSet, setIsColorSet] = useState(true);
     const [colorToEdit, setColorToEdit] = useState(0);
     const [editColorResult, setEditColorResult] = useState('#1E90FF');
     const editColorRef = useRef(editColorResult);
@@ -36,7 +37,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
 
     useEffect(() => {
-        if (value) {
+        if (value && isColorSet) {
             setUseGradient(!!value);
             const passedType = value?.split("(")[0]?.split("-")[0];
             const passedAngle = value?.includes('conic') ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
@@ -49,7 +50,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
             setGradientStr(value);
             setLinearDirection(passedDirection || 'to top');
         }
-    }, [value])
+    }, [value, isColorSet])
 
     useEffect(() => {
         if (useGradient) {
@@ -79,9 +80,11 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
             setContainerAlphaPercent(100);
             return;
         }
+
+        const alpha = Math.round(+containerAlphaPercent);
         
-        if (+containerAlphaPercent <= 100) {
-            let alphaHex = (parseInt((+containerAlphaPercent)/100*255, 10)).toString(16);
+        if (alpha <= 100) {
+            let alphaHex = (parseInt((alpha)/100*255, 10)).toString(16);
             if (alphaHex.length === 1) {alphaHex = '0' + alphaHex}
             const color = gradientArr[colorToEdit]?.slice(0, 7) + alphaHex;
             editColor(color);
@@ -93,14 +96,23 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     }, [containerAlphaPercent])
 
     useEffect(() => {
-        if (place === 'container' && gradientArr[colorToEdit].length === 9) {
-            const color = gradientArr[colorToEdit];
-            const alphaPercent = Math.round(parseInt(color.slice(7), 16)/255*100);
-            if (alphaPercent !== !containerAlphaPercent) {
-                setContainerAlphaPercent(alphaPercent)
-            }
+        if (place === "container" && gradientArr[colorToEdit].length === 7) {
+            setContainerAlphaPercent(100);
+        } else if (place === "container" && gradientArr[colorToEdit].length === 9) {
+            const alphaPercent = Math.round(parseInt(gradientArr[colorToEdit].slice(7), 16)/255*100);
+            setContainerAlphaPercent(alphaPercent);
         }
-    }, [gradientArr, colorToEdit])
+    }, [colorToEdit])
+
+    useEffect(() => {
+        setIsColorSet(false);
+
+        const delayDebounceFn = setTimeout(() => {
+            setIsColorSet(true);
+        }, 1000)
+
+        return () => clearTimeout(delayDebounceFn)
+    }, [editColorResult])
 
     const addColor = () => {
         const currentColors = gradientArr.slice();
@@ -115,9 +127,15 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     }
 
     const editColor = (color) => {
-        let alphaHex = (parseInt((+containerAlphaPercent)/100*255, 10)).toString(16);
-        if (alphaHex.length === 1) {alphaHex = '0' + alphaHex}
-        const newColor = color.slice(0,7)+ alphaHex;
+        let newColor;
+        if (color.match(HEX_COLOR_REGEX_SHORT) || color.match(HEX_COLOR_REGEX_LONG)) {
+            let alphaHex = (parseInt((+containerAlphaPercent)/100*255, 10)).toString(16);
+            if (alphaHex.length === 1) {alphaHex = '0' + alphaHex}
+            newColor = color.slice(0,7)+ alphaHex;
+        } else {
+            newColor = color;
+        }
+        
         setEditColorResult(newColor);
         const currentColors = gradientArr.slice();
         currentColors.splice(colorToEdit, 1, newColor);
