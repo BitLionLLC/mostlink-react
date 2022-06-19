@@ -128,7 +128,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
 
     const editColor = (color) => {
         let newColor;
-        if (color.match(HEX_COLOR_REGEX_SHORT) || color.match(HEX_COLOR_REGEX_LONG)) {
+        if (color?.match(HEX_COLOR_REGEX_SHORT) || color?.match(HEX_COLOR_REGEX_LONG)) {
             let alphaHex = (parseInt((+containerAlphaPercent)/100*255, 10)).toString(16);
             if (alphaHex.length === 1) {alphaHex = '0' + alphaHex}
             newColor = color.slice(0,7)+ alphaHex;

@@ -176,11 +176,8 @@ const SingleSite = () => {
 
     useEffect(() => {
         if (bodyAnimationStyle) {
-            const color = ANIMATION_PRESETS[bodyAnimationStyle]['background']['color'];
-        
-            if (color?.match(HEX_COLOR_REGEX_SHORT) ||  color?.match(HEX_COLOR_REGEX_LONG)) {
-                setBodyColor(color);
-            }
+            const color = ANIMATION_PRESETS[bodyAnimationStyle].background.color;
+            setBodyColor(color.value || color);
         }
     }, [bodyAnimationStyle])
 
@@ -453,7 +450,7 @@ const SingleSite = () => {
                             <h2>Body Gradient</h2>
                             <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} place="body" isContainerTransparent={null} />
                             <h2>Body Animation</h2>
-                            <select value={bodyAnimationStyle} onChange={e => setBodyAnimationStyle(e.target.value)}>
+                            <select value={bodyAnimationStyle} onChange={e => setBodyAnimationStyle(e.target.value)} style={{marginBottom: '20px'}}>
                                 <option value="">none</option>
                                 <option value="absorbers">absorbers</option>
                                 <option value="amongUs">amongUs</option>
@@ -491,7 +488,7 @@ const SingleSite = () => {
                                 <option value="virus">virus</option>
                                 <option value="warp">warp</option>
                             </select>
-
+                            {bodyAnimationStyle && isEditing && <Particles id="tsparticlessmall" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true, fullScreen: { enable: false }, style: {height: '200px', width: '200px'}}} />}
                             <h2>Container Color</h2>
                             <HexColorPicker color={containerColor} onChange={e => setContainerColor(e.toUpperCase())} />
                             <input type="text" value={containerColor} onChange={e => standardizeColorInput(e.target.value, setContainerColor, containerColorRef)} className={styles.hexInput} />
@@ -748,7 +745,7 @@ const SingleSite = () => {
             {thisBodyAnimationStyle && !isEditing && <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[thisBodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />}
              <style children={isEditing ? keyFramesStartEdit : keyFramesEndEdit} />
              <div className={styles.singleSiteContainer} style={{ backgroundColor: !thisContainerGradient && thisContainerColor, backgroundImage: thisContainerGradient, ...singleSiteStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'single-site-move-right' : 'single-site-move-left'), animationDuration: '2s' }}>
-                <Prompt when={isDirty} message='Reload site? Changes you made may not be saved.' />
+                <Prompt when={isDirty} />
                 <div className={styles.editButton} style={{color: editButtonColor}}>
                     { isEditing || !isEditButtonVisible ? 
                         null
