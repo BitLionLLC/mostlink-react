@@ -77,6 +77,7 @@ const SingleSite = () => {
     const [isDomainAvailable, setIsDomainAvailable] = useState(false);
     const [hasDomainBeenChecked, setHasDomainBeenChecked] = useState(false);
     const [hasDomainBeenRegistered, setHasDomainBeenRegistered] = useState(false);
+    const [expandedAccordion, setExpandedAccordion] = useState(false);
 
     const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
     const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
@@ -427,11 +428,15 @@ const SingleSite = () => {
         }, 5000)
     }
 
+    const handleAccordionChange = panel => (e, isExpanded) => {
+        setExpandedAccordion(isExpanded ? panel : false);
+    };
+
     const getEditContents = () => {
         return <>
             <h1>Settings</h1>
             <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-                <Accordion>
+                <Accordion expanded={expandedAccordion === 'panel1'} onChange={handleAccordionChange('panel1')}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -498,7 +503,7 @@ const SingleSite = () => {
                         </div>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion>
+                <Accordion expanded={expandedAccordion === 'panel2'} onChange={handleAccordionChange('panel2')}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel2a-content"
@@ -519,7 +524,7 @@ const SingleSite = () => {
                         </div>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion>
+                <Accordion expanded={expandedAccordion === 'panel3'} onChange={handleAccordionChange('panel3')}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel3a-content"
@@ -557,11 +562,11 @@ const SingleSite = () => {
                         </div>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion>
+                <Accordion expanded={expandedAccordion === 'panel4'} onChange={handleAccordionChange('panel4')}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel3a-content"
-                    id="panel3a-header"
+                    aria-controls="panel4a-content"
+                    id="panel4a-header"
                     >
                     <Typography>Links</Typography>
                     </AccordionSummary>
@@ -595,17 +600,17 @@ const SingleSite = () => {
                     </div>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion>
+                <Accordion expanded={expandedAccordion === 'panel5'} onChange={handleAccordionChange('panel5')}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel4a-content"
-                    id="panel4a-header"
+                    aria-controls="panel5a-content"
+                    id="panel5a-header"
                     >
-                    <Typography>Domains</Typography>
+                    <Typography>Site/Domains</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <div className={styles.editContents}>
-                            <h1>Domains</h1>
+                            <h1>Site/Domains</h1>
                             <h2>Live Site</h2>
                             <a href={`${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">{process.env.REACT_APP_HOSTED_BASE}/{site.subdomain}</a>
                             <h2>Domains</h2>
