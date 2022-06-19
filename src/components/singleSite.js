@@ -207,7 +207,7 @@ const SingleSite = () => {
 
     useEffect(() => {
         if (isContainerTransparent && containerColor !== "#00000000") {
-            setContainerColor(containerColor + "00");
+            setContainerColor(containerColor.slice(0,7) + "00");
         } else {
             setContainerColor(containerColor.slice(0, 7))
         }
