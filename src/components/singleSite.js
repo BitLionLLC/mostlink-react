@@ -34,7 +34,7 @@ const IMAGE_TYPE = {
 }
 
 const SingleSite = () => {
-    const { site, fetchSite } = useContext(SitesContext);
+    const { site, fetchSite, theme, themeObj } = useContext(SitesContext);
     const match = useRouteMatch();
     const history = useHistory();
 
@@ -115,7 +115,7 @@ const SingleSite = () => {
     }
 
     useEffect(() => {
-        document.body.style.backgroundImage = null;
+        document.body.style.backgroundImage = bodyGradient || null;
         fetchSite(match.params.id);
         fetchPexels();
         fetchSiteDomains();
@@ -124,6 +124,10 @@ const SingleSite = () => {
     useEffect(() => {
         document.body.style.backgroundImage = bodyGradient || null;
     }, [bodyGradient])
+
+    useEffect(() => {
+        document.body.style.backgroundColor = bodyColor;
+    }, [theme])
 
     useEffect(() => {
         const linksWithLive = links && links.map(link => {
@@ -165,6 +169,7 @@ const SingleSite = () => {
         setBodyGradient(site.bodyGradient);
         setContainerGradient(site.containerGradient);
         setBodyAnimationStyle(site.bodyAnimationStyle);
+        setIsContainerTransparent(site.containerColor === "#00000000");
     }, [site])
 
     useEffect(() => {
@@ -523,10 +528,10 @@ const SingleSite = () => {
                 </div>
             default: // default and ALL
                 return <div className={styles.editContents}>
-                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} className={styles.generalButton}>Title Settings</button>
-                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)} className={styles.generalButton}>Image Settings</button>
-                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.LINKS)} className={styles.generalButton}>Link Settings</button>
-                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.DOMAINS)} className={styles.generalButton}>Domain Settings</button>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.TITLES)} className={styles.generalButton} style={{backgroundColor: themeObj.sitesBoxColor, color: themeObj.color}}>Title Settings</button>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.IMAGES)} className={styles.generalButton} style={{backgroundColor: themeObj.sitesBoxColor, color: themeObj.color}}>Image Settings</button>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.LINKS)} className={styles.generalButton} style={{backgroundColor: themeObj.sitesBoxColor, color: themeObj.color}}>Link Settings</button>
+                    <button onClick={() => setWhatIsBeingEdited(EDIT_TYPE.DOMAINS)} className={styles.generalButton} style={{backgroundColor: themeObj.sitesBoxColor, color: themeObj.color}}>Domain Settings</button>
                     <h1>General Settings</h1>
                     <h2>Body Color</h2>
                     <HexColorPicker color={bodyColor} onChange={e => setBodyColor(e.toUpperCase())} />
@@ -759,7 +764,7 @@ const SingleSite = () => {
     return (
         <>
             <style children={isEditing ? keyFramesStartEditTray : keyFramesEndEditTray} />
-            <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'edit-tray-move-right' : 'edit-tray-move-left'), animationDuration: '2s'}}>
+            <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'edit-tray-move-right' : 'edit-tray-move-left'), animationDuration: '2s', backgroundColor: themeObj.editTrayBackground}}>
                 <div className={styles.saveAndCancelButtons}>
                     <FontAwesomeIcon icon={["far", "save"]} size="3x" onClick={onSave} color="lightgreen" />
                     <FontAwesomeIcon icon={["far", "window-close"]} size="3x" onClick={onCancel} color="salmon" />

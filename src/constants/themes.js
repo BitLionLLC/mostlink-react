@@ -7,7 +7,8 @@ export const lightTheme = {
     landingCardBackground: "rgba(255, 255, 255, 0.3)",
     accentColor: "blue",
     loggedInColor: "green",
-    sitesBoxColor: "lightblue"
+    sitesBoxColor: "lightblue",
+    editTrayBackground: "slateblue"
 }
 
 export const darkTheme = {
@@ -19,5 +20,6 @@ export const darkTheme = {
     landingCardBackground: "rgba(34, 34, 34, 0.3)",
     accentColor: "dodgerblue",
     loggedInColor: "lightgreen",
-    sitesBoxColor: "midnightblue"
+    sitesBoxColor: "midnightblue",
+    editTrayBackground: "#111122"
 }

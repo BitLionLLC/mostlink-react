@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
+import { SitesContext } from '../contexts/sitesContext';
 import toHex from 'colornames';
 import { HexColorPicker } from 'react-colorful';
 import update from 'immutability-helper';
@@ -15,6 +16,8 @@ const GRADIENT_PRESETS = {
 }
 
 const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
+    const { themeObj } = useContext(SitesContext);
+
     const [useGradient, setUseGradient] = useState(false);
     const [gradientType, setGradientType] = useState('linear');
     const [conicAngle, setConicAngle] = useState(0);
@@ -167,7 +170,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     }, []);
 
     return (
-        <div className={styles.gradientPicker}>
+        <div className={styles.gradientPicker} style={{backgroundColor: themeObj.sitesBoxColor}}>
             {
                 isEditingColor 
                 ?
