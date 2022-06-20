@@ -273,6 +273,11 @@ input {
 
 .domainList {
     list-style: none;
+    padding: 5px;
+}
+
+.domainListDomain {
+    margin: 15px 0;
 }
 
 .hexInput {

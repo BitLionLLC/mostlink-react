@@ -77,6 +77,7 @@ const SingleSite = () => {
     const [isDomainAvailable, setIsDomainAvailable] = useState(false);
     const [hasDomainBeenChecked, setHasDomainBeenChecked] = useState(false);
     const [hasDomainBeenRegistered, setHasDomainBeenRegistered] = useState(false);
+    const [currentDomainCname, setCurrentDomainCname] = useState("");
     const [expandedAccordion, setExpandedAccordion] = useState(false);
 
     const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
@@ -362,14 +363,15 @@ const SingleSite = () => {
 
     const registerDomain = () => {
         const body = {
-            domain: domainToAdd,
+            domain: domainToAdd.startsWith("www.") ? domainToAdd : "www." + domainToAdd,
             siteId: match.params.id
         }
 
         axios
             .post(`${process.env.REACT_APP_API_BASE}/api/sites/register-domain`, body, { withCredentials: true })
-            .then(() => {
+            .then(res => {
                 setHasDomainBeenRegistered(true);
+                setCurrentDomainCname(res.data.cname);
                 fetchSiteDomains();
             })
             .catch(err => toast(err, { type: "error" }))
@@ -617,7 +619,7 @@ const SingleSite = () => {
                                     <>
                                         <ul className={styles.domainList}>
                                             {domains.map(data => {
-                                                return <li key={data.domain}>
+                                                return <li key={data.domain} className={styles.domainListDomain}>
                                                     {data.domain}
                                                     &nbsp;
                                                     { data.isPointing ?
@@ -627,10 +629,16 @@ const SingleSite = () => {
                                                     }
                                                     &nbsp;
                                                     <button onClick={() => openDeleteDomainModal(data.domain)}>Delete</button>
+                                                    <br/>
+                                                    { data.isPointing ?
+                                                        null
+                                                        :
+                                                        <div>CNAME: <br/>{data.cname}</div>
+                                                    }
                                                 </li>
                                             })}
                                         </ul>
-                                        <p>Reminder: make sure each domain has an<br/>A record at its registrar pointing to our server address: {process.env.REACT_APP_SERVER_IP}</p>
+                                        <p>Reminder: make sure each domain has a<br/>"www" CNAME pointing at the CNAME listed under it.</p>
                                     </>
                                     
                                 :
@@ -931,7 +939,7 @@ const SingleSite = () => {
                         <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
                         <h1>Registered!</h1>
                         <h2>{domainToAdd}</h2>
-                        <p>Please add an A record at your registrar<br/>that points at our server: {process.env.REACT_APP_SERVER_IP}</p>
+                        <p>Please add a "www" CNAME at your registrar<br/>that points at our server: <br/> {currentDomainCname}</p>
                         <div className={styles.deleteSiteButtons}>
                             <button className={styles.cancelButton} onClick={closeRegisterDomainModal}>Okay</button>
                         </div>
