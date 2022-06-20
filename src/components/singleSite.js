@@ -620,7 +620,7 @@ const SingleSite = () => {
                                         <ul className={styles.domainList}>
                                             {domains.map(data => {
                                                 return <li key={data.domain} className={styles.domainListDomain}>
-                                                    {data.domain}
+                                                    <a href={`https://${data.domain}`} target="_blank" rel="noreferrer" style={{color: themeObj.color}}>{data.domain}</a>
                                                     &nbsp;
                                                     { data.isPointing ?
                                                         <FontAwesomeIcon icon={["fas", "check"]} color="lightgreen" />
