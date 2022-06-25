@@ -6,6 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SitesContext } from '../../contexts/sitesContext';
 import { toast } from 'react-toastify';
 import GoogleLogin from 'react-google-login';
+import TextField from '@mui/material/TextField';
+import { ThemeProvider } from '@mui/material/styles';
+import { muiDarkTheme, muiLightTheme } from '../../constants/themes';
+
 import styles from './register.module.css';
 
 const Register = () => {
@@ -33,7 +37,7 @@ const Register = () => {
     const [passwordAgainError, setPasswordAgainError] = useState("");
 
     const PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$";
-    const PASSWORD_ERROR = "This password does not meet the requirements: minimum 12 characters, at least 1 uppercase letter, at least 1 lowercase letter, at least 1 special character, and at least 1 numerical digit.";
+    const PASSWORD_ERROR = "This password does not meet the requirements.";
     const REQUIRED_FIELD_ERROR = "This field is required."
 
     useEffect(() => {
@@ -157,57 +161,54 @@ const Register = () => {
                     isSignedIn={true}
                 />
                 <h3 style={{ color: themeObj.accentColor }}><Link to="/account/login" style={{ color: themeObj.accentColor }}>Already have an account? Log in instead.</Link></h3>
-                <form className={styles.registerForm} onSubmit={onSubmit}>
-                    <label htmlFor="firstName">First name*</label>
-                    <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} id="firstName" />
-                    { firstNameError && <div className={styles.errorText}>{firstNameError}</div> }
+                <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
+                    <form className={styles.registerForm} onSubmit={onSubmit}>
+                        <label htmlFor="firstName">First name*</label>
+                        <TextField type="text" value={firstName} onChange={e => setFirstName(e.target.value)} id="firstName" variant="filled" size="small" className={styles.textField} error={!!firstNameError} helperText={firstNameError} />
 
-                    <label htmlFor="lastName">Last name*</label>
-                    <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} id="lastName" />
-                    { lastNameError && <div className={styles.errorText}>{lastNameError}</div> }
+                        <label htmlFor="lastName">Last name*</label>
+                        <TextField type="text" value={lastName} onChange={e => setLastName(e.target.value)} id="lastName" variant="filled" size="small" className={styles.textField} error={!!lastNameError} helperText={lastNameError} />
 
-                    <label htmlFor="email">Email address*</label>
-                    <input type="text" value={email} onChange={e => setEmail(e.target.value)} id="email" />
-                    { emailError && <div className={styles.errorText}>{emailError} {emailError === "This email is already in use." && <span>Would you like to <Link to="/account/login">log in</Link> instead?</span>}</div> }
-                    
-                    <label htmlFor="username">Username*</label>
-                    <input type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" />
-                    { usernameError && <div className={styles.errorText}>{usernameError}</div> }
-                    
-                    <div className={styles.passwordAndTooltip}>
-                        <label htmlFor="password">Password*</label>
-                        <ReactTooltip place="right" html={true}/>
-                        <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
-                    </div>
-                    <div className={styles.passwordAndEyeIcon}>
-                        <input type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" />
-                        <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
-                    </div>
-                    { passwordError && <div className={styles.errorText}>{passwordError}</div> }
-                    
-                    <div className={styles.passwordAndTooltip}>
-                        <label htmlFor="passwordAgain">Re-type password*</label>
-                        <ReactTooltip place="right" html={true}/>
-                        <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
-                    </div>
-                    <div className={styles.passwordAndEyeIcon}>
-                        <input type={ isPasswordAgainShowing ? "text" : "password" } value={passwordAgain} onChange={e => setPasswordAgain(e.target.value)} id="passwordAgain" />
-                        <FontAwesomeIcon color="black" icon={isPasswordAgainShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordAgainShowing(!isPasswordAgainShowing)} className={styles.eyeIcon} />
-                    </div>
-                    { passwordAgainError && <div className={styles.errorText}>{passwordAgainError}</div> }
-                    
-                    <div>*required field</div>
-                    <div className={styles.registerFormButtons}>
-                        <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
-                        <button 
-                            className={styles.submitButton} 
-                            type="submit"
-                            disabled={firstNameError || lastNameError || emailError || usernameError || passwordError || passwordAgainError}
-                        >
-                                Submit
-                        </button>
-                    </div>
-                </form>
+                        <label htmlFor="email">Email address*</label>
+                        <TextField type="text" value={email} onChange={e => setEmail(e.target.value)} id="email" variant="filled" size="small" className={styles.textField} error={!!emailError} helperText={emailError} />
+                        { emailError && emailError === "This email is already in use." && <div className={styles.errorText}>{<span>Would you like to <Link to="/account/login">log in</Link> instead?</span>}</div> }
+                        
+                        <label htmlFor="username">Username*</label>
+                        <TextField type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" variant="filled" size="small" className={styles.textField} error={!!usernameError} helperText={usernameError} />
+                        
+                        <div className={styles.passwordAndTooltip}>
+                            <label htmlFor="password">Password*</label>
+                            <ReactTooltip place="right" html={true}/>
+                            <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
+                        </div>
+                        <div className={styles.passwordAndEyeIcon}>
+                            <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
+                            <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
+                        </div>
+                        
+                        <div className={styles.passwordAndTooltip}>
+                            <label htmlFor="passwordAgain">Re-type password*</label>
+                            <ReactTooltip place="right" html={true}/>
+                            <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
+                        </div>
+                        <div className={styles.passwordAndEyeIcon}>
+                            <TextField type={ isPasswordAgainShowing ? "text" : "password" } value={passwordAgain} onChange={e => setPasswordAgain(e.target.value)} id="passwordAgain" variant="filled" size="small" className={styles.textField} error={!!passwordAgainError} helperText={passwordAgainError} />
+                            <FontAwesomeIcon color="black" icon={isPasswordAgainShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordAgainShowing(!isPasswordAgainShowing)} className={styles.eyeIcon} />
+                        </div>
+                        
+                        <div>*required field</div>
+                        <div className={styles.registerFormButtons}>
+                            <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
+                            <button 
+                                className={styles.submitButton} 
+                                type="submit"
+                                disabled={firstNameError || lastNameError || emailError || usernameError || passwordError || passwordAgainError}
+                            >
+                                    Submit
+                            </button>
+                        </div>
+                    </form>
+                </ThemeProvider>
             </div>
         </div>
     )

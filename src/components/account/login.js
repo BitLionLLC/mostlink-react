@@ -5,6 +5,9 @@ import axios from 'axios';
 import { SitesContext } from '../../contexts/sitesContext';
 import { toast } from 'react-toastify';
 import GoogleLogin from 'react-google-login';
+import TextField from '@mui/material/TextField';
+import { ThemeProvider } from '@mui/material/styles';
+import { muiDarkTheme, muiLightTheme } from '../../constants/themes';
 
 import styles from "./login.module.css";
 
@@ -84,23 +87,25 @@ const Login = () => {
                     isSignedIn={true}
                 />
                 <h3 style={{ color: themeObj.accentColor }}><Link to="/account/register" style={{ color: themeObj.accentColor }}>Don't have an account? Register instead.</Link></h3>
-                <form onSubmit={onSubmit} className={styles.loginForm}>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" />
+                <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
+                    <form onSubmit={onSubmit} className={styles.loginForm}>
+                        <label htmlFor="username">Username</label>
+                        <TextField type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" variant="filled" className={styles.textField} size="small" />
 
-                    <label htmlFor="password">Password</label>
-                    <div className={styles.passwordAndEyeIcon}>
-                        <input type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" className={styles.password} />
-                        <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
-                    </div>
+                        <label htmlFor="password">Password</label>
+                        <div className={styles.passwordAndEyeIcon}>
+                            <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" className={`${styles.password} ${styles.textField}`} variant="filled" size="small" />
+                            <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
+                        </div>
 
-                    <h3 style={{ color: themeObj.accentColor }}><Link to="/account/forgot-password" style={{ color: themeObj.accentColor }}>Forgot password</Link></h3>
+                        <h3 style={{ color: themeObj.accentColor }}><Link to="/account/forgot-password" style={{ color: themeObj.accentColor }}>Forgot password</Link></h3>
 
-                    <div className={styles.loginFormButtons}>
-                        <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
-                        <button className={styles.submitButton} type="submit">Submit</button>
-                    </div>
-                </form>
+                        <div className={styles.loginFormButtons}>
+                            <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
+                            <button className={styles.submitButton} type="submit">Submit</button>
+                        </div>
+                    </form>
+                </ThemeProvider>
             </div>
         </div>
     )

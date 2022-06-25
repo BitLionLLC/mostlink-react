@@ -24,7 +24,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import { muiDarkTheme, muiLightTheme } from '../constants/themes';
 
 const IMAGE_TYPE = {
     HEADER: "header",
@@ -214,18 +215,6 @@ const SingleSite = () => {
         }
     }, [isContainerTransparent])
 
-
-    const darkTheme = createTheme({
-        palette: {
-          mode: 'dark',
-        },
-    });
-
-    const lightTheme = createTheme({
-        palette: {
-          mode: 'light',
-        },
-    });
 
     useBeforeunload((e) => {
         if (isDirty) {
@@ -434,7 +423,7 @@ const SingleSite = () => {
     const getEditContents = () => {
         return <>
             <h1>Settings</h1>
-            <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+            <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
                 <Accordion expanded={expandedAccordion === 'panel1'} onChange={handleAccordionChange('panel1')}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

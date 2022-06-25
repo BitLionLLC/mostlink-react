@@ -1,3 +1,5 @@
+import { createTheme } from '@mui/material/styles';
+
 export const lightTheme = {
     bodyColor: "white",
     color: "#001036",
@@ -23,3 +25,15 @@ export const darkTheme = {
     sitesBoxColor: "midnightblue",
     editTrayBackground: "#111122"
 }
+
+export const muiDarkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+});
+
+export const  muiLightTheme = createTheme({
+    palette: {
+      mode: 'light',
+    },
+});
