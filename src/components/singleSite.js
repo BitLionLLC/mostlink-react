@@ -80,6 +80,7 @@ const SingleSite = () => {
     const [hasDomainBeenRegistered, setHasDomainBeenRegistered] = useState(false);
     const [currentDomainCname, setCurrentDomainCname] = useState("");
     const [expandedAccordion, setExpandedAccordion] = useState(false);
+    const [hoveredLinkIndex, setHoveredLinkIndex] = useState(null);
 
     const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
     const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
@@ -734,6 +735,14 @@ const SingleSite = () => {
         }
     `
 
+    const onMouseEnter = (index) => {
+        setHoveredLinkIndex(index);
+    }
+
+    const onMouseLeave = () => {
+        setHoveredLinkIndex(null);
+    }
+
     const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisContainerGradient, thisBodyColor, thisBodyGradient, thisLinkTextColor, thisLinkBackgroundColor, thisLiveNotificationColor, thisBodyAnimationStyle) => {
         document.body.style.backgroundColor = thisBodyColor;
         document.body.style.backgroundImage = thisBodyGradient;
@@ -769,7 +778,14 @@ const SingleSite = () => {
                 {links ?
                     <ul className={styles.linksList}>
                         {theseLinks?.map((link, i) => {
-                            return <a href={link.href.startsWith("http") ? link.href : "https://" + link.href} target="_blank" rel="noreferrer" className={styles.individualLink} style={{ color: thisLinkTextColor, backgroundColor: thisLinkBackgroundColor }} key={i} >
+                            const hoverStyle = {color: thisLinkBackgroundColor, background: thisLinkTextColor};
+                            const nonHoverStyle = {color: thisLinkTextColor, background: thisLinkBackgroundColor};
+
+                            return <a href={link.href.startsWith("http") ? link.href : "https://" + link.href} 
+                                target="_blank" rel="noreferrer" className={styles.individualLink} 
+                                style={{ color: hoveredLinkIndex === i ? hoverStyle.color : nonHoverStyle.color, background: hoveredLinkIndex === i ? hoverStyle.background: nonHoverStyle.background }}  
+                                key={i} onMouseEnter={() => onMouseEnter(i)} onMouseLeave={onMouseLeave}
+                            >
                                 <div className={styles.linkTextAndLiveStatus}>
                                     <div className={styles.linkText}>{link.text}</div>
                                     {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: thisLiveNotificationColor}}> LIVE!</span></> : "- not live"}</div> : null}
