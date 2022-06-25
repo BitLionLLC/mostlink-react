@@ -23,23 +23,20 @@ body {
     animation-timing-function: ease-in-out;
 }
 
-@keyframes blurAnimate {
+@keyframes videoAnimate {
     0% {
-        filter: blur(0px);
         border-radius: 80px;
         width: 485px;
         height: 485px;
         margin-top: 208px;
     }
     50% {
-        filter: blur(8px);
         border-radius: 15px;
         width: 455px;
         height: 455px;
         margin-top: 220px;
     }
     100% {
-        filter: blur(0px);
         border-radius: 80px;
         width: 485px;
         height: 485px;
@@ -61,7 +58,7 @@ body {
 
 .landingBehind video {
     position: relative;
-    animation-name: blurAnimate;
+    animation-name: videoAnimate;
     animation-duration: 6s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
