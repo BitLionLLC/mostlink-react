@@ -82,7 +82,7 @@ const Header = () => {
     }, [])
 
     useEffect(() => {
-        const allowedPathsWhenLoggedOut = ["/account/login", "/account/register", "/account/reset-password", "/account/forgot-password", '/pricing'];
+        const allowedPathsWhenLoggedOut = ["/account/login", "/account/register", "/account/reset-password", "/account/forgot-password", '/pricing', '/privacy-policy'];
         
         setTimeout(() => {
             if (!jwtTokenRef.current) {

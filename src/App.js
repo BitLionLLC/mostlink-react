@@ -10,8 +10,10 @@ import Register from './components/account/register';
 import ResetPassword from './components/account/resetPassword';
 import ForgotPassword from './components/account/forgotPassword';
 import Header from './components/header';
+import Footer from './components/footer';
 import Landing from './components/landing';
 import Pricing from './components/pricing';
+import PrivacyPolicy from './components/privacyPolicy';
 import { ToastContainer } from 'react-toastify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -27,6 +29,7 @@ function App() {
       <ToastContainer position="top-right" autoClose={5000} />
       <Router>
         <Header />
+        <Footer />
         <Route path="/" exact>
           <Landing />
         </Route>
@@ -59,6 +62,9 @@ function App() {
         </Route>
         <Route path="/pricing">
           <Pricing />
+        </Route>
+        <Route path="/privacy-policy">
+          <PrivacyPolicy />
         </Route>
       </Router>
     </SitesContextProvider>
