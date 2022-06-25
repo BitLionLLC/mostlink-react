@@ -16,3 +16,17 @@
     border-radius: 20px;
     padding: 20px;
 }
+
+.success:after {
+    position: absolute;
+    content: "";
+    bottom: -100px;
+    height: 500px;
+    width: 1px;
+}
+
+@media(max-width: 550px) {
+    .success {
+        width: 90vw;
+    }
+}

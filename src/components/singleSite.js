@@ -804,7 +804,7 @@ const SingleSite = () => {
     const keyFramesStartEditTray = `
         @keyframes edit-tray-move-right {
             0% {
-                left: -400px;
+                left: -600px;
             }
 
             100% {
@@ -814,7 +814,7 @@ const SingleSite = () => {
     `
 
     const editTrayStyle = {
-        left: isEditing ? 0 : '-400px',
+        left: isEditing ? 0 : '-600px',
     }
 
     const keyFramesEndEditTray = `
@@ -824,7 +824,7 @@ const SingleSite = () => {
             }
 
             100% {
-                left: -400px;
+                left: -600px;
             }
         }
     `

@@ -169,3 +169,9 @@
 .labelAndInput {
     width: 100%;
 }
+
+@media(max-width: 550px) {
+    .account, .deleteAccountModal {
+        width: 90vw;
+    }
+}

@@ -13,7 +13,8 @@ import styles from './header.module.css';
 const Header = () => {
     const history = useHistory();
     const { jwtToken, setJwtToken, setUserId, theme, themeObj, toggleTheme } = useContext(SitesContext);
-    const [isMenuShown, setIsMenuShown] = useState(false);
+    const [isAccountMenuShown, setIsAccountMenuShown] = useState(false);
+    const [isHamburgerMenuShown, setIsHamburgerMenuShown] = useState(false);
     let jwtTokenRef = useRef(jwtToken);
 
     const { signOut } = useGoogleLogout({
@@ -40,9 +41,9 @@ const Header = () => {
     }
 
     useEffect(() => {
-        document.body.addEventListener('click', () => setIsMenuShown(false));
+        document.body.addEventListener('click', () => setIsAccountMenuShown(false));
 
-        return document.body.removeEventListener('click', () => setIsMenuShown(false));
+        return document.body.removeEventListener('click', () => setIsAccountMenuShown(false));
     }, [])
 
     useEffect(() => {
@@ -95,9 +96,19 @@ const Header = () => {
         }, 500)
     }, [jwtToken])
     
-    const toggleMenu = e => {
+    const toggleAccountMenu = e => {
         e.stopPropagation();
-        setIsMenuShown(!isMenuShown);
+        setIsAccountMenuShown(!isAccountMenuShown);
+    }
+
+    const toggleHamburgerMenu = e => {
+        e.stopPropagation();
+        setIsHamburgerMenuShown(!isHamburgerMenuShown);
+    }
+
+    const routeTo = (path) => {
+        setIsHamburgerMenuShown(false);
+        history.push(path);
     }
 
     return (
@@ -109,22 +120,45 @@ const Header = () => {
             </div>
             <div className={styles.iconRow}>
                 <Link to="/pricing" className={styles.pricingLink} style={{ color: themeObj.color }}>Pricing</Link>
-                <div className={styles.accountIcon} onClick={e => toggleMenu(e)} style={{ right: jwtToken ? "15px" : "18px", color: jwtToken && themeObj.loggedInColor }}>
+                <div className={styles.accountIcon} onClick={e => toggleAccountMenu(e)} style={{ right: jwtToken ? "15px" : "18px", color: jwtToken && themeObj.loggedInColor }}>
                     <FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/>
                 </div>
                 <div className={styles.themeIcon} onClick={toggleTheme}>
                     <FontAwesomeIcon icon={theme === "dark" ? ["fas", "sun"] : ["fas", "moon"]}/>
                 </div>
             </div>
-            <div style={{ display: isMenuShown ? "block" : "none", backgroundColor: themeObj.menuColor }} className={styles.accountMenu}>
+            <div style={{ display: isAccountMenuShown ? "block" : "none", backgroundColor: themeObj.menuColor }} className={styles.accountMenu}>
                 <div className={styles.attachTriangle} style={{ backgroundColor: themeObj.menuColor }}></div>
                 <ul className={styles.accountMenuList} >
                     {jwtToken && <li><Link to="/account" style={{ color: themeObj.color }}>Account</Link></li>}
                     {!jwtToken && <li><Link to="/account/register" style={{ color: themeObj.color }}>Register</Link></li>}
                     {!jwtToken && <li><Link to="/account/login" style={{ color: themeObj.color }}>Log in</Link></li>}
                     {jwtToken && <li onClick={onLogOut} style={{ color: themeObj.color, cursor: "pointer" }}>Log out</li>}
-                </ul>   
+                </ul> 
             </div>
+            <FontAwesomeIcon icon={["fas", "bars"]} className={styles.hamburgerMenu} size="2x" onClick={e => toggleHamburgerMenu(e)} color={theme === "light" ? "black" : "white"} />
+            {
+                isHamburgerMenuShown
+                ?
+                    <>
+                        <div className={styles.hamburgerMenuClose} onClick={e => setIsHamburgerMenuShown(false)} style={{color: theme === "light" ? "black" : "white"}}>+</div>
+                        <ul className={styles.hamburgerMenuList} style={{ backgroundColor: themeObj.menuColor }}>
+                            <div className={styles.doubleListItem}>
+                                <li style={{ color: "white", background: themeObj.editTrayBackground }} className={styles.hamburgerMenuItemHalf}><FontAwesomeIcon icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}/></li>
+                                <li onClick={toggleTheme} style={{ color: "white", background: themeObj.editTrayBackground }} className={styles.hamburgerMenuItemHalf}><FontAwesomeIcon icon={theme === "dark" ? ["fas", "sun"] : ["fas", "moon"]}/></li>
+                            </div>
+                            <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo(jwtToken ? "/home" : "/")}>{jwtToken ? "Dashboard" : "Home"}</li>
+                            {jwtToken && <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/account")}>Account</li>}
+                            {!jwtToken && <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/account/register")}>Register</li>}
+                            {!jwtToken && <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/account/login")}>Log in</li>}
+                            {jwtToken && <li onClick={onLogOut} style={{ color: "white", background: themeObj.editTrayBackground, cursor: "pointer" }}>Log out</li>}
+                            <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/pricing")}>Pricing</li>
+                            <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/privacy-policy")}>Privacy Policy</li>
+                        </ul>
+                    </>
+                :
+                    null
+            }
         </div>
     )
 }

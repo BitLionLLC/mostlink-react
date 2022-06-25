@@ -67,4 +67,12 @@
     .login {
         width: 90vw;
     }
+
+    .login:after {
+        position: absolute;
+        content: "";
+        bottom: -100px;
+        height: 500px;
+        width: 1px;
+    }
 }

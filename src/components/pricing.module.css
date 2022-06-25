@@ -6,14 +6,23 @@
 }
 
 .pricing {
-    margin: 175px 0 50px 0;
+    margin: 150px 0 50px 0;
     width: 1000px;
-    height: 550px;
+    min-height: 550px;
     border-radius: 20px;
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
+}
+
+.pricing:after {
+    position: absolute;
+    content: "";
+    bottom: -100px;
+    height: 500px;
+    width: 1px;
 }
 
 .subscription {
@@ -29,7 +38,7 @@
     }
 
     .pricing {
-        height: 950px;
+        min-height: 1000px;
     }
 }
 

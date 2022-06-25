@@ -16,7 +16,7 @@ const Landing = () => {
     return (
         <div className={styles.landingContainer}>
             <div className={styles.landingBehind}>
-                <video autoPlay muted loop id="myVideo" width="500" height="500">
+                <video autoPlay muted loop id="myVideo">
                     <source src={waterMovie} type="video/mp4" />
                 </video>
             </div>

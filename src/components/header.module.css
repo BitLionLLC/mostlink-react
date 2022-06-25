@@ -38,6 +38,62 @@
     width: 200px;
 }
 
+.hamburgerMenu {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 70px;
+}
+
+.hamburgerMenuList {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    list-style: none;
+    padding: 50px 0 0 0;
+    height: 105vh;
+    width: 100vw;
+    background: lightblue;
+    position: fixed;
+    left: 0;
+    top: -20px;
+}
+
+.hamburgerMenuList li {
+    font-size: 30px;
+    margin: 15px;
+    background-color: pink;
+    width: 90%;
+    height: 50px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.doubleListItem {
+    display: flex;
+    justify-content: space-between;
+    width: 90vw;
+}
+
+.hamburgerMenuListHalf {
+    width: 50%;
+}
+
+.hamburgerMenuClose {
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    color: black;
+    font-size: 50px;
+    z-index: 15;
+    transform: rotate(45deg);
+    cursor: pointer;
+}
+
 .accountMenuList {
     list-style: none;
     padding: 0;
@@ -85,14 +141,29 @@ a, a:hover, a:active, a:visited, a:link {
     align-items: center;
 }
 
-@media(max-width: 700px) {
+@media(max-width: 750px) {
     .header {
-        justify-content: flex-start;
+        justify-content: center;
+    }
+
+    .iconRow, .accountMenu {
+        display: none;
+    }
+
+    .hamburgerMenu {
+        display: block;
     }
 }
 
 @media(max-width: 600px) {
     .iconRow {
         right: 50px;
+    }
+}
+
+@media(max-width: 500px) {
+    .header {
+        justify-content: flex-start;
+        padding-left: 20px;
     }
 }

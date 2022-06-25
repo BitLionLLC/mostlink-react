@@ -44,6 +44,27 @@ body {
     }
 }
 
+@keyframes videoAnimate550 {
+    0% {
+        border-radius: 80px;
+        width: 90vw;
+        height: 90vw;
+        margin-top: 208px;
+    }
+    50% {
+        border-radius: 15px;
+        width: 84vw;
+        height: 84vw;
+        margin-top: 225px;
+    }
+    100% {
+        border-radius: 80px;
+        width: 90vw;
+        height: 90vw;
+        margin-top: 208px;
+    }
+}
+
 @keyframes borderAnimate {
     0% {
         border-radius: 80px;
@@ -70,4 +91,16 @@ body {
     height: calc(100vh - 150px);
     display: flex;
     justify-content: center;
+}
+
+@media(max-width: 550px) {
+    .landing {
+        width: 93vw;
+        height: 93vw;
+        top: 200px;
+    }
+
+    .landingBehind video {
+        animation-name: videoAnimate550;
+    }
 }

@@ -31,7 +31,7 @@ const PaymentSuccess = () => {
     return (
         <div className={styles.successContainer}>
             <div className={styles.success} style={{backgroundColor: themeObj.landingCardBackground}}>
-                Payment succeeded!
+                <h1>Payment succeeded!</h1>
                 <button onClick={createPortalSession}>Log into Stripe portal</button>
             </div>
         </div>

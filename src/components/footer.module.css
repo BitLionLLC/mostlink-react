@@ -14,3 +14,14 @@
 .footer div {
     margin: 0 20px;
 }
+
+@media(max-width: 600px) {
+    .footer {
+        height: 75px;
+        flex-direction: column;
+    }
+    
+    .footer div:nth-child(2) {
+        margin-top: 10px;
+    }
+}
