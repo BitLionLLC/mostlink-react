@@ -8,8 +8,9 @@ body {
     height: calc(100vh - 150px);
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     left: 0;
+    top: 50px;
     position: absolute;
 }
 
@@ -79,10 +80,14 @@ body {
     border-radius: 5px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
     .sitesList {
         width: 90vw;
         padding: 20px 0 0 0;
         margin-left: -35px;
+    }
+
+    .emptySites {
+        width: 90vw;
     }
 }

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { lightTheme, darkTheme } from '../constants/themes';
 import { toast } from 'react-toastify';
@@ -14,6 +14,7 @@ const SitesContextProvider = (props) => {
     const [theme, setTheme] = useState(localTheme || "dark");
     const [themeObj, setThemeObj] = useState(localTheme === "light" ? lightTheme : darkTheme);
     const [isSubscribed, setIsSubscribed] = useState(false);
+    const createSiteModalRef = useRef(null);
 
     useEffect(() => {
         axios
@@ -64,7 +65,8 @@ const SitesContextProvider = (props) => {
             userId, 
             theme, 
             themeObj,
-            isSubscribed, 
+            isSubscribed,
+            createSiteModalRef,
             fetchSite, 
             fetchSites, 
             setJwtToken, 

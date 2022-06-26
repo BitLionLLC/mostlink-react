@@ -6,14 +6,14 @@ import styles from './sitesList.module.css';
 import MiniSite from './miniSite';
 
 const SitesList = () => {
-    const { sites, fetchSites, themeObj } = useContext(SitesContext);
+    const { sites, fetchSites, themeObj, createSiteModalRef } = useContext(SitesContext);
 
     useEffect(() => {
         fetchSites();
     }, [])
 
     return (
-        <div className={styles.sitesContainer}>
+        <div className={styles.sitesContainer} ref={createSiteModalRef}>
             {sites.length ? 
                 <ul className={styles.sitesList}>
                     {sites.map((site, i) => {
@@ -30,9 +30,9 @@ const SitesList = () => {
                 <div className={styles.emptySitesContainer}>
                     <div className={styles.emptySites} style={{backgroundColor: themeObj.landingCardBackground}}>
                         <div className={styles.titleAndCreate}>
-                            <h1>Create a site with the</h1><CreateSite className="createSiteClone" />
+                            <h2>Create a site with the</h2><CreateSite className="createSiteClone" />
                         </div>
-                        <h1 className={styles.justTitle}>button to get started!</h1>
+                        <h2 className={styles.justTitle}>button to get started!</h2>
                     </div>
                 </div>
             }

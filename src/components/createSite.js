@@ -2,6 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
+import TextField from '@mui/material/TextField';
+import { Portal } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import { muiDarkTheme, muiLightTheme } from '../constants/themes';
+
 import styles from './createSite.module.css';
 
 const CreateSite = (props) => {
@@ -11,7 +16,7 @@ const CreateSite = (props) => {
     const [subdomain, setSubdomain] = useState("");
     const [isSubdomainValid, setIsSubdomainValid] = useState(true);
 
-    const { fetchSites, themeObj, isSubscribed, sites } = useContext(SitesContext);
+    const { fetchSites, themeObj, isSubscribed, sites, theme, createSiteModalRef } = useContext(SitesContext);
 
     useEffect(() => {
         if (!subdomain) {
@@ -78,22 +83,26 @@ const CreateSite = (props) => {
             { isModalOpen ?
                 <> 
                     <div className={styles.blocker} onClick={toggleModal}></div>
-                    <div className={styles.createSiteModal}>
-                        <div className={styles.closeButton} onClick={toggleModal}>+</div>
-                        <h1>Create a site</h1>
-                        <form onSubmit={createSite} className={styles.createSiteForm}>
-                            <input type="text" className={styles.createInput} value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" />
-                            <input type="text" className={styles.createInput} value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
-                            <div className={styles.siteAndPath}>www.mostlink.io/<input type="text" className={styles.createInputShort} value={subdomain} name="subdomain" onChange={e => setSubdomain(e.target.value)} placeholder="path" /></div>
-                            {subdomain && !isSubdomainValid && <div className={styles.errorText}>That subdomain is taken. Please choose another.</div>}
-                            <button 
-                                type="submit" 
-                                className={styles.createButton} 
-                                disabled={!title || !subtitle || !subdomain || !isSubdomainValid}>
-                                    Create
-                            </button>
-                        </form>
-                    </div>
+                    <Portal container={createSiteModalRef.current}>
+                        <div className={styles.createSiteModal}>
+                            <div className={styles.closeButton} onClick={toggleModal}>+</div>
+                            <h1>Create a site</h1>
+                            <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
+                                <form onSubmit={createSite} className={styles.createSiteForm}>
+                                    <TextField type="text" className={styles.textField} value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" variant="filled" size="small" />
+                                    <TextField type="text" className={styles.textField} value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" variant="filled" size="small"/>
+                                    <div className={styles.siteAndPath}>www.mostlink.io/<TextField type="text" className={styles.textField} value={subdomain} name="subdomain" onChange={e => setSubdomain(e.target.value)} placeholder="path" variant="filled" size="small" /></div>
+                                    {subdomain && !isSubdomainValid && <div className={styles.errorText}>That subdomain is taken. Please choose another.</div>}
+                                    <button 
+                                        type="submit" 
+                                        className={styles.createButton} 
+                                        disabled={!title || !subtitle || !subdomain || !isSubdomainValid}>
+                                            Create
+                                    </button>
+                                </form>
+                            </ThemeProvider>
+                        </div>
+                    </Portal>
                 </>
             : null }
         </>
