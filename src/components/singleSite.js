@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState, useCallback, useRef } from 'react';
+import React, { useContext, useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useRouteMatch, Prompt } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { SitesContext } from '../contexts/sitesContext';
@@ -31,6 +31,19 @@ const IMAGE_TYPE = {
     HEADER: "header",
     BACKGROUND: "background"
 }
+
+const particlesInit = async (main) => {
+    // console.log(main);
+
+    // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
+    // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+    // starting from v2 you can add only the features you need reducing the bundle size
+    await loadFull(main);
+};
+
+const particlesLoaded = (container) => {
+    return;
+};
 
 const SingleSite = () => {
     const { site, fetchSite, theme, themeObj } = useContext(SitesContext);
@@ -81,6 +94,8 @@ const SingleSite = () => {
     const [currentDomainCname, setCurrentDomainCname] = useState("");
     const [expandedAccordion, setExpandedAccordion] = useState(false);
     const [hoveredLinkIndex, setHoveredLinkIndex] = useState(null);
+
+    const memoizedParticles = useMemo(() => <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />)
 
     const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
     const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
@@ -676,19 +691,6 @@ const SingleSite = () => {
             })
     }
 
-    const particlesInit = async (main) => {
-        // console.log(main);
-    
-        // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
-        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-        // starting from v2 you can add only the features you need reducing the bundle size
-        await loadFull(main);
-    };
-    
-      const particlesLoaded = (container) => {
-        // console.log(container);
-    };
-
     useEffect(() => {
         const isCurrentlyDirty = shouldBlockNavigation();
         if (isCurrentlyDirty !== isDirty) {
@@ -750,7 +752,7 @@ const SingleSite = () => {
         document.body.style.backgroundImage = thisBodyGradient;
         
         return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
-            {thisBodyAnimationStyle && !isEditing && <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[thisBodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />}
+            {thisBodyAnimationStyle && !isEditing && memoizedParticles}
              <style children={isEditing ? keyFramesStartEdit : keyFramesEndEdit} />
              <div className={styles.singleSiteContainer} style={{ backgroundColor: !thisContainerGradient && thisContainerColor, backgroundImage: thisContainerGradient, ...singleSiteStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'single-site-move-right' : 'single-site-move-left'), animationDuration: '2s' }}>
                 <Prompt when={isDirty} />
