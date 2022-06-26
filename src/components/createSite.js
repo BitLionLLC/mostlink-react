@@ -72,14 +72,14 @@ const CreateSite = (props) => {
 
     return (
         <>
-            <button 
+            <div 
                 className={styles[props.className] || styles.createSite} 
                 onClick={toggleModal} 
                 style={{color: themeObj.accentColor, backgroundColor: themeObj.bodyColor}}
                 disabled={!isSubscribed && sites.length > 2 && false} // TODO: remove both of these AND conditions when out of beta
                 title={!isSubscribed && sites.length > 2 && false ? 'Subscribe to Premium to add more sites' : null}>
                     +
-            </button>
+            </div>
             { isModalOpen ?
                 <> 
                     <div className={styles.blocker} onClick={toggleModal}></div>

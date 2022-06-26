@@ -8,7 +8,7 @@ body {
     height: calc(100vh - 150px);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     left: 0;
     top: 50px;
     position: absolute;
@@ -22,6 +22,15 @@ body {
     padding-top: 50px;
     justify-content: flex-start;
     align-items: flex-start;
+    position: relative;
+}
+
+.sitesList:after {
+    position: absolute;
+    content: "";
+    bottom: -100px;
+    height: 500px;
+    width: 1px;
 }
 
 .siteBox {
@@ -84,10 +93,17 @@ body {
     .sitesList {
         width: 90vw;
         padding: 20px 0 0 0;
-        margin-left: -35px;
     }
+}
 
-    .emptySites {
-        width: 90vw;
+@media (max-width: 500px) {
+    .sitesList {
+        margin-left: -50px;
+    }
+}
+
+@media (max-width: 450px) {
+    .sitesList {
+        margin-left: -60px;
     }
 }
