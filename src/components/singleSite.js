@@ -24,7 +24,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { TextField, Checkbox } from '@mui/material';
+import { TextField, Checkbox, Select, MenuItem } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { muiDarkTheme, muiLightTheme } from '../constants/themes';
 
@@ -457,44 +457,44 @@ const SingleSite = () => {
                         <h2>Body Gradient</h2>
                         <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} place="body" isContainerTransparent={null} />
                         <h2>Body Animation</h2>
-                        <select value={bodyAnimationStyle} onChange={e => setBodyAnimationStyle(e.target.value)} style={{marginBottom: '20px'}}>
-                            <option value="">none</option>
-                            <option value="absorbers">absorbers</option>
-                            <option value="amongUs">amongUs</option>
-                            <option value="background">background</option>
-                            <option value="big">big</option>
-                            <option value="bubble">bubble</option>
-                            <option value="chars">chars</option>
-                            <option value="collisions">collisions</option>
-                            <option value="confetti">confetti</option>
-                            <option value="connect">connect</option>
-                            <option value="defaultAnim">default</option>
-                            <option value="divRepulse">divRepulse</option>
-                            <option value="emmiterAbsorber">emmiterAbsorber</option>
-                            <option value="emitters">emitters</option>
-                            <option value="fontawesome">fontawesome</option>
-                            <option value="growing">growing</option>
-                            <option value="hollowknight">hollowknight</option>
-                            <option value="images">images</option>
-                            <option value="multiplePolygonMasks">multiplePolygonMasks</option>
-                            <option value="nasa">nasa</option>
-                            <option value="noconfig">noconfig</option>
-                            <option value="nyancat">nyancat</option>
-                            <option value="nyancat2">nyancat2</option>
-                            <option value="parallax">parallax</option>
-                            <option value="polygonMask">polygonMask</option>
-                            <option value="polygons">polygons</option>
-                            <option value="preset">preset</option>
-                            <option value="random">random</option>
-                            <option value="shadow">shadow</option>
-                            <option value="slow">slow</option>
-                            <option value="snow">snow</option>
-                            <option value="star">star</option>
-                            <option value="trail">trail</option>
-                            <option value="twinkle">twinkle</option>
-                            <option value="virus">virus</option>
-                            <option value="warp">warp</option>
-                        </select>
+                        <Select value={bodyAnimationStyle} onChange={e => setBodyAnimationStyle(e.target.value)} style={{marginBottom: '20px'}}>
+                            <MenuItem value="">none</MenuItem>
+                            <MenuItem value="absorbers">absorbers</MenuItem>
+                            <MenuItem value="amongUs">amongUs</MenuItem>
+                            <MenuItem value="background">background</MenuItem>
+                            <MenuItem value="big">big</MenuItem>
+                            <MenuItem value="bubble">bubble</MenuItem>
+                            <MenuItem value="chars">chars</MenuItem>
+                            <MenuItem value="collisions">collisions</MenuItem>
+                            <MenuItem value="confetti">confetti</MenuItem>
+                            <MenuItem value="connect">connect</MenuItem>
+                            <MenuItem value="defaultAnim">default</MenuItem>
+                            <MenuItem value="divRepulse">divRepulse</MenuItem>
+                            <MenuItem value="emmiterAbsorber">emmiterAbsorber</MenuItem>
+                            <MenuItem value="emitters">emitters</MenuItem>
+                            <MenuItem value="fontawesome">fontawesome</MenuItem>
+                            <MenuItem value="growing">growing</MenuItem>
+                            <MenuItem value="hollowknight">hollowknight</MenuItem>
+                            <MenuItem value="images">images</MenuItem>
+                            <MenuItem value="multiplePolygonMasks">multiplePolygonMasks</MenuItem>
+                            <MenuItem value="nasa">nasa</MenuItem>
+                            <MenuItem value="noconfig">noconfig</MenuItem>
+                            <MenuItem value="nyancat">nyancat</MenuItem>
+                            <MenuItem value="nyancat2">nyancat2</MenuItem>
+                            <MenuItem value="parallax">parallax</MenuItem>
+                            <MenuItem value="polygonMask">polygonMask</MenuItem>
+                            <MenuItem value="polygons">polygons</MenuItem>
+                            <MenuItem value="preset">preset</MenuItem>
+                            <MenuItem value="random">random</MenuItem>
+                            <MenuItem value="shadow">shadow</MenuItem>
+                            <MenuItem value="slow">slow</MenuItem>
+                            <MenuItem value="snow">snow</MenuItem>
+                            <MenuItem value="star">star</MenuItem>
+                            <MenuItem value="trail">trail</MenuItem>
+                            <MenuItem value="twinkle">twinkle</MenuItem>
+                            <MenuItem value="virus">virus</MenuItem>
+                            <MenuItem value="warp">warp</MenuItem>
+                        </Select>
                         {bodyAnimationStyle && isEditing && <Particles id="tsparticlessmall" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true, fullScreen: { enable: false }, style: {height: '200px', width: '200px'}}} />}
                         <h2>Container Color</h2>
                         <HexColorPicker color={containerColor} onChange={e => setContainerColor(e.toUpperCase())} />

@@ -91,3 +91,24 @@
     width: 80%;
     margin: 10px 20px;
 }
+
+.textField {
+    width: 70%;
+    font-size: 20px;
+    padding: 5px;
+    margin: 30px 0px 30px 0px !important;
+}
+
+.textField div {
+    height: 40px;
+}
+
+.select {
+    height: 40px;
+    margin-left: 10px;
+}
+
+.select div {
+    display: flex;
+    align-items: center;
+}
