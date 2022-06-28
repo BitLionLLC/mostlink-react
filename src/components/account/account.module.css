@@ -40,7 +40,7 @@
     left: 50%;
 	transform: translate(-50%, -50%);
     border-radius: 10px;
-    background-color: dodgerblue;
+    background-color: #444444;
     color: white;
     text-align: center;
     display: flex;
@@ -71,6 +71,17 @@
     position: absolute;
     top: 10px;
     right: 10px;
+}
+
+.textField {
+    width: 100%;
+    font-size: 20px;
+    padding: 5px;
+    margin: 10px 0px 10px 0px !important;
+}
+
+.textField div {
+    height: 50px;
 }
 
 .deleteAccountButtons {
@@ -115,7 +126,7 @@
 .eyeIcon {
     position: absolute;
     right: 25px;
-    top: 22px;  
+    top: 23px;  
 }
 
 .changePasswordForm input {

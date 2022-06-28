@@ -5,6 +5,9 @@ import { toast } from 'react-toastify';
 import { useGoogleLogout } from 'react-google-login';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactTooltip from 'react-tooltip';
+import { ThemeProvider } from '@mui/material/styles';
+import { muiDarkTheme, muiLightTheme } from '../../constants/themes';
+import { TextField } from '@mui/material';
 import { SitesContext } from '../../contexts/sitesContext';
 
 import styles from './account.module.css';
@@ -27,7 +30,7 @@ const Account = () => {
     const [passwordError, setPasswordError] = useState("");
 
     const PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$";
-    const PASSWORD_ERROR = "This password does not meet the requirements: minimum 12 characters, at least 1 uppercase letter, at least 1 lowercase letter, at least 1 special character, and at least 1 numerical digit.";
+    const PASSWORD_ERROR = "This password does not meet the requirements.";
     const SAME_PASSWORD_ERROR = "You cannot use the same password for your new one.";
 
     useEffect(() => {
@@ -35,7 +38,7 @@ const Account = () => {
     }, [theme])
 
     useEffect(() => {
-        if (oldPassword === newPassword) {
+        if (oldPassword && newPassword && oldPassword === newPassword) {
             setNewPasswordError(SAME_PASSWORD_ERROR)
         } else if (oldPassword && !oldPassword.match(PASSWORD_REGEX)) {
             setOldPasswordError(PASSWORD_ERROR);
@@ -114,82 +117,83 @@ const Account = () => {
 
     return (
         <div className={styles.accountContainer}>
-            <div className={styles.account} style={{backgroundColor: themeObj.landingCardBackground}}>
-                <h1>Account</h1>
-                {/* <button className={styles.generalButton} onClick={subscribeToPremium} disabled={isSubscribed}>Subscribe to Premium</button>
-                <button className={styles.generalButton} onClick={createPortalSession}>Log into Stripe portal</button> to cancel or modify your subscription. */}
-                <button className={styles.generalButton} onClick={() => setIsChangePasswordModalShowing(true)}>Change password</button>
-                <button className={styles.deleteAccountButton} onClick={() => setIsDeleteModalShowing(true)}>Delete account</button> 
-            </div>
-            { isDeleteModalShowing ?
-                <> 
-                    <div className={styles.blocker} onClick={() => setIsDeleteModalShowing(false)}></div>
-                    <div className={styles.deleteAccountModal}>
-                        <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
-                        <h1>Delete account</h1>
-                        <p>Are you sure you want to delete your account? This action cannot be undone. Your sites will be lost forever (a long time!)</p>
-                        <div className={styles.labelAndInput}>
-                            <div className={styles.passwordAndTooltip}>
-                                <label htmlFor="password">Password*</label>
-                                <ReactTooltip place="right" html={true}/>
-                                <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
-                            </div>
-                            <div className={styles.passwordAndEyeIcon}>
-                                <input type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" />
-                                <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
-                            </div>
-                            { passwordError && <div className={styles.errorText}>{passwordError}</div> }
-                        </div>
-                        <div className={styles.deleteAccountButtons}>
-                            <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
-                            <button className={styles.deleteButton} onClick={deleteAccount} disabled={!password || passwordError}>Delete</button>
-                        </div>
-                    </div>
-                </>
-            : null }
-            { isChangePasswordModalShowing ?
-                <> 
-                    <div className={styles.blocker} onClick={() => setIsChangePasswordModalShowing(false)}></div>
-                    <div className={styles.changePasswordModal}>
-                        <div className={styles.closeButton} onClick={() => setIsChangePasswordModalShowing(false)}>+</div>
-                        <h1>Change password</h1>
-                        <p>If you registered with Google, <br/>you do not need to change your password here.</p>
-                        <div className={styles.changePasswordForm}>
+            <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
+                <div className={styles.account} style={{backgroundColor: themeObj.landingCardBackground}}>
+                    <h1>Account</h1>
+                    {/* <button className={styles.generalButton} onClick={subscribeToPremium} disabled={isSubscribed}>Subscribe to Premium</button>
+                    <button className={styles.generalButton} onClick={createPortalSession}>Log into Stripe portal</button> to cancel or modify your subscription. */}
+                    <button className={styles.generalButton} onClick={() => setIsChangePasswordModalShowing(true)}>Change password</button>
+                    <button className={styles.deleteAccountButton} onClick={() => setIsDeleteModalShowing(true)}>Delete account</button> 
+                </div>
+                { isDeleteModalShowing ?
+                    <> 
+                        <div className={styles.blocker} onClick={() => setIsDeleteModalShowing(false)}></div>
+                        <div className={styles.deleteAccountModal}>
+                            <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
+                            <h1>Delete account</h1>
+                            <p>Are you sure you want to delete your account? This action cannot be undone. Your sites will be lost forever (a long time!)</p>
                             <div className={styles.labelAndInput}>
                                 <div className={styles.passwordAndTooltip}>
-                                    <label htmlFor="oldPassword">Old Password*</label>
+                                    <label htmlFor="password">Password*</label>
                                     <ReactTooltip place="right" html={true}/>
                                     <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
                                 </div>
                                 <div className={styles.passwordAndEyeIcon}>
-                                    <input type={ isOldPasswordShowing ? "text" : "password" } value={oldPassword} onChange={e => setOldPassword(e.target.value)} id="oldPassword" />
-                                    <FontAwesomeIcon color="black" icon={isOldPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsOldPasswordShowing(!isOldPasswordShowing)} className={styles.eyeIcon} />
+                                    <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
+                                    <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
                                 </div>
-                                { oldPasswordError && <div className={styles.errorText}>{oldPasswordError}</div> }
                             </div>
-                            <div className={styles.labelAndInput}>
-                                <div className={styles.passwordAndTooltip}>
-                                    <label htmlFor="newPassword">New Password*</label>
-                                    <ReactTooltip place="right" html={true}/>
-                                    <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
-                                </div>
-                                <div className={styles.passwordAndEyeIcon}>
-                                    <input type={ isNewPasswordShowing ? "text" : "password" } value={newPassword} onChange={e => setNewPassword(e.target.value)} id="newPassword" />
-                                    <FontAwesomeIcon color="black" icon={isNewPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsNewPasswordShowing(!isNewPasswordShowing)} className={styles.eyeIcon} />
-                                </div>
-                                { newPasswordError && <div className={styles.errorText}>{newPasswordError}</div> }
-                            </div>
-
-                            <span>*required field</span>
-
                             <div className={styles.deleteAccountButtons}>
-                                <button className={styles.cancelChangeButton} onClick={() => setIsChangePasswordModalShowing(false)}>Cancel</button>
-                                <button className={styles.submitButton} onClick={changePassword} disabled={!oldPassword || !newPassword || oldPasswordError || newPasswordError}>Submit</button>
+                                <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
+                                <button className={styles.deleteButton} onClick={deleteAccount} disabled={!password || passwordError}>Delete</button>
                             </div>
                         </div>
-                    </div>
-                </>
-            : null }
+                    </>
+                : null }
+                { isChangePasswordModalShowing ?
+                    <> 
+                        <div className={styles.blocker} onClick={() => setIsChangePasswordModalShowing(false)}></div>
+                        <div className={styles.changePasswordModal}>
+                            <div className={styles.closeButton} onClick={() => setIsChangePasswordModalShowing(false)}>+</div>
+                            <h1>Change password</h1>
+                            <p>If you registered with Google, <br/>you do not need to change your password here.</p>
+                            <div className={styles.changePasswordForm}>
+                                <div className={styles.labelAndInput}>
+                                    <div className={styles.passwordAndTooltip}>
+                                        <label htmlFor="oldPassword">Old Password*</label>
+                                        <ReactTooltip place="right" html={true}/>
+                                        <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
+                                    </div>
+                                    <div className={styles.passwordAndEyeIcon}>
+                                        <TextField type={ isOldPasswordShowing ? "text" : "password" } value={oldPassword} onChange={e => setOldPassword(e.target.value)} id="oldPassword" variant="filled" size="small" className={styles.textField} error={!!oldPasswordError} helperText={oldPasswordError} />
+                                        <FontAwesomeIcon color="black" icon={isOldPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsOldPasswordShowing(!isOldPasswordShowing)} className={styles.eyeIcon} />
+                                    </div>
+                                    {/* { oldPasswordError && <div className={styles.errorText}>{oldPasswordError}</div> } */}
+                                </div>
+                                <div className={styles.labelAndInput}>
+                                    <div className={styles.passwordAndTooltip}>
+                                        <label htmlFor="newPassword">New Password*</label>
+                                        <ReactTooltip place="right" html={true}/>
+                                        <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
+                                    </div>
+                                    <div className={styles.passwordAndEyeIcon}>
+                                        <TextField type={ isNewPasswordShowing ? "text" : "password" } value={newPassword} onChange={e => setNewPassword(e.target.value)} id="newPassword" variant="filled" size="small" className={styles.textField} error={!!newPasswordError} helperText={newPasswordError} />
+                                        <FontAwesomeIcon color="black" icon={isNewPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsNewPasswordShowing(!isNewPasswordShowing)} className={styles.eyeIcon} />
+                                    </div>
+                                    {/* { newPasswordError && <div className={styles.errorText}>{newPasswordError}</div> } */}
+                                </div>
+
+                                <span>*required field</span>
+
+                                <div className={styles.deleteAccountButtons}>
+                                    <button className={styles.cancelChangeButton} onClick={() => setIsChangePasswordModalShowing(false)}>Cancel</button>
+                                    <button className={styles.submitButton} onClick={changePassword} disabled={!oldPassword || !newPassword || oldPasswordError || newPasswordError}>Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                : null }
+            </ThemeProvider>
         </div>
     )
 }

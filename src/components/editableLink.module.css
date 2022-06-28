@@ -1,6 +1,15 @@
+.iconOptionSelect {
+    height: 70px;
+}
+
+.iconOptionSelect div {
+    display: flex;
+    align-items: center;
+}
+
 .iconOption {
-    color: black !important;
-    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
 }
 
 .iconOptionIcon {
@@ -21,4 +30,15 @@
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.textField {
+    width: 100%;
+    font-size: 20px;
+    padding: 5px;
+    margin: 10px 0px 10px 0px !important;
+}
+
+.textField div {
+    height: 50px;
 }

@@ -48,7 +48,7 @@ button:disabled {
     border: 1px solid black;
     position: absolute;
     border-radius: 10px;
-    background-color: dodgerblue;
+    background-color: #444444;
     color: white;
     display: flex;
     flex-direction: column;
