@@ -4,6 +4,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import FileBase64 from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { ThemeProvider } from '@mui/material/styles';
+import { muiDarkTheme, muiLightTheme } from '../constants/themes';
 import { SitesContext } from '../contexts/sitesContext';
 
 import styles from './feedback.module.css';
@@ -60,33 +62,35 @@ const Feedback = () => {
         <div className={styles.feedbackContainer}>
             <div className={styles.feedback} style={{backgroundColor: themeObj.landingCardBackground}}>
                 <h3>Thanks for being a beta tester! We really appreciate it. Please provide us with detailed feedback so we can improve the site builder for future users.</h3>
-                <form className={styles.feedbackForm} onSubmit={onSubmit}>
-                    <label>Name</label>
-                    <TextField value={name} onChange={e => setName(e.target.value)} size="small" variant="filled" className={styles.textField} placeholder="Name" />
-                    <label>Email address</label>
-                    <TextField value={email} onChange={e => setEmail(e.target.value)} size="small" variant="filled" className={styles.textField} placeholder="Email address"  />
-                    <div>
-                        <label>Okay to email?</label>
-                        <Checkbox checked={okayToEmail} onChange={e => setOkayToEmail(e.target.checked)}/>
-                    </div>
-                    <div>
-                        <label>Type of feedback</label>
-                        <Select value={feedbackType} onChange={e => setFeedbackType(e.target.value)} className={styles.typeSelect}>
-                            <MenuItem value="featureRequest">Feature Request</MenuItem>
-                            <MenuItem value="suggestion">Improvement/Suggestion</MenuItem>
-                            <MenuItem value="bugReport">Bug Report</MenuItem>
-                        </Select>
-                    </div>
-                    <label>Comments</label>
-                    <TextField value={comments} onChange={e => setComments(e.target.value)} variant="filled" multiline={true} className={styles.commentField} placeholder="Comments" />
-                    <label>Screenshot upload</label>
-                    <FileBase64 multiple={false} onDone={(file) => setScreenshot(file)} />
+                <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
+                    <form className={styles.feedbackForm} onSubmit={onSubmit}>
+                        <label>Name</label>
+                        <TextField value={name} onChange={e => setName(e.target.value)} size="small" variant="filled" className={styles.textField} placeholder="Name" />
+                        <label>Email address</label>
+                        <TextField value={email} onChange={e => setEmail(e.target.value)} size="small" variant="filled" className={styles.textField} placeholder="Email address"  />
+                        <div>
+                            <label>Okay to email?</label>
+                            <Checkbox checked={okayToEmail} onChange={e => setOkayToEmail(e.target.checked)}/>
+                        </div>
+                        <div>
+                            <label>Type of feedback</label>
+                            <Select value={feedbackType} onChange={e => setFeedbackType(e.target.value)} className={styles.typeSelect}>
+                                <MenuItem value="featureRequest">Feature Request</MenuItem>
+                                <MenuItem value="suggestion">Improvement/Suggestion</MenuItem>
+                                <MenuItem value="bugReport">Bug Report</MenuItem>
+                            </Select>
+                        </div>
+                        <label>Comments</label>
+                        <TextField value={comments} onChange={e => setComments(e.target.value)} variant="filled" multiline={true} className={styles.commentField} placeholder="Comments" />
+                        <label>Screenshot upload</label>
+                        <FileBase64 multiple={false} onDone={(file) => setScreenshot(file)} />
 
-                    <div className={styles.loginFormButtons}>
-                        <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
-                        <button className={styles.submitButton} type="submit">Submit</button>
-                    </div>
-                </form>
+                        <div className={styles.loginFormButtons}>
+                            <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
+                            <button className={styles.submitButton} type="submit">Submit</button>
+                        </div>
+                    </form>
+                </ThemeProvider>
             </div>
         </div>
     )
