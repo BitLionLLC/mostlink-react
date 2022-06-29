@@ -83,7 +83,7 @@ const Header = () => {
     }, [])
 
     useEffect(() => {
-        const allowedPathsWhenLoggedOut = ["/account/login", "/account/register", "/account/reset-password", "/account/forgot-password", '/pricing', '/privacy-policy'];
+        const allowedPathsWhenLoggedOut = ["/account/login", "/account/register", "/account/reset-password", "/account/forgot-password", '/pricing', '/privacy-policy', '/feedback'];
         
         setTimeout(() => {
             if (!jwtTokenRef.current) {
@@ -153,6 +153,7 @@ const Header = () => {
                             {!jwtToken && <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/account/login")}>Log in</li>}
                             {jwtToken && <li onClick={onLogOut} style={{ color: "white", background: themeObj.editTrayBackground, cursor: "pointer" }}>Log out</li>}
                             <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/pricing")}>Pricing</li>
+                            <li className={styles.feedback} onClick={() => routeTo("/feedback")}>Provide feedback (please!)</li>
                             <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/privacy-policy")}>Privacy Policy</li>
                         </ul>
                     </>

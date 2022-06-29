@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SitesContext } from '../contexts/sitesContext';
 
 import styles from './footer.module.css';
 
 const Footer = () => {
     const { themeObj, theme } = useContext(SitesContext);
+    const location = useLocation();
 
     useEffect(() => {
         document.body.style.backgroundImage = themeObj.landingBackground;
@@ -15,6 +16,7 @@ const Footer = () => {
         <div className={styles.footer} style={{background: themeObj.headerColor}}>
             <div style={{color: themeObj.color}}>Copyright 2021-{new Date().getFullYear()}, BitLion, LLC</div>
             <div><Link to="/privacy-policy" style={{color: themeObj.color}}>Privacy Policy</Link></div>
+            { !location.pathname.includes("/feedback") && <Link to="/feedback"><div className={styles.feedback}><h2>Provide<br/>feedback<br/>(please!)</h2></div></Link> }
         </div>
     )
 }
