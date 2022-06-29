@@ -43,7 +43,7 @@ const Feedback = () => {
             okayToEmail,
             feedbackType,
             comments,
-            screenshot: screenshot.base64
+            screenshot: screenshot?.base64 || null
         }
 
         axios
