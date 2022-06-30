@@ -66,6 +66,9 @@
     margin: 10px;
     height: 40px;
     font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cancelButton {
