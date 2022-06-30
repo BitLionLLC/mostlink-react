@@ -77,7 +77,7 @@ body {
     }
 }
 
-.landingBehind video {
+.landingBehind img {
     position: relative;
     animation-name: videoAnimate;
     animation-duration: 6s;
@@ -100,7 +100,7 @@ body {
         top: 200px;
     }
 
-    .landingBehind video {
+    .landingBehind img {
         animation-name: videoAnimate550;
     }
 }
