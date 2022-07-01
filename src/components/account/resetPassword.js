@@ -6,8 +6,6 @@ import ReactTooltip from 'react-tooltip';
 import { SitesContext } from '../../contexts/sitesContext';
 import { toast } from 'react-toastify';
 import TextField from '@mui/material/TextField';
-import { ThemeProvider } from '@mui/material/styles';
-import { muiDarkTheme, muiLightTheme } from '../../constants/themes';
 
 import styles from './resetPassword.module.css';
 
@@ -54,25 +52,23 @@ const ResetPassword = () => {
 
     return ( 
         <div className={styles.resetPasswordContainer}>
-            <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
-                <div className={styles.resetPassword} style={{backgroundColor: themeObj.landingCardBackground}}>
-                    <h1>Reset password</h1>
-                    <div className={styles.passwordAndTooltip}>
-                        <label htmlFor="password">Password*</label>
-                        <ReactTooltip place="right" html={true}/>
-                        <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
-                    </div>
-                    <div className={styles.passwordAndEyeIcon}>
-                        <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
-                        <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
-                    </div>
-                
-                    <div className={styles.resetPasswordButtons}>
-                        <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
-                        <button className={styles.submitButton} onClick={onSubmit} disabled={!password || passwordError}>Submit</button>
-                    </div>    
+            <div className={styles.resetPassword} style={{backgroundColor: themeObj.landingCardBackground}}>
+                <h1>Reset password</h1>
+                <div className={styles.passwordAndTooltip}>
+                    <label htmlFor="password">Password*</label>
+                    <ReactTooltip place="right" html={true}/>
+                    <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
                 </div>
-            </ThemeProvider>
+                <div className={styles.passwordAndEyeIcon}>
+                    <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
+                    <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
+                </div>
+            
+                <div className={styles.resetPasswordButtons}>
+                    <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
+                    <button className={styles.submitButton} onClick={onSubmit} disabled={!password || passwordError}>Submit</button>
+                </div>    
+            </div>
         </div>
     )
 }

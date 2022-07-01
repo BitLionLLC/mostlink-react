@@ -5,7 +5,6 @@ import { HexColorPicker } from 'react-colorful';
 import update from 'immutability-helper';
 import GradientColorBox from './gradientColorBox';
 import { MenuItem, Select, Checkbox, TextField } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
 import { muiDarkTheme, muiLightTheme } from '../constants/themes';
 
 import styles from './gradientPicker.module.css';
@@ -190,113 +189,111 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     }, []);
 
     return (
-        <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
-            <div className={styles.gradientPicker} style={{backgroundColor: themeObj.sitesBoxColor}}>
-                {
-                    isEditingColor 
-                    ?
-                        <>
-                            <HexColorPicker color={editColorResult} onChange={e => editColor(e)}/>
-                            <span onClick={() => setIsEditingColor(false)} className={styles.closeButton}>+</span>
+        <div className={styles.gradientPicker} style={{backgroundColor: themeObj.sitesBoxColor}}>
+            {
+                isEditingColor 
+                ?
+                    <>
+                        <HexColorPicker color={editColorResult} onChange={e => editColor(e)}/>
+                        <span onClick={() => setIsEditingColor(false)} className={styles.closeButton}>+</span>
+                        <div className={styles.row}>
+                            Color
+                            <TextField type="text" value={editColorResult} onChange={e => standardizeColorInput(e.target.value, editColor, editColorRef)} className={styles.textField} variant="filled" size="small" />
+                        </div>
+                        
+                        {
+                            place === "container" && 
                             <div className={styles.row}>
-                                Color
-                                <TextField type="text" value={editColorResult} onChange={e => standardizeColorInput(e.target.value, editColor, editColorRef)} className={styles.textField} variant="filled" size="small" />
+                                Alpha %
+                                <TextField type="text" value={containerAlphaPercent} onChange={e => setContainerAlphaPercent(e.target.value)} className={styles.textField} variant="filled" size="small" />
                             </div>
-                            
-                            {
-                                place === "container" && 
+                        }
+                        {place === "container" && editColorResult.length === 9 && +containerAlphaPercent < 100 && !isContainerTransparent && <div>If you want transparency, please check the checkbox above for container color (called 'Transparent?')</div>}
+                    </>
+                :
+                    <>
+                        <div className={styles.row}>
+                            <label htmlFor='useGradient'>Use</label>
+                            <Checkbox checked={useGradient} onChange={e => setUseGradient(e.target.checked)} id="useGradient" className={styles.useGradient} />
+                        </div>
+                        <div className={styles.row}>
+                            <label htmlFor='gradientType'>Type</label>
+                            <Select onChange={e => setGradientType(e.target.value)} value={gradientType} className={styles.select}>
+                                <MenuItem value='linear'>Linear</MenuItem>
+                                <MenuItem value='radial'>Radial</MenuItem>
+                                <MenuItem value='conic'>Conic</MenuItem>
+                            </Select>
+                        </div>
+                        {
+                            gradientType === 'linear' 
+                            ?
                                 <div className={styles.row}>
-                                    Alpha %
-                                    <TextField type="text" value={containerAlphaPercent} onChange={e => setContainerAlphaPercent(e.target.value)} className={styles.textField} variant="filled" size="small" />
+                                    <label htmlFor='linearDirection'>Direction</label>
+                                    <Select onChange={e => setLinearDirection(e.target.value)} value={linearDirection} className={styles.select}>
+                                        <MenuItem value='to top'>To top</MenuItem>
+                                        <MenuItem value='to top right'>To top right</MenuItem>
+                                        <MenuItem value='to right'>To right</MenuItem>
+                                        <MenuItem value='to bottom right'>To bottom right</MenuItem>
+                                        <MenuItem value='to bottom'>To bottom</MenuItem>
+                                        <MenuItem value='to bottom left'>To bottom left</MenuItem>
+                                        <MenuItem value='to left'>To left</MenuItem>
+                                        <MenuItem value='to top left'>To top left</MenuItem>
+                                    </Select>
                                 </div>
-                            }
-                            {place === "container" && editColorResult.length === 9 && +containerAlphaPercent < 100 && !isContainerTransparent && <div>If you want transparency, please check the checkbox above for container color (called 'Transparent?')</div>}
-                        </>
-                    :
-                        <>
-                            <div className={styles.row}>
-                                <label htmlFor='useGradient'>Use</label>
-                                <Checkbox checked={useGradient} onChange={e => setUseGradient(e.target.checked)} id="useGradient" className={styles.useGradient} />
-                            </div>
-                            <div className={styles.row}>
-                                <label htmlFor='gradientType'>Type</label>
-                                <Select onChange={e => setGradientType(e.target.value)} value={gradientType} className={styles.select}>
-                                    <MenuItem value='linear'>Linear</MenuItem>
-                                    <MenuItem value='radial'>Radial</MenuItem>
-                                    <MenuItem value='conic'>Conic</MenuItem>
-                                </Select>
-                            </div>
-                            {
-                                gradientType === 'linear' 
-                                ?
-                                    <div className={styles.row}>
-                                        <label htmlFor='linearDirection'>Direction</label>
-                                        <Select onChange={e => setLinearDirection(e.target.value)} value={linearDirection} className={styles.select}>
-                                            <MenuItem value='to top'>To top</MenuItem>
-                                            <MenuItem value='to top right'>To top right</MenuItem>
-                                            <MenuItem value='to right'>To right</MenuItem>
-                                            <MenuItem value='to bottom right'>To bottom right</MenuItem>
-                                            <MenuItem value='to bottom'>To bottom</MenuItem>
-                                            <MenuItem value='to bottom left'>To bottom left</MenuItem>
-                                            <MenuItem value='to left'>To left</MenuItem>
-                                            <MenuItem value='to top left'>To top left</MenuItem>
-                                        </Select>
-                                    </div>
-                                : 
-                                null
-                            }
-                            {
-                                gradientType === 'conic' 
-                                ?
-                                    <div className={styles.row}>
-                                        <label htmlFor='conicAngle'>Angle</label>
-                                        <TextField type="number" value={conicAngle} onChange={e => setConicAngle(e.target.value)} className={styles.textField} variant="filled" size="small" />
-                                    </div>
-                                : 
-                                null
-                            }
-                            <div className={styles.column}>
-                                Preview
-                                <div className={styles.previewBox} style={{backgroundImage: gradientStr}} />
-                                <div className={styles.colorsTitleAndButtons}>
-                                    Colors 
-                                    {!selectedPreset && <button onClick={addColor} disabled={gradientArr.length > 11}>+</button>}
-                                    {!selectedPreset && <button onClick={reverseColors}>Reverse</button>}
+                            : 
+                            null
+                        }
+                        {
+                            gradientType === 'conic' 
+                            ?
+                                <div className={styles.row}>
+                                    <label htmlFor='conicAngle'>Angle</label>
+                                    <TextField type="number" value={conicAngle} onChange={e => setConicAngle(e.target.value)} className={styles.textField} variant="filled" size="small" />
                                 </div>
-                                <div className={styles.colorBoxes}>
-                                    {colorBoxArr.map((color, i) => {
-                                        return (
-                                            <GradientColorBox 
-                                                color={color} 
-                                                index={i} 
-                                                key={i}
-                                                setIsEditingColor={setIsEditingColor} 
-                                                setColorToEdit={setColorToEdit}
-                                                setEditColorResult={setEditColorResult}
-                                                removeColor={removeColor}
-                                                moveBox={moveBox}
-                                                id={i}
-                                            />
-                                        )
-                                    })}
-                                </div>
+                            : 
+                            null
+                        }
+                        <div className={styles.column}>
+                            Preview
+                            <div className={styles.previewBox} style={{backgroundImage: gradientStr}} />
+                            <div className={styles.colorsTitleAndButtons}>
+                                Colors 
+                                {!selectedPreset && <button onClick={addColor} disabled={gradientArr.length > 11}>+</button>}
+                                {!selectedPreset && <button onClick={reverseColors}>Reverse</button>}
                             </div>
-                            <div className={styles.column}>
-                                Color presets
-                                <Select onChange={e => setSelectedPreset(e.target.value)} value={selectedPreset} className={styles.select}>
-                                    <MenuItem value='custom'>Custom</MenuItem>
-                                    <MenuItem value='rainbow'>Rainbow</MenuItem>
-                                    <MenuItem value='sunset'>Sunset</MenuItem>
-                                    <MenuItem value='warm'>Warm</MenuItem>
-                                    <MenuItem value='cool'>Cool</MenuItem>
-                                    <MenuItem value='neon'>Neon</MenuItem>
-                                </Select>
-                                {selectedPreset && selectedPreset !== 'custom' && <button onClick={copyPresetToCustom} className={styles.copyButton}>Copy preset to custom</button>}
+                            <div className={styles.colorBoxes}>
+                                {colorBoxArr.map((color, i) => {
+                                    return (
+                                        <GradientColorBox 
+                                            color={color} 
+                                            index={i} 
+                                            key={i}
+                                            setIsEditingColor={setIsEditingColor} 
+                                            setColorToEdit={setColorToEdit}
+                                            setEditColorResult={setEditColorResult}
+                                            removeColor={removeColor}
+                                            moveBox={moveBox}
+                                            id={i}
+                                        />
+                                    )
+                                })}
                             </div>
-                        </>
-                    }
-            </div>
-        </ThemeProvider>
+                        </div>
+                        <div className={styles.column}>
+                            Color presets
+                            <Select onChange={e => setSelectedPreset(e.target.value)} value={selectedPreset} className={styles.select}>
+                                <MenuItem value='custom'>Custom</MenuItem>
+                                <MenuItem value='rainbow'>Rainbow</MenuItem>
+                                <MenuItem value='sunset'>Sunset</MenuItem>
+                                <MenuItem value='warm'>Warm</MenuItem>
+                                <MenuItem value='cool'>Cool</MenuItem>
+                                <MenuItem value='neon'>Neon</MenuItem>
+                            </Select>
+                            {selectedPreset && selectedPreset !== 'custom' && <button onClick={copyPresetToCustom} className={styles.copyButton}>Copy preset to custom</button>}
+                        </div>
+                    </>
+                }
+        </div>
     )
 }
 

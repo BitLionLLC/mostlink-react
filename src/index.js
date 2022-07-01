@@ -2,15 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { DndProvider } from 'react-dnd'
+import { DndProvider } from 'react-dnd';
+import SitesContextProvider from './contexts/sitesContext';
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <DndProvider backend={HTML5Backend}>
-      <App />
-    </DndProvider>
+    <SitesContextProvider>
+      <DndProvider backend={HTML5Backend}>
+        <App />
+      </DndProvider>
+    </SitesContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

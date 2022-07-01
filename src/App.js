@@ -1,8 +1,8 @@
 import './App.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/home';
-import SitesContextProvider from './contexts/sitesContext';
+import { SitesContext } from './contexts/sitesContext';
 import SingleSite from './components/singleSite';
 import Account from './components/account/account';
 import Login from './components/account/login';
@@ -15,18 +15,23 @@ import Landing from './components/landing';
 import Pricing from './components/pricing';
 import PrivacyPolicy from './components/privacyPolicy';
 import Feedback from './components/feedback';
+import PaymentSuccess from './components/payment/paymentSuccess';
+import PaymentCanceled from './components/payment/paymentCanceled';
 import { ToastContainer } from 'react-toastify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { ThemeProvider } from '@mui/material/styles';
+import { muiDarkTheme, muiLightTheme } from './constants/themes';
+
 import 'react-toastify/dist/ReactToastify.css';
-import PaymentSuccess from './components/payment/paymentSuccess';
-import PaymentCanceled from './components/payment/paymentCanceled';
 
 function App() {
+  const { theme } = useContext(SitesContext);
+
   return (
-    <SitesContextProvider>
+    <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
       <ToastContainer position="top-right" autoClose={5000} />
       <Router>
         <Header />
@@ -71,7 +76,7 @@ function App() {
           <Feedback />
         </Route>
       </Router>
-    </SitesContextProvider>
+    </ThemeProvider>
   );
 }
 

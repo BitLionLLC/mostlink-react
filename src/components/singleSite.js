@@ -25,7 +25,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { TextField, Checkbox, Select, MenuItem } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
 import { muiDarkTheme, muiLightTheme } from '../constants/themes';
 
 const IMAGE_TYPE = {
@@ -832,146 +831,145 @@ const SingleSite = () => {
 
     return (
         <>
-            <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
-                <style children={isEditing ? keyFramesStartEditTray : keyFramesEndEditTray} />
-                <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'edit-tray-move-right' : 'edit-tray-move-left'), animationDuration: '2s', backgroundColor: themeObj.editTrayBackground}}>
-                    <div className={styles.saveAndCancelButtons}>
-                        <FontAwesomeIcon icon={["far", "save"]} size="3x" onClick={onSave} color="lightgreen" />
-                        <FontAwesomeIcon icon={["far", "window-close"]} size="3x" onClick={onCancel} color="salmon" />
-                    </div>
-                    { getEditContents() }
+            <style children={isEditing ? keyFramesStartEditTray : keyFramesEndEditTray} />
+            <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'edit-tray-move-right' : 'edit-tray-move-left'), animationDuration: '2s', backgroundColor: themeObj.editTrayBackground}}>
+                <div className={styles.saveAndCancelButtons}>
+                    <FontAwesomeIcon icon={["far", "save"]} size="3x" onClick={onSave} color="lightgreen" />
+                    <FontAwesomeIcon icon={["far", "window-close"]} size="3x" onClick={onCancel} color="salmon" />
                 </div>
+                { getEditContents() }
+            </div>
 
-                { isEditing ?
-                    getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle)
-                    :
-                    getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.containerGradient, site.bodyColor, site.bodyGradient, site.linkTextColor, site.linkBackgroundColor, site.liveNotificationColor, site.bodyAnimationStyle)
-                }
-                { isPexelsModalShowing ?
-                    <>
-                        <div className={styles.blocker} onClick={() => setIsPexelsModalShowing(false)} />
-                        <div className={styles.pexelsModal}>
-                            <div className={styles.closeButton} onClick={() => setIsPexelsModalShowing(false)}>+</div>
-                            <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com">Pexels</a></span>
-                            <form className={styles.pexelsSearch} onSubmit={fetchPexels}>
-                                <TextField type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} className={styles.textField} size="small" variant="filled" />
-                                <button onClick={fetchPexels} type="submit">Search</button>
-                            </form>
-                            <div className={styles.photos}>
-                                {photos?.map(photo => {
-                                    return <img src={photo.src.tiny} alt="pexel result" width="100" height="100" onClick={
-                                            modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
-                                        }
-                                    />
-                                })}
-                            </div>
+            { isEditing ?
+                getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle)
+                :
+                getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.containerGradient, site.bodyColor, site.bodyGradient, site.linkTextColor, site.linkBackgroundColor, site.liveNotificationColor, site.bodyAnimationStyle)
+            }
+            { isPexelsModalShowing ?
+                <>
+                    <div className={styles.blocker} onClick={() => setIsPexelsModalShowing(false)} />
+                    <div className={styles.pexelsModal}>
+                        <div className={styles.closeButton} onClick={() => setIsPexelsModalShowing(false)}>+</div>
+                        <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com">Pexels</a></span>
+                        <form className={styles.pexelsSearch} onSubmit={fetchPexels}>
+                            <TextField type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} className={styles.textField} size="small" variant="filled" />
+                            <button onClick={fetchPexels} type="submit">Search</button>
+                        </form>
+                        <div className={styles.photos}>
+                            {photos?.map(photo => {
+                                return <img src={photo.src.tiny} alt="pexel result" width="100" height="100" onClick={
+                                        modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
+                                    }
+                                />
+                            })}
                         </div>
-                    </>
-                    : null
-                }
-                { isDeleteModalShowing ?
-                    <> 
-                        <div className={styles.blocker} onClick={() => setIsDeleteModalShowing(false)}></div>
-                        <div className={styles.deleteSiteModal}>
-                            <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
-                            <h1>Delete site</h1>
-                            <p>Are you sure you want to delete this site? Your site will be lost forever (a long time!)</p>
-                            <div className={styles.deleteSiteButtons}>
-                                <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
-                                <button className={styles.deleteButton} onClick={deleteSite}>Delete</button>
-                            </div>
-                        </div>
-                    </>
-                : null }
-                { isCheckDomainModalShowing ?
-                    !hasDomainBeenChecked ?
-                    <>
-                        <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
-                        <div className={styles.deleteSiteModal}>
-                            <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
-                            <h1>Add a domain</h1>
-                            <TextField type="text" name="domainToAdd" value={domainToAdd} onChange={(e) => setDomainToAdd(e.target.value)} placeholder="Domain" className={styles.textField} size="small" variant="filled" />
-                            <div className={styles.deleteSiteButtons}>
-                                <button className={styles.deleteButton} onClick={closeCheckDomainModal}>Cancel</button>
-                                <button className={styles.cancelButton} onClick={checkDomain}>Add</button>
-                            </div>
-                        </div>
-                    </>
-                    :
-                    isDomainAvailable ?
-                    <>
-                        <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
-                            <div className={styles.deleteSiteModal}>
-                            <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
-                            <h1>This domain is available</h1>
-                            <h2>{domainToAdd}</h2>
-                            <p>Please register this domain through your favorite registrar and come back. We plan on adding a domain registration feature in the future.</p>
-                            <div className={styles.deleteSiteButtons}>
-                                <button className={styles.cancelButton} onClick={closeCheckDomainModal}>Okay</button>
-                            </div>
-                        </div>
-                    </>
-                    :
-                    <>
-                        <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
-                            <div className={styles.deleteSiteModal}>
-                            <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
-                            <h1>Domain taken</h1>
-                            <h2>Do you own this domain?</h2>
-                            <h2>{domainToAdd}</h2>
-                            <div className={styles.deleteSiteButtons}>
-                                <button className={styles.deleteButton} onClick={closeCheckDomainModal}>No</button>
-                                <button className={styles.cancelButton} onClick={openRegisterDomainModal}>Yes</button>
-                            </div>
-                        </div>
-                    </>
+                    </div>
+                </>
                 : null
-                }
-                { isRegisterDomainModalShowing ?
-                    !hasDomainBeenRegistered ?
-                    <>
-                        <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
-                        <div className={styles.deleteSiteModal}>
-                            <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
-                            <h1>Register a domain</h1>
-                            <h2>Do you want to register this domain? {domainToAdd}</h2>
-                            <div className={styles.deleteSiteButtons}>
-                                <button className={styles.deleteButton} onClick={closeRegisterDomainModal}>Cancel</button>
-                                <button className={styles.cancelButton} onClick={registerDomain}>Register</button>
-                            </div>
+            }
+            { isDeleteModalShowing ?
+                <> 
+                    <div className={styles.blocker} onClick={() => setIsDeleteModalShowing(false)}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
+                        <h1>Delete site</h1>
+                        <p>Are you sure you want to delete this site? Your site will be lost forever (a long time!)</p>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
+                            <button className={styles.deleteButton} onClick={deleteSite}>Delete</button>
                         </div>
-                    </>
-                    :
-                    <>
-                        <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
-                        <div className={styles.deleteSiteModal}>
-                            <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
-                            <h1>Registered!</h1>
-                            <h2>{domainToAdd}</h2>
-                            <p>Please add a "www" CNAME at your registrar<br/>that points at our server: <br/> {currentDomainCname}</p>
-                            <div className={styles.deleteSiteButtons}>
-                                <button className={styles.cancelButton} onClick={closeRegisterDomainModal}>Okay</button>
-                            </div>
+                    </div>
+                </>
+            : null }
+            { isCheckDomainModalShowing ?
+                !hasDomainBeenChecked ?
+                <>
+                    <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
+                        <h1>Add a domain</h1>
+                        <TextField type="text" name="domainToAdd" value={domainToAdd} onChange={(e) => setDomainToAdd(e.target.value)} placeholder="Domain" className={styles.textField} size="small" variant="filled" />
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.deleteButton} onClick={closeCheckDomainModal}>Cancel</button>
+                            <button className={styles.cancelButton} onClick={checkDomain}>Add</button>
                         </div>
-                    </>
-                : null
-                }
-                { isDeleteDomainModalShowing ?
-                    <>
-                        <div className={styles.blocker} onClick={closeDeleteDomainModal}></div>
+                    </div>
+                </>
+                :
+                isDomainAvailable ?
+                <>
+                    <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
                         <div className={styles.deleteSiteModal}>
-                            <div className={styles.closeButton} onClick={closeDeleteDomainModal}>+</div>
-                            <h1>Delete domain</h1>
-                            <h2>Are you sure you want to delete this domain? {domainToDelete}</h2>
-                            <div className={styles.deleteSiteButtons}>
-                                <button className={styles.cancelButton} onClick={closeDeleteDomainModal}>Cancel</button>
-                                <button className={styles.deleteButton} onClick={deleteDomain}>Delete</button>
-                            </div>
+                        <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
+                        <h1>This domain is available</h1>
+                        <h2>{domainToAdd}</h2>
+                        <p>Please register this domain through your favorite registrar and come back. We plan on adding a domain registration feature in the future.</p>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.cancelButton} onClick={closeCheckDomainModal}>Okay</button>
                         </div>
-                    </>
-                : null
-                }
-            </ThemeProvider>
+                    </div>
+                </>
+                :
+                <>
+                    <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
+                        <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
+                        <h1>Domain taken</h1>
+                        <h2>Do you own this domain?</h2>
+                        <h2>{domainToAdd}</h2>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.deleteButton} onClick={closeCheckDomainModal}>No</button>
+                            <button className={styles.cancelButton} onClick={openRegisterDomainModal}>Yes</button>
+                        </div>
+                    </div>
+                </>
+            : null
+            }
+            { isRegisterDomainModalShowing ?
+                !hasDomainBeenRegistered ?
+                <>
+                    <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
+                        <h1>Register a domain</h1>
+                        <h2>Do you want to register this domain? {domainToAdd}</h2>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.deleteButton} onClick={closeRegisterDomainModal}>Cancel</button>
+                            <button className={styles.cancelButton} onClick={registerDomain}>Register</button>
+                        </div>
+                    </div>
+                </>
+                :
+                <>
+                    <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
+                        <h1>Registered!</h1>
+                        <h2>{domainToAdd}</h2>
+                        <p>Please add a "www" CNAME at your registrar<br/>that points at our server: <br/> {currentDomainCname}</p>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.cancelButton} onClick={closeRegisterDomainModal}>Okay</button>
+                        </div>
+                    </div>
+                </>
+            : null
+            }
+            { isDeleteDomainModalShowing ?
+                <>
+                    <div className={styles.blocker} onClick={closeDeleteDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                        <div className={styles.closeButton} onClick={closeDeleteDomainModal}>+</div>
+                        <h1>Delete domain</h1>
+                        <h2>Are you sure you want to delete this domain? {domainToDelete}</h2>
+                        <div className={styles.deleteSiteButtons}>
+                            <button className={styles.cancelButton} onClick={closeDeleteDomainModal}>Cancel</button>
+                            <button className={styles.deleteButton} onClick={deleteDomain}>Delete</button>
+                        </div>
+                    </div>
+                </>
+            : null
+            }
+            
         </>
     )
 }

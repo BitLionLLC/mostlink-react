@@ -2,8 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { ThemeProvider } from '@mui/material/styles';
-import { muiDarkTheme, muiLightTheme } from '../../constants/themes';
+
 import { TextField } from '@mui/material';
 import { SitesContext } from '../../contexts/sitesContext';
 
@@ -35,19 +34,17 @@ const ForgotPassword = () => {
 
     return ( 
         <div className={styles.forgotPasswordContainer}>
-            <ThemeProvider theme={theme === 'light' ? muiLightTheme : muiDarkTheme}>
-                <div className={styles.forgotPassword} style={{backgroundColor: themeObj.landingCardBackground}}>
-                    <h1>Reset password</h1>
-                    <div className={styles.label}>
-                        <label htmlFor='email'>Email*</label>
-                    </div>
-                    <TextField type="text" value={email} onChange={e => setEmail(e.target.value)} id="email" className={styles.textField} size="small" variant="filled" />
-                    <div className={styles.forgotPasswordButtons}>
-                        <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
-                        <button className={styles.submitButton} onClick={onSubmit} disabled={!email}>Submit</button>
-                    </div>    
+            <div className={styles.forgotPassword} style={{backgroundColor: themeObj.landingCardBackground}}>
+                <h1>Reset password</h1>
+                <div className={styles.label}>
+                    <label htmlFor='email'>Email*</label>
                 </div>
-            </ThemeProvider>
+                <TextField type="text" value={email} onChange={e => setEmail(e.target.value)} id="email" className={styles.textField} size="small" variant="filled" />
+                <div className={styles.forgotPasswordButtons}>
+                    <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
+                    <button className={styles.submitButton} onClick={onSubmit} disabled={!email}>Submit</button>
+                </div>    
+            </div>
         </div>
     )
 }
