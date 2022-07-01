@@ -615,9 +615,25 @@ const SingleSite = () => {
                     <div className={styles.editContents}>
                         <h1>Site/Domains</h1>
                         <h2>Live Sites</h2>
-                        <a href={`${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">{process.env.REACT_APP_HOSTED_BASE}/{site.subdomain}</a>
-                        <br/>
-                        <a href={`${process.env.REACT_APP_HOSTED_BASE_SHORT}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">{process.env.REACT_APP_HOSTED_BASE_SHORT}/{site.subdomain}</a>
+                        {
+                            process.env.REACT_APP_ENVIRONMENT === 'production'
+                            ?
+                                <>
+                                    <a href={`https://www.${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">https://www.{process.env.REACT_APP_HOSTED_BASE}/{site.subdomain}</a>
+                                    <br/>
+                                    <a href={`https://${site.subdomain}.${process.env.REACT_APP_HOSTED_BASE}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">https://${site.subdomain}.{process.env.REACT_APP_HOSTED_BASE}</a>
+                                    <br/>
+                                    <a href={`https://www.${process.env.REACT_APP_HOSTED_BASE_SHORT}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">https://www.{process.env.REACT_APP_HOSTED_BASE_SHORT}/{site.subdomain}</a>
+                                    <br/>
+                                    <a href={`https://${site.subdomain}.${process.env.REACT_APP_HOSTED_BASE_SHORT}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">https://${site.subdomain}.{process.env.REACT_APP_HOSTED_BASE_SHORT}</a>
+                                </>
+                            :
+                                <>
+                                    <a href={`${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">{process.env.REACT_APP_HOSTED_BASE}/{site.subdomain}</a>
+                                    <br/>
+                                    <a href={`${process.env.REACT_APP_HOSTED_BASE_SHORT}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">{process.env.REACT_APP_HOSTED_BASE_SHORT}/{site.subdomain}</a>
+                                </>
+                        }
                         <h2>Domains</h2>
                         <button onClick={openCheckDomainModal}>Add a domain</button>
                         {
