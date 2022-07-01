@@ -89,7 +89,7 @@ const CreateSite = (props) => {
                             <form onSubmit={createSite} className={styles.createSiteForm}>
                                 <TextField type="text" className={styles.textField} value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" variant="filled" size="small" />
                                 <TextField type="text" className={styles.textField} value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" variant="filled" size="small"/>
-                                <div className={styles.siteAndPath}>www.mostlink.io/<TextField type="text" className={styles.textField} value={subdomain} name="subdomain" onChange={e => setSubdomain(e.target.value)} placeholder="path" variant="filled" size="small" /></div>
+                                <div className={styles.siteAndPath}><TextField type="text" className={styles.textField} value={subdomain} name="subdomain" onChange={e => setSubdomain(e.target.value)} placeholder="subdomain" variant="filled" size="small" />.mostlink.io</div>
                                 {subdomain && !isSubdomainValid && <div className={styles.errorText}>That subdomain is taken. Please choose another.</div>}
                                 <button 
                                     type="submit" 
