@@ -82,16 +82,16 @@
     cursor: default;
 }
 
+.register:after {
+    position: absolute;
+    content: "";
+    bottom: -100px;
+    height: 500px;
+    width: 1px;
+}
+
 @media (max-width: 550px) {
     .register {
         width: 90vw;
-    }
-
-    .register:after {
-        position: absolute;
-        content: "";
-        bottom: -100px;
-        height: 500px;
-        width: 1px;
-    }
+    } 
 }
