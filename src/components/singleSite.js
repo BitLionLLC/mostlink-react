@@ -415,9 +415,9 @@ const SingleSite = () => {
         if (isHex) {
             setterCallback(input.toUpperCase());
             ref.current = input.toUpperCase();
-        } else if (allColorNames.includes(input)) {
-            setterCallback(toHex(input).toUpperCase());
-            ref.current = toHex(input).toUpperCase();
+        } else if (allColorNames.includes(input.toLowerCase())) {
+            setterCallback(toHex(input.toLowerCase()).toUpperCase());
+            ref.current = toHex(input.toLowerCase()).toUpperCase();
         } else {
             ref.current = input;
         }
@@ -626,8 +626,6 @@ const SingleSite = () => {
                             :
                                 <>
                                     <a href={`${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">{process.env.REACT_APP_HOSTED_BASE}/{site.subdomain}</a>
-                                    <br/>
-                                    <a href={`${process.env.REACT_APP_HOSTED_BASE_SHORT}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">{process.env.REACT_APP_HOSTED_BASE_SHORT}/{site.subdomain}</a>
                                 </>
                         }
                         <h2>Domains</h2>

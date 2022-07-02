@@ -157,9 +157,9 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
         if (isHex) {
             setterCallback(input.toUpperCase());
             ref.current = input.toUpperCase();
-        } else if (allColorNames.includes(input)) {
-            setterCallback(toHex(input).toUpperCase());
-            ref.current = toHex(input).toUpperCase();
+        } else if (allColorNames.includes(input.toLowerCase())) {
+            setterCallback(toHex(input.toLowerCase()).toUpperCase());
+            ref.current = toHex(input.toLowerCase()).toUpperCase();
         } else {
             ref.current = input;
         }
