@@ -296,6 +296,13 @@ input {
     height: 50px;
 }
 
+@media (max-width: 1050px) {
+    .pexelsModal {
+        width: 90vw;
+        padding: 70px 20px;
+    }
+}
+
 @media (max-width: 900px) {
     .singleSiteWrapper {
         display: block;

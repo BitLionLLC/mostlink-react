@@ -4,8 +4,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import FileBase64 from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ThemeProvider } from '@mui/material/styles';
-import { muiDarkTheme, muiLightTheme } from '../constants/themes';
 import { SitesContext } from '../contexts/sitesContext';
 
 import styles from './feedback.module.css';

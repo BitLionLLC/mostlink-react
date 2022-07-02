@@ -76,9 +76,12 @@ const SingleSite = () => {
     const [liveNotificationColor, setLiveNotificationColor] = useState("#FF0000");
     const liveNotificationColorRef = useRef(liveNotificationColor);
     const [isPexelsModalShowing, setIsPexelsModalShowing] = useState(false);
+    const [isGiphyModalShowing, setIsGiphyModalShowing] = useState(false);
     const [modalOpenedWith, setModalOpenedWith] = useState("");
     const [photos, setPhotos] = useState([]);
+    const [gifs, setGifs] = useState([]);
     const [query, setQuery] = useState("abstract");
+    const [gifQuery, setGifQuery] = useState("cat");
     const [isDirty, setIsDirty] = useState(false);
     const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
     const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false);
@@ -113,6 +116,15 @@ const SingleSite = () => {
             .catch(err => console.error(err))
     }
 
+    const fetchGiphy = (e) => {
+        e?.preventDefault();
+
+        axios
+            .get(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_API_KEY}&limit=50&q=${gifQuery}`)
+            .then(res => setGifs(res.data.data))
+            .catch(err => console.log(err))
+    }
+
     const fetchSiteDomains = () => {
         axios
             .get(`${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`, { withCredentials: true })
@@ -134,6 +146,7 @@ const SingleSite = () => {
         document.body.style.backgroundImage = bodyGradient || null;
         fetchSite(match.params.id);
         fetchPexels();
+        fetchGiphy();
         fetchSiteDomains();
     }, [])
 
@@ -547,6 +560,7 @@ const SingleSite = () => {
                         <img src={headerImage?.base64 || headerImage?.url || defaultHeader} width="200" height="200" alt="header" className={styles.editImage} />
                         <div className={styles.imageInput}><FileBase64 multiple={false} onDone={(file) => setHeaderImage(file)} /></div>
                         <button onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>Choose from Pexels</button>
+                        <button onClick={() => setIsGiphyModalShowing(true)}>Choose from GIPHY</button>
                         
                         <div className={styles.titleAndClear}>
                             <h2>Header Emoji</h2>
@@ -869,6 +883,28 @@ const SingleSite = () => {
                             {photos?.map(photo => {
                                 return <img src={photo.src.tiny} alt="pexel result" width="100" height="100" onClick={
                                         modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
+                                    }
+                                />
+                            })}
+                        </div>
+                    </div>
+                </>
+                : null
+            }
+            { isGiphyModalShowing ?
+                <>
+                    <div className={styles.blocker} onClick={() => setIsGiphyModalShowing(false)} />
+                    <div className={styles.pexelsModal}>
+                        <div className={styles.closeButton} onClick={() => setIsGiphyModalShowing(false)}>+</div>
+                        <span>Find and select a photo for your header image from <a href="https://www.giphy.com">GIPHY</a></span>
+                        <form className={styles.pexelsSearch} onSubmit={fetchGiphy}>
+                            <TextField type="text" value={gifQuery} placeholder="Search" onChange={e => setGifQuery(e.target.value)} className={styles.textField} size="small" variant="filled" />
+                            <button onClick={fetchGiphy} type="submit">Search</button>
+                        </form>
+                        <div className={styles.photos}>
+                            {gifs?.map(gif => {
+                                return <img src={`https://media.giphy.com/media/${gif.id}/giphy.gif`} alt="giphy result" width="100" height="100" onClick={
+                                        modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: `https://media.giphy.com/media/${gif.id}/giphy.gif`}) : () => setHeaderImage({url: `https://media.giphy.com/media/${gif.id}/giphy.gif`})
                                     }
                                 />
                             })}
