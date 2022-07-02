@@ -903,10 +903,7 @@ const SingleSite = () => {
                         </form>
                         <div className={styles.photos}>
                             {gifs?.map(gif => {
-                                return <img src={`https://media.giphy.com/media/${gif.id}/giphy.gif`} alt="giphy result" width="100" height="100" onClick={
-                                        modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: `https://media.giphy.com/media/${gif.id}/giphy.gif`}) : () => setHeaderImage({url: `https://media.giphy.com/media/${gif.id}/giphy.gif`})
-                                    }
-                                />
+                                return <img src={`https://media.giphy.com/media/${gif.id}/giphy.gif`} alt="giphy result" width="100" height="100" onClick={() => setHeaderImage({url: `https://media.giphy.com/media/${gif.id}/giphy.gif`})} />
                             })}
                         </div>
                     </div>
