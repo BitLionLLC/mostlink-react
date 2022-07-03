@@ -1,6 +1,6 @@
 .gradientPicker {
     width: 80%;
-    height: 400px;
+    min-height: 400px;
     background-color: midnightblue;
     padding: 15px;
     border: 1px solid white;
