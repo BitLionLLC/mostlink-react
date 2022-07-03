@@ -42,3 +42,9 @@
 .textField div {
     height: 50px;
 }
+
+.reorderLinks {
+    position: absolute;
+    display: flex;
+    width: 100%;
+}

@@ -406,14 +406,11 @@ const SingleSite = () => {
             .catch(err => toast("Could not delete the domain. Please try again.", { type: "error" }))
     }
 
-    const moveLink = useCallback((dragIndex, hoverIndex) => {
-        setLinks((prevLinks) => update(prevLinks, {
-            $splice: [
-                [dragIndex, 1],
-                [hoverIndex, 0, prevLinks[dragIndex]],
-            ],
-        }));
-    }, []);
+    const moveLink = (from, to) => {
+        const newLinks = links.slice()
+        newLinks.splice(to, 0, newLinks.splice(from, 1)[0]);
+        setLinks(newLinks);
+    }
 
     const onEmojiClick = (event, emojiObject) => {
         setHeaderEmoji(emojiObject.emoji);
