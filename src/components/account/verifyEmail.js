@@ -32,14 +32,14 @@ const VerifyEmail = () => {
                 isActive
                 ?
                     <div className={styles.verifyEmail} style={{backgroundColor: themeObj.landingCardBackground}}>
-                        <h1>Your email has been verified. Please <Link to="/account/login">log in</Link>.</h1>
+                        <h1>Your email has been verified. Please <Link to="/account/login" style={{ color: themeObj.accentColor }}>log in</Link>.</h1>
                     </div>
                 :
                     <div className={styles.verifyEmail} style={{backgroundColor: themeObj.landingCardBackground}}>
                         <h1>Verifying your email...</h1>
                     </div>
             }
-        </div>   
+        </div>
     )
 }
 

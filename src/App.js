@@ -28,6 +28,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { muiDarkTheme, muiLightTheme } from './constants/themes';
 
 import 'react-toastify/dist/ReactToastify.css';
+import TermsAndConditions from './components/termsAndConditions';
 
 function App() {
   const { theme } = useContext(SitesContext);
@@ -79,6 +80,9 @@ function App() {
         </Route>
         <Route path="/privacy-policy">
           <PrivacyPolicy />
+        </Route>
+        <Route path="/terms-and-conditions">
+          <TermsAndConditions />
         </Route>
         <Route path="/feedback">
           <Feedback />
