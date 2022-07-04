@@ -45,7 +45,7 @@ const Login = () => {
                 toast("Successfully logged in.", { type: "success" });
             })
             .catch(err => {
-                toast("Wrong username or password.", { type: "error"})
+                toast(err.response.data.error, { type: "error"})
             })
     }
 

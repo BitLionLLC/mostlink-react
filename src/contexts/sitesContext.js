@@ -14,12 +14,18 @@ const SitesContextProvider = (props) => {
     const [theme, setTheme] = useState(localTheme || "dark");
     const [themeObj, setThemeObj] = useState(localTheme === "light" ? lightTheme : darkTheme);
     const [isSubscribed, setIsSubscribed] = useState(false);
+    const [email, setEmail] = useState("");
+    const [withGoogle, setWithGoogle] = useState(false);
     const createSiteModalRef = useRef(null);
 
     useEffect(() => {
         axios
             .get(`${process.env.REACT_APP_API_BASE}/api/users/`, { withCredentials: true })
-            .then(res => setIsSubscribed(res.data.isSubscribed))
+            .then(res => {
+                setEmail(res.data.email);
+                setWithGoogle(true);
+                setIsSubscribed(res.data.isSubscribed)
+            })
             .catch(err => console.log(err));
     }, [])
 
@@ -67,6 +73,8 @@ const SitesContextProvider = (props) => {
             themeObj,
             isSubscribed,
             createSiteModalRef,
+            email,
+            withGoogle,
             fetchSite, 
             fetchSites, 
             setJwtToken, 

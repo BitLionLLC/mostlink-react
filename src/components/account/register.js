@@ -89,11 +89,9 @@ const Register = () => {
                     firstName, lastName, email, username, password
                 }, { withCredentials: true })
                 .then(res => {
-                    setJwtToken(res.data.token);
                     setUserId(res.data.id);
-                    setIsSubscribed(res.data.isSubscribed);
-                    history.push("/home");
-                    toast("Registered successfully.", { type: "success" });
+                    history.push("/account/please-verify");
+                    toast("Registered successfully. Please verify your email.", { type: "success" });
                 })
                 .catch(err => {
                     toast("A user with that username already exists. Please log in.", { type: "error" });
@@ -124,7 +122,6 @@ const Register = () => {
                 .then(res => {
                     setJwtToken(res.data.token);
                     setUserId(res.data.id);
-                    setIsSubscribed(res.data.isSubscribed);
                     history.push("/home");
                     toast("Registered successfully.", { type: "success" });
                 })
@@ -166,7 +163,7 @@ const Register = () => {
                     <label htmlFor="lastName">Last name*</label>
                     <TextField type="text" value={lastName} onChange={e => setLastName(e.target.value)} id="lastName" variant="filled" size="small" className={styles.textField} error={!!lastNameError} helperText={lastNameError} />
 
-                    <label htmlFor="email">Email address*</label>
+                    <label htmlFor="email">Email address* (must be verified)</label>
                     <TextField type="text" value={email} onChange={e => setEmail(e.target.value)} id="email" variant="filled" size="small" className={styles.textField} error={!!emailError} helperText={emailError} />
                     { emailError && emailError === "This email is already in use." && <div className={styles.errorText}>{<span>Would you like to <Link to="/account/login">log in</Link> instead?</span>}</div> }
                     

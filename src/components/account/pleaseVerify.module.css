@@ -1,0 +1,25 @@
+.pleaseVerifyContainer {
+    width: 100vw;
+    height: calc(100vh - 150px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 150px;
+}
+
+.pleaseVerify {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    border-radius: 20px;
+}
+
+@media(max-width: 550px) {
+    .pleaseVerify {
+        width: 90vw;
+    }
+}
