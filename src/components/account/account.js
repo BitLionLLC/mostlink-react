@@ -11,7 +11,7 @@ import { SitesContext } from '../../contexts/sitesContext';
 import styles from './account.module.css';
 
 const Account = () => {
-    const { themeObj, theme, isSubscribed, setJwtToken, setUserId } = useContext(SitesContext);
+    const { themeObj, theme, isSubscribed, setJwtToken, setUserId, withGoogle, email } = useContext(SitesContext);
     
     const history = useHistory();
 
@@ -26,6 +26,7 @@ const Account = () => {
     const [password, setPassword] = useState("");
     const [isPasswordShowing, setIsPasswordShowing] = useState(false);
     const [passwordError, setPasswordError] = useState("");
+    const [emailAddress, setEmailAddress] = useState("");
 
     const PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$";
     const PASSWORD_ERROR = "This password does not meet the requirements.";
@@ -88,7 +89,7 @@ const Account = () => {
         signOut();
 
         axios
-            .put(`${process.env.REACT_APP_API_BASE}/api/users/delete`, { password }, { withCredentials: true })
+            .put(`${process.env.REACT_APP_API_BASE}/api/users/delete`, { password, withGoogle }, { withCredentials: true })
             .then(res => {
                 setJwtToken(null);
                 setUserId(null);
@@ -130,19 +131,28 @@ const Account = () => {
                         <h1>Delete account</h1>
                         <p>Are you sure you want to delete your account? This action cannot be undone. Your sites will be lost forever (a long time!)</p>
                         <div className={styles.labelAndInput}>
-                            <div className={styles.passwordAndTooltip}>
-                                <label htmlFor="password">Password*</label>
-                                <ReactTooltip place="right" html={true}/>
-                                <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
-                            </div>
-                            <div className={styles.passwordAndEyeIcon}>
-                                <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
-                                <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
-                            </div>
+                            
+                            {
+                                withGoogle
+                                ?   
+                                    null                           
+                                :
+                                    <>
+                                        <div className={styles.passwordAndTooltip}>
+                                            <label htmlFor="password">Password*</label>
+                                            <ReactTooltip place="right" html={true}/>
+                                            <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
+                                        </div>
+                                        <div className={styles.passwordAndEyeIcon}>
+                                            <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
+                                            <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
+                                        </div>
+                                    </>
+                            }
                         </div>
                         <div className={styles.deleteAccountButtons}>
                             <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
-                            <button className={styles.deleteButton} onClick={deleteAccount} disabled={!password || passwordError}>Delete</button>
+                            <button className={styles.deleteButton} onClick={deleteAccount} disabled={!withGoogle && (!password || passwordError)}>Delete</button>
                         </div>
                     </div>
                 </>
@@ -184,7 +194,7 @@ const Account = () => {
 
                             <div className={styles.deleteAccountButtons}>
                                 <button className={styles.cancelChangeButton} onClick={() => setIsChangePasswordModalShowing(false)}>Cancel</button>
-                                <button className={styles.submitButton} onClick={changePassword} disabled={!oldPassword || !newPassword || oldPasswordError || newPasswordError}>Submit</button>
+                                <button className={styles.submitButton} onClick={changePassword} disabled={!withGoogle && (!oldPassword || !newPassword || oldPasswordError || newPasswordError)}>Submit</button>
                             </div>
                         </div>
                     </div>

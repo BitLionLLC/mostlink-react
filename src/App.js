@@ -17,6 +17,8 @@ import PrivacyPolicy from './components/privacyPolicy';
 import Feedback from './components/feedback';
 import PaymentSuccess from './components/payment/paymentSuccess';
 import PaymentCanceled from './components/payment/paymentCanceled';
+import PleaseVerify from './components/account/pleaseVerify';
+import VerifyEmail from './components/account/verifyEmail';
 import { ToastContainer } from 'react-toastify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -59,6 +61,12 @@ function App() {
         </Route>
         <Route path="/account/forgot-password">
           <ForgotPassword />
+        </Route>
+        <Route path="/account/please-verify">
+          <PleaseVerify />
+        </Route>
+        <Route path="/account/verify-email/:hash/:userId">
+          <VerifyEmail />
         </Route>
         <Route path="/payment/success">
           <PaymentSuccess />
