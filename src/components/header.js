@@ -86,7 +86,7 @@ const Header = () => {
         const allowedPathsWhenLoggedOut = [
             "/account/login", "/account/register", "/account/reset-password", 
             "/account/forgot-password", "/account/please-verify", "/account/verify-email",
-            '/pricing', '/privacy-policy', '/feedback'
+            '/pricing', '/privacy-policy', '/terms-and-conditions', '/feedback'
         ];
         
         setTimeout(() => {
@@ -159,6 +159,7 @@ const Header = () => {
                             <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/pricing")}>Pricing</li>
                             <li className={styles.feedback} onClick={() => routeTo("/feedback")}>Provide feedback (please!)</li>
                             <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/privacy-policy")}>Privacy Policy</li>
+                            <li style={{ color: "white", background: themeObj.editTrayBackground }} onClick={() => routeTo("/terms-and-conditions")}>Terms and Conditions</li>
                         </ul>
                     </>
                 :

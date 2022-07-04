@@ -148,6 +148,10 @@ const Register = () => {
         <div className={styles.registerContainer}>
             <div className={styles.register}>
                 <h1>Register</h1>
+                <h3>By registering for an account, you automatically agree to the&nbsp; 
+                    <Link style={{ color: themeObj.accentColor }} to="/terms-and-conditions">Terms and Conditions</Link> and&nbsp;
+                    <Link style={{ color: themeObj.accentColor }} to="/privacy-policy">Privacy Policy</Link>.
+                </h3>
                 <GoogleLogin
                     clientId="481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com"
                     buttonText="Continue with Google"
