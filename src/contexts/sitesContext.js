@@ -23,7 +23,7 @@ const SitesContextProvider = (props) => {
             .get(`${process.env.REACT_APP_API_BASE}/api/users/`, { withCredentials: true })
             .then(res => {
                 setEmail(res.data.email);
-                setWithGoogle(true);
+                setWithGoogle(res.data.google);
                 setIsSubscribed(res.data.isSubscribed)
             })
             .catch(err => console.log(err));
