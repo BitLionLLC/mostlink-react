@@ -1,0 +1,31 @@
+.features {
+    width: 1000px;
+    min-height: 500px;
+    margin: 0 50px 0 0;
+    padding: 50px;
+    border-radius: 20px;
+}
+
+.features h1 {
+    text-align: center;
+}
+
+.featureList {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.feature {
+    width: 40%;
+    margin: 30px;
+}
+
+.feature img {
+    border-radius: 10px;
+}
+
+.description {
+    height: 60px;
+}

@@ -11,7 +11,7 @@ import ResetPassword from './components/account/resetPassword';
 import ForgotPassword from './components/account/forgotPassword';
 import Header from './components/header';
 import Footer from './components/footer';
-import Landing from './components/landing';
+import Landing from './components/landing/landing';
 import Pricing from './components/pricing';
 import PrivacyPolicy from './components/privacyPolicy';
 import Feedback from './components/feedback';

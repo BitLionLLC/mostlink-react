@@ -93,6 +93,23 @@ body {
     justify-content: center;
 }
 
+.productDetailsContainer {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 800px;
+}
+
+.productDetailsContainer:after {
+    position: absolute;
+    content: "";
+    bottom: -100px;
+    height: 500px;
+    width: 1px;
+}
+
 @media(max-width: 550px) {
     .landing {
         width: 93vw;
