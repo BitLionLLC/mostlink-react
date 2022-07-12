@@ -21,7 +21,7 @@
 .feedback:after {
     position: absolute;
     content: "";
-    bottom: -100px;
+    bottom: -150px;
     height: 500px;
     width: 1px;
 }

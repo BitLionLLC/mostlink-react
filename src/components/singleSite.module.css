@@ -20,7 +20,7 @@
 .singleSiteContainer:after {
     position: absolute;
     content: "";
-    bottom: -150px;
+    bottom: -200px;
     height: 200px;
     width: 1px;
 }

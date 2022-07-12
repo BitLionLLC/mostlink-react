@@ -17,8 +17,13 @@ const Landing = () => {
     }, [theme])
 
     return (
-        <>
-            <div className={styles.landingContainer}>
+        <div className={styles.landingContainer}>
+            <div className={styles.titlesContainer}>
+                <h1>A modern link page builder for content creators and business owners</h1>
+                <h2>Build your own custom site today with our easy-to-use builder. Start for free!</h2>
+            </div>
+
+            <div className={styles.landingInner}>
                 <div className={styles.landingBehind}>
                     <img src={waterGif} alt="flowing water" />
                 </div>
@@ -33,7 +38,7 @@ const Landing = () => {
                 {/* <Examples />
                 <FAQs /> */}
             </div>
-        </>
+        </div>
     )
 }
 

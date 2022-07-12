@@ -1,7 +1,7 @@
 .features {
     width: 1000px;
     min-height: 500px;
-    margin: 0 50px 0 0;
+    margin: 150px 0 0 0;
     padding: 50px;
     border-radius: 20px;
 }
@@ -35,7 +35,7 @@
 @media(max-width: 1050px) {
     .features {
         width: 90vw;
-        margin: 0 auto;
+        margin: 200px auto 0 auto;
     }
 
     .feature {
