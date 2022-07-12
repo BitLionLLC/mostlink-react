@@ -30,7 +30,7 @@ const Features = () => {
                     return <li key={feature.name} className={styles.feature}>
                         <h3>{feature.name}</h3>
                         <div className={styles.description}>{feature.description}</div>
-                        <img src={imageSources[feature.image]} alt={feature.name} height="300" />
+                        <img src={imageSources[feature.image]} alt={feature.name} />
                     </li>
                 })}
             </ul>   
