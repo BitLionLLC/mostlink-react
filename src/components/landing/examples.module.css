@@ -38,7 +38,7 @@
 @media(max-width: 1050px) {
     .examples {
         width: 90vw;
-        margin: 200px auto 0 auto;
+        margin: 100px auto 0 auto;
     }
 
     .example {
