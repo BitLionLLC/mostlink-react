@@ -54,10 +54,6 @@
 }
 
 @media(max-width: 600px) {
-    .examples {
-        margin: 30px 0;
-    }
-
     .example img {
         width: 95%;
     }
