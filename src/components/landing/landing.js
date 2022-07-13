@@ -35,8 +35,8 @@ const Landing = () => {
 
             <div className={styles.productDetailsContainer}>
                 <Features />
-                {/* <Examples />
-                <FAQs /> */}
+                <Examples />
+                {/* <FAQs /> */}
             </div>
         </div>
     )
