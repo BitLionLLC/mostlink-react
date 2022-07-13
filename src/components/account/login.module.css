@@ -63,16 +63,16 @@
     width: 100%;
 }
 
+.login:after {
+    position: absolute;
+    content: "";
+    bottom: -150px;
+    height: 500px;
+    width: 1px;
+}
+
 @media (max-width: 550px) {
     .login {
         width: 90vw;
-    }
-
-    .login:after {
-        position: absolute;
-        content: "";
-        bottom: -100px;
-        height: 500px;
-        width: 1px;
-    }
+    }   
 }

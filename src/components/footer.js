@@ -17,7 +17,7 @@ const Footer = () => {
             <div style={{color: themeObj.color}}>Copyright 2021-{new Date().getFullYear()}, BitLion, LLC</div>
             <div><Link to="/privacy-policy" style={{color: themeObj.color}}>Privacy Policy</Link></div>
             <div><Link to="/terms-and-conditions" style={{color: themeObj.color}}>Terms and Conditions</Link></div>
-            { !location.pathname.includes("/feedback") && <Link to="/feedback"><div className={styles.feedback}><h2>Provide<br/>feedback<br/>(please!)</h2></div></Link> }
+            { !location.pathname.includes("/feedback") && <Link to="/feedback"><div className={styles.feedback}><h2>Provide feedback (please!)</h2></div></Link> }
         </div>
     )
 }

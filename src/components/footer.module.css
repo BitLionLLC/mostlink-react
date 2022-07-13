@@ -31,13 +31,12 @@
 
 .feedback {
     position: absolute;
-    right: 25px;
-    bottom: 75px;
-    height: 100px;
-    width: 200px;
+    left: -20px;
+    bottom: 50px;
+    height: 50px;
+    width: 100vw;
     color: black;
     border: 1px solid grey;
-    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -45,6 +44,10 @@
     animation-duration: 4s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
+}
+
+.feedback button {
+    margin: 0;
 }
 
 @media(max-width: 750px) {

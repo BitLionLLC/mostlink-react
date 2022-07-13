@@ -3,10 +3,35 @@ body {
     background-attachment: fixed;
 }
 
+.titlesContainer {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 170px;
+    padding: 0 20px;
+}
+
+.landingContainer {
+    width: 100vw;
+    height: calc(100vh - 150px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.landingInner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .landing {
     width: 500px;
     height: 500px;
-    top: 200px;
+    top: 30px;
     display: flex;
     position: absolute;
     flex-direction: column;
@@ -28,19 +53,19 @@ body {
         border-radius: 80px;
         width: 485px;
         height: 485px;
-        margin-top: 208px;
+        margin-top: 40px;
     }
     50% {
         border-radius: 15px;
         width: 455px;
         height: 455px;
-        margin-top: 220px;
+        margin-top: 55px;
     }
     100% {
         border-radius: 80px;
         width: 485px;
         height: 485px;
-        margin-top: 208px;
+        margin-top: 40px;
     }
 }
 
@@ -49,19 +74,19 @@ body {
         border-radius: 80px;
         width: 90vw;
         height: 90vw;
-        margin-top: 208px;
+        margin-top: 40px;
     }
     50% {
         border-radius: 15px;
         width: 84vw;
         height: 84vw;
-        margin-top: 225px;
+        margin-top: 55px;
     }
     100% {
         border-radius: 80px;
         width: 90vw;
         height: 90vw;
-        margin-top: 208px;
+        margin-top: 40px;
     }
 }
 
@@ -86,18 +111,28 @@ body {
     z-index: 1;
 }
 
-.landingContainer {
+.productDetailsContainer {
     width: 100vw;
-    height: calc(100vh - 150px);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 800px;
+}
+
+.productDetailsContainer:after {
+    position: absolute;
+    content: "";
+    bottom: -150px;
+    height: 500px;
+    width: 1px;
 }
 
 @media(max-width: 550px) {
     .landing {
         width: 93vw;
         height: 93vw;
-        top: 200px;
+        top: 30px;
     }
 
     .landingBehind img {
