@@ -118,9 +118,10 @@ const Account = () => {
         <div className={styles.accountContainer}>
             <div className={styles.account} style={{backgroundColor: themeObj.landingCardBackground}}>
                 <h1>Account</h1>
+                <h3>{email}</h3>
                 {/* <button className={styles.generalButton} onClick={subscribeToPremium} disabled={isSubscribed}>Subscribe to Premium</button>
                 <button className={styles.generalButton} onClick={createPortalSession}>Log into Stripe portal</button> to cancel or modify your subscription. */}
-                <button className={styles.generalButton} onClick={() => setIsChangePasswordModalShowing(true)}>Change password</button>
+                {!withGoogle && <button className={styles.generalButton} onClick={() => setIsChangePasswordModalShowing(true)}>Change password</button>}
                 <button className={styles.deleteAccountButton} onClick={() => setIsDeleteModalShowing(true)}>Delete account</button> 
             </div>
             { isDeleteModalShowing ?
@@ -163,7 +164,6 @@ const Account = () => {
                     <div className={styles.changePasswordModal}>
                         <div className={styles.closeButton} onClick={() => setIsChangePasswordModalShowing(false)}>+</div>
                         <h1>Change password</h1>
-                        <p>If you registered with Google, <br/>you do not need to change your password here.</p>
                         <div className={styles.changePasswordForm}>
                             <div className={styles.labelAndInput}>
                                 <div className={styles.passwordAndTooltip}>

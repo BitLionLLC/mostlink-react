@@ -19,15 +19,20 @@ const SitesContextProvider = (props) => {
     const createSiteModalRef = useRef(null);
 
     useEffect(() => {
+        fetchUser();
+    }, [])
+
+    const fetchUser = async () => {
         axios
             .get(`${process.env.REACT_APP_API_BASE}/api/users/`, { withCredentials: true })
             .then(res => {
                 setEmail(res.data.email);
+                setUserId(res.data.id);
                 setWithGoogle(res.data.google);
                 setIsSubscribed(res.data.isSubscribed)
             })
             .catch(err => console.log(err));
-    }, [])
+    }
 
     const fetchSite = async siteId => {
         axios
@@ -77,9 +82,11 @@ const SitesContextProvider = (props) => {
             withGoogle,
             fetchSite, 
             fetchSites, 
+            fetchUser,
             setJwtToken, 
             setUserId, 
-            setTheme, 
+            setTheme,
+            setWithGoogle, 
             toggleTheme,
             setIsSubscribed
         }} >

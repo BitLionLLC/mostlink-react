@@ -17,6 +17,14 @@
     padding: 20px;
 }
 
+.account:after {
+    position: absolute;
+    content: "";
+    bottom: -150px;
+    height: 500px;
+    width: 1px;
+}
+
 .generalButton, .deleteAccountButton {
     width: 70%;
     height: 50px;
