@@ -11,7 +11,7 @@ import styles from "./login.module.css";
 
 const Login = () => {
     const history = useHistory();
-    const { setJwtToken, setUserId, setIsSubscribed, themeObj, theme } = useContext(SitesContext);
+    const { setJwtToken, setUserId, setIsSubscribed, setWithGoogle, themeObj, theme } = useContext(SitesContext);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -40,6 +40,7 @@ const Login = () => {
                 setJwtToken(res.data.token);
                 setUserId(res.data.id);
                 setIsSubscribed(res.data.isSubscribed);
+                setWithGoogle(res.data.google);
                 history.push("/home");
                 localStorage.setItem("mostlinkUserId", res.data.id);
                 toast("Successfully logged in.", { type: "success" });
@@ -63,6 +64,7 @@ const Login = () => {
                     setJwtToken(res.data.token);
                     setUserId(res.data.id);
                     setIsSubscribed(res.data.isSubscribed);
+                    setWithGoogle(res.data.google);
                     history.push("/home");
                     localStorage.setItem("mostlinkUserId", res.data.id);
                     toast("Successfully logged in.", { type: "success" });
