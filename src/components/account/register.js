@@ -106,6 +106,12 @@ const Register = () => {
         }
     }
 
+    const onKeyDown = e => {
+        if (e.key === "Enter") {
+            onSubmit(e);
+        }
+    }
+
     const responseGoogle = (response) => {
         const { profileObj } = response;
 
@@ -160,7 +166,7 @@ const Register = () => {
                     isSignedIn={true}
                 />
                 <h3 style={{ color: themeObj.accentColor }}><Link to="/account/login" style={{ color: themeObj.accentColor }}>Already have an account? Log in instead.</Link></h3>
-                <form className={styles.registerForm} onSubmit={onSubmit}>
+                <form className={styles.registerForm} onSubmit={onSubmit} onKeyDown={onKeyDown}>
                     <label htmlFor="firstName">First name*</label>
                     <TextField type="text" value={firstName} onChange={e => setFirstName(e.target.value)} id="firstName" variant="filled" size="small" className={styles.textField} error={!!firstNameError} helperText={firstNameError} />
 

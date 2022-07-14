@@ -57,6 +57,18 @@ const Account = () => {
         }
     }, [password])
 
+    const onKeyDownDelete = e => {
+        if (e.key === "Enter") {
+            deleteAccount();
+        }
+    }
+
+    const onKeyDownChangePassword = e => {
+        if (e.key === "Enter") {
+            changePassword();
+        }
+    }
+
     const subscribeToPremium = () => {
         axios
             .post(`${process.env.REACT_APP_API_BASE}/api/payment/create-checkout-session`, {priceId: "price_1L70lyKTiWhpJMC5zJmDcOWx"}, { withCredentials: true })
@@ -131,8 +143,7 @@ const Account = () => {
                         <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
                         <h1>Delete account</h1>
                         <p>Are you sure you want to delete your account? This action cannot be undone. Your sites will be lost forever (a long time!)</p>
-                        <div className={styles.labelAndInput}>
-                            
+                        <div className={styles.labelAndInput} onKeyDown={onKeyDownDelete}>
                             {
                                 withGoogle
                                 ?   
@@ -164,7 +175,7 @@ const Account = () => {
                     <div className={styles.changePasswordModal}>
                         <div className={styles.closeButton} onClick={() => setIsChangePasswordModalShowing(false)}>+</div>
                         <h1>Change password</h1>
-                        <div className={styles.changePasswordForm}>
+                        <div className={styles.changePasswordForm} onKeyDown={onKeyDownChangePassword}>
                             <div className={styles.labelAndInput}>
                                 <div className={styles.passwordAndTooltip}>
                                     <label htmlFor="oldPassword">Old Password*</label>

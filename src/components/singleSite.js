@@ -116,6 +116,12 @@ const SingleSite = () => {
             .catch(err => console.error(err))
     }
 
+    const onKeyDownPexels = e => {
+        if (e.key === "Enter") {
+            fetchPexels(e);
+        }
+    }
+
     const fetchGiphy = (e) => {
         e?.preventDefault();
 
@@ -123,6 +129,12 @@ const SingleSite = () => {
             .get(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_API_KEY}&limit=50&q=${gifQuery}`)
             .then(res => setGifs(res.data.data))
             .catch(err => console.log(err))
+    }
+
+    const onKeyDownGiphy = e => {
+        if (e.key === "Enter") {
+            fetchGiphy(e);
+        }
     }
 
     const fetchSiteDomains = () => {
@@ -871,8 +883,8 @@ const SingleSite = () => {
                     <div className={styles.blocker} onClick={() => setIsPexelsModalShowing(false)} />
                     <div className={styles.pexelsModal}>
                         <div className={styles.closeButton} onClick={() => setIsPexelsModalShowing(false)}>+</div>
-                        <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com">Pexels</a></span>
-                        <form className={styles.pexelsSearch} onSubmit={fetchPexels}>
+                        <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com" style={{ color: themeObj.accentColor }}>Pexels</a></span>
+                        <form className={styles.pexelsSearch} onSubmit={fetchPexels} onKeyDown={onKeyDownPexels}>
                             <TextField type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} className={styles.textField} size="small" variant="filled" />
                             <button onClick={fetchPexels} type="submit">Search</button>
                         </form>
@@ -893,8 +905,8 @@ const SingleSite = () => {
                     <div className={styles.blocker} onClick={() => setIsGiphyModalShowing(false)} />
                     <div className={styles.pexelsModal}>
                         <div className={styles.closeButton} onClick={() => setIsGiphyModalShowing(false)}>+</div>
-                        <span>Find and select a photo for your header image from <a href="https://www.giphy.com">GIPHY</a></span>
-                        <form className={styles.pexelsSearch} onSubmit={fetchGiphy}>
+                        <span>Find and select a photo for your header image from <a href="https://www.giphy.com" style={{ color: themeObj.accentColor }}>GIPHY</a></span>
+                        <form className={styles.pexelsSearch} onSubmit={fetchGiphy} onKeyDown={onKeyDownGiphy}>
                             <TextField type="text" value={gifQuery} placeholder="Search" onChange={e => setGifQuery(e.target.value)} className={styles.textField} size="small" variant="filled" />
                             <button onClick={fetchGiphy} type="submit">Search</button>
                         </form>

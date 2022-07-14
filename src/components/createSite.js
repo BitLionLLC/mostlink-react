@@ -69,6 +69,12 @@ const CreateSite = (props) => {
             })
     }
 
+    const onKeyDown = e => {
+        if (e.key === "Enter") {
+            createSite(e);
+        }
+    }
+
     return (
         <>
             <div 
@@ -86,7 +92,7 @@ const CreateSite = (props) => {
                         <div className={styles.createSiteModal}>
                             <div className={styles.closeButton} onClick={toggleModal}>+</div>
                             <h1>Create a site</h1>
-                            <form onSubmit={createSite} className={styles.createSiteForm}>
+                            <form onSubmit={createSite} className={styles.createSiteForm} onKeyDown={onKeyDown}>
                                 <TextField type="text" className={styles.textField} value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" variant="filled" size="small" />
                                 <TextField type="text" className={styles.textField} value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" variant="filled" size="small"/>
                                 <div className={styles.siteAndPath}><TextField type="text" className={styles.textField} value={subdomain} name="subdomain" onChange={e => setSubdomain(e.target.value)} placeholder="subdomain" variant="filled" size="small" />.mostlink.io</div>
