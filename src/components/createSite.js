@@ -13,7 +13,9 @@ const CreateSite = (props) => {
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
     const [subdomain, setSubdomain] = useState("");
+    const [subdomainError, setSubdomainError] = useState("");
     const [isSubdomainValid, setIsSubdomainValid] = useState(true);
+    const [suggestion, setSuggestion] = useState("");
 
     const { fetchSites, themeObj, isSubscribed, sites, theme, createSiteModalRef } = useContext(SitesContext);
 
@@ -26,11 +28,22 @@ const CreateSite = (props) => {
             subdomain && axios
                 .get(`${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`, { withCredentials: true })
                 .then(() => setIsSubdomainValid(true))
-                .catch(() => setIsSubdomainValid(false))
+                .catch(err => {
+                    setIsSubdomainValid(false)
+                    setSuggestion(err.response.data.suggestion);
+                })
         }, 1000)
     
         return () => clearTimeout(delayDebounceFn)
     }, [subdomain])
+
+    useEffect(() => {
+        if (isSubdomainValid) {
+            setSubdomainError("");
+        } else {
+            setSubdomainError("That subdomain is taken. Please choose another one.");
+        }
+    }, [isSubdomainValid])
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -69,6 +82,12 @@ const CreateSite = (props) => {
             })
     }
 
+    const onKeyDown = e => {
+        if (e.key === "Enter") {
+            createSite(e);
+        }
+    }
+
     return (
         <>
             <div 
@@ -86,11 +105,15 @@ const CreateSite = (props) => {
                         <div className={styles.createSiteModal}>
                             <div className={styles.closeButton} onClick={toggleModal}>+</div>
                             <h1>Create a site</h1>
-                            <form onSubmit={createSite} className={styles.createSiteForm}>
+                            <form onSubmit={createSite} className={styles.createSiteForm} onKeyDown={onKeyDown}>
                                 <TextField type="text" className={styles.textField} value={title} name="title" onChange={e => setTitle(e.target.value)} placeholder="Site title" variant="filled" size="small" />
                                 <TextField type="text" className={styles.textField} value={subtitle} name="subtitle" onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" variant="filled" size="small"/>
-                                <div className={styles.siteAndPath}><TextField type="text" className={styles.textField} value={subdomain} name="subdomain" onChange={e => setSubdomain(e.target.value)} placeholder="subdomain" variant="filled" size="small" />.mostlink.io</div>
-                                {subdomain && !isSubdomainValid && <div className={styles.errorText}>That subdomain is taken. Please choose another.</div>}
+                                <div className={styles.siteAndPath}>
+                                    <TextField type="text" className={styles.textField} value={subdomain} name="subdomain" 
+                                        onChange={e => setSubdomain(e.target.value)} placeholder="subdomain" variant="filled" size="small" 
+                                        error={!isSubdomainValid} helperText={subdomainError} />.mostlink.io
+                                </div>
+                                {subdomain && subdomainError && <div onClick={() => setSubdomain(suggestion)} className={styles.suggestion}>How about {suggestion}?</div>}
                                 <button 
                                     type="submit" 
                                     className={styles.createButton} 

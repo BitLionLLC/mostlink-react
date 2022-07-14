@@ -56,11 +56,17 @@ const Feedback = () => {
             })
     }
 
+    const onKeyDown = e => {
+        if (e.key === "Enter") {
+            onSubmit(e);
+        }
+    }
+
     return (
         <div className={styles.feedbackContainer}>
             <div className={styles.feedback} style={{backgroundColor: themeObj.landingCardBackground}}>
                 <h3>Thanks for being a beta tester! We really appreciate it. Please provide us with detailed feedback so we can improve the site builder for future users.</h3>
-                <form className={styles.feedbackForm} onSubmit={onSubmit}>
+                <form className={styles.feedbackForm} onSubmit={onSubmit} onKeyDown={onKeyDown}>
                     <label>Name</label>
                     <TextField value={name} onChange={e => setName(e.target.value)} size="small" variant="filled" className={styles.textField} placeholder="Name" />
                     <label>Email address</label>
@@ -78,7 +84,7 @@ const Feedback = () => {
                         </Select>
                     </div>
                     <label>Comments</label>
-                    <TextField value={comments} onChange={e => setComments(e.target.value)} variant="filled" multiline={true} className={styles.commentField} placeholder="Comments" />
+                    <TextField value={comments} onChange={e => setComments(e.target.value)} variant="filled" multiline={true} rows={10} maxRows={10} className={styles.commentField} placeholder="Comments" />
                     <label>Screenshot upload</label>
                     <FileBase64 multiple={false} onDone={(file) => setScreenshot(file)} />
 

@@ -11,9 +11,9 @@ import styles from "./login.module.css";
 
 const Login = () => {
     const history = useHistory();
-    const { setJwtToken, setUserId, setIsSubscribed, setWithGoogle, themeObj, theme } = useContext(SitesContext);
+    const { setJwtToken, setUserId, setIsSubscribed, setWithGoogle, setEmail, themeObj, theme } = useContext(SitesContext);
 
-    const [username, setUsername] = useState("");
+    const [usernameOrEmail, setUsernameOrEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPasswordShowing, setIsPasswordShowing] = useState(false);
 
@@ -22,7 +22,7 @@ const Login = () => {
     }, [theme])
     
     const onCancel = () => {
-        setUsername("");
+        setUsernameOrEmail("");
         setPassword("");
         
         history.push("/");
@@ -33,10 +33,11 @@ const Login = () => {
 
         axios
             .post(`${process.env.REACT_APP_API_BASE}/api/users/login`, {
-                username,
+                usernameOrEmail,
                 password
             }, { withCredentials: true })
-            .then(res =>{
+            .then(res => {
+                setEmail(res.data.email);
                 setJwtToken(res.data.token);
                 setUserId(res.data.id);
                 setIsSubscribed(res.data.isSubscribed);
@@ -50,6 +51,12 @@ const Login = () => {
             })
     }
 
+    const onKeyDown = e => {
+        if (e.key === "Enter") {
+            onSubmit(e);
+        }
+    }
+
     const responseGoogle = (response) => {
         const { profileObj } = response;
 
@@ -61,6 +68,7 @@ const Login = () => {
                     username
                 }, { withCredentials: true })
                 .then(res => {
+                    setEmail(res.data.email);
                     setJwtToken(res.data.token);
                     setUserId(res.data.id);
                     setIsSubscribed(res.data.isSubscribed);
@@ -87,9 +95,9 @@ const Login = () => {
                     isSignedIn={true}
                 />
                 <h3 style={{ color: themeObj.accentColor }}><Link to="/account/register" style={{ color: themeObj.accentColor }}>Don't have an account? Register instead.</Link></h3>
-                <form onSubmit={onSubmit} className={styles.loginForm}>
-                    <label htmlFor="username">Username</label>
-                    <TextField type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" variant="filled" className={styles.textField} size="small" />
+                <form onSubmit={onSubmit} onKeyDown={onKeyDown} className={styles.loginForm}>
+                    <label htmlFor="username">Username or email</label>
+                    <TextField type="text" value={usernameOrEmail} onChange={e => setUsernameOrEmail(e.target.value)} id="username" variant="filled" className={styles.textField} size="small" />
 
                     <label htmlFor="password">Password</label>
                     <div className={styles.passwordAndEyeIcon}>

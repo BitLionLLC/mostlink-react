@@ -86,6 +86,7 @@ const SitesContextProvider = (props) => {
             setJwtToken, 
             setUserId, 
             setTheme,
+            setEmail,
             setWithGoogle, 
             toggleTheme,
             setIsSubscribed
