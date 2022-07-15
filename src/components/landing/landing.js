@@ -37,6 +37,7 @@ const Landing = () => {
                 <Features />
                 <Examples />
                 <FAQs />
+                <iframe src="https://cdn.forms-content.sg-form.com/a3165ac8-03da-11ed-90c9-7edf428d4714" title="newsletter-signup" className={styles.newsletterSignup}/>
             </div>
         </div>
     )
