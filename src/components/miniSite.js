@@ -16,6 +16,7 @@ const MiniSite = ({site}) => {
     linkTextColor,
     linkBackgroundColor,
     containerGradient,
+    liveNotificationColor
   } = site
 
   return (
@@ -32,9 +33,9 @@ const MiniSite = ({site}) => {
       <ul className={styles.linksList}>
         {links.map((link, i) => {
           return <li className={styles.linkRow} key={i} style={{backgroundColor: linkBackgroundColor}}>
-            <div>
-              <span style={{color: linkTextColor}} className={styles.linkText}>{link.text}</span>
-              {link.live && <span className={styles.liveNotification} style={{color: linkTextColor}}> - not live</span>}
+            <div className={styles.linkAndLive}>
+              <span style={{color: linkTextColor}} className={styles.linkText}>{link.text}&nbsp;</span>
+              {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: liveNotificationColor}}> LIVE!</span></> : '- not live'}</div> : null}
             </div>   
             <FontAwesomeIcon icon={link?.icon?.split('_')} style={{color: linkTextColor}} />
           </li>
