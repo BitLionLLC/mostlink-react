@@ -1,78 +1,78 @@
 .login {
-    margin: 0 auto;
-    margin-top: 200px;
-    width: 500px;
-    min-height: 500px;
+  margin: 0 auto;
+  margin-top: 200px;
+  width: 500px;
+  min-height: 500px;
 }
 
 .loginForm {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .textField {
-    height: 30px;
-    font-size: 20px;
-    padding: 5px;
-    margin: 10px 0px 35px 0px !important;
+  height: 30px;
+  font-size: 20px;
+  padding: 5px;
+  margin: 10px 0 35px !important;
 }
 
 .loginForm label {
-    margin: 0;
+  margin: 0;
 }
 
 .loginFormButtons {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .loginFormButtons button {
-    width: 40%;
-    margin: 10px;
-    height: 40px;
-    font-size: 25px;
+  width: 40%;
+  margin: 10px;
+  height: 40px;
+  font-size: 25px;
 }
 
 .cancelButton {
-    background-color: pink;
+  background-color: pink;
 }
 
 .submitButton {
-    background-color: lightgreen;
+  background-color: lightgreen;
 }
 
 .errorText {
-    color: red;
-    margin: -10px 0 15px 0;
+  color: red;
+  margin: -10px 0 15px;
 }
 
 .passwordAndEyeIcon {
-    display: flex;
-    position: relative;
+  display: flex;
+  position: relative;
 }
 
 .eyeIcon {
-    position: absolute;
-    right: 25px;
-    top: 30px;  
+  position: absolute;
+  right: 25px;
+  top: 30px;
 }
 
 .password {
-    width: 100%;
+  width: 100%;
 }
 
-.login:after {
-    position: absolute;
-    content: "";
-    bottom: -150px;
-    height: 500px;
-    width: 1px;
+.login::after {
+  position: absolute;
+  content: "";
+  bottom: -150px;
+  height: 500px;
+  width: 1px;
 }
 
 @media (max-width: 550px) {
-    .login {
-        width: 90vw;
-    }   
+  .login {
+    width: 90vw;
+  }
 }

@@ -1,32 +1,32 @@
 .successContainer {
-    width: 100vw;
-    height: calc(100vh - 150px);
-    display: flex;
-    justify-content: center;
+  width: 100vw;
+  height: calc(100vh - 150px);
+  display: flex;
+  justify-content: center;
 }
 
 .success {
-    margin-top: 200px;
-    width: 500px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    border-radius: 20px;
-    padding: 20px;
+  margin-top: 200px;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 20px;
+  padding: 20px;
 }
 
-.success:after {
-    position: absolute;
-    content: "";
-    bottom: -150px;
-    height: 500px;
-    width: 1px;
+.success::after {
+  position: absolute;
+  content: "";
+  bottom: -150px;
+  height: 500px;
+  width: 1px;
 }
 
-@media(max-width: 550px) {
-    .success {
-        width: 90vw;
-    }
+@media (max-width: 550px) {
+  .success {
+    width: 90vw;
+  }
 }

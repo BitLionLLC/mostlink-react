@@ -1,64 +1,64 @@
 .examples {
-    width: 1000px;
-    min-height: 500px;
-    margin: 100px 0 0 0;
-    padding: 50px;
-    border-radius: 20px;
+  width: 1000px;
+  min-height: 500px;
+  margin: 100px 0 0;
+  padding: 50px;
+  border-radius: 20px;
 }
 
 .examples h1 {
-    text-align: center;
+  text-align: center;
 }
 
 .exampleList {
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-flow: column;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .example {
-    margin: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .example img {
-    width: 90%;
-    border-radius: 10px;
+  width: 90%;
+  border-radius: 10px;
 }
 
 .description {
-    height: 60px;
+  height: 60px;
 }
 
-@media(max-width: 1050px) {
-    .examples {
-        width: 90vw;
-        margin: 100px auto 0 auto;
-    }
+@media (max-width: 1050px) {
+  .examples {
+    width: 90vw;
+    margin: 100px auto 0;
+  }
 
-    .example {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+  .example {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .description {
-        height: 80px;
-    }
+  .description {
+    height: 80px;
+  }
 }
 
-@media(max-width: 600px) {
-    .example {
-        margin: 30px 0;
-    }
+@media (max-width: 600px) {
+  .example {
+    margin: 30px 0;
+  }
 
-    .example img {
-        width: 70vw;
-    }
+  .example img {
+    width: 70vw;
+  }
 }

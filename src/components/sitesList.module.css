@@ -1,110 +1,112 @@
 body {
-    background-position: center;
+  background-position: center;
 }
 
 .sitesContainer {
-    width: 100vw;
-    padding-top: 100px;
-    height: calc(100vh - 150px);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    left: 0;
-    top: 50px;
-    position: absolute;
+  width: 100vw;
+  padding-top: 100px;
+  height: calc(100vh - 150px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  left: 0;
+  top: 50px;
+  position: absolute;
 }
 
 .sitesList {
-    width: 95vw;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: wrap;
-    padding-top: 50px;
-    justify-content: flex-start;
-    align-items: flex-start;
-    position: relative;
+  width: 95vw;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  padding-top: 50px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
 }
 
-.sitesList:after {
-    position: absolute;
-    content: "";
-    bottom: -150px;
-    height: 500px;
-    width: 1px;
+.sitesList::after {
+  position: absolute;
+  content: "";
+  bottom: -150px;
+  height: 500px;
+  width: 1px;
 }
 
 .siteBox {
-    list-style: none;
-    width: 400px;
-    height: 380px;
-    border: 1px solid black;
-    border-radius: 3px;
-    margin: 10px;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
+  list-style: none;
+  width: 400px;
+  height: 380px;
+  border: 1px solid black;
+  border-radius: 3px;
+  margin: 10px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
 }
 
-.title, .subtitle {
-    margin: 10px;
-    font-weight: bold;
+.title,
+.subtitle {
+  margin: 10px;
+  font-weight: bold;
 }
 
 .siteLink {
-    width: 400px;
-    text-decoration: none;
-    color: black;
-    margin: 0 10px;
+  width: 400px;
+  text-decoration: none;
+  color: black;
+  margin: 0 10px;
 }
 
 .emptySites {
-    width: 500px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin: 100px auto 0 auto;
-    position: relative;
-    border-radius: 20px;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 100px auto 0;
+  position: relative;
+  border-radius: 20px;
 }
 
 .titleAndCreate {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-.justTitle, .titleAndCreate h1 {
-    margin: 5px;
+.justTitle,
+.titleAndCreate h1 {
+  margin: 5px;
 }
 
 .emptySitesContainer {
-    width: 100vw;
-    height: calc(100vh - 150px);
-    display: flex;
-    align-items: flex-start;
+  width: 100vw;
+  height: calc(100vh - 150px);
+  display: flex;
+  align-items: flex-start;
 }
 
 .siteScreenshot {
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
 @media (max-width: 550px) {
-    .sitesList {
-        width: 90vw;
-        padding: 20px 0 0 0;
-    }
+  .sitesList {
+    width: 90vw;
+    padding: 20px 0 0;
+  }
 }
 
 @media (max-width: 500px) {
-    .sitesList {
-        margin-left: -50px;
-    }
+  .sitesList {
+    margin-left: -50px;
+  }
 }
 
 @media (max-width: 450px) {
-    .sitesList {
-        margin-left: -60px;
-    }
+  .sitesList {
+    margin-left: -60px;
+  }
 }

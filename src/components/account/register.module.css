@@ -1,97 +1,97 @@
 .register {
-    margin: 0 auto;
-    margin-top: 200px;
-    width: 500px;
-    min-height: 500px;
-    position: relative;
+  margin: 0 auto;
+  margin-top: 200px;
+  width: 500px;
+  min-height: 500px;
+  position: relative;
 }
 
 .registerForm {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .textField {
-    width: 100%;
-    height: 40px;
-    font-size: 20px;
-    padding: 5px;
-    margin: 10px 0px 30px 0px !important;
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+  padding: 5px;
+  margin: 10px 0 30px !important;
 }
 
 .registerForm label {
-    margin: 0;
+  margin: 0;
 }
 
 .registerFormButtons {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .registerFormButtons button {
-    width: 40%;
-    margin: 10px;
-    height: 40px;
-    font-size: 25px;
+  width: 40%;
+  margin: 10px;
+  height: 40px;
+  font-size: 25px;
 }
 
 .cancelButton {
-    background-color: pink;
+  background-color: pink;
 }
 
 .submitButton {
-    background-color: lightgreen;
+  background-color: lightgreen;
 }
 
 .errorText {
-    color: #D3302F;
-    margin: -10px 0 15px 0;
-    padding: 10px 15px 0 15px;
-    border-radius: 2px;
-    font-size: 12px;
+  color: #d3302f;
+  margin: -10px 0 15px;
+  padding: 10px 15px 0;
+  border-radius: 2px;
+  font-size: 12px;
 }
 
 .passwordAndTooltip {
-    display: flex;
+  display: flex;
 }
 
 .passwordAndEyeIcon {
-    display: flex;
-    position: relative;
+  display: flex;
+  position: relative;
 }
 
 .eyeIcon {
-    position: absolute;
-    right: 25px;
-    top: 30px;  
+  position: absolute;
+  right: 25px;
+  top: 30px;
 }
 
 .questionMarkTooltip {
-    margin-left: 5px;
-    color: white;
-    background-color: #222;
-    width: 17px;
-    height: 17px;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    cursor: default;
+  margin-left: 5px;
+  color: white;
+  background-color: #222;
+  width: 17px;
+  height: 17px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  cursor: default;
 }
 
-.register:after {
-    position: absolute;
-    content: "";
-    bottom: -150px;
-    height: 500px;
-    width: 1px;
+.register::after {
+  position: absolute;
+  content: "";
+  bottom: -150px;
+  height: 500px;
+  width: 1px;
 }
 
 @media (max-width: 550px) {
-    .register {
-        width: 90vw;
-    } 
+  .register {
+    width: 90vw;
+  }
 }

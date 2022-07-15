@@ -1,196 +1,196 @@
 .accountContainer {
-    width: 100vw;
-    height: calc(100vh - 150px);
-    display: flex;
-    justify-content: center;
+  width: 100vw;
+  height: calc(100vh - 150px);
+  display: flex;
+  justify-content: center;
 }
 
 .account {
-    margin-top: 200px;
-    width: 500px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    border-radius: 20px;
-    padding: 20px;
+  margin-top: 200px;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 20px;
+  padding: 20px;
 }
 
-.account:after {
-    position: absolute;
-    content: "";
-    bottom: -150px;
-    height: 500px;
-    width: 1px;
+.account::after {
+  position: absolute;
+  content: "";
+  bottom: -150px;
+  height: 500px;
+  width: 1px;
 }
 
-.generalButton, .deleteAccountButton {
-    width: 70%;
-    height: 50px;
-    margin-top: 25px;
-    border-radius: 5px;
-    font-size: 1rem;
-    background-color: lightblue;
+.generalButton,
+.deleteAccountButton {
+  width: 70%;
+  height: 50px;
+  margin-top: 25px;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: lightblue;
 }
 
 .deleteAccountButton {
-    background-color: lightcoral;
+  background-color: lightcoral;
 }
 
-.deleteAccountModal, .changePasswordModal {
-    z-index: 16;
-    width: 500px;
-    height: 400px;
-    border: 1px solid black;
-    position: fixed;
-	top: 50%; 
-    left: 50%;
-	transform: translate(-50%, -50%);
-    border-radius: 10px;
-    background-color: #444444;
-    color: white;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+.deleteAccountModal,
+.changePasswordModal {
+  z-index: 16;
+  width: 500px;
+  height: 400px;
+  border: 1px solid black;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background-color: #444;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 .changePasswordModal {
-    height: 500px;
+  height: 500px;
 }
 
 .blocker {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.75);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 15;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0 0 0 / 75%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 15;
 }
 
 .closeButton {
-    transform: rotate(45deg);
-    cursor: default;
-    font-size: 50px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  transform: rotate(45deg);
+  cursor: default;
+  font-size: 50px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .textField {
-    width: 100%;
-    font-size: 20px;
-    padding: 5px;
-    margin: 10px 0px 10px 0px !important;
+  width: 100%;
+  font-size: 20px;
+  padding: 5px;
+  margin: 10px 0 !important;
 }
 
 .textField div {
-    height: 50px;
+  height: 50px;
 }
 
 .deleteAccountButtons {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .deleteAccountButtons button {
-    width: 40%;
-    margin: 10px;
-    height: 40px;
-    font-size: 25px;
+  width: 40%;
+  margin: 10px;
+  height: 40px;
+  font-size: 25px;
 }
 
 .cancelButton {
-    background-color: lightgreen;
+  background-color: lightgreen;
 }
 
 .deleteButton {
-    background-color: red;
-    color: white;
+  background-color: red;
+  color: white;
 }
 
 .passwordAndTooltip {
-    display: flex;
+  display: flex;
 }
 
 .passwordAndEyeIcon {
-    display: flex;
-    position: relative;
-    width: 100%;
+  display: flex;
+  position: relative;
+  width: 100%;
 }
 
 .passwordAndEyeIcon input {
-    width: 100%;
-    height: 40px;
-    margin: 10px 0;
+  width: 100%;
+  height: 40px;
+  margin: 10px 0;
 }
 
 .eyeIcon {
-    position: absolute;
-    right: 25px;
-    top: 23px;  
+  position: absolute;
+  right: 25px;
+  top: 23px;
 }
 
 .changePasswordForm input {
-    width: 100%;
-    height: 40px;
-    font-size: 20px;
-    padding: 5px;
-    margin: 10px 0px 20px 0px;
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+  padding: 5px;
+  margin: 10px 0 20px;
 }
 
 .changePasswordForm {
-    width: 100%;
+  width: 100%;
 }
 
 .labelAndInput {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .submitButton {
-    background-color: lightgreen;
+  background-color: lightgreen;
 }
 
 .cancelChangeButton {
-    background-color: pink;
+  background-color: pink;
 }
 
 .errorText {
-    color: red;
-    margin: -10px 0 15px 0;
-    background-color: white;
-    padding: 10px;
-    border-radius: 2px;
+  color: red;
+  margin: -10px 0 15px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 2px;
 }
 
 .questionMarkTooltip {
-    margin-left: 5px;
-    color: white;
-    background-color: #222;
-    width: 17px;
-    height: 17px;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    cursor: default;
+  margin-left: 5px;
+  color: white;
+  background-color: #222;
+  width: 17px;
+  height: 17px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  cursor: default;
 }
 
-.labelAndInput {
-    width: 100%;
-}
-
-@media(max-width: 550px) {
-    .account, .deleteAccountModal {
-        width: 90vw;
-    }
+@media (max-width: 550px) {
+  .account,
+  .deleteAccountModal {
+    width: 90vw;
+  }
 }
