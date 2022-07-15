@@ -18,6 +18,7 @@
     "colornames": "^1.1.1",
     "dotenv": "^16.0.0",
     "emoji-picker-react": "^3.5.1",
+    "eslint-config-react-app": "^7.0.1",
     "immutability-helper": "^3.1.1",
     "invert-color": "^2.0.0",
     "react": "^17.0.2",
@@ -41,7 +42,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "stylelint": "npx stylelint \"**/*.css\" --fix",
+    "eslint": "npx eslint ./src/ --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -61,5 +64,16 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000",
+  "devDependencies": {
+    "husky": "^8.0.1",
+    "stylelint": "^14.9.1",
+    "stylelint-config-css-modules": "^4.1.0",
+    "stylelint-config-standard": "^26.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "CI=true yarn run eslint && yarn run stylelint && yarn run test"
+    }
+  }
 }

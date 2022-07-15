@@ -1,24 +1,24 @@
 .faqs {
-    width: 1000px;
-    margin: 100px 0 0 0;
-    padding: 50px;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 1000px;
+  margin: 100px 0 0;
+  padding: 50px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .accordion {
-    width: 95%;
+  width: 95%;
 }
 
 .faqs h1 {
-    text-align: center;
+  text-align: center;
 }
 
-@media(max-width: 1050px) {
-    .faqs {
-        width: 90vw;
-        margin: 100px auto 0 auto;
-    }
+@media (max-width: 1050px) {
+  .faqs {
+    width: 90vw;
+    margin: 100px auto 0;
+  }
 }

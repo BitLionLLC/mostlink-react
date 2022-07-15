@@ -4,18 +4,18 @@ import SitesList from './sitesList';
 import { SitesContext } from '../contexts/sitesContext';
 
 const Home = () => {
-    const { themeObj, theme } = useContext(SitesContext);
+  const { themeObj, theme } = useContext(SitesContext);
 
-    useEffect(() => {
-        document.body.style.backgroundImage = themeObj.landingBackground;
-    }, [theme])
+  useEffect(() => {
+    document.body.style.backgroundImage = themeObj.landingBackground;
+  }, [theme])
 
-    return (
-        <div className="App">
-            <LinkPageBuilder />
-            <SitesList />
-        </div>
-    )
+  return (
+    <div className="App">
+      <LinkPageBuilder />
+      <SitesList />
+    </div>
+  )
 }
 
 export default Home;

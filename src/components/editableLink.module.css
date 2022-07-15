@@ -1,50 +1,50 @@
 .iconOptionSelect {
-    height: 70px;
+  height: 70px;
 }
 
 .iconOptionSelect div {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .iconOption {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .iconOptionIcon {
-    top: 0;
-    margin-left: 10px;
-    float: right;
+  top: 0;
+  margin-left: 10px;
+  float: right;
 }
 
 .linkEditLi {
-    margin: 10px auto;
-    display: flex;
-    flex-flow: column;
-    width: 300px;
-    position: relative;
+  margin: 10px auto;
+  display: flex;
+  flex-flow: column;
+  width: 300px;
+  position: relative;
 }
 
 .deleteLink {
-    position: absolute;
-    top: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .textField {
-    width: 100%;
-    font-size: 20px;
-    padding: 5px;
-    margin: 10px 0px 10px 0px !important;
+  width: 100%;
+  font-size: 20px;
+  padding: 5px;
+  margin: 10px 0 !important;
 }
 
 .textField div {
-    height: 50px;
+  height: 50px;
 }
 
 .reorderLinks {
-    position: absolute;
-    display: flex;
-    width: 100%;
+  position: absolute;
+  display: flex;
+  width: 100%;
 }

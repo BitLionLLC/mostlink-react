@@ -1,148 +1,154 @@
 body {
-    background-size: cover;
-    background-attachment: fixed;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .titlesContainer {
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 170px;
-    padding: 0 20px;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 170px;
+  padding: 0 20px;
 }
 
 .landingContainer {
-    width: 100vw;
-    height: calc(100vh - 150px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100vw;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .landingInner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .landing {
-    width: 500px;
-    height: 500px;
-    top: 30px;
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    background: inherit;
-    padding: 50px;
-    text-align: center;
-    z-index: 2;
-    animation-name: borderAnimate;
-    animation-duration: 6s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
+  width: 500px;
+  height: 500px;
+  top: 30px;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background: inherit;
+  padding: 50px;
+  text-align: center;
+  z-index: 2;
+  animation-name: borderAnimate;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
 }
 
 .newsletterSignup {
-    width: 600px;
-    height: 600px;
-    border: 0;
-    margin-top: 100px;
+  width: 600px;
+  height: 600px;
+  border: 0;
+  margin-top: 100px;
 }
 
 @keyframes videoAnimate {
-    0% {
-        border-radius: 80px;
-        width: 485px;
-        height: 485px;
-        margin-top: 40px;
-    }
-    50% {
-        border-radius: 15px;
-        width: 455px;
-        height: 455px;
-        margin-top: 55px;
-    }
-    100% {
-        border-radius: 80px;
-        width: 485px;
-        height: 485px;
-        margin-top: 40px;
-    }
+  0% {
+    border-radius: 80px;
+    width: 485px;
+    height: 485px;
+    margin-top: 40px;
+  }
+
+  50% {
+    border-radius: 15px;
+    width: 455px;
+    height: 455px;
+    margin-top: 55px;
+  }
+
+  100% {
+    border-radius: 80px;
+    width: 485px;
+    height: 485px;
+    margin-top: 40px;
+  }
 }
 
 @keyframes videoAnimate550 {
-    0% {
-        border-radius: 80px;
-        width: 90vw;
-        height: 90vw;
-        margin-top: 40px;
-    }
-    50% {
-        border-radius: 15px;
-        width: 84vw;
-        height: 84vw;
-        margin-top: 55px;
-    }
-    100% {
-        border-radius: 80px;
-        width: 90vw;
-        height: 90vw;
-        margin-top: 40px;
-    }
+  0% {
+    border-radius: 80px;
+    width: 90vw;
+    height: 90vw;
+    margin-top: 40px;
+  }
+
+  50% {
+    border-radius: 15px;
+    width: 84vw;
+    height: 84vw;
+    margin-top: 55px;
+  }
+
+  100% {
+    border-radius: 80px;
+    width: 90vw;
+    height: 90vw;
+    margin-top: 40px;
+  }
 }
 
 @keyframes borderAnimate {
-    0% {
-        border-radius: 80px;
-    }
-    50% {
-        border-radius: 15px;
-    }
-    100% {
-        border-radius: 80px;
-    }
+  0% {
+    border-radius: 80px;
+  }
+
+  50% {
+    border-radius: 15px;
+  }
+
+  100% {
+    border-radius: 80px;
+  }
 }
 
 .landingBehind img {
-    position: relative;
-    animation-name: videoAnimate;
-    animation-duration: 6s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-    z-index: 1;
+  position: relative;
+  animation-name: videoAnimate;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  z-index: 1;
 }
 
 .productDetailsContainer {
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 800px;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 800px;
 }
 
-.productDetailsContainer:after {
-    position: absolute;
-    content: "";
-    bottom: -150px;
-    height: 500px;
-    width: 1px;
+.productDetailsContainer::after {
+  position: absolute;
+  content: "";
+  bottom: -150px;
+  height: 500px;
+  width: 1px;
 }
 
-@media(max-width: 550px) {
-    .landing {
-        width: 93vw;
-        height: 93vw;
-        top: 30px;
-    }
+@media (max-width: 550px) {
+  .landing {
+    width: 93vw;
+    height: 93vw;
+    top: 30px;
+  }
 
-    .landingBehind img {
-        animation-name: videoAnimate550;
-    }
+  .landingBehind img {
+    animation-name: videoAnimate550;
+  }
 }
