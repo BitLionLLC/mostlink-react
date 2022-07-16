@@ -12,7 +12,7 @@ const PleaseVerify = () => {
         <h1>Please verify your email by clicking the link in the email we just sent to you.</h1>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default PleaseVerify;

@@ -15,7 +15,7 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
 
   const onSubmit = () => {
     axios
@@ -25,12 +25,12 @@ const ForgotPassword = () => {
       })
       .catch(err => {
         toast('Could not intitiate a password reset. Check your email address and try again.', { type: 'error' });
-      })
-  }
+      });
+  };
 
   const onCancel = () => {
     history.push('/');
-  }
+  };
 
   return ( 
     <div className={styles.forgotPasswordContainer}>
@@ -46,7 +46,7 @@ const ForgotPassword = () => {
         </div>    
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ForgotPassword;

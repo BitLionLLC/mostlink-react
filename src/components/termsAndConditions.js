@@ -194,7 +194,7 @@ const TermsAndConditions = () => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default TermsAndConditions;

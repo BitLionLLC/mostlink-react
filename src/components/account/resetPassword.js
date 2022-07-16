@@ -24,7 +24,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
 
   useEffect(() => {
     if (password && !password.match(PASSWORD_REGEX)) {
@@ -32,7 +32,7 @@ const ResetPassword = () => {
     } else {
       setPasswordError('');
     }
-  }, [password])
+  }, [password]);
 
   const onSubmit = () => {
     axios
@@ -43,12 +43,12 @@ const ResetPassword = () => {
       })
       .catch(err => {
         toast('Could not create reset your password. Try again.', { type: 'error' });
-      })
-  }
+      });
+  };
 
   const onCancel = () => {
     history.push('/');
-  }
+  };
 
   return ( 
     <div className={styles.resetPasswordContainer}>
@@ -70,7 +70,7 @@ const ResetPassword = () => {
         </div>    
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ResetPassword;

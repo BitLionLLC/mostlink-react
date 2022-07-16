@@ -8,7 +8,7 @@ const PaymentCanceled = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
 
   return (
     <div className={styles.canceledContainer}>
@@ -16,7 +16,7 @@ const PaymentCanceled = () => {
         <h1>Payment canceled</h1>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default PaymentCanceled;

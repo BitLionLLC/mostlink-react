@@ -29,13 +29,13 @@ const CreateSite = (props) => {
         .get(`${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`, { withCredentials: true })
         .then(() => setIsSubdomainValid(true))
         .catch(err => {
-          setIsSubdomainValid(false)
+          setIsSubdomainValid(false);
           setSuggestion(err.response.data.suggestion);
-        })
-    }, 1000)
+        });
+    }, 1000);
     
-    return () => clearTimeout(delayDebounceFn)
-  }, [subdomain])
+    return () => clearTimeout(delayDebounceFn);
+  }, [subdomain]);
 
   useEffect(() => {
     if (isSubdomainValid) {
@@ -43,11 +43,11 @@ const CreateSite = (props) => {
     } else {
       setSubdomainError('That subdomain is taken. Please choose another one.');
     }
-  }, [isSubdomainValid])
+  }, [isSubdomainValid]);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
-  }
+  };
 
   const createSite = (e) => {
     const links = [
@@ -72,21 +72,21 @@ const CreateSite = (props) => {
       .then(() => {
         setIsModalOpen(false);
         toast('Site created!', { type: 'success' });
-        setTitle('')
-        setSubtitle('')
+        setTitle('');
+        setSubtitle('');
         setSubdomain('');
         fetchSites();
       })
       .catch(err => {
-        toast(err, { type: 'error' })
-      })
-  }
+        toast(err, { type: 'error' });
+      });
+  };
 
   const onKeyDown = e => {
     if (e.key === 'Enter') {
       createSite(e);
     }
-  }
+  };
 
   return (
     <>
@@ -126,7 +126,7 @@ const CreateSite = (props) => {
         </>
         : null }
     </>
-  )
-}
+  );
+};
 
 export default CreateSite;

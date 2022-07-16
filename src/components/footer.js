@@ -10,7 +10,7 @@ const Footer = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
 
   return (
     <div className={styles.footer} style={{background: themeObj.headerColor}}>
@@ -19,7 +19,7 @@ const Footer = () => {
       <div><Link to="/terms-and-conditions" style={{color: themeObj.color}}>Terms and Conditions</Link></div>
       { !location.pathname.includes('/feedback') && <Link to="/feedback"><div className={styles.feedback}><h2>Provide feedback (please!)</h2></div></Link> }
     </div>
-  )
-}
+  );
+};
 
 export default Footer;

@@ -30,7 +30,7 @@ import { muiDarkTheme, muiLightTheme } from '../constants/themes';
 const IMAGE_TYPE = {
   HEADER: 'header',
   BACKGROUND: 'background'
-}
+};
 
 const particlesInit = async (main) => {
   // console.log(main);
@@ -46,7 +46,7 @@ const particlesLoaded = (container) => {
 };
 
 const SingleSite = () => {
-  const { site, fetchSite, theme, themeObj } = useContext(SitesContext);
+  const { site, siteLoading, fetchSite, theme, themeObj } = useContext(SitesContext);
   const match = useRouteMatch();
   const history = useHistory();
 
@@ -98,7 +98,7 @@ const SingleSite = () => {
   const [expandedAccordion, setExpandedAccordion] = useState(false);
   const [hoveredLinkIndex, setHoveredLinkIndex] = useState(null);
 
-  const memoizedParticles = useMemo(() => <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />)
+  const memoizedParticles = useMemo(() => <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />);
 
   const HEX_COLOR_REGEX_SHORT = '^#(?:[0-9a-fA-F]{3}){1}$';
   const HEX_COLOR_REGEX_LONG = '^#(?:[0-9a-fA-F]{2}){3,4}$';
@@ -113,14 +113,14 @@ const SingleSite = () => {
         return data;
       }})
       .then(res => setPhotos(res.data.photos))
-      .catch(err => console.error(err))
-  }
+      .catch(err => console.error(err));
+  };
 
   const onKeyDownPexels = e => {
     if (e.key === 'Enter') {
       fetchPexels(e);
     }
-  }
+  };
 
   const fetchGiphy = (e) => {
     e?.preventDefault();
@@ -128,14 +128,14 @@ const SingleSite = () => {
     axios
       .get(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_API_KEY}&limit=50&q=${gifQuery}`)
       .then(res => setGifs(res.data.data))
-      .catch(err => console.log(err))
-  }
+      .catch(err => console.log(err));
+  };
 
   const onKeyDownGiphy = e => {
     if (e.key === 'Enter') {
       fetchGiphy(e);
     }
-  }
+  };
 
   const fetchSiteDomains = () => {
     axios
@@ -144,15 +144,15 @@ const SingleSite = () => {
         const domains = res.data;
         domains.forEach(data => {
           axios
-            .put(`${process.env.REACT_APP_API_BASE}/api/sites/update-domain/`, { domain: data.domain }, { withCredentials: true })
-        })
+            .put(`${process.env.REACT_APP_API_BASE}/api/sites/update-domain/`, { domain: data.domain }, { withCredentials: true });
+        });
       })
       .then(() => {
         axios
           .get(`${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`, { withCredentials: true })
-          .then(res => setDomains(res.data))
-      })
-  }
+          .then(res => setDomains(res.data));
+      });
+  };
 
   useEffect(() => {
     document.body.style.backgroundImage = bodyGradient || null;
@@ -160,15 +160,15 @@ const SingleSite = () => {
     fetchPexels();
     fetchGiphy();
     fetchSiteDomains();
-  }, [])
+  }, []);
 
   useEffect(() => {
     document.body.style.backgroundImage = bodyGradient || null;
-  }, [bodyGradient])
+  }, [bodyGradient]);
 
   useEffect(() => {
     document.body.style.backgroundColor = bodyColor;
-  }, [theme])
+  }, [theme]);
 
   useEffect(() => {
     const linksWithLive = links && links.map(link => {
@@ -184,15 +184,15 @@ const SingleSite = () => {
               link.live.isLive = false;
             }
           })
-          .catch(err => console.error(err))
+          .catch(err => console.error(err));
       }
       return link;
-    })
+    });
 
     if (JSON.stringify(links) !== JSON.stringify(linksWithLive)) {
       setLinks(linksWithLive);
     }
-  }, [links])
+  }, [links]);
 
   useEffect(() => {
     setTitle(site.title);
@@ -211,18 +211,18 @@ const SingleSite = () => {
     setContainerGradient(site.containerGradient);
     setBodyAnimationStyle(site.bodyAnimationStyle);
     setIsContainerTransparent(site.containerColor === '#00000000');
-  }, [site])
+  }, [site]);
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage?.base64 || backgroundImage?.url})`;
-  }, [backgroundImage])
+  }, [backgroundImage]);
 
   useEffect(() => {
     if (bodyAnimationStyle) {
       const color = ANIMATION_PRESETS[bodyAnimationStyle].background.color;
       setBodyColor(color.value || color);
     }
-  }, [bodyAnimationStyle])
+  }, [bodyAnimationStyle]);
 
   useEffect(() => {
     let rgb = containerColor?.slice(0, 7);
@@ -237,7 +237,7 @@ const SingleSite = () => {
         setEditButtonColor('#888888');
       }
     }
-  }, [containerColor])
+  }, [containerColor]);
 
   useEffect(() => {
     if (containerColor.length === 9) {
@@ -246,22 +246,22 @@ const SingleSite = () => {
         setIsContainerTransparent(true);
       }
     }
-  }, [containerColor])
+  }, [containerColor]);
 
   useEffect(() => {
     if (isContainerTransparent && containerColor !== '#00000000') {
       setContainerColor(containerColor.slice(0,7) + '00');
     } else {
-      setContainerColor(containerColor.slice(0, 7))
+      setContainerColor(containerColor.slice(0, 7));
     }
-  }, [isContainerTransparent])
+  }, [isContainerTransparent]);
 
 
   useBeforeunload((e) => {
     if (isDirty) {
       e.preventDefault();
     }
-  })
+  });
 
   const stripIsLiveFromLinks = () => {
     return links.map(link => {
@@ -270,8 +270,8 @@ const SingleSite = () => {
       }
 
       return link;
-    })
-  }
+    });
+  };
 
   const onSave = () => {
     const siteToSave = {
@@ -290,7 +290,7 @@ const SingleSite = () => {
       bodyGradient,
       containerGradient,
       bodyAnimationStyle
-    }
+    };
 
     axios
       .put(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${match.params.id}`, siteToSave, { withCredentials: true })
@@ -300,13 +300,13 @@ const SingleSite = () => {
       })
       .catch((e) => {
         console.error('Error saving site: ' + e);
-      })
-  }
+      });
+  };
 
   const onCancel = () => {
     setIsEditing(false);
     fetchSite(match.params.id);
-  }
+  };
 
   const addLink = () => {
     const newLinks = links.slice();
@@ -317,22 +317,22 @@ const SingleSite = () => {
       id: newLinks.length
     });
     setLinks(newLinks);
-  }
+  };
 
   const deleteLink = index => {
     const newLinks = links.slice();
     newLinks.splice(index, 1);
     setLinks(newLinks);
-  }
+  };
 
   const openPexelsModal = (component) => {
     setIsPexelsModalShowing(true);
     setModalOpenedWith(component);
-  }
+  };
 
   const openCheckDomainModal = () => {
     setIsCheckDomainModalShowing(true);
-  }
+  };
 
   const closeCheckDomainModal = () => {
     setIsCheckDomainModalShowing(false);
@@ -340,12 +340,12 @@ const SingleSite = () => {
     setIsDomainAvailable(false);
     setHasDomainBeenChecked(false);
     setHasDomainBeenRegistered(false);
-  }
+  };
 
   const openRegisterDomainModal = () => {
     setIsCheckDomainModalShowing(false);
     setIsRegisterDomainModalShowing(true);
-  }
+  };
 
   const closeRegisterDomainModal = () => {
     setIsRegisterDomainModalShowing(false);
@@ -353,31 +353,31 @@ const SingleSite = () => {
     setIsDomainAvailable(false);
     setHasDomainBeenChecked(false);
     setHasDomainBeenRegistered(false);
-  }
+  };
 
   const openDeleteDomainModal = (domain) => {
     setIsDeleteDomainModalShowing(true);
     setDomainToDelete(domain);
-  }
+  };
 
   const closeDeleteDomainModal = () => {
     setIsDeleteDomainModalShowing(false);
     setDomainToDelete('');
-  }
+  };
 
   const checkDomain = () => {
     let properDomain = domainToAdd;
 
     if (properDomain.startsWith('https://')) {
-      properDomain = properDomain.replace('https://', '')
+      properDomain = properDomain.replace('https://', '');
     }
 
     if (properDomain.startsWith('http://')) {
-      properDomain = properDomain.replace('http://', '')
+      properDomain = properDomain.replace('http://', '');
     }
 
     if (properDomain.startsWith('www.')) {
-      properDomain = properDomain.replace('www.', '')
+      properDomain = properDomain.replace('www.', '');
     }
 
     setDomainToAdd(properDomain);
@@ -388,14 +388,14 @@ const SingleSite = () => {
         setIsDomainAvailable(res.data.domain.isAvailable);
         setHasDomainBeenChecked(true);
       })
-      .catch(err => toast(err, { type: 'error' }))
-  }
+      .catch(err => toast(err, { type: 'error' }));
+  };
 
   const registerDomain = () => {
     const body = {
       domain: domainToAdd.startsWith('www.') ? domainToAdd : 'www.' + domainToAdd,
       siteId: match.params.id
-    }
+    };
 
     axios
       .post(`${process.env.REACT_APP_API_BASE}/api/sites/register-domain`, body, { withCredentials: true })
@@ -404,25 +404,25 @@ const SingleSite = () => {
         setCurrentDomainCname(res.data.cname);
         fetchSiteDomains();
       })
-      .catch(err => toast(err, { type: 'error' }))
-  }
+      .catch(err => toast(err, { type: 'error' }));
+  };
 
   const deleteDomain = () => {
     axios
       .delete(`${process.env.REACT_APP_API_BASE}/api/sites/delete-domain/${domainToDelete}`, { withCredentials: true })
       .then(() => {
-        toast('Domain successfully deleted.', { type: 'success' })
+        toast('Domain successfully deleted.', { type: 'success' });
         setIsDeleteDomainModalShowing(false);
         fetchSiteDomains();
       })
-      .catch(err => toast('Could not delete the domain. Please try again.', { type: 'error' }))
-  }
+      .catch(err => toast('Could not delete the domain. Please try again.', { type: 'error' }));
+  };
 
   const moveLink = (from, to) => {
-    const newLinks = links.slice()
+    const newLinks = links.slice();
     newLinks.splice(to, 0, newLinks.splice(from, 1)[0]);
     setLinks(newLinks);
-  }
+  };
 
   const onEmojiClick = (event, emojiObject) => {
     setHeaderEmoji(emojiObject.emoji);
@@ -451,8 +451,8 @@ const SingleSite = () => {
         setterCallback('#000000');
         ref.current = '#000000';
       }
-    }, 5000)
-  }
+    }, 5000);
+  };
 
   const handleAccordionChange = panel => (e, isExpanded) => {
     setExpandedAccordion(isExpanded ? panel : false);
@@ -619,7 +619,7 @@ const SingleSite = () => {
                   moveLink={moveLink} 
                   index={index} 
                   key={link.id}
-                  id={link.id} />
+                  id={link.id} />;
               })}
             </ul>
             <button onClick={addLink}>+</button>
@@ -674,7 +674,7 @@ const SingleSite = () => {
                           :
                           <div>CNAME: <br/>{data.cname}</div>
                         }
-                      </li>
+                      </li>;
                     })}
                   </ul>
                   <p>Reminder: make sure each domain has a<br/>"www" CNAME pointing at the CNAME listed under it.</p>
@@ -687,47 +687,48 @@ const SingleSite = () => {
           </div>
         </AccordionDetails>
       </Accordion>
-    </>
-  }
+    </>;
+  };
 
   const shouldBlockNavigation = () => {
     return (
-      title !== site.title ||
-            subtitle !== site.subtitle ||
-            (headerImage?.url !== site.headerImage?.url || headerImage?.base64 !== site.headerImage?.base64) ||
-            (backgroundImage?.url !== site.backgroundImage?.url || backgroundImage?.base64 !== site.backgroundImage?.base64) ||
-            JSON.stringify(links) !== JSON.stringify(site.links) ||
-            titlesColor !== site?.titlesColor ||
-            containerColor !== site?.containerColor ||
-            linkTextColor !== site?.linkTextColor ||
-            linkBackgroundColor !== site?.linkBackgroundColor ||
-            bodyColor !== site?.bodyColor ||
-            headerEmoji !== site?.headerEmoji ||
-            liveNotificationColor !== site?.liveNotificationColor ||
-            bodyGradient !== site?.bodyGradient ||
-            containerGradient !== site?.containerGradient ||
-            bodyAnimationStyle !== site?.bodyAnimationStyle
-    )
-  }
+      isEditing &&
+      (title !== site.title ||
+      subtitle !== site.subtitle ||
+      (headerImage?.url !== site.headerImage?.url || headerImage?.base64 !== site.headerImage?.base64) ||
+      (backgroundImage?.url !== site.backgroundImage?.url || backgroundImage?.base64 !== site.backgroundImage?.base64) ||
+      JSON.stringify(links) !== JSON.stringify(site.links) ||
+      titlesColor !== site?.titlesColor ||
+      containerColor !== site?.containerColor ||
+      linkTextColor !== site?.linkTextColor ||
+      linkBackgroundColor !== site?.linkBackgroundColor ||
+      bodyColor !== site?.bodyColor ||
+      headerEmoji !== site?.headerEmoji ||
+      liveNotificationColor !== site?.liveNotificationColor ||
+      bodyGradient !== site?.bodyGradient ||
+      containerGradient !== site?.containerGradient ||
+      bodyAnimationStyle !== site?.bodyAnimationStyle)
+    );
+  };
 
   const deleteSite = () => {
     axios
       .delete(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${site._id}`, { withCredentials: true })
       .then(res => {
-        toast('Site deleted.', { type: 'success' })
+        toast('Site deleted.', { type: 'success' });
         history.push('/home');
       })
       .catch(err => {
-        toast(err, { type: 'error' })
-      })
-  }
+        toast(err, { type: 'error' });
+      });
+  };
 
   useEffect(() => {
     const isCurrentlyDirty = shouldBlockNavigation();
     if (isCurrentlyDirty !== isDirty) {
       setIsDirty(isCurrentlyDirty);
     }
-  }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle])
+  }, [title, subtitle, headerImage, headerEmoji, links, backgroundImage, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle]);
 
   const keyFramesStartEdit = `
         @keyframes single-site-move-right {
@@ -743,7 +744,7 @@ const SingleSite = () => {
                 right: 50px;
             }
         }
-    `
+    `;
 
   const singleSiteStyle = {
     top: isEditing ? '160px': '200px',
@@ -752,7 +753,7 @@ const SingleSite = () => {
     marginRight: 'auto',
     left: isEditing ? 'calc(100vw - 850px)' : 0,
     right: isEditing ? '50px' :  0
-  }
+  };
 
   const keyFramesEndEdit = `
         @keyframes single-site-move-left {
@@ -768,15 +769,15 @@ const SingleSite = () => {
                 right: 0;
             }
         }
-    `
+    `;
 
   const onMouseEnter = (index) => {
     setHoveredLinkIndex(index);
-  }
+  };
 
   const onMouseLeave = () => {
     setHoveredLinkIndex(null);
-  }
+  };
 
   const getDisplayContents = (thisTitle, thisSubtitle, thisHeaderImage, theseLinks, titlesColor, thisContainerColor, thisContainerGradient, thisBodyColor, thisBodyGradient, thisLinkTextColor, thisLinkBackgroundColor, thisLiveNotificationColor, thisBodyAnimationStyle) => {
     document.body.style.backgroundColor = thisBodyColor;
@@ -792,7 +793,7 @@ const SingleSite = () => {
             null
             : 
             <FontAwesomeIcon icon={['far', 'edit']} size="3x" onClick={() => {
-              setIsEditing(true)
+              setIsEditing(true);
               setHasEditButtonBeenClicked(true);
             }} />
           }
@@ -826,13 +827,13 @@ const SingleSite = () => {
                   {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: thisLiveNotificationColor}}> LIVE!</span></> : '- not live'}</div> : null}
                 </div>
                 <FontAwesomeIcon icon={link?.icon?.split('_')} />
-              </a>
+              </a>;
             })}
           </ul>
           : null}
       </div>
-    </div>
-  }
+    </div>;
+  };
 
   const keyFramesStartEditTray = `
         @keyframes edit-tray-move-right {
@@ -844,11 +845,11 @@ const SingleSite = () => {
                 left: 0;
             }
         }
-    `
+    `;
 
   const editTrayStyle = {
     left: isEditing ? 0 : '-600px',
-  }
+  };
 
   const keyFramesEndEditTray = `
         @keyframes edit-tray-move-left {
@@ -860,170 +861,179 @@ const SingleSite = () => {
                 left: -600px;
             }
         }
-    `
+    `;
 
   return (
     <>
-      <style children={isEditing ? keyFramesStartEditTray : keyFramesEndEditTray} />
-      <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'edit-tray-move-right' : 'edit-tray-move-left'), animationDuration: '2s', backgroundColor: themeObj.editTrayBackground}}>
-        <div className={styles.saveAndCancelButtons}>
-          <FontAwesomeIcon icon={['far', 'save']} size="3x" onClick={onSave} color="lightgreen" />
-          <FontAwesomeIcon icon={['far', 'window-close']} size="3x" onClick={onCancel} color="salmon" />
-        </div>
-        { getEditContents() }
-      </div>
+      {
+        siteLoading
+          ?
+          <div className={styles.loadingContainer} style={{ backgroundColor: themeObj.sitesBoxColor }}>
+            <div className={styles.ldsCircle}><div></div></div>
+          </div>
+          :
+          <>
+            <style children={isEditing ? keyFramesStartEditTray : keyFramesEndEditTray} />
+            <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'edit-tray-move-right' : 'edit-tray-move-left'), animationDuration: '2s', backgroundColor: themeObj.editTrayBackground}}>
+              <div className={styles.saveAndCancelButtons}>
+                <FontAwesomeIcon icon={['far', 'save']} size="3x" onClick={onSave} color="lightgreen" />
+                <FontAwesomeIcon icon={['far', 'window-close']} size="3x" onClick={onCancel} color="salmon" />
+              </div>
+              { getEditContents() }
+            </div>
 
-      { isEditing ?
-        getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle)
-        :
-        getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.containerGradient, site.bodyColor, site.bodyGradient, site.linkTextColor, site.linkBackgroundColor, site.liveNotificationColor, site.bodyAnimationStyle)
-      }
-      { isPexelsModalShowing ?
-        <>
-          <div className={styles.blocker} onClick={() => setIsPexelsModalShowing(false)} />
-          <div className={styles.pexelsModal}>
-            <div className={styles.closeButton} onClick={() => setIsPexelsModalShowing(false)}>+</div>
-            <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com" style={{ color: themeObj.accentColor }}>Pexels</a></span>
-            <form className={styles.pexelsSearch} onSubmit={fetchPexels} onKeyDown={onKeyDownPexels}>
-              <TextField type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} className={styles.textField} size="small" variant="filled" />
-              <button onClick={fetchPexels} type="submit">Search</button>
-            </form>
-            <div className={styles.photos}>
-              {photos?.map(photo => {
-                return <img src={photo.src.tiny} alt="pexel result" width="100" height="100" onClick={
-                  modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
-                }
-                />
-              })}
-            </div>
-          </div>
-        </>
-        : null
-      }
-      { isGiphyModalShowing ?
-        <>
-          <div className={styles.blocker} onClick={() => setIsGiphyModalShowing(false)} />
-          <div className={styles.pexelsModal}>
-            <div className={styles.closeButton} onClick={() => setIsGiphyModalShowing(false)}>+</div>
-            <span>Find and select a photo for your header image from <a href="https://www.giphy.com" style={{ color: themeObj.accentColor }}>GIPHY</a></span>
-            <form className={styles.pexelsSearch} onSubmit={fetchGiphy} onKeyDown={onKeyDownGiphy}>
-              <TextField type="text" value={gifQuery} placeholder="Search" onChange={e => setGifQuery(e.target.value)} className={styles.textField} size="small" variant="filled" />
-              <button onClick={fetchGiphy} type="submit">Search</button>
-            </form>
-            <div className={styles.photos}>
-              {gifs?.map(gif => {
-                return <img src={`https://media.giphy.com/media/${gif.id}/giphy.gif`} alt="giphy result" width="100" height="100" onClick={() => setHeaderImage({url: `https://media.giphy.com/media/${gif.id}/giphy.gif`})} />
-              })}
-            </div>
-          </div>
-        </>
-        : null
-      }
-      { isDeleteModalShowing ?
-        <> 
-          <div className={styles.blocker} onClick={() => setIsDeleteModalShowing(false)}></div>
-          <div className={styles.deleteSiteModal}>
-            <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
-            <h1>Delete site</h1>
-            <p>Are you sure you want to delete this site? Your site will be lost forever (a long time!)</p>
-            <div className={styles.deleteSiteButtons}>
-              <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
-              <button className={styles.deleteButton} onClick={deleteSite}>Delete</button>
-            </div>
-          </div>
-        </>
-        : null }
-      { isCheckDomainModalShowing ?
-        !hasDomainBeenChecked ?
-          <>
-            <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
-            <div className={styles.deleteSiteModal}>
-              <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
-              <h1>Add a domain</h1>
-              <TextField type="text" name="domainToAdd" value={domainToAdd} onChange={(e) => setDomainToAdd(e.target.value)} placeholder="Domain" className={styles.textField} size="small" variant="filled" />
-              <div className={styles.deleteSiteButtons}>
-                <button className={styles.deleteButton} onClick={closeCheckDomainModal}>Cancel</button>
-                <button className={styles.cancelButton} onClick={checkDomain}>Add</button>
-              </div>
-            </div>
-          </>
-          :
-          isDomainAvailable ?
-            <>
-              <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
-              <div className={styles.deleteSiteModal}>
-                <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
-                <h1>This domain is available</h1>
-                <h2>{domainToAdd}</h2>
-                <p>Please register this domain through your favorite registrar and come back. We plan on adding a domain registration feature in the future.</p>
-                <div className={styles.deleteSiteButtons}>
-                  <button className={styles.cancelButton} onClick={closeCheckDomainModal}>Okay</button>
+            { isEditing ?
+              getDisplayContents(title, subtitle, headerImage?.base64 || headerImage?.url, links, titlesColor, containerColor, containerGradient, bodyColor, bodyGradient, linkTextColor, linkBackgroundColor, liveNotificationColor, bodyAnimationStyle)
+              :
+              getDisplayContents(site.title, site.subtitle, site.headerImage?.base64 || site.headerImage?.url, site.links, site.titlesColor, site.containerColor, site.containerGradient, site.bodyColor, site.bodyGradient, site.linkTextColor, site.linkBackgroundColor, site.liveNotificationColor, site.bodyAnimationStyle)
+            }
+            { isPexelsModalShowing ?
+              <>
+                <div className={styles.blocker} onClick={() => setIsPexelsModalShowing(false)} />
+                <div className={styles.pexelsModal}>
+                  <div className={styles.closeButton} onClick={() => setIsPexelsModalShowing(false)}>+</div>
+                  <span>Find and select a photo for your {modalOpenedWith} image from <a href="https://www.pexels.com" style={{ color: themeObj.accentColor }}>Pexels</a></span>
+                  <form className={styles.pexelsSearch} onSubmit={fetchPexels} onKeyDown={onKeyDownPexels}>
+                    <TextField type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} className={styles.textField} size="small" variant="filled" />
+                    <button onClick={fetchPexels} type="submit">Search</button>
+                  </form>
+                  <div className={styles.photos}>
+                    {photos?.map(photo => {
+                      return <img src={photo.src.tiny} alt="pexel result" width="100" height="100" onClick={
+                        modalOpenedWith === IMAGE_TYPE.BACKGROUND ? () => setBackgroundImage({url: photo.src.original}) : () => setHeaderImage({url: photo.src.original})
+                      }
+                      />;
+                    })}
+                  </div>
                 </div>
-              </div>
-            </>
-            :
-            <>
-              <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
-              <div className={styles.deleteSiteModal}>
-                <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
-                <h1>Domain taken</h1>
-                <h2>Do you own this domain?</h2>
-                <h2>{domainToAdd}</h2>
-                <div className={styles.deleteSiteButtons}>
-                  <button className={styles.deleteButton} onClick={closeCheckDomainModal}>No</button>
-                  <button className={styles.cancelButton} onClick={openRegisterDomainModal}>Yes</button>
+              </>
+              : null
+            }
+            { isGiphyModalShowing ?
+              <>
+                <div className={styles.blocker} onClick={() => setIsGiphyModalShowing(false)} />
+                <div className={styles.pexelsModal}>
+                  <div className={styles.closeButton} onClick={() => setIsGiphyModalShowing(false)}>+</div>
+                  <span>Find and select a photo for your header image from <a href="https://www.giphy.com" style={{ color: themeObj.accentColor }}>GIPHY</a></span>
+                  <form className={styles.pexelsSearch} onSubmit={fetchGiphy} onKeyDown={onKeyDownGiphy}>
+                    <TextField type="text" value={gifQuery} placeholder="Search" onChange={e => setGifQuery(e.target.value)} className={styles.textField} size="small" variant="filled" />
+                    <button onClick={fetchGiphy} type="submit">Search</button>
+                  </form>
+                  <div className={styles.photos}>
+                    {gifs?.map(gif => {
+                      return <img src={`https://media.giphy.com/media/${gif.id}/giphy.gif`} alt="giphy result" width="100" height="100" onClick={() => setHeaderImage({url: `https://media.giphy.com/media/${gif.id}/giphy.gif`})} />;
+                    })}
+                  </div>
                 </div>
-              </div>
-            </>
-        : null
-      }
-      { isRegisterDomainModalShowing ?
-        !hasDomainBeenRegistered ?
-          <>
-            <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
-            <div className={styles.deleteSiteModal}>
-              <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
-              <h1>Register a domain</h1>
-              <h2>Do you want to register this domain? {domainToAdd}</h2>
-              <div className={styles.deleteSiteButtons}>
-                <button className={styles.deleteButton} onClick={closeRegisterDomainModal}>Cancel</button>
-                <button className={styles.cancelButton} onClick={registerDomain}>Register</button>
-              </div>
-            </div>
+              </>
+              : null
+            }
+            { isDeleteModalShowing ?
+              <> 
+                <div className={styles.blocker} onClick={() => setIsDeleteModalShowing(false)}></div>
+                <div className={styles.deleteSiteModal}>
+                  <div className={styles.closeButton} onClick={() => setIsDeleteModalShowing(false)}>+</div>
+                  <h1>Delete site</h1>
+                  <p>Are you sure you want to delete this site? Your site will be lost forever (a long time!)</p>
+                  <div className={styles.deleteSiteButtons}>
+                    <button className={styles.cancelButton} onClick={() => setIsDeleteModalShowing(false)}>Cancel</button>
+                    <button className={styles.deleteButton} onClick={deleteSite}>Delete</button>
+                  </div>
+                </div>
+              </>
+              : null }
+            { isCheckDomainModalShowing ?
+              !hasDomainBeenChecked ?
+                <>
+                  <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
+                  <div className={styles.deleteSiteModal}>
+                    <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
+                    <h1>Add a domain</h1>
+                    <TextField type="text" name="domainToAdd" value={domainToAdd} onChange={(e) => setDomainToAdd(e.target.value)} placeholder="Domain" className={styles.textField} size="small" variant="filled" />
+                    <div className={styles.deleteSiteButtons}>
+                      <button className={styles.deleteButton} onClick={closeCheckDomainModal}>Cancel</button>
+                      <button className={styles.cancelButton} onClick={checkDomain}>Add</button>
+                    </div>
+                  </div>
+                </>
+                :
+                isDomainAvailable ?
+                  <>
+                    <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                      <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
+                      <h1>This domain is available</h1>
+                      <h2>{domainToAdd}</h2>
+                      <p>Please register this domain through your favorite registrar and come back. We plan on adding a domain registration feature in the future.</p>
+                      <div className={styles.deleteSiteButtons}>
+                        <button className={styles.cancelButton} onClick={closeCheckDomainModal}>Okay</button>
+                      </div>
+                    </div>
+                  </>
+                  :
+                  <>
+                    <div className={styles.blocker} onClick={closeCheckDomainModal}></div>
+                    <div className={styles.deleteSiteModal}>
+                      <div className={styles.closeButton} onClick={closeCheckDomainModal}>+</div>
+                      <h1>Domain taken</h1>
+                      <h2>Do you own this domain?</h2>
+                      <h2>{domainToAdd}</h2>
+                      <div className={styles.deleteSiteButtons}>
+                        <button className={styles.deleteButton} onClick={closeCheckDomainModal}>No</button>
+                        <button className={styles.cancelButton} onClick={openRegisterDomainModal}>Yes</button>
+                      </div>
+                    </div>
+                  </>
+              : null
+            }
+            { isRegisterDomainModalShowing ?
+              !hasDomainBeenRegistered ?
+                <>
+                  <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
+                  <div className={styles.deleteSiteModal}>
+                    <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
+                    <h1>Register a domain</h1>
+                    <h2>Do you want to register this domain? {domainToAdd}</h2>
+                    <div className={styles.deleteSiteButtons}>
+                      <button className={styles.deleteButton} onClick={closeRegisterDomainModal}>Cancel</button>
+                      <button className={styles.cancelButton} onClick={registerDomain}>Register</button>
+                    </div>
+                  </div>
+                </>
+                :
+                <>
+                  <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
+                  <div className={styles.deleteSiteModal}>
+                    <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
+                    <h1>Registered!</h1>
+                    <h2>{domainToAdd}</h2>
+                    <p>Please add a "www" CNAME at your registrar<br/>that points at our server: <br/> {currentDomainCname}</p>
+                    <div className={styles.deleteSiteButtons}>
+                      <button className={styles.cancelButton} onClick={closeRegisterDomainModal}>Okay</button>
+                    </div>
+                  </div>
+                </>
+              : null
+            }
+            { isDeleteDomainModalShowing ?
+              <>
+                <div className={styles.blocker} onClick={closeDeleteDomainModal}></div>
+                <div className={styles.deleteSiteModal}>
+                  <div className={styles.closeButton} onClick={closeDeleteDomainModal}>+</div>
+                  <h1>Delete domain</h1>
+                  <h2>Are you sure you want to delete this domain? {domainToDelete}</h2>
+                  <div className={styles.deleteSiteButtons}>
+                    <button className={styles.cancelButton} onClick={closeDeleteDomainModal}>Cancel</button>
+                    <button className={styles.deleteButton} onClick={deleteDomain}>Delete</button>
+                  </div>
+                </div>
+              </>
+              : null
+            }
           </>
-          :
-          <>
-            <div className={styles.blocker} onClick={closeRegisterDomainModal}></div>
-            <div className={styles.deleteSiteModal}>
-              <div className={styles.closeButton} onClick={closeRegisterDomainModal}>+</div>
-              <h1>Registered!</h1>
-              <h2>{domainToAdd}</h2>
-              <p>Please add a "www" CNAME at your registrar<br/>that points at our server: <br/> {currentDomainCname}</p>
-              <div className={styles.deleteSiteButtons}>
-                <button className={styles.cancelButton} onClick={closeRegisterDomainModal}>Okay</button>
-              </div>
-            </div>
-          </>
-        : null
-      }
-      { isDeleteDomainModalShowing ?
-        <>
-          <div className={styles.blocker} onClick={closeDeleteDomainModal}></div>
-          <div className={styles.deleteSiteModal}>
-            <div className={styles.closeButton} onClick={closeDeleteDomainModal}>+</div>
-            <h1>Delete domain</h1>
-            <h2>Are you sure you want to delete this domain? {domainToDelete}</h2>
-            <div className={styles.deleteSiteButtons}>
-              <button className={styles.cancelButton} onClick={closeDeleteDomainModal}>Cancel</button>
-              <button className={styles.deleteButton} onClick={deleteDomain}>Delete</button>
-            </div>
-          </div>
-        </>
-        : null
-      }
-            
+      }   
     </>
-  )
-}
+  );
+};
 
 export default SingleSite;

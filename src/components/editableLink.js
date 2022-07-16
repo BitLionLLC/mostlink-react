@@ -17,7 +17,7 @@ const LIVE_TYPES = {
   NONE: 'none',
   TWITCH: 'twitch',
   YOUTUBE: 'youtube'
-}
+};
 
 const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, key }) => {
   const { isSubscribed, theme } = useContext(SitesContext);
@@ -42,18 +42,18 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
 
     const value = lib + '_' + valueArr.join('');
     return [display, value];
-  }
+  };
 
   const selectOptions = Object.keys(fab).concat(Object.keys(far)).filter((key) => key !== 'faFontAwesomeLogoFull').sort().map(key => {
     let lib;
     if (Object.keys(far).includes(key)) {
-      lib = 'far'
+      lib = 'far';
     } else {
-      lib = 'fab'
+      lib = 'fab';
     }
     const [label, value] = transformIconKey(key, lib);
-    return {value, label}
-  })
+    return {value, label};
+  });
     
   return (
     <li className={styles.linkEditLi} style={{...style}}>                   
@@ -124,7 +124,7 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
       }
       {index < links.length - 1 && <Button disabled={index === links.length - 1} onClick={() => moveLink(index, index + 1)}>move down &darr;</Button>}
     </li>
-  )
-}
+  );
+};
 
 export default EditableLink;

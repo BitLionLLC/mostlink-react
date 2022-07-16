@@ -10,7 +10,7 @@ const Pricing = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
     
   return (
     <div className={styles.pricingContainer}>
@@ -23,7 +23,7 @@ const Pricing = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Pricing;

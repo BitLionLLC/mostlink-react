@@ -17,7 +17,7 @@ const MiniSite = ({site}) => {
     linkBackgroundColor,
     containerGradient,
     liveNotificationColor
-  } = site
+  } = site;
 
   return (
     <div className={styles.miniSiteWrapper} style={{backgroundColor: containerColor, backgroundImage: containerGradient}}>
@@ -38,11 +38,11 @@ const MiniSite = ({site}) => {
               {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: liveNotificationColor}}> LIVE!</span></> : '- not live'}</div> : null}
             </div>   
             <FontAwesomeIcon icon={link?.icon?.split('_')} style={{color: linkTextColor}} />
-          </li>
+          </li>;
         })}
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default MiniSite;

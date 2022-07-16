@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { DndProvider } from 'react-dnd';
 import SitesContextProvider from './contexts/sitesContext';
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

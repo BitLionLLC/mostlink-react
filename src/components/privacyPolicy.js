@@ -490,7 +490,7 @@ const PrivacyPolicy = () => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default PrivacyPolicy;

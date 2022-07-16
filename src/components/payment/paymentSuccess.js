@@ -10,14 +10,14 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_BASE}/api/users`, { withCredentials: true })
       .then(res => setIsSubscribed(res.data.isSubscribed))
-      .catch(err => toast('Could not retrieve your subscription status.', { type: 'error' }))
-  }, [])
+      .catch(err => toast('Could not retrieve your subscription status.', { type: 'error' }));
+  }, []);
 
   const createPortalSession = () => {
     axios
@@ -25,8 +25,8 @@ const PaymentSuccess = () => {
       .then((res) => {
         window.location.href = res.data.redirect;
       })
-      .catch(err => console.log(err))
-  }
+      .catch(err => console.log(err));
+  };
 
   return (
     <div className={styles.successContainer}>
@@ -35,7 +35,7 @@ const PaymentSuccess = () => {
         <button onClick={createPortalSession}>Log into Stripe portal</button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default PaymentSuccess;

@@ -22,7 +22,7 @@ const Feedback = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
 
   const onCancel = () => {
     setName('');
@@ -32,7 +32,7 @@ const Feedback = () => {
     setComments('');
     setScreenshot(null);
     history.push('/');
-  }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -44,7 +44,7 @@ const Feedback = () => {
       feedbackType,
       comments,
       screenshot: screenshot?.base64 || null
-    }
+    };
 
     axios
       .post(`${process.env.REACT_APP_API_BASE}/api/feedback`, data)
@@ -53,14 +53,14 @@ const Feedback = () => {
       })
       .catch(() => {
         toast('Could not send feedback. Please try again.', { type: 'error' });
-      })
-  }
+      });
+  };
 
   const onKeyDown = e => {
     if (e.key === 'Enter') {
       onSubmit(e);
     }
-  }
+  };
 
   return (
     <div className={styles.feedbackContainer}>
@@ -95,7 +95,7 @@ const Feedback = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Feedback;

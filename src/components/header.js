@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SitesContext } from '../contexts/sitesContext';
-import { useGoogleLogout } from 'react-google-login'
+import { useGoogleLogout } from 'react-google-login';
 import lightLogo from './assets/logo-light.png';
 import darkLogo from './assets/logo-dark.png';
 
@@ -23,43 +23,43 @@ const Header = () => {
     clientId: '481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com',
     redirectUri: '/',
     onLogoutSuccess: () => {}
-  })
+  });
 
   const onLogOut = () => {
     signOut();
     axios
       .get(`${process.env.REACT_APP_API_BASE}/api/users/logout`, { withCredentials: true })
       .then(() => {
-        toast('Successfully logged out.', { type: 'success'})
-      })
+        toast('Successfully logged out.', { type: 'success'});
+      });
 
     setJwtToken(null);
     setUserId(null);
     localStorage.removeItem('mostlinkUserId');
 
     history.push('/');
-  }
+  };
 
   useEffect(() => {
     document.body.addEventListener('click', () => setIsAccountMenuShown(false));
 
     return document.body.removeEventListener('click', () => setIsAccountMenuShown(false));
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (!(history.location.pathname.includes('site'))) {
       document.body.style.backgroundColor = themeObj.bodyColor;
     }
-  })
+  });
 
   useEffect(() => {
-    jwtTokenRef.current = jwtToken
-  }, [jwtToken])
+    jwtTokenRef.current = jwtToken;
+  }, [jwtToken]);
 
   useEffect(() => {
     document.body.style.backgroundColor = themeObj.bodyColor;
     document.body.style.color = themeObj.color;
-  }, [theme])
+  }, [theme]);
 
   useEffect(() => {
     axios
@@ -76,11 +76,11 @@ const Header = () => {
       .catch(() => {
         toast('Please log in.', { type: 'error'});
         history.push('/');
-      })
+      });
 
-    const userId = localStorage.getItem('mostlinkUserId')
+    const userId = localStorage.getItem('mostlinkUserId');
     setUserId(userId);
-  }, [])
+  }, []);
 
   useEffect(() => {
     const allowedPathsWhenLoggedOut = [
@@ -97,23 +97,23 @@ const Header = () => {
           history.push('/');
         }
       }
-    }, 500)
-  }, [jwtToken])
+    }, 500);
+  }, [jwtToken]);
     
   const toggleAccountMenu = e => {
     e.stopPropagation();
     setIsAccountMenuShown(!isAccountMenuShown);
-  }
+  };
 
   const toggleHamburgerMenu = e => {
     e.stopPropagation();
     setIsHamburgerMenuShown(!isHamburgerMenuShown);
-  }
+  };
 
   const routeTo = (path) => {
     setIsHamburgerMenuShown(false);
     history.push(path);
-  }
+  };
 
   return (
     <div className={styles.header} style={{ backgroundColor: themeObj.headerColor, color: themeObj.color }}>
@@ -166,7 +166,7 @@ const Header = () => {
           null
       }
     </div>
-  )
-}
+  );
+};
 
 export default Header;

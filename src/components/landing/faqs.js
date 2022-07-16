@@ -76,7 +76,7 @@ const FAQs = () => {
         </AccordionDetails>
       </Accordion>
     </div>
-  )
-}
+  );
+};
 
 export default FAQs;
