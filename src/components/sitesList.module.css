@@ -89,6 +89,9 @@ body {
 }
 
 .loadingContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: calc(100vh - 150px);
   display: flex;
