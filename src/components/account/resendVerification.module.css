@@ -1,61 +1,60 @@
 .resendVerificationContainer {
-    width: 100vw;
-    height: calc(100vh - 150px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 100px;
-  }
-  
-  .resendVerification {
-    width: 500px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 50px;
-    border-radius: 20px;
-  }
+  width: 100vw;
+  height: calc(100vh - 150px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 100px;
+}
 
-  .resendForm {
-    width: 100%;
-  }
+.resendVerification {
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  border-radius: 20px;
+}
 
-  .resendFormButtons {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .resendFormButtons button {
-    width: 40%;
-    margin: 10px;
-    height: 40px;
-    font-size: 25px;
-  }
-  
-  .cancelButton {
-    background-color: pink;
-  }
-  
-  .submitButton {
-    background-color: lightgreen;
-  }
+.resendForm {
+  width: 100%;
+}
 
-  .textField {
-    width: 100%;
-    height: 40px;
-    font-size: 20px;
-    padding: 5px;
-    margin: 10px 0 30px !important;
+.resendFormButtons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.resendFormButtons button {
+  width: 40%;
+  margin: 10px;
+  height: 40px;
+  font-size: 25px;
+}
+
+.cancelButton {
+  background-color: pink;
+}
+
+.submitButton {
+  background-color: lightgreen;
+}
+
+.textField {
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+  padding: 5px;
+  margin: 10px 0 30px !important;
+}
+
+@media (max-width: 550px) {
+  .pleaseVerify {
+    width: 90vw;
   }
-  
-  @media (max-width: 550px) {
-    .pleaseVerify {
-      width: 90vw;
-    }
-  }
-  
+}
