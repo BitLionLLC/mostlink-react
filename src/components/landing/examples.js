@@ -31,7 +31,7 @@ const Examples = () => {
       </ul>
             
     </div>
-  )
-}
+  );
+};
 
 export default Examples;

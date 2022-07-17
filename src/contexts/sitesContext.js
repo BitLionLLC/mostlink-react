@@ -8,7 +8,9 @@ const localTheme = localStorage.getItem('mostlinkTheme');
 
 const SitesContextProvider = (props) => {
   const [site, setSite] = useState({});
+  const [siteLoading, setSiteLoading] = useState(false);
   const [sites, setSites] = useState([]);
+  const [sitesLoading, setSitesLoading] = useState(false);
   const [jwtToken, setJwtToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [theme, setTheme] = useState(localTheme || 'dark');
@@ -16,11 +18,13 @@ const SitesContextProvider = (props) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [email, setEmail] = useState('');
   const [withGoogle, setWithGoogle] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editModalOpenedWith, setEditModalOpenedWith] = useState({});
   const createSiteModalRef = useRef(null);
 
   useEffect(() => {
     fetchUser();
-  }, [])
+  }, []);
 
   const fetchUser = async () => {
     axios
@@ -29,32 +33,40 @@ const SitesContextProvider = (props) => {
         setEmail(res.data.email);
         setUserId(res.data.id);
         setWithGoogle(res.data.google);
-        setIsSubscribed(res.data.isSubscribed)
+        setIsSubscribed(res.data.isSubscribed);
       })
       .catch(err => console.log(err));
-  }
+  };
 
   const fetchSite = async siteId => {
+    setSiteLoading(true);
+
     axios
       .get(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${siteId}`, { withCredentials: true })
       .then(res => {
         setSite(res.data);
+        setSiteLoading(false);
       })
       .catch(err => {
-        toast(err, { type: 'error' });
-      })
-  }
+        setSiteLoading(false);
+        toast(err.response.data.error, { type: 'error' });
+      });
+  };
 
   const fetchSites = () => {
+    setSitesLoading(true);
+
     axios
       .get(`${process.env.REACT_APP_API_BASE}/api/sites/byUserId`, { withCredentials: true })
       .then(res => {
         setSites(res.data);
+        setSitesLoading(false);
       })
       .catch(err => {
-        toast(err, { type: 'error' });
-      })
-  }
+        setSitesLoading(false);
+        toast(err.response.data.error, { type: 'error' });
+      });
+  };
 
   const toggleTheme = () => {
     if (theme === 'dark') {
@@ -66,12 +78,14 @@ const SitesContextProvider = (props) => {
       setThemeObj(darkTheme);
       localStorage.setItem('mostlinkTheme', 'dark');
     }
-  }
+  };
 
   return (
     <SitesContext.Provider value={{ 
-      site, 
-      sites, 
+      site,
+      siteLoading,
+      sites,
+      sitesLoading,
       jwtToken, 
       userId, 
       theme, 
@@ -80,6 +94,8 @@ const SitesContextProvider = (props) => {
       createSiteModalRef,
       email,
       withGoogle,
+      isEditModalOpen,
+      editModalOpenedWith,
       fetchSite, 
       fetchSites, 
       fetchUser,
@@ -89,11 +105,13 @@ const SitesContextProvider = (props) => {
       setEmail,
       setWithGoogle, 
       toggleTheme,
-      setIsSubscribed
+      setIsSubscribed,
+      setIsEditModalOpen,
+      setEditModalOpenedWith
     }} >
       {props.children}
     </SitesContext.Provider>
-  )
-}
+  );
+};
 
 export default SitesContextProvider;

@@ -11,7 +11,7 @@ export const lightTheme = {
   loggedInColor: 'green',
   sitesBoxColor: 'lightblue',
   editTrayBackground: 'slateblue'
-}
+};
 
 export const darkTheme = {
   bodyColor: '#222222',
@@ -24,7 +24,7 @@ export const darkTheme = {
   loggedInColor: 'lightgreen',
   sitesBoxColor: 'midnightblue',
   editTrayBackground: '#111122'
-}
+};
 
 export const muiDarkTheme = createTheme({
   palette: {

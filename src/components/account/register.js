@@ -36,46 +36,46 @@ const Register = () => {
 
   const PASSWORD_REGEX = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$';
   const PASSWORD_ERROR = 'This password does not meet the requirements.';
-  const REQUIRED_FIELD_ERROR = 'This field is required.'
+  const REQUIRED_FIELD_ERROR = 'This field is required.';
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
     
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       email && axios
         .get(`${process.env.REACT_APP_API_BASE}/api/users/register/check-email/${email}`)
         .then(() => setEmailError(''))
-        .catch(() => setEmailError('This email is already in use.'))
-    }, 2000)
+        .catch(() => setEmailError('This email is already in use.'));
+    }, 2000);
     
-    return () => clearTimeout(delayDebounceFn)
-  }, [email])
+    return () => clearTimeout(delayDebounceFn);
+  }, [email]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       username && axios
         .get(`${process.env.REACT_APP_API_BASE}/api/users/register/check-username/${username}`)
         .then(() => setUsernameError(''))
-        .catch(() => setUsernameError('That username is already in use. Please try another one.'))
-    }, 2000)
+        .catch(() => setUsernameError('That username is already in use. Please try another one.'));
+    }, 2000);
     
-    return () => clearTimeout(delayDebounceFn)
-  }, [username])
+    return () => clearTimeout(delayDebounceFn);
+  }, [username]);
 
   useEffect(() => {
     if (password && !password.match(PASSWORD_REGEX)) {
-      setPasswordError(PASSWORD_ERROR)
+      setPasswordError(PASSWORD_ERROR);
     } else if (passwordAgain && !passwordAgain.match(PASSWORD_REGEX)) {
-      setPasswordAgainError(PASSWORD_ERROR)
+      setPasswordAgainError(PASSWORD_ERROR);
     } else if (password && passwordAgain && !(password === passwordAgain)) {
-      setPasswordAgainError('These passwords don\'t match.')
+      setPasswordAgainError('These passwords don\'t match.');
     } else {
       setPasswordError('');
       setPasswordAgainError('');
     }
-  }, [password, passwordAgain])
+  }, [password, passwordAgain]);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -95,22 +95,22 @@ const Register = () => {
         })
         .catch(err => {
           toast('A user with that username already exists. Please log in.', { type: 'error' });
-        })
+        });
     } else {
-      if (!firstName) {setFirstNameError(REQUIRED_FIELD_ERROR)}
-      if (!lastName) {setLastNameError(REQUIRED_FIELD_ERROR)}
-      if (!email) {setEmailError(REQUIRED_FIELD_ERROR)}
-      if (!username) {setUsernameError(REQUIRED_FIELD_ERROR)}
-      if (!password) {setPasswordError(REQUIRED_FIELD_ERROR)}
-      if (!passwordAgain) {setPasswordAgainError(REQUIRED_FIELD_ERROR)}
+      if (!firstName) {setFirstNameError(REQUIRED_FIELD_ERROR);}
+      if (!lastName) {setLastNameError(REQUIRED_FIELD_ERROR);}
+      if (!email) {setEmailError(REQUIRED_FIELD_ERROR);}
+      if (!username) {setUsernameError(REQUIRED_FIELD_ERROR);}
+      if (!password) {setPasswordError(REQUIRED_FIELD_ERROR);}
+      if (!passwordAgain) {setPasswordAgainError(REQUIRED_FIELD_ERROR);}
     }
-  }
+  };
 
   const onKeyDown = e => {
     if (e.key === 'Enter') {
       onSubmit(e);
     }
-  }
+  };
 
   const responseGoogle = (response) => {
     const { profileObj } = response;
@@ -133,22 +133,22 @@ const Register = () => {
         })
         .catch(err => {
           toast('A user with that username already exists. Please log in.', { type: 'error' });
-        })
+        });
     }
-  }
+  };
 
   const failureGoogle = (failure) => console.log(failure);
 
   const onCancel = () => {
     setFirstName('');
     setLastName('');
-    setEmail('')
+    setEmail('');
     setUsername('');
     setPassword('');
     setPasswordAgain('');
         
     history.push('/');
-  }
+  };
 
   return (
     <div className={styles.registerContainer}>
@@ -214,7 +214,7 @@ const Register = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Register;

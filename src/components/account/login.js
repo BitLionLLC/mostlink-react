@@ -19,14 +19,14 @@ const Login = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
     
   const onCancel = () => {
     setUsernameOrEmail('');
     setPassword('');
         
     history.push('/');
-  }
+  };
 
   const onSubmit = e => {
     e.preventDefault();
@@ -47,15 +47,15 @@ const Login = () => {
         toast('Successfully logged in.', { type: 'success' });
       })
       .catch(err => {
-        toast(err.response.data.error, { type: 'error'})
-      })
-  }
+        toast(err.response.data.error, { type: 'error'});
+      });
+  };
 
   const onKeyDown = e => {
     if (e.key === 'Enter') {
       onSubmit(e);
     }
-  }
+  };
 
   const responseGoogle = (response) => {
     const { profileObj } = response;
@@ -78,10 +78,10 @@ const Login = () => {
           toast('Successfully logged in.', { type: 'success' });
         })
         .catch(err => {
-          toast(err, { type: 'error' });
-        })
+          toast(err.response.data.error, { type: 'error' });
+        });
     } 
-  }
+  };
 
   return (
     <div className={styles.loginContainer}>
@@ -114,7 +114,7 @@ const Login = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Login;

@@ -15,7 +15,7 @@ const GRADIENT_PRESETS = {
   'warm': ['#F41414', '#ED9909', '#FFEF1F'],
   'cool': ['#389CFF', '#5E23B0'],
   'neon': ['#1E90FF', '#DD0BAF']
-}
+};
 
 const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
   const { themeObj, theme } = useContext(SitesContext);
@@ -26,7 +26,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
   const [gradientArr, setGradientArr] = useState(['#e66465', '#9198e5']);
   const [colorBoxArr, setColorBoxArr] = useState(['#e66465', '#9198e5']);
   const [gradientStr, setGradientStr] = useState('');
-  const [linearDirection, setLinearDirection] = useState('to top')
+  const [linearDirection, setLinearDirection] = useState('to top');
   const [isEditingColor, setIsEditingColor] = useState(false);
   const [isColorSet, setIsColorSet] = useState(true);
   const [colorToEdit, setColorToEdit] = useState(0);
@@ -52,7 +52,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
       setGradientStr(value);
       setLinearDirection(passedDirection || 'to top');
     }
-  }, [value, isColorSet])
+  }, [value, isColorSet]);
 
   useEffect(() => {
     if (useGradient) {
@@ -63,15 +63,15 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     } else {
       setGradientStr('');
     }
-  }, [gradientType, conicAngle, colorBoxArr, linearDirection, useGradient])
+  }, [gradientType, conicAngle, colorBoxArr, linearDirection, useGradient]);
 
   useEffect(() => {
     setter(gradientStr);
-  }, [gradientStr])
+  }, [gradientStr]);
 
   useEffect(() => {
     setColorBoxArr(selectedPreset && selectedPreset !== 'custom' ?  GRADIENT_PRESETS[selectedPreset] : gradientArr);
-  }, [selectedPreset, gradientArr])
+  }, [selectedPreset, gradientArr]);
 
   useEffect(() => {
     if (!containerAlphaPercent.length) {
@@ -87,7 +87,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
         
     if (alpha <= 100) {
       let alphaHex = (parseInt((alpha)/100*255, 10)).toString(16);
-      if (alphaHex.length === 1) {alphaHex = '0' + alphaHex}
+      if (alphaHex.length === 1) {alphaHex = '0' + alphaHex;}
       const color = gradientArr[colorToEdit]?.slice(0, 7) + alphaHex;
       editColor(color);
     } else {
@@ -95,7 +95,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
       const color = gradientArr[colorToEdit]?.slice(0, 7) + 'FF';
       editColor(color);
     }
-  }, [containerAlphaPercent])
+  }, [containerAlphaPercent]);
 
   useEffect(() => {
     if (place === 'container' && gradientArr[colorToEdit].length === 7) {
@@ -104,35 +104,35 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
       const alphaPercent = Math.round(parseInt(gradientArr[colorToEdit].slice(7), 16)/255*100);
       setContainerAlphaPercent(alphaPercent);
     }
-  }, [colorToEdit])
+  }, [colorToEdit]);
 
   useEffect(() => {
     setIsColorSet(false);
 
     const delayDebounceFn = setTimeout(() => {
       setIsColorSet(true);
-    }, 1000)
+    }, 1000);
 
-    return () => clearTimeout(delayDebounceFn)
-  }, [editColorResult])
+    return () => clearTimeout(delayDebounceFn);
+  }, [editColorResult]);
 
   const addColor = () => {
     const currentColors = gradientArr.slice();
     currentColors.push('#1E90FF');
     setGradientArr(currentColors);
-  }
+  };
 
   const removeColor = (index) => {
     const currentColors = gradientArr.slice();
     currentColors.splice(index, 1);
     setGradientArr(currentColors);
-  }
+  };
 
   const editColor = (color) => {
     let newColor;
     if (color?.match(HEX_COLOR_REGEX_SHORT) || color?.match(HEX_COLOR_REGEX_LONG)) {
       let alphaHex = (parseInt((+containerAlphaPercent)/100*255, 10)).toString(16);
-      if (alphaHex.length === 1) {alphaHex = '0' + alphaHex}
+      if (alphaHex.length === 1) {alphaHex = '0' + alphaHex;}
       newColor = color.slice(0,7)+ alphaHex;
     } else {
       newColor = color;
@@ -142,11 +142,11 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     const currentColors = gradientArr.slice();
     currentColors.splice(colorToEdit, 1, newColor);
     setGradientArr(currentColors);
-  }
+  };
 
   const reverseColors = () => {
     setGradientArr(gradientArr.slice().reverse());
-  }
+  };
 
   const standardizeColorInput = (input, setterCallback, ref) => {
     setterCallback(input);
@@ -171,13 +171,13 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
         setterCallback('#000000');
         ref.current = '#000000';
       }
-    }, 5000)
-  }
+    }, 5000);
+  };
 
   const copyPresetToCustom = () => {
     setGradientArr(GRADIENT_PRESETS[selectedPreset]);
     setSelectedPreset('custom');
-  }
+  };
 
   const moveBox = useCallback((dragIndex, hoverIndex) => {
     setGradientArr((prevBoxes) => update(prevBoxes, {
@@ -275,7 +275,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
                       moveBox={moveBox}
                       id={i}
                     />
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -294,7 +294,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
           </>
       }
     </div>
-  )
-}
+  );
+};
 
 export default GradientPicker;

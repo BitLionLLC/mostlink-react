@@ -70,6 +70,6 @@ const ANIMATION_PRESETS = {
   'twinkle': twinkle,
   'virus': virus,
   'warp': warp
-}
+};
 
 export default ANIMATION_PRESETS;

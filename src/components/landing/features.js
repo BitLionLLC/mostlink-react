@@ -17,7 +17,7 @@ const imageSources = {
   'gradients.png': gradients,
   'link-hover-effect.gif': linkHoverEffect,
   'live-notifications.png': liveNotifications
-}
+};
 
 const Features = () => {
   const { themeObj } = useContext(SitesContext);
@@ -31,11 +31,11 @@ const Features = () => {
             <h3>{feature.name}</h3>
             <div className={styles.description}>{feature.description}</div>
             <img src={imageSources[feature.image]} alt={feature.name} />
-          </li>
+          </li>;
         })}
       </ul>   
     </div>
-  )
-}
+  );
+};
 
 export default Features;

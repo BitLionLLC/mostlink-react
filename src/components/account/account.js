@@ -34,11 +34,11 @@ const Account = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme])
+  }, [theme]);
 
   useEffect(() => {
     if (oldPassword && newPassword && oldPassword === newPassword) {
-      setNewPasswordError(SAME_PASSWORD_ERROR)
+      setNewPasswordError(SAME_PASSWORD_ERROR);
     } else if (oldPassword && !oldPassword.match(PASSWORD_REGEX)) {
       setOldPasswordError(PASSWORD_ERROR);
     } else if (newPassword && !newPassword.match(PASSWORD_REGEX)) {
@@ -47,7 +47,7 @@ const Account = () => {
       setOldPasswordError('');
       setNewPasswordError('');
     }
-  }, [oldPassword, newPassword])
+  }, [oldPassword, newPassword]);
 
   useEffect(() => {
     if (password && !password.match(PASSWORD_REGEX)) {
@@ -55,19 +55,19 @@ const Account = () => {
     } else {
       setPasswordError('');
     }
-  }, [password])
+  }, [password]);
 
   const onKeyDownDelete = e => {
     if (e.key === 'Enter') {
       deleteAccount();
     }
-  }
+  };
 
   const onKeyDownChangePassword = e => {
     if (e.key === 'Enter') {
       changePassword();
     }
-  }
+  };
 
   const subscribeToPremium = () => {
     axios
@@ -75,8 +75,8 @@ const Account = () => {
       .then((res) => {
         window.location.href = res.data.redirect;
       })
-      .catch(err => console.log(err))
-  }
+      .catch(err => console.log(err));
+  };
 
   const createPortalSession = () => {
     axios
@@ -86,16 +86,16 @@ const Account = () => {
       })
       .catch(err => {
         toast('Could not create portal session. Please subscribe first.', { type: 'error' });
-      })
-  }
+      });
+  };
 
   const { signOut } = useGoogleLogout({
     jsSrc: 'https://apis.google.com/js/api.js',
-    onFailure: (err) => toast(err, { type: 'error'}),
+    onFailure: (err) => toast(err.response.data.error, { type: 'error'}),
     clientId: '481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com',
     redirectUri: '/',
     onLogoutSuccess: () => {}
-  })
+  });
 
   const deleteAccount = () => {
     signOut();
@@ -112,8 +112,8 @@ const Account = () => {
       })
       .catch(err => {
         toast('Could not delete your account. Please check your password and try again.', { type: 'error' });
-      })
-  }
+      });
+  };
 
   const changePassword = () => {
     axios
@@ -123,8 +123,8 @@ const Account = () => {
       })
       .catch(() => {
         toast('There was an issue changing your password. Please try again.', { type: 'error' });
-      })
-  }
+      });
+  };
 
   return (
     <div className={styles.accountContainer}>
@@ -212,7 +212,7 @@ const Account = () => {
         </>
         : null }
     </div>
-  )
-}
+  );
+};
 
 export default Account;

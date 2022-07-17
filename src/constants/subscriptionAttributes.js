@@ -15,6 +15,6 @@ const SUBSCRIPTION_ATTRIBUTES = {
     free: false,
     premium: true
   }
-}
+};
 
 export default SUBSCRIPTION_ATTRIBUTES;

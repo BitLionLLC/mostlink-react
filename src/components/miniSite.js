@@ -1,10 +1,13 @@
+import React, { useContext } from 'react';
+import { SitesContext } from '../contexts/sitesContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 import defaultHeader from './assets/default-header.png';
 
 import styles from './miniSite.module.css';
 
 const MiniSite = ({site}) => {
+  const { setIsEditModalOpen, setEditModalOpenedWith } = useContext(SitesContext);
+
   const {
     title,
     subtitle,
@@ -16,11 +19,18 @@ const MiniSite = ({site}) => {
     linkTextColor,
     linkBackgroundColor,
     containerGradient,
-    liveNotificationColor
-  } = site
+    liveNotificationColor,
+    subdomain,
+    _id
+  } = site;
 
   return (
     <div className={styles.miniSiteWrapper} style={{backgroundColor: containerColor, backgroundImage: containerGradient}}>
+      <FontAwesomeIcon icon={['far', 'edit']} size="3x" className={styles.editButton} onClick={(e) => {
+        e.preventDefault();
+        setIsEditModalOpen(true);
+        setEditModalOpenedWith({ title, subtitle, subdomain, id: _id });
+      }} />
       {
         headerEmoji 
           ?
@@ -38,11 +48,11 @@ const MiniSite = ({site}) => {
               {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: liveNotificationColor}}> LIVE!</span></> : '- not live'}</div> : null}
             </div>   
             <FontAwesomeIcon icon={link?.icon?.split('_')} style={{color: linkTextColor}} />
-          </li>
+          </li>;
         })}
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default MiniSite;

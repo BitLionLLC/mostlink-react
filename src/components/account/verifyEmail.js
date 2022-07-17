@@ -22,9 +22,9 @@ const VerifyEmail = () => {
         })
         .catch(err => {
           toast('Could not verify your email.', { type: 'error' });
-        })
+        });
     }
-  }, [hash, userId])
+  }, [hash, userId]);
 
   return (
     <div className={styles.verifyEmailContainer}>
@@ -40,7 +40,7 @@ const VerifyEmail = () => {
           </div>
       }
     </div>
-  )
-}
+  );
+};
 
 export default VerifyEmail;

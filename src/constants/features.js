@@ -29,6 +29,6 @@ const FEATURES = [
     'description': 'Upload your own or select from Pexels.',
     'image': 'background-images.png'
   }
-]
+];
 
 export default FEATURES;

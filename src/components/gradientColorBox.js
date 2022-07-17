@@ -13,7 +13,7 @@ const style = {
 
 const ItemTypes = {
   BOX: 'box'
-}
+};
 
 const GradientColorBox = ({ color, index, setIsEditingColor, setColorToEdit, setEditColorResult, removeColor, moveBox, id }) => {
   const ref = useRef(null);
@@ -84,7 +84,7 @@ const GradientColorBox = ({ color, index, setIsEditingColor, setColorToEdit, set
       }}/>
       <button onClick={() => removeColor(index)}>-</button>
     </div>
-  )
-}
+  );
+};
 
 export default GradientColorBox;
