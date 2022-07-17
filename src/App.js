@@ -29,6 +29,7 @@ import { muiDarkTheme, muiLightTheme } from './constants/themes';
 
 import 'react-toastify/dist/ReactToastify.css';
 import TermsAndConditions from './components/termsAndConditions';
+import ResendVerification from './components/account/resendVerification';
 
 function App() {
   const { theme } = useContext(SitesContext);
@@ -68,6 +69,9 @@ function App() {
         </Route>
         <Route path="/account/verify-email/:hash/:userId">
           <VerifyEmail />
+        </Route>
+        <Route path="/account/resend-verification">
+          <ResendVerification />
         </Route>
         <Route path="/payment/success">
           <PaymentSuccess />

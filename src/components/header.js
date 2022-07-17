@@ -86,7 +86,7 @@ const Header = () => {
     const allowedPathsWhenLoggedOut = [
       '/account/login', '/account/register', '/account/reset-password', 
       '/account/forgot-password', '/account/please-verify', '/account/verify-email',
-      '/pricing', '/privacy-policy', '/terms-and-conditions', '/feedback'
+      '/account/resend-verification', '/pricing', '/privacy-policy', '/terms-and-conditions', '/feedback'
     ];
         
     setTimeout(() => {
@@ -136,6 +136,7 @@ const Header = () => {
         <ul className={styles.accountMenuList} >
           {jwtToken && <li><Link to="/account" style={{ color: themeObj.color }}>Account</Link></li>}
           {!jwtToken && <li><Link to="/account/register" style={{ color: themeObj.color }}>Register</Link></li>}
+          {!jwtToken && <li><Link to="/account/resend-verification" style={{ color: themeObj.color }}>Verify email</Link></li>}
           {!jwtToken && <li><Link to="/account/login" style={{ color: themeObj.color }}>Log in</Link></li>}
           {jwtToken && <li onClick={onLogOut} style={{ color: themeObj.color, cursor: 'pointer' }}>Log out</li>}
         </ul> 
@@ -154,6 +155,7 @@ const Header = () => {
               <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo(jwtToken ? '/home' : '/')}>{jwtToken ? 'Dashboard' : 'Home'}</li>
               {jwtToken && <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo('/account')}>Account</li>}
               {!jwtToken && <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo('/account/register')}>Register</li>}
+              {!jwtToken && <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo('/account/resend-verification')}>Verify email</li>}
               {!jwtToken && <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo('/account/login')}>Log in</li>}
               {jwtToken && <li onClick={onLogOut} style={{ color: 'white', background: themeObj.editTrayBackground, cursor: 'pointer' }}>Log out</li>}
               <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo('/pricing')}>Pricing</li>
