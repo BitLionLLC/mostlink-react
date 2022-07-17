@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import CreateSite from './createSite';
+import EditSite from './editSite';
 
 const LinkPageBuilder = () => {
   useEffect(() => {
@@ -9,6 +10,7 @@ const LinkPageBuilder = () => {
   return (
     <div>
       <CreateSite />
+      <EditSite />
     </div>
   );
 };

@@ -292,6 +292,16 @@ input {
   height: 50px;
 }
 
+.siteAndPath {
+  display: flex;
+  align-items: center;
+}
+
+.suggestion {
+  margin: 10px 20px;
+  cursor: pointer;
+}
+
 .loadingContainer {
   position: absolute;
   top: 0;

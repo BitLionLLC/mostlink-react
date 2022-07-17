@@ -18,6 +18,8 @@ const SitesContextProvider = (props) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [email, setEmail] = useState('');
   const [withGoogle, setWithGoogle] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editModalOpenedWith, setEditModalOpenedWith] = useState({});
   const createSiteModalRef = useRef(null);
 
   useEffect(() => {
@@ -92,6 +94,8 @@ const SitesContextProvider = (props) => {
       createSiteModalRef,
       email,
       withGoogle,
+      isEditModalOpen,
+      editModalOpenedWith,
       fetchSite, 
       fetchSites, 
       fetchUser,
@@ -101,7 +105,9 @@ const SitesContextProvider = (props) => {
       setEmail,
       setWithGoogle, 
       toggleTheme,
-      setIsSubscribed
+      setIsSubscribed,
+      setIsEditModalOpen,
+      setEditModalOpenedWith
     }} >
       {props.children}
     </SitesContext.Provider>

@@ -54,6 +54,7 @@ const SingleSite = () => {
   const [hasEditButtonBeenClicked, setHasEditButtonBeenClicked] = useState(false);
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
+  const [subdomain, setSubdomain] = useState('');
   const [headerImage, setHeaderImage] = useState('');
   const [headerEmoji, setHeaderEmoji] = useState('');
   const [backgroundImage, setBackgroundImage] = useState('');
@@ -97,11 +98,16 @@ const SingleSite = () => {
   const [currentDomainCname, setCurrentDomainCname] = useState('');
   const [expandedAccordion, setExpandedAccordion] = useState(false);
   const [hoveredLinkIndex, setHoveredLinkIndex] = useState(null);
+  const [isSubdomainValid, setIsSubdomainValid] = useState(true);
+  const [subdomainError, setSubdomainError] = useState('');
+  const [suggestion, setSuggestion] = useState('');
 
   const memoizedParticles = useMemo(() => <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />);
 
   const HEX_COLOR_REGEX_SHORT = '^#(?:[0-9a-fA-F]{3}){1}$';
   const HEX_COLOR_REGEX_LONG = '^#(?:[0-9a-fA-F]{2}){3,4}$';
+  const WHITESPACE_REGEX = /\s/;
+  const SUBDOMAIN_TAKEN_ERROR = 'That subdomain is taken. Please choose another one.';
     
   const fetchPexels = (e) => {
     e?.preventDefault();
@@ -197,6 +203,7 @@ const SingleSite = () => {
   useEffect(() => {
     setTitle(site.title);
     setSubtitle(site.subtitle);
+    setSubdomain(site.subdomain);
     setHeaderImage(site.headerImage);
     setHeaderEmoji(site.headerEmoji);
     setLinks(site.links);
@@ -256,6 +263,34 @@ const SingleSite = () => {
     }
   }, [isContainerTransparent]);
 
+  useEffect(() => {
+    if (!subdomain) {
+      setIsSubdomainValid(true);
+    }
+
+    const delayDebounceFn = setTimeout(() => {
+      subdomain && subdomain !== site.subdomain && axios
+        .get(`${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`, { withCredentials: true })
+        .then(() => {
+          setIsSubdomainValid(true);
+          setSubdomainError('');
+        })
+        .catch(err => {
+          setIsSubdomainValid(false);
+          setSuggestion(err.response.data.suggestion);
+          setSubdomainError(SUBDOMAIN_TAKEN_ERROR);
+        });
+    }, 1000);
+    
+    if (subdomain.match(WHITESPACE_REGEX)) {
+      setSubdomainError('No spaces allowed.');
+    } else {
+      setSubdomainError('');
+    }
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [subdomain]);
+
 
   useBeforeunload((e) => {
     if (isDirty) {
@@ -277,6 +312,7 @@ const SingleSite = () => {
     const siteToSave = {
       title,
       subtitle,
+      subdomain,
       headerImage,
       headerEmoji,
       backgroundImage,
@@ -292,7 +328,7 @@ const SingleSite = () => {
       bodyAnimationStyle
     };
 
-    axios
+    isSubdomainValid && !subdomainError && axios
       .put(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${match.params.id}`, siteToSave, { withCredentials: true })
       .then(() => {
         setIsEditing(false);
@@ -638,6 +674,13 @@ const SingleSite = () => {
         <AccordionDetails>
           <div className={styles.editContents}>
             <h1>Site/Domains</h1>
+            <h2>Subdomain</h2>
+            <div className={styles.siteAndPath}>
+              <TextField type="text" className={styles.textField} value={subdomain} name="subdomain" 
+                onChange={e => setSubdomain(e.target.value)} placeholder="subdomain" variant="filled" size="small" 
+                error={!isSubdomainValid || subdomainError} helperText={subdomainError} />.mostlink.io
+            </div>
+            {subdomain && subdomainError === SUBDOMAIN_TAKEN_ERROR && <div onClick={() => setSubdomain(suggestion)} className={styles.suggestion}>How about {suggestion}?</div>}
             <h2>Live Sites</h2>
             {
               process.env.REACT_APP_ENVIRONMENT === 'production' || process.env.REACT_APP_ENVIRONMENT === 'development'
