@@ -282,7 +282,7 @@ const SingleSite = () => {
         });
     }, 1000);
     
-    if (subdomain.match(WHITESPACE_REGEX)) {
+    if (subdomain?.match(WHITESPACE_REGEX)) {
       setSubdomainError('No spaces allowed.');
     } else {
       setSubdomainError('');
@@ -468,7 +468,7 @@ const SingleSite = () => {
   const standardizeColorInput = (input, setterCallback, ref) => {
     setterCallback(input);
     
-    const isHex = input.match(HEX_COLOR_REGEX_SHORT) || input.match(HEX_COLOR_REGEX_LONG);
+    const isHex = input?.match(HEX_COLOR_REGEX_SHORT) || input?.match(HEX_COLOR_REGEX_LONG);
     const allColorNames = toHex.all().map(color => color.name);
 
     if (isHex) {

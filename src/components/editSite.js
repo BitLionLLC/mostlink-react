@@ -39,7 +39,7 @@ const EditSite = () => {
         });
     }, 1000);
     
-    if (subdomain.match(WHITESPACE_REGEX)) {
+    if (subdomain?.match(WHITESPACE_REGEX)) {
       setSubdomainError('No spaces allowed.');
     } else {
       setSubdomainError('');
