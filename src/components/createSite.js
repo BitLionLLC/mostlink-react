@@ -19,6 +19,9 @@ const CreateSite = (props) => {
 
   const { fetchSites, themeObj, isSubscribed, sites, theme, createSiteModalRef } = useContext(SitesContext);
 
+  const WHITESPACE_REGEX = /\s/;
+  const SUBDOMAIN_TAKEN_ERROR = 'That subdomain is taken. Please choose another one.';
+
   useEffect(() => {
     if (!subdomain) {
       setIsSubdomainValid(true);
@@ -27,23 +30,25 @@ const CreateSite = (props) => {
     const delayDebounceFn = setTimeout(() => {
       subdomain && axios
         .get(`${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`, { withCredentials: true })
-        .then(() => setIsSubdomainValid(true))
+        .then(() => {
+          setIsSubdomainValid(true);
+          setSubdomainError('');
+        })
         .catch(err => {
           setIsSubdomainValid(false);
           setSuggestion(err.response.data.suggestion);
+          setSubdomainError(SUBDOMAIN_TAKEN_ERROR);
         });
     }, 1000);
     
+    if (subdomain.match(WHITESPACE_REGEX)) {
+      setSubdomainError('No spaces allowed.');
+    } else {
+      setSubdomainError('');
+    }
+
     return () => clearTimeout(delayDebounceFn);
   }, [subdomain]);
-
-  useEffect(() => {
-    if (isSubdomainValid) {
-      setSubdomainError('');
-    } else {
-      setSubdomainError('That subdomain is taken. Please choose another one.');
-    }
-  }, [isSubdomainValid]);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -111,13 +116,13 @@ const CreateSite = (props) => {
                 <div className={styles.siteAndPath}>
                   <TextField type="text" className={styles.textField} value={subdomain} name="subdomain" 
                     onChange={e => setSubdomain(e.target.value)} placeholder="subdomain" variant="filled" size="small" 
-                    error={!isSubdomainValid} helperText={subdomainError} />.mostlink.io
+                    error={!isSubdomainValid || subdomainError} helperText={subdomainError} />.mostlink.io
                 </div>
-                {subdomain && subdomainError && <div onClick={() => setSubdomain(suggestion)} className={styles.suggestion}>How about {suggestion}?</div>}
+                {subdomain && subdomainError === SUBDOMAIN_TAKEN_ERROR && <div onClick={() => setSubdomain(suggestion)} className={styles.suggestion}>How about {suggestion}?</div>}
                 <button 
                   type="submit" 
                   className={styles.createButton} 
-                  disabled={!title || !subtitle || !subdomain || !isSubdomainValid}>
+                  disabled={!title || !subtitle || !subdomain || !isSubdomainValid || subdomainError}>
                                         Create
                 </button>
               </form>

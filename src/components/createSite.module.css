@@ -104,6 +104,10 @@ button:disabled {
   margin: 10px 0 35px !important;
 }
 
+.textField input {
+  color: white;
+}
+
 .suggestion {
   margin: 10px 20px;
   cursor: pointer;
