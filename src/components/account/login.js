@@ -78,7 +78,7 @@ const Login = () => {
           toast('Successfully logged in.', { type: 'success' });
         })
         .catch(err => {
-          toast(err, { type: 'error' });
+          toast(err.response.data.error, { type: 'error' });
         });
     } 
   };

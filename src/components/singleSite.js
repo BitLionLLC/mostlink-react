@@ -298,8 +298,9 @@ const SingleSite = () => {
         setIsEditing(false);
         fetchSite(match.params.id);
       })
-      .catch((e) => {
-        console.error('Error saving site: ' + e);
+      .catch((err) => {
+        toast(err.response.data.error, { type: 'error' });
+        console.error('Error saving site: ' + err);
       });
   };
 
@@ -388,7 +389,7 @@ const SingleSite = () => {
         setIsDomainAvailable(res.data.domain.isAvailable);
         setHasDomainBeenChecked(true);
       })
-      .catch(err => toast(err, { type: 'error' }));
+      .catch(err => toast(err.response.data.error, { type: 'error' }));
   };
 
   const registerDomain = () => {
@@ -404,7 +405,7 @@ const SingleSite = () => {
         setCurrentDomainCname(res.data.cname);
         fetchSiteDomains();
       })
-      .catch(err => toast(err, { type: 'error' }));
+      .catch(err => toast(err.response.data.error, { type: 'error' }));
   };
 
   const deleteDomain = () => {
@@ -719,7 +720,7 @@ const SingleSite = () => {
         history.push('/home');
       })
       .catch(err => {
-        toast(err, { type: 'error' });
+        toast(err.response.data.error, { type: 'error' });
       });
   };
 

@@ -78,7 +78,7 @@ const CreateSite = (props) => {
         fetchSites();
       })
       .catch(err => {
-        toast(err, { type: 'error' });
+        toast(err.response.data.error, { type: 'error' });
       });
   };
 

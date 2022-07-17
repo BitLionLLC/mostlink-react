@@ -91,7 +91,7 @@ const Account = () => {
 
   const { signOut } = useGoogleLogout({
     jsSrc: 'https://apis.google.com/js/api.js',
-    onFailure: (err) => toast(err, { type: 'error'}),
+    onFailure: (err) => toast(err.response.data.error, { type: 'error'}),
     clientId: '481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com',
     redirectUri: '/',
     onLogoutSuccess: () => {}
