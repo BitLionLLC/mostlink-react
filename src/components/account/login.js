@@ -47,6 +47,9 @@ const Login = () => {
         toast('Successfully logged in.', { type: 'success' });
       })
       .catch(err => {
+        if (err.response.data.error === 'Please verify your email.') {
+          history.push('/account/resend-verification');
+        }
         toast(err.response.data.error, { type: 'error'});
       });
   };
