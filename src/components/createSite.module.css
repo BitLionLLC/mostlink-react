@@ -135,3 +135,7 @@ button:disabled {
     height: 120vh;
   }
 }
+
+.useless {
+  margin: 0;
+}
