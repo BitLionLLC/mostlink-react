@@ -11,6 +11,7 @@ const Examples = () => {
 
   return (
     <div className={styles.examples} style={{ backgroundColor: themeObj.landingCardBackground }}>
+      <div id="examples" className={styles.anchor} />
       <h1>Examples</h1>
       <ul className={styles.exampleList}>
         <a href='https://example1.mostlink.dev' target="_blank" rel="noreferrer">

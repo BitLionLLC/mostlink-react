@@ -24,6 +24,7 @@ const Features = () => {
 
   return (
     <div className={styles.features} style={{ backgroundColor: themeObj.landingCardBackground }}>
+      <div id="features" className={styles.anchor} />
       <h1>Features</h1>
       <ul className={styles.featureList}>
         {FEATURES.map(feature => {

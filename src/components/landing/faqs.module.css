@@ -16,6 +16,14 @@
   text-align: center;
 }
 
+.anchor {
+  position: relative;
+  top: -200px;
+  display: block;
+  height: 0;
+  width: 0;
+}
+
 @media (max-width: 1050px) {
   .faqs {
     width: 90vw;
