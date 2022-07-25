@@ -123,6 +123,9 @@ const Header = () => {
         </Link>
       </div>
       <div className={styles.iconRow}>
+        <a href="/#features" className={styles.pricingLink} style={{ color: themeObj.color }}>Features</a>
+        <a href="/#examples" className={styles.pricingLink} style={{ color: themeObj.color }}>Examples</a>
+        <a href="/#faqs" className={styles.pricingLink} style={{ color: themeObj.color }}>FAQ's</a>
         <Link to="/pricing" className={styles.pricingLink} style={{ color: themeObj.color }}>Pricing</Link>
         <div className={styles.accountIcon} onClick={e => toggleAccountMenu(e)} style={{ right: jwtToken ? '15px' : '18px', color: jwtToken && themeObj.loggedInColor }}>
           <FontAwesomeIcon icon={jwtToken ? ['fas', 'user-check'] : ['fas', 'user']}/>
@@ -158,6 +161,9 @@ const Header = () => {
               {!jwtToken && <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo('/account/resend-verification')}>Verify email</li>}
               {!jwtToken && <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo('/account/login')}>Log in</li>}
               {jwtToken && <li onClick={onLogOut} style={{ color: 'white', background: themeObj.editTrayBackground, cursor: 'pointer' }}>Log out</li>}
+              <li style={{ background: themeObj.editTrayBackground }} onClick={() => setIsHamburgerMenuShown(false)}><a href="/#features" style={{color: 'white'}}>Features</a></li>
+              <li style={{ background: themeObj.editTrayBackground }} onClick={() => setIsHamburgerMenuShown(false)}><a href="/#examples" style={{color: 'white'}}>Examples</a></li>
+              <li style={{ background: themeObj.editTrayBackground }} onClick={() => setIsHamburgerMenuShown(false)}><a href="/#faqs" style={{color: 'white'}}>FAQ's</a></li>
               <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo('/pricing')}>Pricing</li>
               <li className={styles.feedback} onClick={() => routeTo('/feedback')}>Provide feedback (please!)</li>
               <li style={{ color: 'white', background: themeObj.editTrayBackground }} onClick={() => routeTo('/privacy-policy')}>Privacy Policy</li>

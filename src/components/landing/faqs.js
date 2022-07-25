@@ -19,6 +19,7 @@ const FAQs = () => {
 
   return (
     <div className={styles.faqs} style={{ backgroundColor: themeObj.landingCardBackground }}>
+      <div id="faqs" className={styles.anchor} />
       <h1>FAQ's</h1>
       <Accordion expanded={expandedAccordion === 'panel0'} onChange={handleAccordionChange('panel0')} className={styles.accordion}>
         <AccordionSummary
