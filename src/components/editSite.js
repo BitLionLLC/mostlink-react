@@ -88,13 +88,19 @@ const EditSite = () => {
       });
   };
 
+  const onEscKey = e => {
+    if (e.key === 'Escape') {
+      setIsEditModalOpen(false);
+    }
+  };
+
   return (
-    <div>
+    <div onKeyDown={onEscKey} tabIndex="0">
       { isEditModalOpen ?
-        <> 
+        <div> 
           <div className={styles.blocker} onClick={toggleModal}></div>
           <Portal container={createSiteModalRef.current}>
-            <div className={styles.editSiteModal}>
+            <div className={styles.editSiteModal} onKeyDown={onEscKey} tabIndex="0">
               <div className={styles.closeButton} onClick={toggleModal}>+</div>
               <h1>Edit site</h1>
               <form onSubmit={updateSite} className={styles.editSiteForm} onKeyDown={onKeyDown}>
@@ -115,7 +121,7 @@ const EditSite = () => {
               </form>
             </div>
           </Portal>
-        </>
+        </div>
         : null }
     </div>
   );
