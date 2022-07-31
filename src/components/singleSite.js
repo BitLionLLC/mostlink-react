@@ -907,6 +907,17 @@ const SingleSite = () => {
         }
     `;
 
+  const onEscKey = e => {
+    if (e.key === 'Escape') {
+      setIsPexelsModalShowing(false);
+      setIsGiphyModalShowing(false);
+      setIsDeleteModalShowing(false);
+      setIsCheckDomainModalShowing(false);
+      setIsRegisterDomainModalShowing(false);
+      setIsDeleteDomainModalShowing(false);
+    }
+  };
+
   return (
     <>
       {
@@ -916,7 +927,7 @@ const SingleSite = () => {
             <div className={styles.ldsCircle}><div></div></div>
           </div>
           :
-          <>
+          <div onKeyDown={onEscKey} tabIndex="0">
             <style children={isEditing ? keyFramesStartEditTray : keyFramesEndEditTray} />
             <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'edit-tray-move-right' : 'edit-tray-move-left'), animationDuration: '2s', backgroundColor: themeObj.editTrayBackground}}>
               <div className={styles.saveAndCancelButtons}>
@@ -1074,7 +1085,7 @@ const SingleSite = () => {
               </>
               : null
             }
-          </>
+          </div>
       }   
     </>
   );

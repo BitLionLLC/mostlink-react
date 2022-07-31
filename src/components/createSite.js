@@ -92,8 +92,14 @@ const CreateSite = (props) => {
     }
   };
 
+  const onEscKey = e => {
+    if (e.key === 'Escape') {
+      toggleModal();
+    }
+  };
+
   return (
-    <>
+    <div onKeyDown={onEscKey} tabIndex="0">
       <div 
         className={styles[props.className] || styles.createSite} 
         onClick={toggleModal} 
@@ -106,7 +112,7 @@ const CreateSite = (props) => {
         <> 
           <div className={styles.blocker} onClick={toggleModal}></div>
           <Portal container={createSiteModalRef.current}>
-            <div className={styles.createSiteModal}>
+            <div className={styles.createSiteModal} onKeyDown={onEscKey} tabIndex="0">
               <div className={styles.closeButton} onClick={toggleModal}>+</div>
               <h1>Create a site</h1>
               <form onSubmit={createSite} className={styles.createSiteForm} onKeyDown={onKeyDown}>
@@ -129,7 +135,7 @@ const CreateSite = (props) => {
           </Portal>
         </>
         : null }
-    </>
+    </div>
   );
 };
 

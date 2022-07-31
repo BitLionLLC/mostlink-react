@@ -69,6 +69,13 @@ const Account = () => {
     }
   };
 
+  const onEscKey = e => {
+    if (e.key === 'Escape') {
+      setIsDeleteModalShowing(false);
+      setIsChangePasswordModalShowing(false);
+    }
+  };
+
   const subscribeToPremium = () => {
     axios
       .post(`${process.env.REACT_APP_API_BASE}/api/payment/create-checkout-session`, {priceId: 'price_1L70lyKTiWhpJMC5zJmDcOWx'}, { withCredentials: true })
@@ -127,7 +134,7 @@ const Account = () => {
   };
 
   return (
-    <div className={styles.accountContainer}>
+    <div className={styles.accountContainer} onKeyDown={onEscKey} tabIndex="0">
       <div className={styles.account} style={{backgroundColor: themeObj.landingCardBackground}}>
         <h1>Account</h1>
         <h3>{email}</h3>

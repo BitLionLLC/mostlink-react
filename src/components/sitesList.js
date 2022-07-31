@@ -6,14 +6,20 @@ import styles from './sitesList.module.css';
 import MiniSite from './miniSite';
 
 const SitesList = () => {
-  const { sites, sitesLoading, fetchSites, themeObj, createSiteModalRef } = useContext(SitesContext);
+  const { sites, sitesLoading, fetchSites, themeObj, createSiteModalRef, setIsEditModalOpen } = useContext(SitesContext);
 
   useEffect(() => {
     fetchSites();
   }, []);
 
+  const onEscKey = e => {
+    if (e.key === 'Escape') {
+      setIsEditModalOpen(false);
+    }
+  };
+
   return (
-    <div className={styles.sitesContainer} ref={createSiteModalRef}>
+    <div className={styles.sitesContainer} ref={createSiteModalRef} onKeyDown={onEscKey} tabIndex="0">
       {
         sitesLoading
           ?
