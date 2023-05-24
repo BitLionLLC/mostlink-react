@@ -1,12 +1,12 @@
 import { createTheme } from '@mui/material/styles';
 
 export const lightTheme = {
-  bodyColor: 'white',
+  bodyColor: '#EEEEEE',
   color: '#001036',
   headerColor: 'lightblue',
   menuColor: 'lightgreen',
-  landingBackground: 'linear-gradient(to top, #e66465, lightblue)',
-  landingCardBackground: 'rgba(255, 255, 255, 0.3)',
+  landingBackground: 'black',
+  landingCardBackground: 'rgba(200, 200, 200, 0.3)',
   accentColor: 'blue',
   loggedInColor: 'green',
   sitesBoxColor: 'lightblue',
@@ -14,12 +14,12 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  bodyColor: '#222222',
+  bodyColor: '#111111',
   color: 'white',
-  headerColor: '#191970',
+  headerColor: 'midnightblue',
   menuColor: '#054A05',
-  landingBackground: 'linear-gradient(to top, darkred, midnightblue)',
-  landingCardBackground: 'rgba(34, 34, 34, 0.3)',
+  landingBackground: 'black',
+  landingCardBackground: 'rgba(34, 34, 34, 0.5)',
   accentColor: 'dodgerblue',
   loggedInColor: 'lightgreen',
   sitesBoxColor: 'midnightblue',
@@ -32,7 +32,7 @@ export const muiDarkTheme = createTheme({
   },
 });
 
-export const  muiLightTheme = createTheme({
+export const muiLightTheme = createTheme({
   palette: {
     mode: 'light',
   },
