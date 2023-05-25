@@ -23,15 +23,13 @@ const Landing = () => {
           <h1>A modern<br />link in bio</h1>
         </div>
 
-        <div className={styles.landingInnerWrapper}>
-          <div className={styles.landingInner}>
-            <div className={styles.landingBehind}>
-              <img src={waterGif} alt="flowing water" />
-            </div>
-            <div className={styles.landing} style={{ backgroundColor: themeObj.landingCardBackground }}>
-              <Link to="/account/register" style={{ color: themeObj.color }}><FontAwesomeIcon icon={['fas', 'plus-square']} size="3x" /></Link>
-              <h1><Link to="/account/register" style={{ color: themeObj.color }}>Register to start creating custom link pages.</Link></h1>
-            </div>
+        <div className={styles.landingInner}>
+          <div className={styles.landingBelow}>
+            <img src={waterGif} alt="flowing water" />
+          </div>
+          <div className={styles.landingAbove} style={{ backgroundColor: themeObj.landingCardBackground }}>
+            <Link to="/account/register" style={{ color: themeObj.color }}><FontAwesomeIcon icon={['fas', 'plus-square']} size="3x" /></Link>
+            <h1><Link to="/account/register" style={{ color: themeObj.color }}>Register to start creating custom link pages.</Link></h1>
           </div>
         </div>
       </div>
