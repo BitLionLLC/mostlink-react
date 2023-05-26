@@ -6,6 +6,8 @@ import Features from './features';
 import Examples from './examples';
 import FAQs from './faqs';
 import waterGif from '../../components/assets/water.gif';
+import waterStill from '../../components/assets/water-still.png';
+import { usePrefersReducedMotion } from '../../util/preferReducedMotion';
 
 import styles from './landing.module.css';
 
@@ -16,6 +18,8 @@ const Landing = () => {
     document.body.style.backgroundImage = themeObj.landingBackground;
   }, [theme]);
 
+  const reducedMotion = usePrefersReducedMotion();
+
   return (
     <div className={styles.landingContainer}>
       <div className={styles.titlesContainer}>
@@ -25,7 +29,7 @@ const Landing = () => {
 
         <div className={styles.landingInner}>
           <div className={styles.landingBelow}>
-            <img src={waterGif} alt="flowing water" />
+            <img src={reducedMotion ? waterStill : waterGif} alt="flowing water" />
           </div>
           <div className={styles.landingAbove} style={{ backgroundColor: themeObj.landingCardBackground }}>
             <Link to="/account/register" style={{ color: themeObj.color }}><FontAwesomeIcon icon={['fas', 'plus-square']} size="3x" /></Link>
