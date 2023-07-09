@@ -1,5 +1,5 @@
 .faqs {
-  width: 1000px;
+  width: 75vw;
   margin: 100px 0 0;
   padding: 50px;
   border-radius: 20px;
@@ -14,6 +14,7 @@
 
 .faqs h1 {
   text-align: center;
+  font-size: 50px;
 }
 
 .anchor {

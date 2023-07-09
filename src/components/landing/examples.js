@@ -16,21 +16,20 @@ const Examples = () => {
       <ul className={styles.exampleList}>
         <a href='https://example1.mostlink.dev' target="_blank" rel="noreferrer">
           <li className={styles.example}>
-            <img src={example1} alt='example1'/>
+            <img src={example1} alt='example1' />
           </li>
         </a>
         <a href='https://example2.mostlink.dev' target="_blank" rel="noreferrer">
           <li className={styles.example}>
-            <img src={example2} alt='example2'/>
+            <img src={example2} alt='example2' />
           </li>
         </a>
         <a href='https://example3.mostlink.dev' target="_blank" rel="noreferrer">
           <li className={styles.example}>
-            <img src={example3} alt='example3'/>
+            <img src={example3} alt='example3' />
           </li>
         </a>
       </ul>
-            
     </div>
   );
 };
