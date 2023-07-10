@@ -686,7 +686,7 @@ const SingleSite = () => {
               process.env.REACT_APP_ENVIRONMENT === 'production' || process.env.REACT_APP_ENVIRONMENT === 'development'
                 ?
                 <>
-                  <a href={`https://${site.subdomain}.${process.env.REACT_APP_HOSTED_BASE}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">https://{site.subdomain}.{process.env.REACT_APP_HOSTED_BASE}</a>
+                  <a href={`https://www.${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">https://www.{process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}</a>
                   <br/>
                   <a href={`https://www.${process.env.REACT_APP_HOSTED_BASE_SHORT}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">https://www.{process.env.REACT_APP_HOSTED_BASE_SHORT}/{site.subdomain}</a>
                 </>
