@@ -29,7 +29,7 @@ const PrivacyPolicy = () => {
             <p><strong>Business</strong>, for the purpose of the CCPA (California Consumer Privacy Act), refers to the Company as the legal entity that collects Consumers' personal information and determines the purposes and means of the processing of Consumers' personal information, or on behalf of which such information is collected and that alone, or jointly with others, determines the purposes and means of the processing of consumers' personal information, that does business in the State of California.</p>
           </li>
           <li>
-            <p><strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to BitLion, LLC, 2058 Maple Ave, Apt D1-4, Hatfield PA 19440.</p>
+            <p><strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to BitLion, LLC (dba Wonder Development), 2058 Maple Ave, Apt D1-4, Hatfield PA 19440.</p>
             <p>For the purpose of the GDPR, the Company is the Data Controller.</p>
           </li>
           <li>
