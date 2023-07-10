@@ -58,7 +58,7 @@ const FAQs = () => {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>How do I set up an CNAME record with my registrar for custom domains?</Typography>
+          <Typography>How do I set up a CNAME record with my registrar for custom domains?</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>Here are some links for popular registrars to get you started:</Typography>
