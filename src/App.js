@@ -38,58 +38,88 @@ function App() {
     <ThemeProvider theme={theme === "light" ? muiLightTheme : muiDarkTheme}>
       <ToastContainer position="top-right" autoClose={5000} />
       <Router>
-        <Header />
-        <Footer />
         <Route path="/" exact>
           <Landing />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/home">
           <Home />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/site/:id">
           <SingleSite />
         </Route>
         <Route path="/account" exact>
           <Account />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/account/register">
           <Register />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/account/login">
           <Login />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/account/reset-password/:token/:userId">
           <ResetPassword />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/account/forgot-password">
           <ForgotPassword />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/account/please-verify">
           <PleaseVerify />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/account/verify-email/:hash/:userId">
           <VerifyEmail />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/account/resend-verification">
           <ResendVerification />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/payment/success">
           <PaymentSuccess />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/payment/canceled">
           <PaymentCanceled />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/pricing">
           <Pricing />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/privacy-policy">
           <PrivacyPolicy />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/terms-and-conditions">
           <TermsAndConditions />
+          <Header />
+          <Footer />
         </Route>
         <Route path="/feedback">
           <Feedback />
+          <Header />
+          <Footer />
         </Route>
       </Router>
     </ThemeProvider>
