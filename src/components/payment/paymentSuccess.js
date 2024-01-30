@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from 'react';
-import axios from 'axios';
-import { SitesContext } from '../../contexts/sitesContext';
-import { toast } from 'react-toastify';
+import React, { useEffect, useContext } from "react";
+import axios from "axios";
+import { SitesContext } from "../../contexts/sitesContext";
+import { toast } from "react-toastify";
 
-import styles from './paymentSuccess.module.css';
+import styles from "./paymentSuccess.module.css";
 
 const PaymentSuccess = () => {
   const { setIsSubscribed, theme, themeObj } = useContext(SitesContext);
@@ -16,7 +16,7 @@ const PaymentSuccess = () => {
     axios
       .get(`${process.env.REACT_APP_API_BASE}/api/users`, { withCredentials: true })
       .then(res => setIsSubscribed(res.data.isSubscribed))
-      .catch(err => toast('Could not retrieve your subscription status.', { type: 'error' }));
+      .catch(err => toast("Could not retrieve your subscription status.", { type: "error" }));
   }, []);
 
   const createPortalSession = () => {

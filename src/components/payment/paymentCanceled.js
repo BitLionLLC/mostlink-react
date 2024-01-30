@@ -1,7 +1,7 @@
-import React , { useContext, useEffect} from 'react';
-import { SitesContext } from '../../contexts/sitesContext';
+import React , { useContext, useEffect} from "react";
+import { SitesContext } from "../../contexts/sitesContext";
 
-import styles from './paymentCanceled.module.css';
+import styles from "./paymentCanceled.module.css";
 
 const PaymentCanceled = () => {
   const { theme, themeObj } = useContext(SitesContext);

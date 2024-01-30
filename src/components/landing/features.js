@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
-import { SitesContext } from '../../contexts/sitesContext';
-import FEATURES from '../../constants/features';
-import animatedGifs from '../assets/features/animated-gifs.gif';
-import backgroundAnimations from '../assets/features/background-animations.gif';
-import backgroundImages from '../assets/features/background-images.png';
-import gradients from '../assets/features/gradients.png';
-import linkHoverEffect from '../assets/features/link-hover-effect.gif';
-import liveNotifications from '../assets/features/live-notifications.png';
+import React, { useContext } from "react";
+import { SitesContext } from "../../contexts/sitesContext";
+import FEATURES from "../../constants/features";
+import animatedGifs from "../assets/features/animated-gifs.gif";
+import backgroundAnimations from "../assets/features/background-animations.gif";
+import backgroundImages from "../assets/features/background-images.png";
+import gradients from "../assets/features/gradients.png";
+import linkHoverEffect from "../assets/features/link-hover-effect.gif";
+import liveNotifications from "../assets/features/live-notifications.png";
 
-import styles from './features.module.css';
+import styles from "./features.module.css";
 
 const imageSources = {
-  'animated-gifs.gif': animatedGifs,
-  'background-animations.gif': backgroundAnimations,
-  'background-images.png': backgroundImages,
-  'gradients.png': gradients,
-  'link-hover-effect.gif': linkHoverEffect,
-  'live-notifications.png': liveNotifications
+  "animated-gifs.gif": animatedGifs,
+  "background-animations.gif": backgroundAnimations,
+  "background-images.png": backgroundImages,
+  "gradients.png": gradients,
+  "link-hover-effect.gif": linkHoverEffect,
+  "live-notifications.png": liveNotifications
 };
 
 const Features = () => {

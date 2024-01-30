@@ -1,18 +1,18 @@
-import React, { useRef } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import React, { useRef } from "react";
+import { useDrag, useDrop } from "react-dnd";
 
-import styles from './gradientColorBox.module.css';
+import styles from "./gradientColorBox.module.css";
 
 const style = {
-  border: '1px dashed gray',
-  padding: '5px',
-  margin: '2px',
-  backgroundColor: 'midnightblue',
-  cursor: 'move',
+  border: "1px dashed gray",
+  padding: "5px",
+  margin: "2px",
+  backgroundColor: "midnightblue",
+  cursor: "move",
 };
 
 const ItemTypes = {
-  BOX: 'box'
+  BOX: "box"
 };
 
 const GradientColorBox = ({ color, index, setIsEditingColor, setColorToEdit, setEditColorResult, removeColor, moveBox, id }) => {

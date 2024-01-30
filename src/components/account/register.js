@@ -1,42 +1,42 @@
-import axios from 'axios';
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import ReactTooltip from 'react-tooltip';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SitesContext } from '../../contexts/sitesContext';
-import { toast } from 'react-toastify';
-import GoogleLogin from 'react-google-login';
-import TextField from '@mui/material/TextField';
+import axios from "axios";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SitesContext } from "../../contexts/sitesContext";
+import { toast } from "react-toastify";
+import GoogleLogin from "react-google-login";
+import TextField from "@mui/material/TextField";
 
-import styles from './register.module.css';
+import styles from "./register.module.css";
 
 const Register = () => {
   const history = useHistory();
   const { setJwtToken, setUserId, setIsSubscribed, themeObj, theme } = useContext(SitesContext);
 
-  const [firstName, setFirstName] = useState('');
-  const [firstNameError, setFirstNameError] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
 
-  const [lastName, setLastName] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
+  const [lastName, setLastName] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
 
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
 
-  const [username, setUsername] = useState('');
-  const [usernameError, setUsernameError] = useState('');
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState("");
 
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [isPasswordShowing, setIsPasswordShowing] = useState(false);
-  const [passwordError, setPasswordError] = useState('');
+  const [passwordError, setPasswordError] = useState("");
 
-  const [passwordAgain, setPasswordAgain] = useState('');
+  const [passwordAgain, setPasswordAgain] = useState("");
   const [isPasswordAgainShowing, setIsPasswordAgainShowing] = useState(false);
-  const [passwordAgainError, setPasswordAgainError] = useState('');
+  const [passwordAgainError, setPasswordAgainError] = useState("");
 
-  const PASSWORD_REGEX = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$';
-  const PASSWORD_ERROR = 'This password does not meet the requirements.';
-  const REQUIRED_FIELD_ERROR = 'This field is required.';
+  const PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$";
+  const PASSWORD_ERROR = "This password does not meet the requirements.";
+  const REQUIRED_FIELD_ERROR = "This field is required.";
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
@@ -46,8 +46,8 @@ const Register = () => {
     const delayDebounceFn = setTimeout(() => {
       email && axios
         .get(`${process.env.REACT_APP_API_BASE}/api/users/register/check-email/${email}`)
-        .then(() => setEmailError(''))
-        .catch(() => setEmailError('This email is already in use.'));
+        .then(() => setEmailError(""))
+        .catch(() => setEmailError("This email is already in use."));
     }, 2000);
     
     return () => clearTimeout(delayDebounceFn);
@@ -57,8 +57,8 @@ const Register = () => {
     const delayDebounceFn = setTimeout(() => {
       username && axios
         .get(`${process.env.REACT_APP_API_BASE}/api/users/register/check-username/${username}`)
-        .then(() => setUsernameError(''))
-        .catch(() => setUsernameError('That username is already in use. Please try another one.'));
+        .then(() => setUsernameError(""))
+        .catch(() => setUsernameError("That username is already in use. Please try another one."));
     }, 2000);
     
     return () => clearTimeout(delayDebounceFn);
@@ -70,10 +70,10 @@ const Register = () => {
     } else if (passwordAgain && !passwordAgain.match(PASSWORD_REGEX)) {
       setPasswordAgainError(PASSWORD_ERROR);
     } else if (password && passwordAgain && !(password === passwordAgain)) {
-      setPasswordAgainError('These passwords don\'t match.');
+      setPasswordAgainError("These passwords don't match.");
     } else {
-      setPasswordError('');
-      setPasswordAgainError('');
+      setPasswordError("");
+      setPasswordAgainError("");
     }
   }, [password, passwordAgain]);
 
@@ -90,11 +90,11 @@ const Register = () => {
         }, { withCredentials: true })
         .then(res => {
           setUserId(res.data.id);
-          history.push('/account/please-verify');
-          toast('Registered successfully. Please verify your email.', { type: 'success' });
+          history.push("/account/please-verify");
+          toast("Registered successfully. Please verify your email.", { type: "success" });
         })
         .catch(err => {
-          toast('A user with that username already exists. Please log in.', { type: 'error' });
+          toast("A user with that username already exists. Please log in.", { type: "error" });
         });
     } else {
       if (!firstName) {setFirstNameError(REQUIRED_FIELD_ERROR);}
@@ -107,7 +107,7 @@ const Register = () => {
   };
 
   const onKeyDown = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onSubmit(e);
     }
   };
@@ -128,11 +128,11 @@ const Register = () => {
         .then(res => {
           setJwtToken(res.data.token);
           setUserId(res.data.id);
-          history.push('/home');
-          toast('Registered successfully.', { type: 'success' });
+          history.push("/home");
+          toast("Registered successfully.", { type: "success" });
         })
         .catch(err => {
-          toast('A user with that username already exists. Please log in.', { type: 'error' });
+          toast("A user with that username already exists. Please log in.", { type: "error" });
         });
     }
   };
@@ -140,14 +140,14 @@ const Register = () => {
   const failureGoogle = (failure) => console.log(failure);
 
   const onCancel = () => {
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setUsername('');
-    setPassword('');
-    setPasswordAgain('');
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setUsername("");
+    setPassword("");
+    setPasswordAgain("");
         
-    history.push('/');
+    history.push("/");
   };
 
   return (
@@ -175,7 +175,7 @@ const Register = () => {
 
           <label htmlFor="email">Email address* (must be verified)</label>
           <TextField type="text" value={email} onChange={e => setEmail(e.target.value)} id="email" variant="filled" size="small" className={styles.textField} error={!!emailError} helperText={emailError} />
-          { emailError && emailError === 'This email is already in use.' && <div className={styles.errorText}>{<span>Would you like to <Link to="/account/login">log in</Link> instead?</span>}</div> }
+          { emailError && emailError === "This email is already in use." && <div className={styles.errorText}>{<span>Would you like to <Link to="/account/login">log in</Link> instead?</span>}</div> }
                     
           <label htmlFor="username">Username*</label>
           <TextField type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" variant="filled" size="small" className={styles.textField} error={!!usernameError} helperText={usernameError} />
@@ -186,8 +186,8 @@ const Register = () => {
             <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
           </div>
           <div className={styles.passwordAndEyeIcon}>
-            <TextField type={ isPasswordShowing ? 'text' : 'password' } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
-            <FontAwesomeIcon color="black" icon={isPasswordShowing ? ['fas', 'eye'] : ['fas', 'eye-slash']} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
+            <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
+            <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
           </div>
                     
           <div className={styles.passwordAndTooltip}>
@@ -196,8 +196,8 @@ const Register = () => {
             <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
           </div>
           <div className={styles.passwordAndEyeIcon}>
-            <TextField type={ isPasswordAgainShowing ? 'text' : 'password' } value={passwordAgain} onChange={e => setPasswordAgain(e.target.value)} id="passwordAgain" variant="filled" size="small" className={styles.textField} error={!!passwordAgainError} helperText={passwordAgainError} />
-            <FontAwesomeIcon color="black" icon={isPasswordAgainShowing ? ['fas', 'eye'] : ['fas', 'eye-slash']} onClick={() => setIsPasswordAgainShowing(!isPasswordAgainShowing)} className={styles.eyeIcon} />
+            <TextField type={ isPasswordAgainShowing ? "text" : "password" } value={passwordAgain} onChange={e => setPasswordAgain(e.target.value)} id="passwordAgain" variant="filled" size="small" className={styles.textField} error={!!passwordAgainError} helperText={passwordAgainError} />
+            <FontAwesomeIcon color="black" icon={isPasswordAgainShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordAgainShowing(!isPasswordAgainShowing)} className={styles.eyeIcon} />
           </div>
                     
           <div>*required field</div>

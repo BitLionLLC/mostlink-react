@@ -1,67 +1,67 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
-import { SitesContext } from '../contexts/sitesContext';
-import toHex from 'colornames';
-import { HexColorPicker } from 'react-colorful';
-import update from 'immutability-helper';
-import GradientColorBox from './gradientColorBox';
-import { MenuItem, Select, Checkbox, TextField } from '@mui/material';
-import { muiDarkTheme, muiLightTheme } from '../constants/themes';
+import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
+import { SitesContext } from "../contexts/sitesContext";
+import toHex from "colornames";
+import { HexColorPicker } from "react-colorful";
+import update from "immutability-helper";
+import GradientColorBox from "./gradientColorBox";
+import { MenuItem, Select, Checkbox, TextField } from "@mui/material";
+import { muiDarkTheme, muiLightTheme } from "../constants/themes";
 
-import styles from './gradientPicker.module.css';
+import styles from "./gradientPicker.module.css";
 
 const GRADIENT_PRESETS = {
-  'rainbow': ['#F41414', '#ED9909', '#FFEF1F', '#12CC3B', '#1E90FF', '#D633D5'],
-  'sunset': ['#1C85F2', '#EFB710'],
-  'warm': ['#F41414', '#ED9909', '#FFEF1F'],
-  'cool': ['#389CFF', '#5E23B0'],
-  'neon': ['#1E90FF', '#DD0BAF']
+  "rainbow": ["#F41414", "#ED9909", "#FFEF1F", "#12CC3B", "#1E90FF", "#D633D5"],
+  "sunset": ["#1C85F2", "#EFB710"],
+  "warm": ["#F41414", "#ED9909", "#FFEF1F"],
+  "cool": ["#389CFF", "#5E23B0"],
+  "neon": ["#1E90FF", "#DD0BAF"]
 };
 
 const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
   const { themeObj, theme } = useContext(SitesContext);
 
   const [useGradient, setUseGradient] = useState(false);
-  const [gradientType, setGradientType] = useState('linear');
+  const [gradientType, setGradientType] = useState("linear");
   const [conicAngle, setConicAngle] = useState(0);
-  const [gradientArr, setGradientArr] = useState(['#e66465', '#9198e5']);
-  const [colorBoxArr, setColorBoxArr] = useState(['#e66465', '#9198e5']);
-  const [gradientStr, setGradientStr] = useState('');
-  const [linearDirection, setLinearDirection] = useState('to top');
+  const [gradientArr, setGradientArr] = useState(["#e66465", "#9198e5"]);
+  const [colorBoxArr, setColorBoxArr] = useState(["#e66465", "#9198e5"]);
+  const [gradientStr, setGradientStr] = useState("");
+  const [linearDirection, setLinearDirection] = useState("to top");
   const [isEditingColor, setIsEditingColor] = useState(false);
   const [isColorSet, setIsColorSet] = useState(true);
   const [colorToEdit, setColorToEdit] = useState(0);
-  const [editColorResult, setEditColorResult] = useState('#1E90FF');
+  const [editColorResult, setEditColorResult] = useState("#1E90FF");
   const editColorRef = useRef(editColorResult);
-  const [selectedPreset, setSelectedPreset] = useState('custom');
+  const [selectedPreset, setSelectedPreset] = useState("custom");
   const [containerAlphaPercent, setContainerAlphaPercent] = useState(100);
 
-  const HEX_COLOR_REGEX_SHORT = '^#(?:[0-9a-fA-F]{3}){1}$';
-  const HEX_COLOR_REGEX_LONG = '^#(?:[0-9a-fA-F]{2}){3,4}$';
+  const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
+  const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
 
   useEffect(() => {
     if (value && isColorSet) {
       setUseGradient(!!value);
-      const passedType = value?.split('(')[0]?.split('-')[0];
-      const passedAngle = value?.includes('conic') ? Number(value?.split('from ')[1]?.split('deg')[0]) : 0;
-      const passedDirection = value?.includes('linear') ? value?.split('linear-gradient(')[1]?.split(',')[0] : '';
-      const passedArr = value && value?.split(')')[0]?.split('-gradient(')[1]?.split(',')?.map(str => str.trim())?.filter(str => str.startsWith('#'));
+      const passedType = value?.split("(")[0]?.split("-")[0];
+      const passedAngle = value?.includes("conic") ? Number(value?.split("from ")[1]?.split("deg")[0]) : 0;
+      const passedDirection = value?.includes("linear") ? value?.split("linear-gradient(")[1]?.split(",")[0] : "";
+      const passedArr = value && value?.split(")")[0]?.split("-gradient(")[1]?.split(",")?.map(str => str.trim())?.filter(str => str.startsWith("#"));
       setGradientType(passedType);
       setGradientArr(passedArr);
       setColorBoxArr(passedArr);
       setConicAngle(passedAngle || 0);
       setGradientStr(value);
-      setLinearDirection(passedDirection || 'to top');
+      setLinearDirection(passedDirection || "to top");
     }
   }, [value, isColorSet]);
 
   useEffect(() => {
     if (useGradient) {
-      const angleStr = gradientType === 'conic' ? `from ${conicAngle}deg,` : '';
-      const directionStr = gradientType === 'linear' ? linearDirection +',' : '';
-      const joinedColors = colorBoxArr.join(', ');
+      const angleStr = gradientType === "conic" ? `from ${conicAngle}deg,` : "";
+      const directionStr = gradientType === "linear" ? linearDirection +"," : "";
+      const joinedColors = colorBoxArr.join(", ");
       setGradientStr(`${gradientType}-gradient(${directionStr || angleStr} ${joinedColors})`);
     } else {
-      setGradientStr('');
+      setGradientStr("");
     }
   }, [gradientType, conicAngle, colorBoxArr, linearDirection, useGradient]);
 
@@ -70,7 +70,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
   }, [gradientStr]);
 
   useEffect(() => {
-    setColorBoxArr(selectedPreset && selectedPreset !== 'custom' ?  GRADIENT_PRESETS[selectedPreset] : gradientArr);
+    setColorBoxArr(selectedPreset && selectedPreset !== "custom" ?  GRADIENT_PRESETS[selectedPreset] : gradientArr);
   }, [selectedPreset, gradientArr]);
 
   useEffect(() => {
@@ -87,20 +87,20 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
         
     if (alpha <= 100) {
       let alphaHex = (parseInt((alpha)/100*255, 10)).toString(16);
-      if (alphaHex.length === 1) {alphaHex = '0' + alphaHex;}
+      if (alphaHex.length === 1) {alphaHex = "0" + alphaHex;}
       const color = gradientArr[colorToEdit]?.slice(0, 7) + alphaHex;
       editColor(color);
     } else {
       setContainerAlphaPercent(100);
-      const color = gradientArr[colorToEdit]?.slice(0, 7) + 'FF';
+      const color = gradientArr[colorToEdit]?.slice(0, 7) + "FF";
       editColor(color);
     }
   }, [containerAlphaPercent]);
 
   useEffect(() => {
-    if (place === 'container' && gradientArr[colorToEdit].length === 7) {
+    if (place === "container" && gradientArr[colorToEdit].length === 7) {
       setContainerAlphaPercent(100);
-    } else if (place === 'container' && gradientArr[colorToEdit].length === 9) {
+    } else if (place === "container" && gradientArr[colorToEdit].length === 9) {
       const alphaPercent = Math.round(parseInt(gradientArr[colorToEdit].slice(7), 16)/255*100);
       setContainerAlphaPercent(alphaPercent);
     }
@@ -118,7 +118,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
 
   const addColor = () => {
     const currentColors = gradientArr.slice();
-    currentColors.push('#1E90FF');
+    currentColors.push("#1E90FF");
     setGradientArr(currentColors);
   };
 
@@ -132,7 +132,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
     let newColor;
     if (color?.match(HEX_COLOR_REGEX_SHORT) || color?.match(HEX_COLOR_REGEX_LONG)) {
       let alphaHex = (parseInt((+containerAlphaPercent)/100*255, 10)).toString(16);
-      if (alphaHex.length === 1) {alphaHex = '0' + alphaHex;}
+      if (alphaHex.length === 1) {alphaHex = "0" + alphaHex;}
       newColor = color.slice(0,7)+ alphaHex;
     } else {
       newColor = color;
@@ -168,15 +168,15 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
       const { current } = ref;
 
       if (!(current.match(HEX_COLOR_REGEX_SHORT)) && !(current.match(HEX_COLOR_REGEX_LONG)) ) {
-        setterCallback('#000000');
-        ref.current = '#000000';
+        setterCallback("#000000");
+        ref.current = "#000000";
       }
     }, 5000);
   };
 
   const copyPresetToCustom = () => {
     setGradientArr(GRADIENT_PRESETS[selectedPreset]);
-    setSelectedPreset('custom');
+    setSelectedPreset("custom");
   };
 
   const moveBox = useCallback((dragIndex, hoverIndex) => {
@@ -202,13 +202,13 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
             </div>
                         
             {
-              place === 'container' && 
+              place === "container" && 
                             <div className={styles.row}>
                                 Alpha %
                               <TextField type="text" value={containerAlphaPercent} onChange={e => setContainerAlphaPercent(e.target.value)} className={styles.textField} variant="filled" size="small" />
                             </div>
             }
-            {place === 'container' && editColorResult.length === 9 && +containerAlphaPercent < 100 && !isContainerTransparent && <div>If you want transparency, please check the checkbox above for container color (called 'Transparent?')</div>}
+            {place === "container" && editColorResult.length === 9 && +containerAlphaPercent < 100 && !isContainerTransparent && <div>If you want transparency, please check the checkbox above for container color (called 'Transparent?')</div>}
           </>
           :
           <>
@@ -225,7 +225,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
               </Select>
             </div>
             {
-              gradientType === 'linear' 
+              gradientType === "linear" 
                 ?
                 <div className={styles.row}>
                   <label htmlFor='linearDirection'>Direction</label>
@@ -244,7 +244,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
                 null
             }
             {
-              gradientType === 'conic' 
+              gradientType === "conic" 
                 ?
                 <div className={styles.row}>
                   <label htmlFor='conicAngle'>Angle</label>
@@ -289,7 +289,7 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
                 <MenuItem value='cool'>Cool</MenuItem>
                 <MenuItem value='neon'>Neon</MenuItem>
               </Select>
-              {selectedPreset && selectedPreset !== 'custom' && <button onClick={copyPresetToCustom} className={styles.copyButton}>Copy preset to custom</button>}
+              {selectedPreset && selectedPreset !== "custom" && <button onClick={copyPresetToCustom} className={styles.copyButton}>Copy preset to custom</button>}
             </div>
           </>
       }

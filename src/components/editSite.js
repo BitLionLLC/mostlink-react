@@ -1,24 +1,24 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { SitesContext } from '../contexts/sitesContext';
-import { Portal } from '@mui/material';
-import { toast } from 'react-toastify';
-import TextField from '@mui/material/TextField';
-import axios from 'axios';
+import React, { useState, useContext, useEffect } from "react";
+import { SitesContext } from "../contexts/sitesContext";
+import { Portal } from "@mui/material";
+import { toast } from "react-toastify";
+import TextField from "@mui/material/TextField";
+import axios from "axios";
 
-import styles from './editSite.module.css';
+import styles from "./editSite.module.css";
 
 const EditSite = () => {
   const { fetchSites, createSiteModalRef, isEditModalOpen, setIsEditModalOpen, editModalOpenedWith } = useContext(SitesContext);
 
-  const [title, setTitle] = useState(editModalOpenedWith.title || '');
-  const [subtitle, setSubtitle] = useState(editModalOpenedWith.subtitle || '');
-  const [subdomain, setSubdomain] = useState(editModalOpenedWith.subdomain || '');
-  const [subdomainError, setSubdomainError] = useState('');
+  const [title, setTitle] = useState(editModalOpenedWith.title || "");
+  const [subtitle, setSubtitle] = useState(editModalOpenedWith.subtitle || "");
+  const [subdomain, setSubdomain] = useState(editModalOpenedWith.subdomain || "");
+  const [subdomainError, setSubdomainError] = useState("");
   const [isSubdomainValid, setIsSubdomainValid] = useState(true);
-  const [suggestion, setSuggestion] = useState('');
+  const [suggestion, setSuggestion] = useState("");
 
   const WHITESPACE_REGEX = /\s/;
-  const SUBDOMAIN_TAKEN_ERROR = 'That subdomain is taken. Please choose another one.';
+  const SUBDOMAIN_TAKEN_ERROR = "That subdomain is taken. Please choose another one.";
 
   useEffect(() => {
     if (!subdomain) {
@@ -30,7 +30,7 @@ const EditSite = () => {
         .get(`${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`, { withCredentials: true })
         .then(() => {
           setIsSubdomainValid(true);
-          setSubdomainError('');
+          setSubdomainError("");
         })
         .catch(err => {
           setIsSubdomainValid(false);
@@ -40,9 +40,9 @@ const EditSite = () => {
     }, 1000);
     
     if (subdomain?.match(WHITESPACE_REGEX)) {
-      setSubdomainError('No spaces allowed.');
+      setSubdomainError("No spaces allowed.");
     } else {
-      setSubdomainError('');
+      setSubdomainError("");
     }
 
     return () => clearTimeout(delayDebounceFn);
@@ -50,9 +50,9 @@ const EditSite = () => {
 
   useEffect(() => {
     if (Object.keys(editModalOpenedWith).length) {
-      setTitle(editModalOpenedWith.title || '');
-      setSubtitle(editModalOpenedWith.subtitle || '');
-      setSubdomain(editModalOpenedWith.subdomain || '');
+      setTitle(editModalOpenedWith.title || "");
+      setSubtitle(editModalOpenedWith.subtitle || "");
+      setSubdomain(editModalOpenedWith.subdomain || "");
     }
   }, [editModalOpenedWith]);
 
@@ -61,7 +61,7 @@ const EditSite = () => {
   };
 
   const onKeyDown = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       updateSite(e);
     }
   };
@@ -77,19 +77,19 @@ const EditSite = () => {
       }, { withCredentials: true })
       .then(() => {
         setIsEditModalOpen(false);
-        toast('Site updated!', { type: 'success' });
-        setTitle('');
-        setSubtitle('');
-        setSubdomain('');
+        toast("Site updated!", { type: "success" });
+        setTitle("");
+        setSubtitle("");
+        setSubdomain("");
         fetchSites();
       })
       .catch(err => {
-        toast(err.response.data.error, { type: 'error' });
+        toast(err.response.data.error, { type: "error" });
       });
   };
 
   const onEscKey = e => {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       setIsEditModalOpen(false);
     }
   };

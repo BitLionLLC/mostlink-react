@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useGoogleLogout } from 'react-google-login';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ReactTooltip from 'react-tooltip';
-import { TextField } from '@mui/material';
-import { SitesContext } from '../../contexts/sitesContext';
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useGoogleLogout } from "react-google-login";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactTooltip from "react-tooltip";
+import { TextField } from "@mui/material";
+import { SitesContext } from "../../contexts/sitesContext";
 
-import styles from './account.module.css';
+import styles from "./account.module.css";
 
 const Account = () => {
   const { themeObj, theme, isSubscribed, setJwtToken, setUserId, withGoogle, email } = useContext(SitesContext);
@@ -17,20 +17,20 @@ const Account = () => {
 
   const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false);
   const [isChangePasswordModalShowing, setIsChangePasswordModalShowing] = useState(false);
-  const [oldPassword, setOldPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState("");
   const [isOldPasswordShowing, setIsOldPasswordShowing] = useState(false);
-  const [oldPasswordError, setOldPasswordError] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [oldPasswordError, setOldPasswordError] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [isNewPasswordShowing, setIsNewPasswordShowing] = useState(false);
-  const [newPasswordError, setNewPasswordError] = useState('');
-  const [password, setPassword] = useState('');
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [password, setPassword] = useState("");
   const [isPasswordShowing, setIsPasswordShowing] = useState(false);
-  const [passwordError, setPasswordError] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
+  const [passwordError, setPasswordError] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
 
-  const PASSWORD_REGEX = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$';
-  const PASSWORD_ERROR = 'This password does not meet the requirements.';
-  const SAME_PASSWORD_ERROR = 'You cannot use the same password for your new one.';
+  const PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$";
+  const PASSWORD_ERROR = "This password does not meet the requirements.";
+  const SAME_PASSWORD_ERROR = "You cannot use the same password for your new one.";
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
@@ -44,8 +44,8 @@ const Account = () => {
     } else if (newPassword && !newPassword.match(PASSWORD_REGEX)) {
       setNewPasswordError(PASSWORD_ERROR);
     } else {
-      setOldPasswordError('');
-      setNewPasswordError('');
+      setOldPasswordError("");
+      setNewPasswordError("");
     }
   }, [oldPassword, newPassword]);
 
@@ -53,24 +53,24 @@ const Account = () => {
     if (password && !password.match(PASSWORD_REGEX)) {
       setPasswordError(PASSWORD_ERROR);
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
   }, [password]);
 
   const onKeyDownDelete = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       deleteAccount();
     }
   };
 
   const onKeyDownChangePassword = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       changePassword();
     }
   };
 
   const onEscKey = e => {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       setIsDeleteModalShowing(false);
       setIsChangePasswordModalShowing(false);
     }
@@ -78,7 +78,7 @@ const Account = () => {
 
   const subscribeToPremium = () => {
     axios
-      .post(`${process.env.REACT_APP_API_BASE}/api/payment/create-checkout-session`, {priceId: 'price_1L70lyKTiWhpJMC5zJmDcOWx'}, { withCredentials: true })
+      .post(`${process.env.REACT_APP_API_BASE}/api/payment/create-checkout-session`, {priceId: "price_1L70lyKTiWhpJMC5zJmDcOWx"}, { withCredentials: true })
       .then((res) => {
         window.location.href = res.data.redirect;
       })
@@ -92,15 +92,15 @@ const Account = () => {
         window.location.href = res.data.redirect;
       })
       .catch(err => {
-        toast('Could not create portal session. Please subscribe first.', { type: 'error' });
+        toast("Could not create portal session. Please subscribe first.", { type: "error" });
       });
   };
 
   const { signOut } = useGoogleLogout({
-    jsSrc: 'https://apis.google.com/js/api.js',
-    onFailure: (err) => toast(err.response.data.error, { type: 'error'}),
-    clientId: '481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com',
-    redirectUri: '/',
+    jsSrc: "https://apis.google.com/js/api.js",
+    onFailure: (err) => toast(err.response.data.error, { type: "error"}),
+    clientId: "481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com",
+    redirectUri: "/",
     onLogoutSuccess: () => {}
   });
 
@@ -112,13 +112,13 @@ const Account = () => {
       .then(res => {
         setJwtToken(null);
         setUserId(null);
-        localStorage.removeItem('mostlinkUserId');
+        localStorage.removeItem("mostlinkUserId");
 
-        toast('Successfully deleted your account.', { type: 'success' });
-        history.push('/');
+        toast("Successfully deleted your account.", { type: "success" });
+        history.push("/");
       })
       .catch(err => {
-        toast('Could not delete your account. Please check your password and try again.', { type: 'error' });
+        toast("Could not delete your account. Please check your password and try again.", { type: "error" });
       });
   };
 
@@ -126,10 +126,10 @@ const Account = () => {
     axios
       .put(`${process.env.REACT_APP_API_BASE}/api/users/change-password`, { oldPassword, newPassword }, { withCredentials: true })
       .then(() => {
-        toast('Successfully changed your password.', { type: 'success' });
+        toast("Successfully changed your password.", { type: "success" });
       })
       .catch(() => {
-        toast('There was an issue changing your password. Please try again.', { type: 'error' });
+        toast("There was an issue changing your password. Please try again.", { type: "error" });
       });
   };
 
@@ -163,8 +163,8 @@ const Account = () => {
                       <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
                     </div>
                     <div className={styles.passwordAndEyeIcon}>
-                      <TextField type={ isPasswordShowing ? 'text' : 'password' } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
-                      <FontAwesomeIcon color="black" icon={isPasswordShowing ? ['fas', 'eye'] : ['fas', 'eye-slash']} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
+                      <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" variant="filled" size="small" className={styles.textField} error={!!passwordError} helperText={passwordError} />
+                      <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
                     </div>
                   </>
               }
@@ -190,8 +190,8 @@ const Account = () => {
                   <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
                 </div>
                 <div className={styles.passwordAndEyeIcon}>
-                  <TextField type={ isOldPasswordShowing ? 'text' : 'password' } value={oldPassword} onChange={e => setOldPassword(e.target.value)} id="oldPassword" variant="filled" size="small" className={styles.textField} error={!!oldPasswordError} helperText={oldPasswordError} />
-                  <FontAwesomeIcon color="black" icon={isOldPasswordShowing ? ['fas', 'eye'] : ['fas', 'eye-slash']} onClick={() => setIsOldPasswordShowing(!isOldPasswordShowing)} className={styles.eyeIcon} />
+                  <TextField type={ isOldPasswordShowing ? "text" : "password" } value={oldPassword} onChange={e => setOldPassword(e.target.value)} id="oldPassword" variant="filled" size="small" className={styles.textField} error={!!oldPasswordError} helperText={oldPasswordError} />
+                  <FontAwesomeIcon color="black" icon={isOldPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsOldPasswordShowing(!isOldPasswordShowing)} className={styles.eyeIcon} />
                 </div>
                 {/* { oldPasswordError && <div className={styles.errorText}>{oldPasswordError}</div> } */}
               </div>
@@ -202,8 +202,8 @@ const Account = () => {
                   <div style={{color: themeObj.bodyColor, backgroundColor: themeObj.color}} className={styles.questionMarkTooltip} data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>">?</div>
                 </div>
                 <div className={styles.passwordAndEyeIcon}>
-                  <TextField type={ isNewPasswordShowing ? 'text' : 'password' } value={newPassword} onChange={e => setNewPassword(e.target.value)} id="newPassword" variant="filled" size="small" className={styles.textField} error={!!newPasswordError} helperText={newPasswordError} />
-                  <FontAwesomeIcon color="black" icon={isNewPasswordShowing ? ['fas', 'eye'] : ['fas', 'eye-slash']} onClick={() => setIsNewPasswordShowing(!isNewPasswordShowing)} className={styles.eyeIcon} />
+                  <TextField type={ isNewPasswordShowing ? "text" : "password" } value={newPassword} onChange={e => setNewPassword(e.target.value)} id="newPassword" variant="filled" size="small" className={styles.textField} error={!!newPasswordError} helperText={newPasswordError} />
+                  <FontAwesomeIcon color="black" icon={isNewPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsNewPasswordShowing(!isNewPasswordShowing)} className={styles.eyeIcon} />
                 </div>
                 {/* { newPasswordError && <div className={styles.errorText}>{newPasswordError}</div> } */}
               </div>

@@ -1,20 +1,20 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
-import { SitesContext } from '../../contexts/sitesContext';
-import { toast } from 'react-toastify';
-import GoogleLogin from 'react-google-login';
-import TextField from '@mui/material/TextField';
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { SitesContext } from "../../contexts/sitesContext";
+import { toast } from "react-toastify";
+import GoogleLogin from "react-google-login";
+import TextField from "@mui/material/TextField";
 
-import styles from './login.module.css';
+import styles from "./login.module.css";
 
 const Login = () => {
   const history = useHistory();
   const { setJwtToken, setUserId, setIsSubscribed, setWithGoogle, setEmail, themeObj, theme } = useContext(SitesContext);
 
-  const [usernameOrEmail, setUsernameOrEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isPasswordShowing, setIsPasswordShowing] = useState(false);
 
   useEffect(() => {
@@ -22,10 +22,10 @@ const Login = () => {
   }, [theme]);
     
   const onCancel = () => {
-    setUsernameOrEmail('');
-    setPassword('');
+    setUsernameOrEmail("");
+    setPassword("");
         
-    history.push('/');
+    history.push("/");
   };
 
   const onSubmit = e => {
@@ -42,20 +42,20 @@ const Login = () => {
         setUserId(res.data.id);
         setIsSubscribed(res.data.isSubscribed);
         setWithGoogle(res.data.google);
-        history.push('/home');
-        localStorage.setItem('mostlinkUserId', res.data.id);
-        toast('Successfully logged in.', { type: 'success' });
+        history.push("/home");
+        localStorage.setItem("mostlinkUserId", res.data.id);
+        toast("Successfully logged in.", { type: "success" });
       })
       .catch(err => {
-        if (err.response.data.error === 'Please verify your email.') {
-          history.push('/account/resend-verification');
+        if (err.response.data.error === "Please verify your email.") {
+          history.push("/account/resend-verification");
         }
-        toast(err.response.data.error, { type: 'error'});
+        toast(err.response.data.error, { type: "error"});
       });
   };
 
   const onKeyDown = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onSubmit(e);
     }
   };
@@ -76,12 +76,12 @@ const Login = () => {
           setUserId(res.data.id);
           setIsSubscribed(res.data.isSubscribed);
           setWithGoogle(res.data.google);
-          history.push('/home');
-          localStorage.setItem('mostlinkUserId', res.data.id);
-          toast('Successfully logged in.', { type: 'success' });
+          history.push("/home");
+          localStorage.setItem("mostlinkUserId", res.data.id);
+          toast("Successfully logged in.", { type: "success" });
         })
         .catch(err => {
-          toast(err.response.data.error, { type: 'error' });
+          toast(err.response.data.error, { type: "error" });
         });
     } 
   };
@@ -104,8 +104,8 @@ const Login = () => {
 
           <label htmlFor="password">Password</label>
           <div className={styles.passwordAndEyeIcon}>
-            <TextField type={ isPasswordShowing ? 'text' : 'password' } value={password} onChange={e => setPassword(e.target.value)} id="password" className={`${styles.password} ${styles.textField}`} variant="filled" size="small" />
-            <FontAwesomeIcon color="black" icon={isPasswordShowing ? ['fas', 'eye'] : ['fas', 'eye-slash']} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
+            <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" className={`${styles.password} ${styles.textField}`} variant="filled" size="small" />
+            <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
           </div>
 
           <h3 style={{ color: themeObj.accentColor }}><Link to="/account/forgot-password" style={{ color: themeObj.accentColor }}>Forgot password</Link></h3>

@@ -1,37 +1,37 @@
-import React, { useContext, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { TextField, Select, MenuItem, ListItemText, Button } from '@mui/material';
-import { SitesContext } from '../contexts/sitesContext';
+import React, { useContext, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { TextField, Select, MenuItem, ListItemText, Button } from "@mui/material";
+import { SitesContext } from "../contexts/sitesContext";
 
-import styles from './editableLink.module.css';
+import styles from "./editableLink.module.css";
 
 const style = {
-  border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
+  border: "1px dashed gray",
+  padding: "0.5rem 1rem",
+  marginBottom: ".5rem",
 };
 
 const LIVE_TYPES = {
-  NONE: 'none',
-  TWITCH: 'twitch',
-  YOUTUBE: 'youtube'
+  NONE: "none",
+  TWITCH: "twitch",
+  YOUTUBE: "youtube"
 };
 
 const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, key }) => {
   const { isSubscribed, theme } = useContext(SitesContext);
 
   const [typeOfLiveNotification, setTypeOfLiveNotification] = useState(link.live?.type || LIVE_TYPES.NONE);
-  const [liveMeta, setLiveMeta] = useState(link.live?.meta || '');
+  const [liveMeta, setLiveMeta] = useState(link.live?.meta || "");
 
   const transformIconKey = (key, lib) => {
-    const arr = key.split('').slice(2);
-    const display = arr.join('');
+    const arr = key.split("").slice(2);
+    const display = arr.join("");
     let valueArr = [];
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].toUpperCase() === arr[i] && !Number.isInteger(Number(arr[i])) && i !== 0) {
-        valueArr.push('-');
+        valueArr.push("-");
         valueArr.push(arr[i].toLowerCase());
       } else if (arr[i].toUpperCase() === arr[i] && !Number.isInteger(Number(arr[i]))) {
         valueArr.push(arr[i].toLowerCase());
@@ -40,16 +40,16 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
       }
     }
 
-    const value = lib + '_' + valueArr.join('');
+    const value = lib + "_" + valueArr.join("");
     return [display, value];
   };
 
-  const selectOptions = Object.keys(fab).concat(Object.keys(far)).filter((key) => key !== 'faFontAwesomeLogoFull').sort().map(key => {
+  const selectOptions = Object.keys(fab).concat(Object.keys(far)).filter((key) => key !== "faFontAwesomeLogoFull").sort().map(key => {
     let lib;
     if (Object.keys(far).includes(key)) {
-      lib = 'far';
+      lib = "far";
     } else {
-      lib = 'fab';
+      lib = "fab";
     }
     const [label, value] = transformIconKey(key, lib);
     return {value, label};
@@ -68,7 +68,7 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
         newLinks[index].href = e.target.value;
         setLinks(newLinks);
       }} />
-      <FontAwesomeIcon icon={['far', 'window-close']} size="1x" onClick={() => deleteLink(index)} color="red" className={styles.deleteLink} />
+      <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => deleteLink(index)} color="red" className={styles.deleteLink} />
       <Select
         className={styles.iconOptionSelect}
         onChange={e => {
@@ -80,7 +80,7 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
       >
         {selectOptions.map(option => <MenuItem value={option.value} className={styles.iconOption}>
           <ListItemText>{option.label}</ListItemText>
-          <FontAwesomeIcon icon={option.value.split('_')} size="2x" className={styles.iconOptionIcon} />
+          <FontAwesomeIcon icon={option.value.split("_")} size="2x" className={styles.iconOptionIcon} />
         </MenuItem>)}
       </Select>
 
@@ -113,7 +113,7 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
                     newLinks[index].live = Object.assign({}, newLinks[index].live, {meta: e.target.value}); 
                     setLinks(newLinks);
                   }}
-                  placeholder={typeOfLiveNotification === LIVE_TYPES.TWITCH ? 'channel name' : 'channel ID' }
+                  placeholder={typeOfLiveNotification === LIVE_TYPES.TWITCH ? "channel name" : "channel ID" }
                 />
                 :
                 null

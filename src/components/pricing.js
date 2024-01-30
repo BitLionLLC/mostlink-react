@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from 'react';
-import SubscriptionCard from './account/subscriptionCard';
-import { SitesContext } from '../contexts/sitesContext';
-import SUBSCRIPTION_ATTRIBUTES from '../constants/subscriptionAttributes';
+import React, { useEffect, useContext } from "react";
+import SubscriptionCard from "./account/subscriptionCard";
+import { SitesContext } from "../contexts/sitesContext";
+import SUBSCRIPTION_ATTRIBUTES from "../constants/subscriptionAttributes";
 
-import styles from './pricing.module.css';
+import styles from "./pricing.module.css";
 
 const Pricing = () => {
   const { themeObj, theme } = useContext(SitesContext);

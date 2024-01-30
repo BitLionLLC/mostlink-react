@@ -1,15 +1,15 @@
 const SUBSCRIPTION_ATTRIBUTES = {
   name: {
-    free: 'Free forever',
-    premium: 'Premium'
+    free: "Free forever",
+    premium: "Premium"
   },
   price: {
-    free: 'Free!',
-    premium: '$5/mo'
+    free: "Free!",
+    premium: "$5/mo"
   },
   sites: {
     free: 3,
-    premium: 'unlimited'
+    premium: "unlimited"
   },
   socialLiveNotice: {
     free: false,

@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { SitesContext } from '../../contexts/sitesContext';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { SitesContext } from "../../contexts/sitesContext";
+import { Link } from "react-router-dom";
 
-import styles from './faqs.module.css';
+import styles from "./faqs.module.css";
 
 const FAQs = () => {
   const { themeObj } = useContext(SitesContext);
@@ -21,7 +21,7 @@ const FAQs = () => {
     <div className={styles.faqs} style={{ backgroundColor: themeObj.landingCardBackground }}>
       <div id="faqs" className={styles.anchor} />
       <h1>FAQ's</h1>
-      <Accordion expanded={expandedAccordion === 'panel0'} onChange={handleAccordionChange('panel0')} className={styles.accordion}>
+      <Accordion expanded={expandedAccordion === "panel0"} onChange={handleAccordionChange("panel0")} className={styles.accordion}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel0a-content"
@@ -37,7 +37,7 @@ const FAQs = () => {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expandedAccordion === 'panel1'} onChange={handleAccordionChange('panel1')} className={styles.accordion}>
+      <Accordion expanded={expandedAccordion === "panel1"} onChange={handleAccordionChange("panel1")} className={styles.accordion}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -52,7 +52,7 @@ const FAQs = () => {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expandedAccordion === 'panel2'} onChange={handleAccordionChange('panel2')} className={styles.accordion}>
+      <Accordion expanded={expandedAccordion === "panel2"} onChange={handleAccordionChange("panel2")} className={styles.accordion}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"

@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { SitesContext } from '../../contexts/sitesContext';
-import example1 from '../assets/examples/example1.png';
-import example2 from '../assets/examples/example2.png';
-import example3 from '../assets/examples/example3.png';
+import React, { useContext } from "react";
+import { SitesContext } from "../../contexts/sitesContext";
+import example1 from "../assets/examples/example1.png";
+import example2 from "../assets/examples/example2.png";
+import example3 from "../assets/examples/example3.png";
 
-import styles from './examples.module.css';
+import styles from "./examples.module.css";
 
 const Examples = () => {
   const { themeObj } = useContext(SitesContext);

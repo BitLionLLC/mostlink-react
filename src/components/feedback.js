@@ -1,23 +1,23 @@
-import { Checkbox, MenuItem, Select, TextField } from '@mui/material';
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import FileBase64 from 'react-file-base64';
-import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { SitesContext } from '../contexts/sitesContext';
+import { Checkbox, MenuItem, Select, TextField } from "@mui/material";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import FileBase64 from "react-file-base64";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { SitesContext } from "../contexts/sitesContext";
 
-import styles from './feedback.module.css';
+import styles from "./feedback.module.css";
 
 const Feedback = () => {
   const history = useHistory();
 
   const { themeObj, theme } = useContext(SitesContext);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [okayToEmail, setOkayToEmail] = useState(false);
-  const [feedbackType, setFeedbackType] = useState('featureRequest');
-  const [comments, setComments] = useState('');
+  const [feedbackType, setFeedbackType] = useState("featureRequest");
+  const [comments, setComments] = useState("");
   const [screenshot, setScreenshot] = useState(null);
 
   useEffect(() => {
@@ -25,13 +25,13 @@ const Feedback = () => {
   }, [theme]);
 
   const onCancel = () => {
-    setName('');
-    setEmail('');
+    setName("");
+    setEmail("");
     setOkayToEmail(false);
-    setFeedbackType('featureRequest');
-    setComments('');
+    setFeedbackType("featureRequest");
+    setComments("");
     setScreenshot(null);
-    history.push('/');
+    history.push("/");
   };
 
   const onSubmit = (e) => {
@@ -49,15 +49,15 @@ const Feedback = () => {
     axios
       .post(`${process.env.REACT_APP_API_BASE}/api/feedback`, data)
       .then(() => {
-        toast('Thanks! Successfully sent feedback.', { type: 'success' });
+        toast("Thanks! Successfully sent feedback.", { type: "success" });
       })
       .catch(() => {
-        toast('Could not send feedback. Please try again.', { type: 'error' });
+        toast("Could not send feedback. Please try again.", { type: "error" });
       });
   };
 
   const onKeyDown = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onSubmit(e);
     }
   };

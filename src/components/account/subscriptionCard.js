@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
-import { SitesContext } from '../../contexts/sitesContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useContext } from "react";
+import { SitesContext } from "../../contexts/sitesContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import styles from './subscriptionCard.module.css';
+import styles from "./subscriptionCard.module.css";
 
 const SubscriptionSingle = ({ attributes, tierName }) => {
   const { themeObj } = useContext(SitesContext);
   const tierNameLower = tierName.toLowerCase();
 
   const getDisplayOfAttribute = (attribute) => {
-    if (typeof attribute === 'boolean') {
+    if (typeof attribute === "boolean") {
       if (attribute) {
-        return <FontAwesomeIcon icon={['fas', 'check']} color="green" />;
+        return <FontAwesomeIcon icon={["fas", "check"]} color="green" />;
       } else {
-        return <FontAwesomeIcon icon={['fas', 'minus']} color="red" />;
+        return <FontAwesomeIcon icon={["fas", "minus"]} color="red" />;
       }
     } else {
       return attribute;

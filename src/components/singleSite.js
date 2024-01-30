@@ -1,35 +1,35 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState, useCallback, useRef, useMemo } from 'react';
-import { useRouteMatch, Prompt } from 'react-router';
-import { useHistory } from 'react-router-dom';
-import { SitesContext } from '../contexts/sitesContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import FileBase64 from 'react-file-base64';
-import { HexColorPicker } from 'react-colorful';
-import { useBeforeunload } from 'react-beforeunload';
-import GradientPicker from './gradientPicker';
-import EditableLink from './editableLink';
-import update from 'immutability-helper';
-import Picker from 'emoji-picker-react';
-import styles from './singleSite.module.css';
-import defaultHeader from './assets/default-header.png';
-import toHex from 'colornames';
-import { toast } from 'react-toastify';
-import Particles from 'react-tsparticles';
-import { loadFull } from 'tsparticles';
-import ANIMATION_PRESETS from './assets/particlesPresets';
-import invert from 'invert-color';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { TextField, Checkbox, Select, MenuItem } from '@mui/material';
-import { muiDarkTheme, muiLightTheme } from '../constants/themes';
+import axios from "axios";
+import React, { useContext, useEffect, useState, useCallback, useRef, useMemo } from "react";
+import { useRouteMatch, Prompt } from "react-router";
+import { useHistory } from "react-router-dom";
+import { SitesContext } from "../contexts/sitesContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FileBase64 from "react-file-base64";
+import { HexColorPicker } from "react-colorful";
+import { useBeforeunload } from "react-beforeunload";
+import GradientPicker from "./gradientPicker";
+import EditableLink from "./editableLink";
+import update from "immutability-helper";
+import Picker from "emoji-picker-react";
+import styles from "./singleSite.module.css";
+import defaultHeader from "./assets/default-header.png";
+import toHex from "colornames";
+import { toast } from "react-toastify";
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
+import ANIMATION_PRESETS from "./assets/particlesPresets";
+import invert from "invert-color";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { TextField, Checkbox, Select, MenuItem } from "@mui/material";
+import { muiDarkTheme, muiLightTheme } from "../constants/themes";
 
 const IMAGE_TYPE = {
-  HEADER: 'header',
-  BACKGROUND: 'background'
+  HEADER: "header",
+  BACKGROUND: "background"
 };
 
 const particlesInit = async (main) => {
@@ -52,37 +52,37 @@ const SingleSite = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [hasEditButtonBeenClicked, setHasEditButtonBeenClicked] = useState(false);
-  const [title, setTitle] = useState('');
-  const [subtitle, setSubtitle] = useState('');
-  const [subdomain, setSubdomain] = useState('');
-  const [headerImage, setHeaderImage] = useState('');
-  const [headerEmoji, setHeaderEmoji] = useState('');
-  const [backgroundImage, setBackgroundImage] = useState('');
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [subdomain, setSubdomain] = useState("");
+  const [headerImage, setHeaderImage] = useState("");
+  const [headerEmoji, setHeaderEmoji] = useState("");
+  const [backgroundImage, setBackgroundImage] = useState("");
   const [links, setLinks] = useState([]);
-  const [titlesColor, setTitlesColor] = useState('#000000');
+  const [titlesColor, setTitlesColor] = useState("#000000");
   const titlesColorRef = useRef(titlesColor);
-  const [containerColor, setContainerColor] = useState('#ADD8E6');
+  const [containerColor, setContainerColor] = useState("#ADD8E6");
   const [isContainerTransparent, setIsContainerTransparent] = useState(false);
-  const [editButtonColor, setEditButtonColor] = useState('#000000');
+  const [editButtonColor, setEditButtonColor] = useState("#000000");
   const containerColorRef = useRef(containerColor);
-  const [containerGradient, setContainerGradient] = useState('');
-  const [bodyColor, setBodyColor] = useState('#FFFFFF');
+  const [containerGradient, setContainerGradient] = useState("");
+  const [bodyColor, setBodyColor] = useState("#FFFFFF");
   const bodyColorRef = useRef(bodyColor);
-  const [bodyGradient, setBodyGradient] = useState('');
-  const [bodyAnimationStyle, setBodyAnimationStyle] = useState('');
-  const [linkTextColor, setLinkTextColor] = useState('#000000');
+  const [bodyGradient, setBodyGradient] = useState("");
+  const [bodyAnimationStyle, setBodyAnimationStyle] = useState("");
+  const [linkTextColor, setLinkTextColor] = useState("#000000");
   const linkTextColorRef = useRef(linkTextColor);
-  const [linkBackgroundColor, setLinkBackgroundColor] = useState('#FFFFFF');
+  const [linkBackgroundColor, setLinkBackgroundColor] = useState("#FFFFFF");
   const linkBackgroundColorRef = useRef(linkBackgroundColor);
-  const [liveNotificationColor, setLiveNotificationColor] = useState('#FF0000');
+  const [liveNotificationColor, setLiveNotificationColor] = useState("#FF0000");
   const liveNotificationColorRef = useRef(liveNotificationColor);
   const [isPexelsModalShowing, setIsPexelsModalShowing] = useState(false);
   const [isGiphyModalShowing, setIsGiphyModalShowing] = useState(false);
-  const [modalOpenedWith, setModalOpenedWith] = useState('');
+  const [modalOpenedWith, setModalOpenedWith] = useState("");
   const [photos, setPhotos] = useState([]);
   const [gifs, setGifs] = useState([]);
-  const [query, setQuery] = useState('abstract');
-  const [gifQuery, setGifQuery] = useState('cat');
+  const [query, setQuery] = useState("abstract");
+  const [gifQuery, setGifQuery] = useState("cat");
   const [isDirty, setIsDirty] = useState(false);
   const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
   const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false);
@@ -90,32 +90,32 @@ const SingleSite = () => {
   const [isRegisterDomainModalShowing, setIsRegisterDomainModalShowing] = useState(false);
   const [isDeleteDomainModalShowing, setIsDeleteDomainModalShowing] = useState(false);
   const [domains, setDomains] = useState([]);
-  const [domainToAdd, setDomainToAdd] = useState('');
-  const [domainToDelete, setDomainToDelete] = useState('');
+  const [domainToAdd, setDomainToAdd] = useState("");
+  const [domainToDelete, setDomainToDelete] = useState("");
   const [isDomainAvailable, setIsDomainAvailable] = useState(false);
   const [hasDomainBeenChecked, setHasDomainBeenChecked] = useState(false);
   const [hasDomainBeenRegistered, setHasDomainBeenRegistered] = useState(false);
-  const [currentDomainCname, setCurrentDomainCname] = useState('');
+  const [currentDomainCname, setCurrentDomainCname] = useState("");
   const [expandedAccordion, setExpandedAccordion] = useState(false);
   const [hoveredLinkIndex, setHoveredLinkIndex] = useState(null);
   const [isSubdomainValid, setIsSubdomainValid] = useState(true);
-  const [subdomainError, setSubdomainError] = useState('');
-  const [suggestion, setSuggestion] = useState('');
+  const [subdomainError, setSubdomainError] = useState("");
+  const [suggestion, setSuggestion] = useState("");
 
-  const memoizedParticles = useMemo(() => <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true}} style={{height: '100vh', width: '100vw'}} />);
+  const memoizedParticles = useMemo(() => <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true}} style={{height: "100vh", width: "100vw"}} />);
 
-  const HEX_COLOR_REGEX_SHORT = '^#(?:[0-9a-fA-F]{3}){1}$';
-  const HEX_COLOR_REGEX_LONG = '^#(?:[0-9a-fA-F]{2}){3,4}$';
+  const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
+  const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
   const WHITESPACE_REGEX = /\s/;
-  const SUBDOMAIN_TAKEN_ERROR = 'That subdomain is taken. Please choose another one.';
+  const SUBDOMAIN_TAKEN_ERROR = "That subdomain is taken. Please choose another one.";
     
   const fetchPexels = (e) => {
     e?.preventDefault();
 
     axios
       .get(`https://api.pexels.com/v1/search?query=${query}&per_page=50`, {transformRequest: (data, headers) => {
-        delete headers['X-CSRF-Token'];
-        headers['Authorization'] = process.env.REACT_APP_PEXELS_API_KEY;
+        delete headers["X-CSRF-Token"];
+        headers["Authorization"] = process.env.REACT_APP_PEXELS_API_KEY;
         return data;
       }})
       .then(res => setPhotos(res.data.photos))
@@ -123,7 +123,7 @@ const SingleSite = () => {
   };
 
   const onKeyDownPexels = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       fetchPexels(e);
     }
   };
@@ -138,7 +138,7 @@ const SingleSite = () => {
   };
 
   const onKeyDownGiphy = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       fetchGiphy(e);
     }
   };
@@ -217,7 +217,7 @@ const SingleSite = () => {
     setBodyGradient(site.bodyGradient);
     setContainerGradient(site.containerGradient);
     setBodyAnimationStyle(site.bodyAnimationStyle);
-    setIsContainerTransparent(site.containerColor === '#00000000');
+    setIsContainerTransparent(site.containerColor === "#00000000");
   }, [site]);
 
   useEffect(() => {
@@ -241,7 +241,7 @@ const SingleSite = () => {
       if (hex?.match(HEX_COLOR_REGEX_SHORT) || hex?.match(HEX_COLOR_REGEX_LONG)) {
         setEditButtonColor(invert(hex, true));
       } else {
-        setEditButtonColor('#888888');
+        setEditButtonColor("#888888");
       }
     }
   }, [containerColor]);
@@ -249,15 +249,15 @@ const SingleSite = () => {
   useEffect(() => {
     if (containerColor.length === 9) {
       const hex = containerColor.slice(7);
-      if (hex === '00' && !isContainerTransparent) {
+      if (hex === "00" && !isContainerTransparent) {
         setIsContainerTransparent(true);
       }
     }
   }, [containerColor]);
 
   useEffect(() => {
-    if (isContainerTransparent && containerColor !== '#00000000') {
-      setContainerColor(containerColor.slice(0,7) + '00');
+    if (isContainerTransparent && containerColor !== "#00000000") {
+      setContainerColor(containerColor.slice(0,7) + "00");
     } else {
       setContainerColor(containerColor.slice(0, 7));
     }
@@ -273,7 +273,7 @@ const SingleSite = () => {
         .get(`${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`, { withCredentials: true })
         .then(() => {
           setIsSubdomainValid(true);
-          setSubdomainError('');
+          setSubdomainError("");
         })
         .catch(err => {
           setIsSubdomainValid(false);
@@ -283,9 +283,9 @@ const SingleSite = () => {
     }, 1000);
     
     if (subdomain?.match(WHITESPACE_REGEX)) {
-      setSubdomainError('No spaces allowed.');
+      setSubdomainError("No spaces allowed.");
     } else {
-      setSubdomainError('');
+      setSubdomainError("");
     }
 
     return () => clearTimeout(delayDebounceFn);
@@ -335,8 +335,8 @@ const SingleSite = () => {
         fetchSite(match.params.id);
       })
       .catch((err) => {
-        toast(err.response.data.error, { type: 'error' });
-        console.error('Error saving site: ' + err);
+        toast(err.response.data.error, { type: "error" });
+        console.error("Error saving site: " + err);
       });
   };
 
@@ -348,9 +348,9 @@ const SingleSite = () => {
   const addLink = () => {
     const newLinks = links.slice();
     newLinks.push({
-      href: 'https://www.google.com',
-      text: 'Google',
-      icon: 'fab_google',
+      href: "https://www.google.com",
+      text: "Google",
+      icon: "fab_google",
       id: newLinks.length
     });
     setLinks(newLinks);
@@ -373,7 +373,7 @@ const SingleSite = () => {
 
   const closeCheckDomainModal = () => {
     setIsCheckDomainModalShowing(false);
-    setDomainToAdd('');
+    setDomainToAdd("");
     setIsDomainAvailable(false);
     setHasDomainBeenChecked(false);
     setHasDomainBeenRegistered(false);
@@ -386,7 +386,7 @@ const SingleSite = () => {
 
   const closeRegisterDomainModal = () => {
     setIsRegisterDomainModalShowing(false);
-    setDomainToAdd('');
+    setDomainToAdd("");
     setIsDomainAvailable(false);
     setHasDomainBeenChecked(false);
     setHasDomainBeenRegistered(false);
@@ -399,22 +399,22 @@ const SingleSite = () => {
 
   const closeDeleteDomainModal = () => {
     setIsDeleteDomainModalShowing(false);
-    setDomainToDelete('');
+    setDomainToDelete("");
   };
 
   const checkDomain = () => {
     let properDomain = domainToAdd;
 
-    if (properDomain.startsWith('https://')) {
-      properDomain = properDomain.replace('https://', '');
+    if (properDomain.startsWith("https://")) {
+      properDomain = properDomain.replace("https://", "");
     }
 
-    if (properDomain.startsWith('http://')) {
-      properDomain = properDomain.replace('http://', '');
+    if (properDomain.startsWith("http://")) {
+      properDomain = properDomain.replace("http://", "");
     }
 
-    if (properDomain.startsWith('www.')) {
-      properDomain = properDomain.replace('www.', '');
+    if (properDomain.startsWith("www.")) {
+      properDomain = properDomain.replace("www.", "");
     }
 
     setDomainToAdd(properDomain);
@@ -425,12 +425,12 @@ const SingleSite = () => {
         setIsDomainAvailable(res.data.domain.isAvailable);
         setHasDomainBeenChecked(true);
       })
-      .catch(err => toast(err.response.data.error, { type: 'error' }));
+      .catch(err => toast(err.response.data.error, { type: "error" }));
   };
 
   const registerDomain = () => {
     const body = {
-      domain: domainToAdd.startsWith('www.') ? domainToAdd : 'www.' + domainToAdd,
+      domain: domainToAdd.startsWith("www.") ? domainToAdd : "www." + domainToAdd,
       siteId: match.params.id
     };
 
@@ -441,18 +441,18 @@ const SingleSite = () => {
         setCurrentDomainCname(res.data.cname);
         fetchSiteDomains();
       })
-      .catch(err => toast(err.response.data.error, { type: 'error' }));
+      .catch(err => toast(err.response.data.error, { type: "error" }));
   };
 
   const deleteDomain = () => {
     axios
       .delete(`${process.env.REACT_APP_API_BASE}/api/sites/delete-domain/${domainToDelete}`, { withCredentials: true })
       .then(() => {
-        toast('Domain successfully deleted.', { type: 'success' });
+        toast("Domain successfully deleted.", { type: "success" });
         setIsDeleteDomainModalShowing(false);
         fetchSiteDomains();
       })
-      .catch(err => toast('Could not delete the domain. Please try again.', { type: 'error' }));
+      .catch(err => toast("Could not delete the domain. Please try again.", { type: "error" }));
   };
 
   const moveLink = (from, to) => {
@@ -485,8 +485,8 @@ const SingleSite = () => {
       const { current } = ref;
 
       if (!(current.match(HEX_COLOR_REGEX_SHORT)) && !(current.match(HEX_COLOR_REGEX_LONG)) ) {
-        setterCallback('#000000');
-        ref.current = '#000000';
+        setterCallback("#000000");
+        ref.current = "#000000";
       }
     }, 5000);
   };
@@ -498,7 +498,7 @@ const SingleSite = () => {
   const getEditContents = () => {
     return <>
       <h1>Settings</h1>
-      <Accordion expanded={expandedAccordion === 'panel1'} onChange={handleAccordionChange('panel1')}>
+      <Accordion expanded={expandedAccordion === "panel1"} onChange={handleAccordionChange("panel1")}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -515,7 +515,7 @@ const SingleSite = () => {
             <h2>Body Gradient</h2>
             <GradientPicker setter={value => setBodyGradient(value)} value={bodyGradient} place="body" isContainerTransparent={null} />
             <h2>Body Animation</h2>
-            <Select value={bodyAnimationStyle} onChange={e => setBodyAnimationStyle(e.target.value)} style={{marginBottom: '20px'}}>
+            <Select value={bodyAnimationStyle} onChange={e => setBodyAnimationStyle(e.target.value)} style={{marginBottom: "20px"}}>
               <MenuItem value="">none</MenuItem>
               <MenuItem value="absorbers">absorbers</MenuItem>
               <MenuItem value="amongUs">amongUs</MenuItem>
@@ -553,19 +553,19 @@ const SingleSite = () => {
               <MenuItem value="virus">virus</MenuItem>
               <MenuItem value="warp">warp</MenuItem>
             </Select>
-            {bodyAnimationStyle && isEditing && <Particles id="tsparticlessmall" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true, fullScreen: { enable: false }, style: {height: '200px', width: '200px'}}} />}
+            {bodyAnimationStyle && isEditing && <Particles id="tsparticlessmall" init={particlesInit} loaded={particlesLoaded} options={{...ANIMATION_PRESETS[bodyAnimationStyle], autoplay: true, fullScreen: { enable: false }, style: {height: "200px", width: "200px"}}} />}
             <h2>Container Color</h2>
             <HexColorPicker color={containerColor} onChange={e => setContainerColor(e.toUpperCase())} />
             <TextField type="text" value={containerColor} onChange={e => standardizeColorInput(e.target.value, setContainerColor, containerColorRef)} className={styles.textField} size="small" variant="filled" />
             <h3>Transparent?</h3>
             <Checkbox checked={isContainerTransparent} onChange={e => setIsContainerTransparent(e.target.checked)} />
             <h2>Container Gradient</h2>
-            <GradientPicker setter={value => setContainerGradient(value)} value={containerGradient} place="container" isContainerTransparent={containerColor === '#00000000'} />
+            <GradientPicker setter={value => setContainerGradient(value)} value={containerGradient} place="container" isContainerTransparent={containerColor === "#00000000"} />
             <button onClick={() => setIsDeleteModalShowing(true)} className={styles.deleteSiteButton}>Delete Site</button>
           </div>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expandedAccordion === 'panel2'} onChange={handleAccordionChange('panel2')}>
+      <Accordion expanded={expandedAccordion === "panel2"} onChange={handleAccordionChange("panel2")}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -586,7 +586,7 @@ const SingleSite = () => {
           </div>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expandedAccordion === 'panel3'} onChange={handleAccordionChange('panel3')}>
+      <Accordion expanded={expandedAccordion === "panel3"} onChange={handleAccordionChange("panel3")}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3a-content"
@@ -600,7 +600,7 @@ const SingleSite = () => {
                         
             <div className={styles.titleAndClear}>
               <h2>Header Image</h2>
-              <FontAwesomeIcon icon={['far', 'window-close']} size="1x" onClick={() => setHeaderImage('')} color="salmon" className={styles.clearImage} />
+              <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderImage("")} color="salmon" className={styles.clearImage} />
             </div>
             <div className={styles.headerWarning}>Note: Emojis override images in the header. You can clear an emoji to use an image.</div>
             <img src={headerImage?.base64 || headerImage?.url || defaultHeader} width="200" height="200" alt="header" className={styles.editImage} />
@@ -610,14 +610,14 @@ const SingleSite = () => {
                         
             <div className={styles.titleAndClear}>
               <h2>Header Emoji</h2>
-              <FontAwesomeIcon icon={['far', 'window-close']} size="1x" onClick={() => setHeaderEmoji('')} color="salmon" className={styles.clearImage}/>
+              <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setHeaderEmoji("")} color="salmon" className={styles.clearImage}/>
             </div>
             {headerEmoji && <div className={styles.selectedEmoji}>{headerEmoji}</div>}
             <Picker onEmojiClick={onEmojiClick} />
                         
             <div className={styles.titleAndClear}>
               <h2>Background Image</h2>
-              <FontAwesomeIcon icon={['far', 'window-close']} size="1x" onClick={() => setBackgroundImage('')} color="salmon" className={styles.clearImage}/>
+              <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => setBackgroundImage("")} color="salmon" className={styles.clearImage}/>
             </div>
             <img src={backgroundImage?.base64 || backgroundImage?.url || defaultHeader} width="200" height="200" alt="background" className={styles.editImage} />
             <div className={styles.imageInput}><FileBase64 multiple={false} onDone={(file) => setBackgroundImage(file)}  /></div>
@@ -625,7 +625,7 @@ const SingleSite = () => {
           </div>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expandedAccordion === 'panel4'} onChange={handleAccordionChange('panel4')}>
+      <Accordion expanded={expandedAccordion === "panel4"} onChange={handleAccordionChange("panel4")}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel4a-content"
@@ -663,7 +663,7 @@ const SingleSite = () => {
           </div>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expandedAccordion === 'panel5'} onChange={handleAccordionChange('panel5')}>
+      <Accordion expanded={expandedAccordion === "panel5"} onChange={handleAccordionChange("panel5")}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel5a-content"
@@ -683,7 +683,7 @@ const SingleSite = () => {
             {subdomain && subdomainError === SUBDOMAIN_TAKEN_ERROR && <div onClick={() => setSubdomain(suggestion)} className={styles.suggestion}>How about {suggestion}?</div>}
             <h2>Live Sites</h2>
             {
-              process.env.REACT_APP_ENVIRONMENT === 'production' || process.env.REACT_APP_ENVIRONMENT === 'development'
+              process.env.REACT_APP_ENVIRONMENT === "production" || process.env.REACT_APP_ENVIRONMENT === "development"
                 ?
                 <>
                   <a href={`https://www.${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`} style={{color: themeObj.color}} target="_blank" rel="noreferrer">https://www.{process.env.REACT_APP_HOSTED_BASE}/{site.subdomain}</a>
@@ -706,9 +706,9 @@ const SingleSite = () => {
                         <a href={`https://${data.domain}`} target="_blank" rel="noreferrer" style={{color: themeObj.color}}>{data.domain}</a>
                                                 &nbsp;
                         { data.isPointing ?
-                          <FontAwesomeIcon icon={['fas', 'check']} color="lightgreen" />
+                          <FontAwesomeIcon icon={["fas", "check"]} color="lightgreen" />
                           :
-                          <FontAwesomeIcon icon={['fas', 'window-close']} color="salmon" />
+                          <FontAwesomeIcon icon={["fas", "window-close"]} color="salmon" />
                         }
                                                 &nbsp;
                         <button onClick={() => openDeleteDomainModal(data.domain)}>Delete</button>
@@ -759,11 +759,11 @@ const SingleSite = () => {
     axios
       .delete(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${site._id}`, { withCredentials: true })
       .then(res => {
-        toast('Site deleted.', { type: 'success' });
-        history.push('/home');
+        toast("Site deleted.", { type: "success" });
+        history.push("/home");
       })
       .catch(err => {
-        toast(err.response.data.error, { type: 'error' });
+        toast(err.response.data.error, { type: "error" });
       });
   };
 
@@ -791,12 +791,12 @@ const SingleSite = () => {
     `;
 
   const singleSiteStyle = {
-    top: isEditing ? '160px': '200px',
-    position: 'absolute',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    left: isEditing ? 'calc(100vw - 850px)' : 0,
-    right: isEditing ? '50px' :  0
+    top: isEditing ? "160px": "200px",
+    position: "absolute",
+    marginLeft: "auto",
+    marginRight: "auto",
+    left: isEditing ? "calc(100vw - 850px)" : 0,
+    right: isEditing ? "50px" :  0
   };
 
   const keyFramesEndEdit = `
@@ -827,16 +827,16 @@ const SingleSite = () => {
     document.body.style.backgroundColor = thisBodyColor;
     document.body.style.backgroundImage = thisBodyGradient;
         
-    return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? 'flex-end' : 'center', paddingRight: isEditing ? '50px': 0 }}>
+    return <div className={styles.singleSiteWrapper} style={{ justifyContent: isEditing ? "flex-end" : "center", paddingRight: isEditing ? "50px": 0 }}>
       {thisBodyAnimationStyle && !isEditing && memoizedParticles}
       <style children={isEditing ? keyFramesStartEdit : keyFramesEndEdit} />
-      <div className={styles.singleSiteContainer} style={{ backgroundColor: !thisContainerGradient && thisContainerColor, backgroundImage: thisContainerGradient, ...singleSiteStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'single-site-move-right' : 'single-site-move-left'), animationDuration: '2s' }}>
+      <div className={styles.singleSiteContainer} style={{ backgroundColor: !thisContainerGradient && thisContainerColor, backgroundImage: thisContainerGradient, ...singleSiteStyle, animationName: hasEditButtonBeenClicked && (isEditing ? "single-site-move-right" : "single-site-move-left"), animationDuration: "2s" }}>
         <Prompt when={isDirty} />
         <div className={styles.editButton} style={{color: editButtonColor}}>
           { isEditing || !isEditButtonVisible ? 
             null
             : 
-            <FontAwesomeIcon icon={['far', 'edit']} size="3x" onClick={() => {
+            <FontAwesomeIcon icon={["far", "edit"]} size="3x" onClick={() => {
               setIsEditing(true);
               setHasEditButtonBeenClicked(true);
             }} />
@@ -861,16 +861,16 @@ const SingleSite = () => {
               const hoverStyle = {color: thisLinkBackgroundColor, background: thisLinkTextColor};
               const nonHoverStyle = {color: thisLinkTextColor, background: thisLinkBackgroundColor};
 
-              return <a href={link.href.startsWith('http') ? link.href : 'https://' + link.href} 
+              return <a href={link.href.startsWith("http") ? link.href : "https://" + link.href} 
                 target="_blank" rel="noreferrer" className={styles.individualLink} 
                 style={{ color: hoveredLinkIndex === i ? hoverStyle.color : nonHoverStyle.color, background: hoveredLinkIndex === i ? hoverStyle.background: nonHoverStyle.background }}  
                 key={i} onMouseEnter={() => onMouseEnter(i)} onMouseLeave={onMouseLeave}
               >
                 <div className={styles.linkTextAndLiveStatus}>
                   <div className={styles.linkText}>{link.text}</div>
-                  {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: thisLiveNotificationColor}}> LIVE!</span></> : '- not live'}</div> : null}
+                  {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: thisLiveNotificationColor}}> LIVE!</span></> : "- not live"}</div> : null}
                 </div>
-                <FontAwesomeIcon icon={link?.icon?.split('_')} />
+                <FontAwesomeIcon icon={link?.icon?.split("_")} />
               </a>;
             })}
           </ul>
@@ -892,7 +892,7 @@ const SingleSite = () => {
     `;
 
   const editTrayStyle = {
-    left: isEditing ? 0 : '-600px',
+    left: isEditing ? 0 : "-600px",
   };
 
   const keyFramesEndEditTray = `
@@ -908,7 +908,7 @@ const SingleSite = () => {
     `;
 
   const onEscKey = e => {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       setIsPexelsModalShowing(false);
       setIsGiphyModalShowing(false);
       setIsDeleteModalShowing(false);
@@ -929,10 +929,10 @@ const SingleSite = () => {
           :
           <div onKeyDown={onEscKey} tabIndex="0">
             <style children={isEditing ? keyFramesStartEditTray : keyFramesEndEditTray} />
-            <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? 'edit-tray-move-right' : 'edit-tray-move-left'), animationDuration: '2s', backgroundColor: themeObj.editTrayBackground}}>
+            <div className={styles.editTray} style={{...editTrayStyle, animationName: hasEditButtonBeenClicked && (isEditing ? "edit-tray-move-right" : "edit-tray-move-left"), animationDuration: "2s", backgroundColor: themeObj.editTrayBackground}}>
               <div className={styles.saveAndCancelButtons}>
-                <FontAwesomeIcon icon={['far', 'save']} size="3x" onClick={onSave} color="lightgreen" />
-                <FontAwesomeIcon icon={['far', 'window-close']} size="3x" onClick={onCancel} color="salmon" />
+                <FontAwesomeIcon icon={["far", "save"]} size="3x" onClick={onSave} color="lightgreen" />
+                <FontAwesomeIcon icon={["far", "window-close"]} size="3x" onClick={onCancel} color="salmon" />
               </div>
               { getEditContents() }
             </div>

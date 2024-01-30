@@ -3,8 +3,17 @@
     "rules": {
         "eqeqeq": "off",
         "curly": "error",
-        "quotes": ["error", "single"],
-        "indent": ["error", 2],
-        "semi": ["error", "always"]
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "indent": [
+            "error",
+            2
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
     }
 }

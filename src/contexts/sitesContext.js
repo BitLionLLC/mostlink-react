@@ -1,10 +1,10 @@
-import React, { createContext, useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { lightTheme, darkTheme } from '../constants/themes';
-import { toast } from 'react-toastify';
+import React, { createContext, useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { lightTheme, darkTheme } from "../constants/themes";
+import { toast } from "react-toastify";
 
 export const SitesContext = createContext();
-const localTheme = localStorage.getItem('mostlinkTheme');
+const localTheme = localStorage.getItem("mostlinkTheme");
 
 const SitesContextProvider = (props) => {
   const [site, setSite] = useState({});
@@ -13,10 +13,10 @@ const SitesContextProvider = (props) => {
   const [sitesLoading, setSitesLoading] = useState(false);
   const [jwtToken, setJwtToken] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [theme, setTheme] = useState(localTheme || 'dark');
-  const [themeObj, setThemeObj] = useState(localTheme === 'light' ? lightTheme : darkTheme);
+  const [theme, setTheme] = useState(localTheme || "dark");
+  const [themeObj, setThemeObj] = useState(localTheme === "light" ? lightTheme : darkTheme);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [withGoogle, setWithGoogle] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editModalOpenedWith, setEditModalOpenedWith] = useState({});
@@ -49,7 +49,7 @@ const SitesContextProvider = (props) => {
       })
       .catch(err => {
         setSiteLoading(false);
-        toast(err.response.data.error, { type: 'error' });
+        toast(err.response.data.error, { type: "error" });
       });
   };
 
@@ -64,19 +64,19 @@ const SitesContextProvider = (props) => {
       })
       .catch(err => {
         setSitesLoading(false);
-        toast(err.response.data.error, { type: 'error' });
+        toast(err.response.data.error, { type: "error" });
       });
   };
 
   const toggleTheme = () => {
-    if (theme === 'dark') {
-      setTheme('light');
+    if (theme === "dark") {
+      setTheme("light");
       setThemeObj(lightTheme);
-      localStorage.setItem('mostlinkTheme', 'light');
+      localStorage.setItem("mostlinkTheme", "light");
     } else {
-      setTheme('dark');
+      setTheme("dark");
       setThemeObj(darkTheme);
-      localStorage.setItem('mostlinkTheme', 'dark');
+      localStorage.setItem("mostlinkTheme", "dark");
     }
   };
 

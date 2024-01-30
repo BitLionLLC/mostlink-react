@@ -1,19 +1,19 @@
-import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { SitesContext } from '../../contexts/sitesContext';
-import { TextField } from '@mui/material';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { SitesContext } from "../../contexts/sitesContext";
+import { TextField } from "@mui/material";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-import styles from './resendVerification.module.css';
+import styles from "./resendVerification.module.css";
 
 const ResendVerification = () => {
   const history = useHistory();
   const { themeObj } = useContext(SitesContext);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   const onCancel = () => {
-    history.push('/');
+    history.push("/");
   };
 
   const onSubmit = (e) => {
@@ -23,19 +23,19 @@ const ResendVerification = () => {
         email
       }, { withCredentials: true })
       .then(res => {
-        history.push('/account/please-verify');
-        toast('Email verification re-sent. Please verify your email.', { type: 'success' });
+        history.push("/account/please-verify");
+        toast("Email verification re-sent. Please verify your email.", { type: "success" });
       })
       .catch(err => {
-        if (err.response.data.error === 'Your email is already verified. Please log in.') {
-          history.push('/account/login');
+        if (err.response.data.error === "Your email is already verified. Please log in.") {
+          history.push("/account/login");
         }
-        toast(err.response.data.error, { type: 'error' });
+        toast(err.response.data.error, { type: "error" });
       });
   };
 
   const onKeyDown = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onSubmit(e);
     }
   };

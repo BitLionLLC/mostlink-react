@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import { SitesContext } from '../../contexts/sitesContext';
+import React, { useContext } from "react";
+import { SitesContext } from "../../contexts/sitesContext";
 
-import styles from './pleaseVerify.module.css';
+import styles from "./pleaseVerify.module.css";
 
 const PleaseVerify = () => {
   const { themeObj } = useContext(SitesContext);

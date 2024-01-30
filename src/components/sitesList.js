@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react';
-import { SitesContext } from '../contexts/sitesContext';
-import { Link } from 'react-router-dom';
-import CreateSite from './createSite';
-import styles from './sitesList.module.css';
-import MiniSite from './miniSite';
+import React, { useContext, useEffect } from "react";
+import { SitesContext } from "../contexts/sitesContext";
+import { Link } from "react-router-dom";
+import CreateSite from "./createSite";
+import styles from "./sitesList.module.css";
+import MiniSite from "./miniSite";
 
 const SitesList = () => {
   const { sites, sitesLoading, fetchSites, themeObj, createSiteModalRef, setIsEditModalOpen } = useContext(SitesContext);
@@ -13,7 +13,7 @@ const SitesList = () => {
   }, []);
 
   const onEscKey = e => {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       setIsEditModalOpen(false);
     }
   };
@@ -33,7 +33,7 @@ const SitesList = () => {
                 return <Link to={`/site/${site._id}`} className={styles.siteLink} key={site._id}>
                   <li key={site._id} className={styles.siteBox} style={{backgroundColor: themeObj.sitesBoxColor}}>
                     <h2 className={styles.title} style={{ color: themeObj.color }}>{site.title}</h2>
-                    <p className={styles.subtitle} style={{ color: themeObj.color }}>{site.subtitle || 'subtitle'}</p>
+                    <p className={styles.subtitle} style={{ color: themeObj.color }}>{site.subtitle || "subtitle"}</p>
                     <MiniSite site={site} />
                   </li>
                 </Link>;

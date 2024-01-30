@@ -1,7 +1,7 @@
-import React, { useEffect, useContext } from 'react';
-import LinkPageBuilder from './linkPageBuilder';
-import SitesList from './sitesList';
-import { SitesContext } from '../contexts/sitesContext';
+import React, { useEffect, useContext } from "react";
+import LinkPageBuilder from "./linkPageBuilder";
+import SitesList from "./sitesList";
+import { SitesContext } from "../contexts/sitesContext";
 
 const Home = () => {
   const { themeObj, theme } = useContext(SitesContext);

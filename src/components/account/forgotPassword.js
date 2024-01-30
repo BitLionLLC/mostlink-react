@@ -1,17 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-import { TextField } from '@mui/material';
-import { SitesContext } from '../../contexts/sitesContext';
+import { TextField } from "@mui/material";
+import { SitesContext } from "../../contexts/sitesContext";
 
-import styles from './forgotPassword.module.css';
+import styles from "./forgotPassword.module.css";
 
 const ForgotPassword = () => {
   const history = useHistory();
   const { themeObj, theme } = useContext(SitesContext);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
@@ -21,15 +21,15 @@ const ForgotPassword = () => {
     axios
       .post(`${process.env.REACT_APP_API_BASE}/api/users/forgot-password/initiate`, { email }, { withCredentials: true })
       .then(res => {
-        toast('Password reset initiated. Check your email inbox.', { type: 'success' });
+        toast("Password reset initiated. Check your email inbox.", { type: "success" });
       })
       .catch(err => {
-        toast('Could not intitiate a password reset. Check your email address and try again.', { type: 'error' });
+        toast("Could not intitiate a password reset. Check your email address and try again.", { type: "error" });
       });
   };
 
   const onCancel = () => {
-    history.push('/');
+    history.push("/");
   };
 
   return ( 

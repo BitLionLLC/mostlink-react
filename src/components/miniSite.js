@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { SitesContext } from '../contexts/sitesContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import defaultHeader from './assets/default-header.png';
+import React, { useContext } from "react";
+import { SitesContext } from "../contexts/sitesContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import defaultHeader from "./assets/default-header.png";
 
-import styles from './miniSite.module.css';
+import styles from "./miniSite.module.css";
 
 const MiniSite = ({site}) => {
   const { setIsEditModalOpen, setEditModalOpenedWith } = useContext(SitesContext);
@@ -26,7 +26,7 @@ const MiniSite = ({site}) => {
 
   return (
     <div className={styles.miniSiteWrapper} style={{backgroundColor: containerColor, backgroundImage: containerGradient}}>
-      <FontAwesomeIcon icon={['far', 'edit']} size="3x" className={styles.editButton} onClick={(e) => {
+      <FontAwesomeIcon icon={["far", "edit"]} size="3x" className={styles.editButton} onClick={(e) => {
         e.preventDefault();
         setIsEditModalOpen(true);
         setEditModalOpenedWith({ title, subtitle, subdomain, id: _id });
@@ -45,9 +45,9 @@ const MiniSite = ({site}) => {
           return <li className={styles.linkRow} key={i} style={{backgroundColor: linkBackgroundColor}}>
             <div className={styles.linkAndLive}>
               <span style={{color: linkTextColor}} className={styles.linkText}>{link.text}&nbsp;</span>
-              {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: liveNotificationColor}}> LIVE!</span></> : '- not live'}</div> : null}
+              {link.live ? <div>{link.live.isLive ? <><span>-</span><span style={{color: liveNotificationColor}}> LIVE!</span></> : "- not live"}</div> : null}
             </div>   
-            <FontAwesomeIcon icon={link?.icon?.split('_')} style={{color: linkTextColor}} />
+            <FontAwesomeIcon icon={link?.icon?.split("_")} style={{color: linkTextColor}} />
           </li>;
         })}
       </ul>

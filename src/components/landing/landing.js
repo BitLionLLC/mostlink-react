@@ -1,15 +1,15 @@
-import React, { useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SitesContext } from '../../contexts/sitesContext';
-import Features from './features';
-import Examples from './examples';
-import FAQs from './faqs';
-import waterGif from '../../components/assets/water.gif';
-import waterStill from '../../components/assets/water-still.png';
-import { usePrefersReducedMotion } from '../../util/preferReducedMotion';
+import React, { useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SitesContext } from "../../contexts/sitesContext";
+import Features from "./features";
+import Examples from "./examples";
+import FAQs from "./faqs";
+import waterGif from "../../components/assets/water.gif";
+import waterStill from "../../components/assets/water-still.png";
+import { usePrefersReducedMotion } from "../../util/preferReducedMotion";
 
-import styles from './landing.module.css';
+import styles from "./landing.module.css";
 
 const Landing = () => {
   const { themeObj, theme } = useContext(SitesContext);
@@ -32,7 +32,7 @@ const Landing = () => {
             <img src={reducedMotion ? waterStill : waterGif} alt="flowing water" />
           </div>
           <div className={styles.landingAbove} style={{ backgroundColor: themeObj.landingCardBackground }}>
-            <Link to="/account/register" style={{ color: themeObj.color }}><FontAwesomeIcon icon={['fas', 'plus-square']} size="3x" /></Link>
+            <Link to="/account/register" style={{ color: themeObj.color }}><FontAwesomeIcon icon={["fas", "plus-square"]} size="3x" /></Link>
             <h1><Link to="/account/register" style={{ color: themeObj.color }}>Register to start creating custom link pages.</Link></h1>
           </div>
         </div>
