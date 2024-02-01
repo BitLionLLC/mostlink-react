@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { SitesContext } from "../../contexts/sitesContext";
@@ -10,8 +10,16 @@ import TextField from "@mui/material/TextField";
 import styles from "./login.module.css";
 
 const Login = () => {
-  const history = useHistory();
-  const { setJwtToken, setUserId, setIsSubscribed, setWithGoogle, setEmail, themeObj, theme } = useContext(SitesContext);
+  const navigate = useNavigate();
+  const {
+    setJwtToken,
+    setUserId,
+    setIsSubscribed,
+    setWithGoogle,
+    setEmail,
+    themeObj,
+    theme,
+  } = useContext(SitesContext);
 
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,41 +28,45 @@ const Login = () => {
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
   }, [theme]);
-    
+
   const onCancel = () => {
     setUsernameOrEmail("");
     setPassword("");
-        
-    history.push("/");
+
+    navigate("/");
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post(`${process.env.REACT_APP_API_BASE}/api/users/login`, {
-        usernameOrEmail,
-        password
-      }, { withCredentials: true })
-      .then(res => {
+      .post(
+        `${process.env.REACT_APP_API_BASE}/api/users/login`,
+        {
+          usernameOrEmail,
+          password,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
         setEmail(res.data.email);
         setJwtToken(res.data.token);
         setUserId(res.data.id);
         setIsSubscribed(res.data.isSubscribed);
         setWithGoogle(res.data.google);
-        history.push("/home");
+        navigate("/home");
         localStorage.setItem("mostlinkUserId", res.data.id);
         toast("Successfully logged in.", { type: "success" });
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.response.data.error === "Please verify your email.") {
-          history.push("/account/resend-verification");
+          navigate("/account/resend-verification");
         }
-        toast(err.response.data.error, { type: "error"});
+        toast(err.response.data.error, { type: "error" });
       });
   };
 
-  const onKeyDown = e => {
+  const onKeyDown = (e) => {
     if (e.key === "Enter") {
       onSubmit(e);
     }
@@ -67,23 +79,27 @@ const Login = () => {
       const username = profileObj.email;
 
       axios
-        .post(`${process.env.REACT_APP_API_BASE}/api/users/login/google`, {
-          username
-        }, { withCredentials: true })
-        .then(res => {
+        .post(
+          `${process.env.REACT_APP_API_BASE}/api/users/login/google`,
+          {
+            username,
+          },
+          { withCredentials: true }
+        )
+        .then((res) => {
           setEmail(res.data.email);
           setJwtToken(res.data.token);
           setUserId(res.data.id);
           setIsSubscribed(res.data.isSubscribed);
           setWithGoogle(res.data.google);
-          history.push("/home");
+          navigate("/home");
           localStorage.setItem("mostlinkUserId", res.data.id);
           toast("Successfully logged in.", { type: "success" });
         })
-        .catch(err => {
+        .catch((err) => {
           toast(err.response.data.error, { type: "error" });
         });
-    } 
+    }
   };
 
   return (
@@ -97,22 +113,62 @@ const Login = () => {
           onFailure={responseGoogle}
           isSignedIn={true}
         />
-        <h3 style={{ color: themeObj.accentColor }}><Link to="/account/register" style={{ color: themeObj.accentColor }}>Don't have an account? Register instead.</Link></h3>
-        <form onSubmit={onSubmit} onKeyDown={onKeyDown} className={styles.loginForm}>
+        <h3 style={{ color: themeObj.accentColor }}>
+          <Link to="/account/register" style={{ color: themeObj.accentColor }}>
+            Don't have an account? Register instead.
+          </Link>
+        </h3>
+        <form
+          onSubmit={onSubmit}
+          onKeyDown={onKeyDown}
+          className={styles.loginForm}
+        >
           <label htmlFor="username">Username or email</label>
-          <TextField type="text" value={usernameOrEmail} onChange={e => setUsernameOrEmail(e.target.value)} id="username" variant="filled" className={styles.textField} size="small" />
+          <TextField
+            type="text"
+            value={usernameOrEmail}
+            onChange={(e) => setUsernameOrEmail(e.target.value)}
+            id="username"
+            variant="filled"
+            className={styles.textField}
+            size="small"
+          />
 
           <label htmlFor="password">Password</label>
           <div className={styles.passwordAndEyeIcon}>
-            <TextField type={ isPasswordShowing ? "text" : "password" } value={password} onChange={e => setPassword(e.target.value)} id="password" className={`${styles.password} ${styles.textField}`} variant="filled" size="small" />
-            <FontAwesomeIcon color="black" icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]} onClick={() => setIsPasswordShowing(!isPasswordShowing)} className={styles.eyeIcon} />
+            <TextField
+              type={isPasswordShowing ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              id="password"
+              className={`${styles.password} ${styles.textField}`}
+              variant="filled"
+              size="small"
+            />
+            <FontAwesomeIcon
+              color="black"
+              icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]}
+              onClick={() => setIsPasswordShowing(!isPasswordShowing)}
+              className={styles.eyeIcon}
+            />
           </div>
 
-          <h3 style={{ color: themeObj.accentColor }}><Link to="/account/forgot-password" style={{ color: themeObj.accentColor }}>Forgot password</Link></h3>
+          <h3 style={{ color: themeObj.accentColor }}>
+            <Link
+              to="/account/forgot-password"
+              style={{ color: themeObj.accentColor }}
+            >
+              Forgot password
+            </Link>
+          </h3>
 
           <div className={styles.loginFormButtons}>
-            <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
-            <button className={styles.submitButton} type="submit">Submit</button>
+            <button className={styles.cancelButton} onClick={onCancel}>
+              Cancel
+            </button>
+            <button className={styles.submitButton} type="submit">
+              Submit
+            </button>
           </div>
         </form>
       </div>

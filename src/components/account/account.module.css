@@ -192,7 +192,7 @@
   cursor: default;
 }
 
-@media (max-width: 550px) {
+@media (width <= 550px) {
   .account,
   .deleteAccountModal {
     width: 90vw;

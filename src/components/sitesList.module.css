@@ -135,20 +135,20 @@ body {
   }
 }
 
-@media (max-width: 550px) {
+@media (width <= 550px) {
   .sitesList {
     width: 90vw;
     padding: 20px 0 0;
   }
 }
 
-@media (max-width: 500px) {
+@media (width <= 500px) {
   .sitesList {
     margin-left: -50px;
   }
 }
 
-@media (max-width: 450px) {
+@media (width <= 450px) {
   .sitesList {
     margin-left: -60px;
   }

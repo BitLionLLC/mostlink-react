@@ -71,7 +71,7 @@
   width: 1px;
 }
 
-@media (max-width: 550px) {
+@media (width <= 550px) {
   .login {
     width: 90vw;
   }

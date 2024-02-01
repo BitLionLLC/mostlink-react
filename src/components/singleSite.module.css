@@ -345,14 +345,14 @@ input {
   }
 }
 
-@media (max-width: 1050px) {
+@media (width <= 1050px) {
   .pexelsModal {
     width: 90vw;
     padding: 70px 20px;
   }
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .singleSiteWrapper {
     display: block;
     justify-content: flex-end;
@@ -368,7 +368,7 @@ input {
   }
 }
 
-@media (max-width: 500px) {
+@media (width <= 500px) {
   .editTray {
     width: 100vw;
   }

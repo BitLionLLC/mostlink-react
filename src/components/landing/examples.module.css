@@ -46,7 +46,7 @@
   width: 0;
 }
 
-@media (max-width: 1050px) {
+@media (width <= 1050px) {
   .examples {
     width: 90vw;
     margin: 100px auto 0;
@@ -65,7 +65,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   .exampleList a {
     width: 80vw;
   }

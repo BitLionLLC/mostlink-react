@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -9,7 +9,7 @@ import { SitesContext } from "../../contexts/sitesContext";
 import styles from "./forgotPassword.module.css";
 
 const ForgotPassword = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { themeObj, theme } = useContext(SitesContext);
   const [email, setEmail] = useState("");
 
@@ -19,31 +19,59 @@ const ForgotPassword = () => {
 
   const onSubmit = () => {
     axios
-      .post(`${process.env.REACT_APP_API_BASE}/api/users/forgot-password/initiate`, { email }, { withCredentials: true })
-      .then(res => {
-        toast("Password reset initiated. Check your email inbox.", { type: "success" });
+      .post(
+        `${process.env.REACT_APP_API_BASE}/api/users/forgot-password/initiate`,
+        { email },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast("Password reset initiated. Check your email inbox.", {
+          type: "success",
+        });
       })
-      .catch(err => {
-        toast("Could not intitiate a password reset. Check your email address and try again.", { type: "error" });
+      .catch((err) => {
+        toast(
+          "Could not intitiate a password reset. Check your email address and try again.",
+          { type: "error" }
+        );
       });
   };
 
   const onCancel = () => {
-    history.push("/");
+    navigate("/");
   };
 
-  return ( 
+  return (
     <div className={styles.forgotPasswordContainer}>
-      <div className={styles.forgotPassword} style={{backgroundColor: themeObj.landingCardBackground}}>
+      <div
+        className={styles.forgotPassword}
+        style={{ backgroundColor: themeObj.landingCardBackground }}
+      >
         <h1>Reset password</h1>
         <div className={styles.label}>
-          <label htmlFor='email'>Email*</label>
+          <label htmlFor="email">Email*</label>
         </div>
-        <TextField type="text" value={email} onChange={e => setEmail(e.target.value)} id="email" className={styles.textField} size="small" variant="filled" />
+        <TextField
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          id="email"
+          className={styles.textField}
+          size="small"
+          variant="filled"
+        />
         <div className={styles.forgotPasswordButtons}>
-          <button className={styles.cancelButton} onClick={onCancel}>Cancel</button>
-          <button className={styles.submitButton} onClick={onSubmit} disabled={!email}>Submit</button>
-        </div>    
+          <button className={styles.cancelButton} onClick={onCancel}>
+            Cancel
+          </button>
+          <button
+            className={styles.submitButton}
+            onClick={onSubmit}
+            disabled={!email}
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   );

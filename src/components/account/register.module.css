@@ -90,7 +90,7 @@
   width: 1px;
 }
 
-@media (max-width: 550px) {
+@media (width <= 550px) {
   .register {
     width: 90vw;
   }

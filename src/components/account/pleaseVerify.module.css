@@ -18,7 +18,7 @@
   border-radius: 20px;
 }
 
-@media (max-width: 550px) {
+@media (width <= 550px) {
   .pleaseVerify {
     width: 90vw;
   }

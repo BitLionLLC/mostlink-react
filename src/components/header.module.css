@@ -168,7 +168,7 @@ a:link {
   animation-timing-function: ease-in-out;
 }
 
-@media (max-width: 1250px) {
+@media (width <= 1250px) {
   .header {
     justify-content: center;
   }
@@ -183,13 +183,13 @@ a:link {
   }
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   /* .iconRow {
     right: 50px;
   } */
 }
 
-@media (max-width: 500px) {
+@media (width <= 500px) {
   /* .header {
     justify-content: flex-start;
     padding-left: 20px;

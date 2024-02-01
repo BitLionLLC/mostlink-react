@@ -7,8 +7,8 @@ import React, {
   useRef,
   useMemo,
 } from "react";
-import { useRouteMatch, Prompt } from "react-router";
-import { useHistory } from "react-router-dom";
+import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { SitesContext } from "../contexts/sitesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FileBase64 from "react-file-base64";
@@ -55,8 +55,8 @@ const particlesLoaded = (container) => {
 const SingleSite = () => {
   const { site, siteLoading, fetchSite, theme, themeObj } =
     useContext(SitesContext);
-  const match = useRouteMatch();
-  const history = useHistory();
+  const match = useParams();
+  const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
   const [hasEditButtonBeenClicked, setHasEditButtonBeenClicked] =
@@ -171,7 +171,7 @@ const SingleSite = () => {
   const fetchSiteDomains = () => {
     axios
       .get(
-        `${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`,
+        `${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.id}`,
         { withCredentials: true }
       )
       .then((res) => {
@@ -187,7 +187,7 @@ const SingleSite = () => {
       .then(() => {
         axios
           .get(
-            `${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.params.id}`,
+            `${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.id}`,
             { withCredentials: true }
           )
           .then((res) => setDomains(res.data));
@@ -196,7 +196,7 @@ const SingleSite = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = bodyGradient || null;
-    fetchSite(match.params.id);
+    fetchSite(match.id);
     fetchPexels();
     fetchGiphy();
     fetchSiteDomains();
@@ -380,13 +380,13 @@ const SingleSite = () => {
       !subdomainError &&
       axios
         .put(
-          `${process.env.REACT_APP_API_BASE}/api/sites/siteId/${match.params.id}`,
+          `${process.env.REACT_APP_API_BASE}/api/sites/siteId/${match.id}`,
           siteToSave,
           { withCredentials: true }
         )
         .then(() => {
           setIsEditing(false);
-          fetchSite(match.params.id);
+          fetchSite(match.id);
         })
         .catch((err) => {
           toast(err.response.data.error, { type: "error" });
@@ -396,7 +396,7 @@ const SingleSite = () => {
 
   const onCancel = () => {
     setIsEditing(false);
-    fetchSite(match.params.id);
+    fetchSite(match.id);
   };
 
   const addLink = () => {
@@ -490,7 +490,7 @@ const SingleSite = () => {
       domain: domainToAdd.startsWith("www.")
         ? domainToAdd
         : "www." + domainToAdd,
-      siteId: match.params.id,
+      siteId: match.id,
     };
 
     axios
@@ -1121,7 +1121,7 @@ const SingleSite = () => {
       )
       .then((res) => {
         toast("Site deleted.", { type: "success" });
-        history.push("/home");
+        navigate("/home");
       })
       .catch((err) => {
         toast(err.response.data.error, { type: "error" });
@@ -1239,7 +1239,6 @@ const SingleSite = () => {
             animationDuration: "2s",
           }}
         >
-          <Prompt when={isDirty} />
           <div className={styles.editButton} style={{ color: editButtonColor }}>
             {isEditing || !isEditButtonVisible ? null : (
               <FontAwesomeIcon

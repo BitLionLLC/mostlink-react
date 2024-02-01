@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/home";
 import { SitesContext } from "./contexts/sitesContext";
 import SingleSite from "./components/singleSite";
@@ -38,89 +38,180 @@ function App() {
     <ThemeProvider theme={theme === "light" ? muiLightTheme : muiDarkTheme}>
       <ToastContainer position="top-right" autoClose={5000} />
       <Router>
-        <Route path="/" exact>
-          <Landing />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/home">
-          <Home />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/site/:id">
-          <SingleSite />
-        </Route>
-        <Route path="/account" exact>
-          <Account />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/account/register">
-          <Register />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/account/login">
-          <Login />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/account/reset-password/:token/:userId">
-          <ResetPassword />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/account/forgot-password">
-          <ForgotPassword />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/account/please-verify">
-          <PleaseVerify />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/account/verify-email/:hash/:userId">
-          <VerifyEmail />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/account/resend-verification">
-          <ResendVerification />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/payment/success">
-          <PaymentSuccess />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/payment/canceled">
-          <PaymentCanceled />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/pricing">
-          <Pricing />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/privacy-policy">
-          <PrivacyPolicy />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/terms-and-conditions">
-          <TermsAndConditions />
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/feedback">
-          <Feedback />
-          <Header />
-          <Footer />
-        </Route>
+        <Routes>
+          <Route
+            path="/"
+            exact
+            element={
+              <>
+                <Header />
+                <Footer />
+                <Landing />
+              </>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <Home />
+              </>
+            }
+          />
+          <Route
+            path="/site/:id"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <SingleSite />
+              </>
+            }
+          />
+          <Route
+            path="/account"
+            exact
+            element={
+              <>
+                <Header />
+                <Footer />
+                <Account />
+              </>
+            }
+          />
+          <Route
+            path="/account/register"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <Register />
+              </>
+            }
+          />
+          <Route
+            path="/account/login"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="/account/reset-password/:token/:userId"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <ResetPassword />
+              </>
+            }
+          />
+          <Route
+            path="/account/forgot-password"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <ForgotPassword />
+              </>
+            }
+          />
+          <Route
+            path="/account/please-verify"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <PleaseVerify />
+              </>
+            }
+          />
+          <Route
+            path="/account/verify-email/:hash/:userId"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <VerifyEmail />
+              </>
+            }
+          />
+          <Route
+            path="/account/resend-verification"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <ResendVerification />
+              </>
+            }
+          />
+          <Route
+            path="/payment/success"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <PaymentSuccess />
+              </>
+            }
+          />
+          <Route
+            path="/payment/canceled"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <PaymentCanceled />
+              </>
+            }
+          />
+          <Route
+            path="/pricing"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <Pricing />
+              </>
+            }
+          />
+          <Route
+            path="/privacy-policy"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <PrivacyPolicy />
+              </>
+            }
+          />
+          <Route
+            path="/terms-and-conditions"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <TermsAndConditions />
+              </>
+            }
+          />
+          <Route
+            path="/feedback"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <Feedback />
+              </>
+            }
+          />
+        </Routes>
       </Router>
     </ThemeProvider>
   );
