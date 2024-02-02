@@ -14,8 +14,15 @@ const SingleSiteHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { jwtToken, setJwtToken, setUserId, theme, themeObj, toggleTheme } =
-    useContext(SitesContext);
+  const {
+    jwtToken,
+    setJwtToken,
+    setUserId,
+    theme,
+    themeObj,
+    toggleTheme,
+    siteLoading,
+  } = useContext(SitesContext);
   const [isAccountMenuShown, setIsAccountMenuShown] = useState(false);
   const [isHamburgerMenuShown, setIsHamburgerMenuShown] = useState(false);
   let jwtTokenRef = useRef(jwtToken);
@@ -91,7 +98,7 @@ const SingleSiteHeader = () => {
     }, 1000);
   }, [jwtToken]);
 
-  return (
+  return siteLoading ? null : (
     <div
       className={styles.header}
       style={{ backgroundColor: themeObj.headerColor, color: themeObj.color }}
