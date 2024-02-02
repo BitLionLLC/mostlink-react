@@ -354,8 +354,8 @@ input {
 
 @media (width <= 900px) {
   .singleSiteWrapper {
-    display: block;
-    justify-content: flex-end;
+    /* display: block;
+    justify-content: flex-end; */
   }
 
   .singleSiteContainer {

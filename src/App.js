@@ -10,6 +10,7 @@ import Register from "./components/account/register";
 import ResetPassword from "./components/account/resetPassword";
 import ForgotPassword from "./components/account/forgotPassword";
 import Header from "./components/header";
+import SingleSiteHeader from "./components/singleSiteHeader";
 import Footer from "./components/footer";
 import Landing from "./components/landing/landing";
 import Pricing from "./components/pricing";
@@ -64,8 +65,7 @@ function App() {
             path="/site/:id"
             element={
               <>
-                <Header />
-                <Footer />
+                <SingleSiteHeader />
                 <SingleSite />
               </>
             }
