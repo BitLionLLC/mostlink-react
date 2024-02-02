@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useGoogleLogout } from "react-google-login";
 import { toast } from "react-toastify";
@@ -12,10 +12,13 @@ import styles from "./singleSiteHeader.module.css";
 
 const SingleSiteHeader = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const { jwtToken, setJwtToken, setUserId, theme, themeObj, toggleTheme } =
     useContext(SitesContext);
   const [isAccountMenuShown, setIsAccountMenuShown] = useState(false);
   const [isHamburgerMenuShown, setIsHamburgerMenuShown] = useState(false);
+  let jwtTokenRef = useRef(jwtToken);
 
   const { signOut } = useGoogleLogout({
     jsSrc: "https://apis.google.com/js/api.js",
@@ -57,6 +60,36 @@ const SingleSiteHeader = () => {
     setIsHamburgerMenuShown(false);
     navigate(path);
   };
+
+  useEffect(() => {
+    jwtTokenRef.current = jwtToken;
+
+    const allowedPathsWhenLoggedOut = [
+      "/account/login",
+      "/account/register",
+      "/account/reset-password",
+      "/account/forgot-password",
+      "/account/please-verify",
+      "/account/verify-email",
+      "/account/resend-verification",
+      "/pricing",
+      "/privacy-policy",
+      "/terms-and-conditions",
+      "/feedback",
+    ];
+
+    setTimeout(() => {
+      if (!jwtTokenRef.current) {
+        const matches = allowedPathsWhenLoggedOut.filter((path) =>
+          location.pathname.startsWith(path)
+        );
+
+        if (!matches.length) {
+          navigate("/");
+        }
+      }
+    }, 1000);
+  }, [jwtToken]);
 
   return (
     <div

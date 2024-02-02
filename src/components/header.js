@@ -61,10 +61,6 @@ const Header = () => {
   });
 
   useEffect(() => {
-    jwtTokenRef.current = jwtToken;
-  }, [jwtToken]);
-
-  useEffect(() => {
     document.body.style.backgroundColor = themeObj.bodyColor;
     document.body.style.color = themeObj.color;
   }, [theme]);
@@ -93,6 +89,8 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
+    jwtTokenRef.current = jwtToken;
+
     const allowedPathsWhenLoggedOut = [
       "/account/login",
       "/account/register",
@@ -117,7 +115,7 @@ const Header = () => {
           navigate("/");
         }
       }
-    }, 500);
+    }, 1000);
   }, [jwtToken]);
 
   const toggleAccountMenu = (e) => {

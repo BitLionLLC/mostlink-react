@@ -14,7 +14,9 @@ const SitesContextProvider = (props) => {
   const [jwtToken, setJwtToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [theme, setTheme] = useState(localTheme || "dark");
-  const [themeObj, setThemeObj] = useState(localTheme === "light" ? lightTheme : darkTheme);
+  const [themeObj, setThemeObj] = useState(
+    localTheme === "light" ? lightTheme : darkTheme
+  );
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [email, setEmail] = useState("");
   const [withGoogle, setWithGoogle] = useState(false);
@@ -23,31 +25,48 @@ const SitesContextProvider = (props) => {
   const createSiteModalRef = useRef(null);
 
   useEffect(() => {
+    fetchJwt();
     fetchUser();
   }, []);
 
+  const fetchJwt = async () => {
+    axios
+      .get(`${process.env.REACT_APP_API_BASE}/api/users/jwt`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setJwtToken(res.data.token);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const fetchUser = async () => {
     axios
-      .get(`${process.env.REACT_APP_API_BASE}/api/users/`, { withCredentials: true })
-      .then(res => {
+      .get(`${process.env.REACT_APP_API_BASE}/api/users/`, {
+        withCredentials: true,
+      })
+      .then((res) => {
         setEmail(res.data.email);
         setUserId(res.data.id);
         setWithGoogle(res.data.google);
         setIsSubscribed(res.data.isSubscribed);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  const fetchSite = async siteId => {
+  const fetchSite = async (siteId) => {
     setSiteLoading(true);
 
     axios
-      .get(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${siteId}`, { withCredentials: true })
-      .then(res => {
+      .get(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${siteId}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
         setSite(res.data);
         setSiteLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         setSiteLoading(false);
         toast(err.response.data.error, { type: "error" });
       });
@@ -57,12 +76,14 @@ const SitesContextProvider = (props) => {
     setSitesLoading(true);
 
     axios
-      .get(`${process.env.REACT_APP_API_BASE}/api/sites/byUserId`, { withCredentials: true })
-      .then(res => {
+      .get(`${process.env.REACT_APP_API_BASE}/api/sites/byUserId`, {
+        withCredentials: true,
+      })
+      .then((res) => {
         setSites(res.data);
         setSitesLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         setSitesLoading(false);
         toast(err.response.data.error, { type: "error" });
       });
@@ -81,34 +102,36 @@ const SitesContextProvider = (props) => {
   };
 
   return (
-    <SitesContext.Provider value={{ 
-      site,
-      siteLoading,
-      sites,
-      sitesLoading,
-      jwtToken, 
-      userId, 
-      theme, 
-      themeObj,
-      isSubscribed,
-      createSiteModalRef,
-      email,
-      withGoogle,
-      isEditModalOpen,
-      editModalOpenedWith,
-      fetchSite, 
-      fetchSites, 
-      fetchUser,
-      setJwtToken, 
-      setUserId, 
-      setTheme,
-      setEmail,
-      setWithGoogle, 
-      toggleTheme,
-      setIsSubscribed,
-      setIsEditModalOpen,
-      setEditModalOpenedWith
-    }} >
+    <SitesContext.Provider
+      value={{
+        site,
+        siteLoading,
+        sites,
+        sitesLoading,
+        jwtToken,
+        userId,
+        theme,
+        themeObj,
+        isSubscribed,
+        createSiteModalRef,
+        email,
+        withGoogle,
+        isEditModalOpen,
+        editModalOpenedWith,
+        fetchSite,
+        fetchSites,
+        fetchUser,
+        setJwtToken,
+        setUserId,
+        setTheme,
+        setEmail,
+        setWithGoogle,
+        toggleTheme,
+        setIsSubscribed,
+        setIsEditModalOpen,
+        setEditModalOpenedWith,
+      }}
+    >
       {props.children}
     </SitesContext.Provider>
   );
