@@ -66,29 +66,6 @@ const Header = () => {
   }, [theme]);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_BASE}/api/users/jwt`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.token) {
-          setJwtToken(res.data.token);
-
-          if (location.pathname === "/") {
-            navigate("/home");
-          }
-        }
-      })
-      .catch(() => {
-        toast("Please log in.", { type: "error" });
-        navigate("/");
-      });
-
-    const userId = localStorage.getItem("mostlinkUserId");
-    setUserId(userId);
-  }, []);
-
-  useEffect(() => {
     jwtTokenRef.current = jwtToken;
 
     const allowedPathsWhenLoggedOut = [
