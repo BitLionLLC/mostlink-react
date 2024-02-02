@@ -113,8 +113,14 @@ a:hover,
 a:active,
 a:visited,
 a:link {
-  text-decoration: none;
   color: black;
+}
+
+.link {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 10px 20px;
+  color: white !important;
 }
 
 .accountMenuList a {

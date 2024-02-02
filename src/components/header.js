@@ -127,29 +127,29 @@ const Header = () => {
       <div className={styles.iconRow}>
         <a
           href="/#features"
-          className={styles.pricingLink}
-          style={{ color: themeObj.color }}
+          className={styles.link}
+          style={{ backgroundColor: themeObj.accentColor }}
         >
           Features
         </a>
         <a
           href="/#examples"
-          className={styles.pricingLink}
-          style={{ color: themeObj.color }}
+          className={styles.link}
+          style={{ backgroundColor: themeObj.accentColor }}
         >
           Examples
         </a>
         <a
           href="/#faqs"
-          className={styles.pricingLink}
-          style={{ color: themeObj.color }}
+          className={styles.link}
+          style={{ backgroundColor: themeObj.accentColor }}
         >
           FAQ's
         </a>
         <Link
           to="/pricing"
-          className={styles.pricingLink}
-          style={{ color: themeObj.color }}
+          className={styles.link}
+          style={{ backgroundColor: themeObj.accentColor }}
         >
           Pricing
         </Link>

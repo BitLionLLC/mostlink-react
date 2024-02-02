@@ -106,16 +106,40 @@ const SingleSiteHeader = () => {
         </Link>
       </div>
       <div className={styles.iconRow}>
-        <span style={{ color: themeObj.color }} onClick={() => {}}>
+        <span
+          style={{
+            backgroundColor: themeObj.accentColor,
+          }}
+          onClick={() => {}}
+          className={styles.link}
+        >
           Links
         </span>
-        <span style={{ color: themeObj.color }} onClick={() => {}}>
+        <span
+          style={{
+            backgroundColor: themeObj.accentColor,
+          }}
+          onClick={() => {}}
+          className={styles.link}
+        >
           Style
         </span>
-        <span style={{ color: themeObj.color }} onClick={() => {}}>
+        <span
+          style={{
+            backgroundColor: themeObj.accentColor,
+          }}
+          onClick={() => {}}
+          className={styles.link}
+        >
           Analytics
         </span>
-        <span style={{ color: themeObj.color }} onClick={() => {}}>
+        <span
+          style={{
+            backgroundColor: themeObj.accentColor,
+          }}
+          onClick={() => {}}
+          className={styles.link}
+        >
           Settings
         </span>
 
