@@ -32,7 +32,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TextField, Checkbox, Select, MenuItem } from "@mui/material";
-import iPhoneImage from "./assets/iphone.png";
+import { muiDarkTheme, muiLightTheme } from "../constants/themes";
 
 const IMAGE_TYPE = {
   HEADER: "header",
@@ -1151,6 +1151,46 @@ const SingleSite = () => {
     bodyAnimationStyle,
   ]);
 
+  const keyFramesStartEdit = `
+        @keyframes single-site-move-right {
+            0% {
+                top: 200px;
+                left: 0;
+                right: 0;
+            }
+
+            100% {
+                top: 160px;
+                left: calc(100vw - 850px);
+                right: 50px;
+            }
+        }
+    `;
+
+  const singleSiteStyle = {
+    position: "absolute",
+    marginLeft: "auto",
+    marginRight: "auto",
+    left: isEditing ? "calc(100vw - 850px)" : 0,
+    right: isEditing ? "50px" : 0,
+  };
+
+  const keyFramesEndEdit = `
+        @keyframes single-site-move-left {
+            0% {
+                top: 160px;
+                left: calc(100vw - 850px);
+                right: 50px;
+            }
+
+            100% {
+                top: 200px;
+                left: 0;
+                right: 0;
+            }
+        }
+    `;
+
   const onMouseEnter = (index) => {
     setHoveredLinkIndex(index);
   };
@@ -1178,106 +1218,118 @@ const SingleSite = () => {
     document.body.style.backgroundImage = thisBodyGradient;
 
     return (
-      <div className={styles.bodyContainer}>
-        <div className={styles.singleSiteWrapper}>
-          {thisBodyAnimationStyle && !isEditing && memoizedParticles}
-          <div
-            className={styles.singleSiteContainer}
-            style={{
-              backgroundColor: !thisContainerGradient && thisContainerColor,
-              backgroundImage: thisContainerGradient,
-              animationName:
-                hasEditButtonBeenClicked &&
-                (isEditing
-                  ? "single-site-move-right"
-                  : "single-site-move-left"),
-              animationDuration: "2s",
-            }}
-          >
-            <img src={iPhoneImage} width={500} className={styles.iPhone} />
-            {headerEmoji ? (
-              <div className={styles.headerEmoji}>{headerEmoji}</div>
-            ) : (
-              <img
-                src={thisHeaderImage || defaultHeader}
-                alt={title}
-                className={styles.headerImage}
-                width="200"
-                height="200"
+      <div
+        className={styles.singleSiteWrapper}
+        style={{
+          justifyContent: isEditing ? "flex-end" : "center",
+          paddingRight: isEditing ? "50px" : 0,
+        }}
+      >
+        {thisBodyAnimationStyle && !isEditing && memoizedParticles}
+        <style children={isEditing ? keyFramesStartEdit : keyFramesEndEdit} />
+        <div
+          className={styles.singleSiteContainer}
+          style={{
+            backgroundColor: !thisContainerGradient && thisContainerColor,
+            backgroundImage: thisContainerGradient,
+            ...singleSiteStyle,
+            animationName:
+              hasEditButtonBeenClicked &&
+              (isEditing ? "single-site-move-right" : "single-site-move-left"),
+            animationDuration: "2s",
+          }}
+        >
+          <div className={styles.editButton} style={{ color: editButtonColor }}>
+            {isEditing || !isEditButtonVisible ? null : (
+              <FontAwesomeIcon
+                icon={["far", "edit"]}
+                size="3x"
+                onClick={() => {
+                  setIsEditing(true);
+                  setHasEditButtonBeenClicked(true);
+                }}
               />
             )}
-            <h1 className={styles.singleTitle} style={{ color: titlesColor }}>
-              {thisTitle}
-            </h1>
-            <h3
-              className={styles.singleSubtitle}
-              style={{ color: titlesColor }}
-            >
-              {thisSubtitle}
-            </h3>
-            {links ? (
-              <ul className={styles.linksList}>
-                {theseLinks?.map((link, i) => {
-                  const hoverStyle = {
-                    color: thisLinkBackgroundColor,
-                    background: thisLinkTextColor,
-                  };
-                  const nonHoverStyle = {
-                    color: thisLinkTextColor,
-                    background: thisLinkBackgroundColor,
-                  };
-
-                  return (
-                    <a
-                      href={
-                        link.href.startsWith("http")
-                          ? link.href
-                          : "https://" + link.href
-                      }
-                      target="_blank"
-                      rel="noreferrer"
-                      className={styles.individualLink}
-                      style={{
-                        color:
-                          hoveredLinkIndex === i
-                            ? hoverStyle.color
-                            : nonHoverStyle.color,
-                        background:
-                          hoveredLinkIndex === i
-                            ? hoverStyle.background
-                            : nonHoverStyle.background,
-                      }}
-                      key={i}
-                      onMouseEnter={() => onMouseEnter(i)}
-                      onMouseLeave={onMouseLeave}
-                    >
-                      <div className={styles.linkTextAndLiveStatus}>
-                        <div className={styles.linkText}>{link.text}</div>
-                        {link.live ? (
-                          <div>
-                            {link.live.isLive ? (
-                              <>
-                                <span>-</span>
-                                <span
-                                  style={{ color: thisLiveNotificationColor }}
-                                >
-                                  {" "}
-                                  LIVE!
-                                </span>
-                              </>
-                            ) : (
-                              "- not live"
-                            )}
-                          </div>
-                        ) : null}
-                      </div>
-                      <FontAwesomeIcon icon={link?.icon?.split("_")} />
-                    </a>
-                  );
-                })}
-              </ul>
-            ) : null}
           </div>
+          {headerEmoji ? (
+            <div className={styles.headerEmoji}>{headerEmoji}</div>
+          ) : (
+            <img
+              src={thisHeaderImage || defaultHeader}
+              alt={title}
+              className={styles.headerImage}
+              width="200"
+              height="200"
+            />
+          )}
+          <h1 className={styles.singleTitle} style={{ color: titlesColor }}>
+            {thisTitle}
+          </h1>
+          <h3 className={styles.singleSubtitle} style={{ color: titlesColor }}>
+            {thisSubtitle}
+          </h3>
+          {links ? (
+            <ul className={styles.linksList}>
+              {theseLinks?.map((link, i) => {
+                const hoverStyle = {
+                  color: thisLinkBackgroundColor,
+                  background: thisLinkTextColor,
+                };
+                const nonHoverStyle = {
+                  color: thisLinkTextColor,
+                  background: thisLinkBackgroundColor,
+                };
+
+                return (
+                  <a
+                    href={
+                      link.href.startsWith("http")
+                        ? link.href
+                        : "https://" + link.href
+                    }
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.individualLink}
+                    style={{
+                      color:
+                        hoveredLinkIndex === i
+                          ? hoverStyle.color
+                          : nonHoverStyle.color,
+                      background:
+                        hoveredLinkIndex === i
+                          ? hoverStyle.background
+                          : nonHoverStyle.background,
+                    }}
+                    key={i}
+                    onMouseEnter={() => onMouseEnter(i)}
+                    onMouseLeave={onMouseLeave}
+                  >
+                    <div className={styles.linkTextAndLiveStatus}>
+                      <div className={styles.linkText}>{link.text}</div>
+                      {link.live ? (
+                        <div>
+                          {link.live.isLive ? (
+                            <>
+                              <span>-</span>
+                              <span
+                                style={{ color: thisLiveNotificationColor }}
+                              >
+                                {" "}
+                                LIVE!
+                              </span>
+                            </>
+                          ) : (
+                            "- not live"
+                          )}
+                        </div>
+                      ) : null}
+                    </div>
+                    <FontAwesomeIcon icon={link?.icon?.split("_")} />
+                  </a>
+                );
+              })}
+            </ul>
+          ) : null}
         </div>
       </div>
     );
@@ -1365,8 +1417,6 @@ const SingleSite = () => {
             </div>
             {getEditContents()}
           </div>
-
-          {/* tabs go here */}
 
           {isEditing
             ? getDisplayContents(
