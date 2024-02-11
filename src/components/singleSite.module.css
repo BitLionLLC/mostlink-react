@@ -66,6 +66,7 @@ input {
   z-index: 11;
   position: absolute;
   top: -10px;
+  width: 500px;
 }
 
 .individualLink {
@@ -355,6 +356,12 @@ input {
     animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
   }
 }
+
+/* @media (width <= 1500px) {
+  .singleSiteContainer {
+    transform: scale(0.8);
+  }
+} */
 
 @media (width <= 1050px) {
   .pexelsModal {

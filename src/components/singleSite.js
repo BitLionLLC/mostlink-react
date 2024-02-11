@@ -52,11 +52,24 @@ const particlesLoaded = (container) => {
   return;
 };
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
 const SingleSite = () => {
   const { site, siteLoading, fetchSite, theme, themeObj } =
     useContext(SitesContext);
+
   const match = useParams();
   const navigate = useNavigate();
+
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
 
   const [isEditing, setIsEditing] = useState(false);
   const [hasEditButtonBeenClicked, setHasEditButtonBeenClicked] =
@@ -113,6 +126,15 @@ const SingleSite = () => {
   const [isSubdomainValid, setIsSubdomainValid] = useState(true);
   const [subdomainError, setSubdomainError] = useState("");
   const [suggestion, setSuggestion] = useState("");
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const memoizedParticles = useMemo(() => (
     <Particles
@@ -1186,15 +1208,10 @@ const SingleSite = () => {
             style={{
               backgroundColor: !thisContainerGradient && thisContainerColor,
               backgroundImage: thisContainerGradient,
-              animationName:
-                hasEditButtonBeenClicked &&
-                (isEditing
-                  ? "single-site-move-right"
-                  : "single-site-move-left"),
-              animationDuration: "2s",
+              transform: `scale(${windowDimensions.height / 1000})`,
             }}
           >
-            <img src={iPhoneImage} width={500} className={styles.iPhone} />
+            <img src={iPhoneImage} className={styles.iPhone} />
             {headerEmoji ? (
               <div className={styles.headerEmoji}>{headerEmoji}</div>
             ) : (
