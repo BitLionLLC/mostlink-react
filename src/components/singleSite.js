@@ -591,527 +591,6 @@ const SingleSite = () => {
     setExpandedAccordion(isExpanded ? panel : false);
   };
 
-  const getEditContents = () => {
-    return (
-      <>
-        <h1>Settings</h1>
-        <Accordion
-          expanded={expandedAccordion === "panel1"}
-          onChange={handleAccordionChange("panel1")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>General</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={styles.editContents}>
-              <h1>General</h1>
-              <h2>Body Color</h2>
-              <HexColorPicker
-                color={bodyColor}
-                onChange={(e) => setBodyColor(e.toUpperCase())}
-              />
-              <TextField
-                type="text"
-                value={bodyColor}
-                onChange={(e) =>
-                  standardizeColorInput(
-                    e.target.value,
-                    setBodyColor,
-                    bodyColorRef
-                  )
-                }
-                className={styles.textField}
-                size="small"
-                variant="filled"
-              />
-              <h2>Body Gradient</h2>
-              <GradientPicker
-                setter={(value) => setBodyGradient(value)}
-                value={bodyGradient}
-                place="body"
-                isContainerTransparent={null}
-              />
-              <h2>Body Animation</h2>
-              <Select
-                value={bodyAnimationStyle}
-                onChange={(e) => setBodyAnimationStyle(e.target.value)}
-                style={{ marginBottom: "20px" }}
-              >
-                <MenuItem value="">none</MenuItem>
-                <MenuItem value="absorbers">absorbers</MenuItem>
-                <MenuItem value="amongUs">amongUs</MenuItem>
-                <MenuItem value="background">background</MenuItem>
-                <MenuItem value="big">big</MenuItem>
-                <MenuItem value="bubble">bubble</MenuItem>
-                <MenuItem value="chars">chars</MenuItem>
-                <MenuItem value="collisions">collisions</MenuItem>
-                <MenuItem value="confetti">confetti</MenuItem>
-                <MenuItem value="connect">connect</MenuItem>
-                <MenuItem value="defaultAnim">default</MenuItem>
-                <MenuItem value="divRepulse">divRepulse</MenuItem>
-                <MenuItem value="emmiterAbsorber">emmiterAbsorber</MenuItem>
-                <MenuItem value="emitters">emitters</MenuItem>
-                <MenuItem value="fontawesome">fontawesome</MenuItem>
-                <MenuItem value="growing">growing</MenuItem>
-                <MenuItem value="hollowknight">hollowknight</MenuItem>
-                <MenuItem value="images">images</MenuItem>
-                <MenuItem value="multiplePolygonMasks">
-                  multiplePolygonMasks
-                </MenuItem>
-                <MenuItem value="nasa">nasa</MenuItem>
-                <MenuItem value="noconfig">noconfig</MenuItem>
-                <MenuItem value="nyancat">nyancat</MenuItem>
-                <MenuItem value="nyancat2">nyancat2</MenuItem>
-                <MenuItem value="parallax">parallax</MenuItem>
-                <MenuItem value="polygonMask">polygonMask</MenuItem>
-                <MenuItem value="polygons">polygons</MenuItem>
-                <MenuItem value="preset">preset</MenuItem>
-                <MenuItem value="random">random</MenuItem>
-                <MenuItem value="shadow">shadow</MenuItem>
-                <MenuItem value="slow">slow</MenuItem>
-                <MenuItem value="snow">snow</MenuItem>
-                <MenuItem value="star">star</MenuItem>
-                <MenuItem value="trail">trail</MenuItem>
-                <MenuItem value="twinkle">twinkle</MenuItem>
-                <MenuItem value="virus">virus</MenuItem>
-                <MenuItem value="warp">warp</MenuItem>
-              </Select>
-              {bodyAnimationStyle && isEditing && (
-                <Particles
-                  id="tsparticlessmall"
-                  init={particlesInit}
-                  loaded={particlesLoaded}
-                  options={{
-                    ...ANIMATION_PRESETS[bodyAnimationStyle],
-                    autoplay: true,
-                    fullScreen: { enable: false },
-                    style: { height: "200px", width: "200px" },
-                  }}
-                />
-              )}
-              <h2>Container Color</h2>
-              <HexColorPicker
-                color={containerColor}
-                onChange={(e) => setContainerColor(e.toUpperCase())}
-              />
-              <TextField
-                type="text"
-                value={containerColor}
-                onChange={(e) =>
-                  standardizeColorInput(
-                    e.target.value,
-                    setContainerColor,
-                    containerColorRef
-                  )
-                }
-                className={styles.textField}
-                size="small"
-                variant="filled"
-              />
-              <h3>Transparent?</h3>
-              <Checkbox
-                checked={isContainerTransparent}
-                onChange={(e) => setIsContainerTransparent(e.target.checked)}
-              />
-              <h2>Container Gradient</h2>
-              <GradientPicker
-                setter={(value) => setContainerGradient(value)}
-                value={containerGradient}
-                place="container"
-                isContainerTransparent={containerColor === "#00000000"}
-              />
-              <button
-                onClick={() => setIsDeleteModalShowing(true)}
-                className={styles.deleteSiteButton}
-              >
-                Delete Site
-              </button>
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expandedAccordion === "panel2"}
-          onChange={handleAccordionChange("panel2")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Titles</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={styles.editContents}>
-              <h1>Titles</h1>
-              <h2>Title</h2>
-              <TextField
-                type="text"
-                value={title}
-                placeholder="Title"
-                onChange={(e) => setTitle(e.target.value)}
-                className={styles.textField}
-                size="small"
-                variant="filled"
-              />
-              <h2>Subtitle</h2>
-              <TextField
-                type="text"
-                value={subtitle}
-                placeholder="Subtitle"
-                onChange={(e) => setSubtitle(e.target.value)}
-                className={styles.textField}
-                size="small"
-                variant="filled"
-              />
-              <h2>Title Color</h2>
-              <HexColorPicker color={titlesColor} onChange={setTitlesColor} />
-              <TextField
-                type="text"
-                value={titlesColor}
-                onChange={(e) =>
-                  standardizeColorInput(
-                    e.target.value,
-                    setTitlesColor,
-                    titlesColorRef
-                  )
-                }
-                className={styles.textField}
-                size="small"
-                variant="filled"
-              />
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expandedAccordion === "panel3"}
-          onChange={handleAccordionChange("panel3")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel3a-content"
-            id="panel3a-header"
-          >
-            <Typography>Images</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={styles.editContents}>
-              <h1>Images</h1>
-
-              <div className={styles.titleAndClear}>
-                <h2>Header Image</h2>
-                <FontAwesomeIcon
-                  icon={["far", "window-close"]}
-                  size="1x"
-                  onClick={() => setHeaderImage("")}
-                  color="salmon"
-                  className={styles.clearImage}
-                />
-              </div>
-              <div className={styles.headerWarning}>
-                Note: Emojis override images in the header. You can clear an
-                emoji to use an image.
-              </div>
-              <img
-                src={headerImage?.base64 || headerImage?.url || defaultHeader}
-                width="200"
-                height="200"
-                alt="header"
-                className={styles.editImage}
-              />
-              <div className={styles.imageInput}>
-                <FileBase64
-                  multiple={false}
-                  onDone={(file) => setHeaderImage(file)}
-                />
-              </div>
-              <button onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>
-                Choose from Pexels
-              </button>
-              <button onClick={() => setIsGiphyModalShowing(true)}>
-                Choose from GIPHY
-              </button>
-
-              <div className={styles.titleAndClear}>
-                <h2>Header Emoji</h2>
-                <FontAwesomeIcon
-                  icon={["far", "window-close"]}
-                  size="1x"
-                  onClick={() => setHeaderEmoji("")}
-                  color="salmon"
-                  className={styles.clearImage}
-                />
-              </div>
-              {headerEmoji && (
-                <div className={styles.selectedEmoji}>{headerEmoji}</div>
-              )}
-              <Picker onEmojiClick={onEmojiClick} />
-
-              <div className={styles.titleAndClear}>
-                <h2>Background Image</h2>
-                <FontAwesomeIcon
-                  icon={["far", "window-close"]}
-                  size="1x"
-                  onClick={() => setBackgroundImage("")}
-                  color="salmon"
-                  className={styles.clearImage}
-                />
-              </div>
-              <img
-                src={
-                  backgroundImage?.base64 ||
-                  backgroundImage?.url ||
-                  defaultHeader
-                }
-                width="200"
-                height="200"
-                alt="background"
-                className={styles.editImage}
-              />
-              <div className={styles.imageInput}>
-                <FileBase64
-                  multiple={false}
-                  onDone={(file) => setBackgroundImage(file)}
-                />
-              </div>
-              <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>
-                Choose from Pexels
-              </button>
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expandedAccordion === "panel4"}
-          onChange={handleAccordionChange("panel4")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel4a-content"
-            id="panel4a-header"
-          >
-            <Typography>Links</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={styles.editContents}>
-              <h1>Links</h1>
-              <h2>Link Text Color</h2>
-              <HexColorPicker
-                color={linkTextColor}
-                onChange={(e) => setLinkTextColor(e.toUpperCase())}
-              />
-              <TextField
-                type="text"
-                value={linkTextColor}
-                onChange={(e) =>
-                  standardizeColorInput(
-                    e.target.value,
-                    setLinkTextColor,
-                    linkTextColorRef
-                  )
-                }
-                className={styles.textField}
-                size="small"
-                variant="filled"
-              />
-              <h2>Link Background Color</h2>
-              <HexColorPicker
-                color={linkBackgroundColor}
-                onChange={(e) => setLinkBackgroundColor(e.toUpperCase())}
-              />
-              <TextField
-                type="text"
-                value={linkBackgroundColor}
-                onChange={(e) =>
-                  standardizeColorInput(
-                    e.target.value,
-                    setLinkBackgroundColor,
-                    linkBackgroundColorRef
-                  )
-                }
-                className={styles.textField}
-                size="small"
-                variant="filled"
-              />
-              <h2>Live Notification Color</h2>
-              <HexColorPicker
-                color={liveNotificationColor}
-                onChange={(e) => setLiveNotificationColor(e.toUpperCase())}
-              />
-              <TextField
-                type="text"
-                value={liveNotificationColor}
-                onChange={(e) =>
-                  standardizeColorInput(
-                    e.target.value,
-                    setLiveNotificationColor,
-                    liveNotificationColorRef
-                  )
-                }
-                className={styles.textField}
-                size="small"
-                variant="filled"
-              />
-              <h2>Links</h2>
-              <ul className={styles.linkEditList}>
-                {links?.map((link, index) => {
-                  return (
-                    <EditableLink
-                      link={link}
-                      links={links}
-                      setLinks={setLinks}
-                      deleteLink={deleteLink}
-                      moveLink={moveLink}
-                      index={index}
-                      key={link.id}
-                      id={link.id}
-                    />
-                  );
-                })}
-              </ul>
-              <button onClick={addLink}>+</button>
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expandedAccordion === "panel5"}
-          onChange={handleAccordionChange("panel5")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel5a-content"
-            id="panel5a-header"
-          >
-            <Typography>Site/Domains</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={styles.editContents}>
-              <h1>Site/Domains</h1>
-              <h2>Subdomain</h2>
-              <div className={styles.siteAndPath}>
-                <TextField
-                  type="text"
-                  className={styles.textField}
-                  value={subdomain}
-                  name="subdomain"
-                  onChange={(e) => setSubdomain(e.target.value)}
-                  placeholder="subdomain"
-                  variant="filled"
-                  size="small"
-                  error={!isSubdomainValid || subdomainError}
-                  helperText={subdomainError}
-                />
-                .mostlink.io
-              </div>
-              {subdomain && subdomainError === SUBDOMAIN_TAKEN_ERROR && (
-                <div
-                  onClick={() => setSubdomain(suggestion)}
-                  className={styles.suggestion}
-                >
-                  How about {suggestion}?
-                </div>
-              )}
-              <h2>Live Sites</h2>
-              {process.env.REACT_APP_ENVIRONMENT === "production" ||
-              process.env.REACT_APP_ENVIRONMENT === "development" ? (
-                <>
-                  <a
-                    href={`https://www.${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`}
-                    style={{ color: themeObj.color }}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    https://www.{process.env.REACT_APP_HOSTED_BASE}/
-                    {site.subdomain}
-                  </a>
-                  <br />
-                  <a
-                    href={`https://www.${process.env.REACT_APP_HOSTED_BASE_SHORT}/${site.subdomain}`}
-                    style={{ color: themeObj.color }}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    https://www.{process.env.REACT_APP_HOSTED_BASE_SHORT}/
-                    {site.subdomain}
-                  </a>
-                </>
-              ) : (
-                <>
-                  <a
-                    href={`${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`}
-                    style={{ color: themeObj.color }}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {process.env.REACT_APP_HOSTED_BASE}/{site.subdomain}
-                  </a>
-                </>
-              )}
-              <h2>Domains</h2>
-              <button onClick={openCheckDomainModal}>Add a domain</button>
-              {domains.length ? (
-                <>
-                  <ul className={styles.domainList}>
-                    {domains.map((data) => {
-                      return (
-                        <li
-                          key={data.domain}
-                          className={styles.domainListDomain}
-                        >
-                          <a
-                            href={`https://${data.domain}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            style={{ color: themeObj.color }}
-                          >
-                            {data.domain}
-                          </a>
-                          &nbsp;
-                          {data.isPointing ? (
-                            <FontAwesomeIcon
-                              icon={["fas", "check"]}
-                              color="lightgreen"
-                            />
-                          ) : (
-                            <FontAwesomeIcon
-                              icon={["fas", "window-close"]}
-                              color="salmon"
-                            />
-                          )}
-                          &nbsp;
-                          <button
-                            onClick={() => openDeleteDomainModal(data.domain)}
-                          >
-                            Delete
-                          </button>
-                          <br />
-                          {data.isPointing ? null : (
-                            <div>
-                              CNAME: <br />
-                              {data.cname}
-                            </div>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <p>
-                    Reminder: make sure each domain has a<br />
-                    "www" CNAME pointing at the CNAME listed under it.
-                  </p>
-                </>
-              ) : (
-                <div>You have no domains.</div>
-              )}
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      </>
-    );
-  };
-
   const shouldBlockNavigation = () => {
     return (
       isEditing &&
@@ -1185,26 +664,454 @@ const SingleSite = () => {
     switch (index) {
       case 1:
         return (
-          <div>
+          <div className={styles.editContents}>
             <h1>Style</h1>
+            <h1>General</h1>
+            <h2>Body Color</h2>
+            <HexColorPicker
+              color={bodyColor}
+              onChange={(e) => setBodyColor(e.toUpperCase())}
+            />
+            <TextField
+              type="text"
+              value={bodyColor}
+              onChange={(e) =>
+                standardizeColorInput(
+                  e.target.value,
+                  setBodyColor,
+                  bodyColorRef
+                )
+              }
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h2>Body Gradient</h2>
+            <GradientPicker
+              setter={(value) => setBodyGradient(value)}
+              value={bodyGradient}
+              place="body"
+              isContainerTransparent={null}
+            />
+            <h2>Body Animation</h2>
+            <Select
+              value={bodyAnimationStyle}
+              onChange={(e) => setBodyAnimationStyle(e.target.value)}
+              style={{ marginBottom: "20px" }}
+            >
+              <MenuItem value="">none</MenuItem>
+              <MenuItem value="absorbers">absorbers</MenuItem>
+              <MenuItem value="amongUs">amongUs</MenuItem>
+              <MenuItem value="background">background</MenuItem>
+              <MenuItem value="big">big</MenuItem>
+              <MenuItem value="bubble">bubble</MenuItem>
+              <MenuItem value="chars">chars</MenuItem>
+              <MenuItem value="collisions">collisions</MenuItem>
+              <MenuItem value="confetti">confetti</MenuItem>
+              <MenuItem value="connect">connect</MenuItem>
+              <MenuItem value="defaultAnim">default</MenuItem>
+              <MenuItem value="divRepulse">divRepulse</MenuItem>
+              <MenuItem value="emmiterAbsorber">emmiterAbsorber</MenuItem>
+              <MenuItem value="emitters">emitters</MenuItem>
+              <MenuItem value="fontawesome">fontawesome</MenuItem>
+              <MenuItem value="growing">growing</MenuItem>
+              <MenuItem value="hollowknight">hollowknight</MenuItem>
+              <MenuItem value="images">images</MenuItem>
+              <MenuItem value="multiplePolygonMasks">
+                multiplePolygonMasks
+              </MenuItem>
+              <MenuItem value="nasa">nasa</MenuItem>
+              <MenuItem value="noconfig">noconfig</MenuItem>
+              <MenuItem value="nyancat">nyancat</MenuItem>
+              <MenuItem value="nyancat2">nyancat2</MenuItem>
+              <MenuItem value="parallax">parallax</MenuItem>
+              <MenuItem value="polygonMask">polygonMask</MenuItem>
+              <MenuItem value="polygons">polygons</MenuItem>
+              <MenuItem value="preset">preset</MenuItem>
+              <MenuItem value="random">random</MenuItem>
+              <MenuItem value="shadow">shadow</MenuItem>
+              <MenuItem value="slow">slow</MenuItem>
+              <MenuItem value="snow">snow</MenuItem>
+              <MenuItem value="star">star</MenuItem>
+              <MenuItem value="trail">trail</MenuItem>
+              <MenuItem value="twinkle">twinkle</MenuItem>
+              <MenuItem value="virus">virus</MenuItem>
+              <MenuItem value="warp">warp</MenuItem>
+            </Select>
+            {bodyAnimationStyle && isEditing && (
+              <Particles
+                id="tsparticlessmall"
+                init={particlesInit}
+                loaded={particlesLoaded}
+                options={{
+                  ...ANIMATION_PRESETS[bodyAnimationStyle],
+                  autoplay: true,
+                  fullScreen: { enable: false },
+                  style: { height: "200px", width: "200px" },
+                }}
+              />
+            )}
+            <h2>Container Color</h2>
+            <HexColorPicker
+              color={containerColor}
+              onChange={(e) => setContainerColor(e.toUpperCase())}
+            />
+            <TextField
+              type="text"
+              value={containerColor}
+              onChange={(e) =>
+                standardizeColorInput(
+                  e.target.value,
+                  setContainerColor,
+                  containerColorRef
+                )
+              }
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h3>Transparent?</h3>
+            <Checkbox
+              checked={isContainerTransparent}
+              onChange={(e) => setIsContainerTransparent(e.target.checked)}
+            />
+            <h2>Container Gradient</h2>
+            <GradientPicker
+              setter={(value) => setContainerGradient(value)}
+              value={containerGradient}
+              place="container"
+              isContainerTransparent={containerColor === "#00000000"}
+            />
+            <h1>Images</h1>
+
+            <div className={styles.titleAndClear}>
+              <h2>Header Image</h2>
+              <FontAwesomeIcon
+                icon={["far", "window-close"]}
+                size="1x"
+                onClick={() => setHeaderImage("")}
+                color="salmon"
+                className={styles.clearImage}
+              />
+            </div>
+            <div className={styles.headerWarning}>
+              Note: Emojis override images in the header. You can clear an emoji
+              to use an image.
+            </div>
+            <img
+              src={headerImage?.base64 || headerImage?.url || defaultHeader}
+              width="200"
+              height="200"
+              alt="header"
+              className={styles.editImage}
+            />
+            <div className={styles.imageInput}>
+              <FileBase64
+                multiple={false}
+                onDone={(file) => setHeaderImage(file)}
+              />
+            </div>
+            <button onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>
+              Choose from Pexels
+            </button>
+            <button onClick={() => setIsGiphyModalShowing(true)}>
+              Choose from GIPHY
+            </button>
+
+            <div className={styles.titleAndClear}>
+              <h2>Header Emoji</h2>
+              <FontAwesomeIcon
+                icon={["far", "window-close"]}
+                size="1x"
+                onClick={() => setHeaderEmoji("")}
+                color="salmon"
+                className={styles.clearImage}
+              />
+            </div>
+            {headerEmoji && (
+              <div className={styles.selectedEmoji}>{headerEmoji}</div>
+            )}
+            <Picker onEmojiClick={onEmojiClick} />
+
+            <div className={styles.titleAndClear}>
+              <h2>Background Image</h2>
+              <FontAwesomeIcon
+                icon={["far", "window-close"]}
+                size="1x"
+                onClick={() => setBackgroundImage("")}
+                color="salmon"
+                className={styles.clearImage}
+              />
+            </div>
+            <img
+              src={
+                backgroundImage?.base64 || backgroundImage?.url || defaultHeader
+              }
+              width="200"
+              height="200"
+              alt="background"
+              className={styles.editImage}
+            />
+            <div className={styles.imageInput}>
+              <FileBase64
+                multiple={false}
+                onDone={(file) => setBackgroundImage(file)}
+              />
+            </div>
+            <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>
+              Choose from Pexels
+            </button>
+            <button
+              onClick={() => setIsDeleteModalShowing(true)}
+              className={styles.deleteSiteButton}
+            >
+              Delete Site
+            </button>
           </div>
         );
       case 2:
         return (
-          <div>
+          <div className={styles.editContents}>
             <h1>Analytics</h1>
           </div>
         );
       case 3:
         return (
-          <div>
+          <div className={styles.editContents}>
             <h1>Settings</h1>
+
+            <h1>Titles</h1>
+            <h2>Title</h2>
+            <TextField
+              type="text"
+              value={title}
+              placeholder="Title"
+              onChange={(e) => setTitle(e.target.value)}
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h2>Subtitle</h2>
+            <TextField
+              type="text"
+              value={subtitle}
+              placeholder="Subtitle"
+              onChange={(e) => setSubtitle(e.target.value)}
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h2>Title Color</h2>
+            <HexColorPicker color={titlesColor} onChange={setTitlesColor} />
+            <TextField
+              type="text"
+              value={titlesColor}
+              onChange={(e) =>
+                standardizeColorInput(
+                  e.target.value,
+                  setTitlesColor,
+                  titlesColorRef
+                )
+              }
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h1>Site/Domains</h1>
+            <h2>Subdomain</h2>
+            <div className={styles.siteAndPath}>
+              <TextField
+                type="text"
+                className={styles.textField}
+                value={subdomain}
+                name="subdomain"
+                onChange={(e) => setSubdomain(e.target.value)}
+                placeholder="subdomain"
+                variant="filled"
+                size="small"
+                error={!isSubdomainValid || subdomainError}
+                helperText={subdomainError}
+              />
+              .mostlink.io
+            </div>
+            {subdomain && subdomainError === SUBDOMAIN_TAKEN_ERROR && (
+              <div
+                onClick={() => setSubdomain(suggestion)}
+                className={styles.suggestion}
+              >
+                How about {suggestion}?
+              </div>
+            )}
+            <h2>Live Sites</h2>
+            {process.env.REACT_APP_ENVIRONMENT === "production" ||
+            process.env.REACT_APP_ENVIRONMENT === "development" ? (
+              <>
+                <a
+                  href={`https://www.${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`}
+                  style={{ color: themeObj.color }}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  https://www.{process.env.REACT_APP_HOSTED_BASE}/
+                  {site.subdomain}
+                </a>
+                <br />
+                <a
+                  href={`https://www.${process.env.REACT_APP_HOSTED_BASE_SHORT}/${site.subdomain}`}
+                  style={{ color: themeObj.color }}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  https://www.{process.env.REACT_APP_HOSTED_BASE_SHORT}/
+                  {site.subdomain}
+                </a>
+              </>
+            ) : (
+              <>
+                <a
+                  href={`${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`}
+                  style={{ color: themeObj.color }}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {process.env.REACT_APP_HOSTED_BASE}/{site.subdomain}
+                </a>
+              </>
+            )}
+            <h2>Domains</h2>
+            <button onClick={openCheckDomainModal}>Add a domain</button>
+            {domains.length ? (
+              <>
+                <ul className={styles.domainList}>
+                  {domains.map((data) => {
+                    return (
+                      <li key={data.domain} className={styles.domainListDomain}>
+                        <a
+                          href={`https://${data.domain}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{ color: themeObj.color }}
+                        >
+                          {data.domain}
+                        </a>
+                        &nbsp;
+                        {data.isPointing ? (
+                          <FontAwesomeIcon
+                            icon={["fas", "check"]}
+                            color="lightgreen"
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={["fas", "window-close"]}
+                            color="salmon"
+                          />
+                        )}
+                        &nbsp;
+                        <button
+                          onClick={() => openDeleteDomainModal(data.domain)}
+                        >
+                          Delete
+                        </button>
+                        <br />
+                        {data.isPointing ? null : (
+                          <div>
+                            CNAME: <br />
+                            {data.cname}
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+                <p>
+                  Reminder: make sure each domain has a<br />
+                  "www" CNAME pointing at the CNAME listed under it.
+                </p>
+              </>
+            ) : (
+              <div>You have no domains.</div>
+            )}
           </div>
         );
       default:
         return (
-          <div>
+          <div className={styles.editContents}>
             <h1>Links</h1>
+            <h2>Link Text Color</h2>
+            <HexColorPicker
+              color={linkTextColor}
+              onChange={(e) => setLinkTextColor(e.toUpperCase())}
+            />
+            <TextField
+              type="text"
+              value={linkTextColor}
+              onChange={(e) =>
+                standardizeColorInput(
+                  e.target.value,
+                  setLinkTextColor,
+                  linkTextColorRef
+                )
+              }
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h2>Link Background Color</h2>
+            <HexColorPicker
+              color={linkBackgroundColor}
+              onChange={(e) => setLinkBackgroundColor(e.toUpperCase())}
+            />
+            <TextField
+              type="text"
+              value={linkBackgroundColor}
+              onChange={(e) =>
+                standardizeColorInput(
+                  e.target.value,
+                  setLinkBackgroundColor,
+                  linkBackgroundColorRef
+                )
+              }
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h2>Live Notification Color</h2>
+            <HexColorPicker
+              color={liveNotificationColor}
+              onChange={(e) => setLiveNotificationColor(e.toUpperCase())}
+            />
+            <TextField
+              type="text"
+              value={liveNotificationColor}
+              onChange={(e) =>
+                standardizeColorInput(
+                  e.target.value,
+                  setLiveNotificationColor,
+                  liveNotificationColorRef
+                )
+              }
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h2>Links</h2>
+            <ul className={styles.linkEditList}>
+              {links?.map((link, index) => {
+                return (
+                  <EditableLink
+                    link={link}
+                    links={links}
+                    setLinks={setLinks}
+                    deleteLink={deleteLink}
+                    moveLink={moveLink}
+                    index={index}
+                    key={link.id}
+                    id={link.id}
+                  />
+                );
+              })}
+            </ul>
+            <button onClick={addLink}>+</button>
           </div>
         );
     }
@@ -1392,33 +1299,6 @@ const SingleSite = () => {
           <style
             children={isEditing ? keyFramesStartEditTray : keyFramesEndEditTray}
           />
-          <div
-            className={styles.editTray}
-            style={{
-              ...editTrayStyle,
-              animationName:
-                hasEditButtonBeenClicked &&
-                (isEditing ? "edit-tray-move-right" : "edit-tray-move-left"),
-              animationDuration: "2s",
-              backgroundColor: themeObj.editTrayBackground,
-            }}
-          >
-            <div className={styles.saveAndCancelButtons}>
-              <FontAwesomeIcon
-                icon={["far", "save"]}
-                size="3x"
-                onClick={onSave}
-                color="lightgreen"
-              />
-              <FontAwesomeIcon
-                icon={["far", "window-close"]}
-                size="3x"
-                onClick={onCancel}
-                color="salmon"
-              />
-            </div>
-            {getEditContents()}
-          </div>
 
           {/* tabs go here */}
 
