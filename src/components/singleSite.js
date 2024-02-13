@@ -61,7 +61,7 @@ function getWindowDimensions() {
 }
 
 const SingleSite = () => {
-  const { site, siteLoading, fetchSite, theme, themeObj } =
+  const { site, siteLoading, fetchSite, theme, themeObj, singleSiteTabIndex } =
     useContext(SitesContext);
 
   const match = useParams();
@@ -1181,6 +1181,35 @@ const SingleSite = () => {
     setHoveredLinkIndex(null);
   };
 
+  const getTabSection = (index) => {
+    switch (index) {
+      case 1:
+        return (
+          <div>
+            <h1>Style</h1>
+          </div>
+        );
+      case 2:
+        return (
+          <div>
+            <h1>Analytics</h1>
+          </div>
+        );
+      case 3:
+        return (
+          <div>
+            <h1>Settings</h1>
+          </div>
+        );
+      default:
+        return (
+          <div>
+            <h1>Links</h1>
+          </div>
+        );
+    }
+  };
+
   const getDisplayContents = (
     thisTitle,
     thisSubtitle,
@@ -1203,6 +1232,9 @@ const SingleSite = () => {
       <div className={styles.bodyContainer}>
         <div className={styles.singleSiteWrapper}>
           {thisBodyAnimationStyle && !isEditing && memoizedParticles}
+          <div className={styles.tabSection}>
+            {getTabSection(singleSiteTabIndex)}
+          </div>
           <div
             className={styles.singleSiteContainer}
             style={{

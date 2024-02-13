@@ -30,6 +30,12 @@
   width: 1px;
 }
 
+.tabSection {
+  width: 50%;
+  height: 400px;
+  background-color: white;
+}
+
 .singleTitle,
 .singleSubtitle {
   text-align: center;

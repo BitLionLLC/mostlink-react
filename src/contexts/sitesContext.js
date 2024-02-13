@@ -23,6 +23,7 @@ const SitesContextProvider = (props) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editModalOpenedWith, setEditModalOpenedWith] = useState({});
   const createSiteModalRef = useRef(null);
+  const [singleSiteTabIndex, setSingleSiteTabIndex] = useState(0);
 
   useEffect(() => {
     fetchJwt();
@@ -118,6 +119,7 @@ const SitesContextProvider = (props) => {
         withGoogle,
         isEditModalOpen,
         editModalOpenedWith,
+        singleSiteTabIndex,
         fetchSite,
         fetchSites,
         fetchUser,
@@ -130,6 +132,7 @@ const SitesContextProvider = (props) => {
         setIsSubscribed,
         setIsEditModalOpen,
         setEditModalOpenedWith,
+        setSingleSiteTabIndex,
       }}
     >
       {props.children}

@@ -22,6 +22,7 @@ const SingleSiteHeader = () => {
     themeObj,
     toggleTheme,
     siteLoading,
+    setSingleSiteTabIndex,
   } = useContext(SitesContext);
   const [isAccountMenuShown, setIsAccountMenuShown] = useState(false);
   const [isHamburgerMenuShown, setIsHamburgerMenuShown] = useState(false);
@@ -117,7 +118,7 @@ const SingleSiteHeader = () => {
           style={{
             backgroundColor: themeObj.accentColor,
           }}
-          onClick={() => {}}
+          onClick={() => setSingleSiteTabIndex(0)}
           className={styles.link}
         >
           Links
@@ -126,7 +127,7 @@ const SingleSiteHeader = () => {
           style={{
             backgroundColor: themeObj.accentColor,
           }}
-          onClick={() => {}}
+          onClick={() => setSingleSiteTabIndex(1)}
           className={styles.link}
         >
           Style
@@ -135,7 +136,7 @@ const SingleSiteHeader = () => {
           style={{
             backgroundColor: themeObj.accentColor,
           }}
-          onClick={() => {}}
+          onClick={() => setSingleSiteTabIndex(2)}
           className={styles.link}
         >
           Analytics
@@ -144,7 +145,7 @@ const SingleSiteHeader = () => {
           style={{
             backgroundColor: themeObj.accentColor,
           }}
-          onClick={() => {}}
+          onClick={() => setSingleSiteTabIndex(3)}
           className={styles.link}
         >
           Settings
