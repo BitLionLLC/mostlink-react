@@ -666,7 +666,63 @@ const SingleSite = () => {
         return (
           <div className={styles.editContents}>
             <h1>Style</h1>
-            <h1>General</h1>
+            <h2>Link Text Color</h2>
+            <HexColorPicker
+              color={linkTextColor}
+              onChange={(e) => setLinkTextColor(e.toUpperCase())}
+            />
+            <TextField
+              type="text"
+              value={linkTextColor}
+              onChange={(e) =>
+                standardizeColorInput(
+                  e.target.value,
+                  setLinkTextColor,
+                  linkTextColorRef
+                )
+              }
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h2>Link Background Color</h2>
+            <HexColorPicker
+              color={linkBackgroundColor}
+              onChange={(e) => setLinkBackgroundColor(e.toUpperCase())}
+            />
+            <TextField
+              type="text"
+              value={linkBackgroundColor}
+              onChange={(e) =>
+                standardizeColorInput(
+                  e.target.value,
+                  setLinkBackgroundColor,
+                  linkBackgroundColorRef
+                )
+              }
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
+            <h2>Live Notification Color</h2>
+            <HexColorPicker
+              color={liveNotificationColor}
+              onChange={(e) => setLiveNotificationColor(e.toUpperCase())}
+            />
+            <TextField
+              type="text"
+              value={liveNotificationColor}
+              onChange={(e) =>
+                standardizeColorInput(
+                  e.target.value,
+                  setLiveNotificationColor,
+                  liveNotificationColorRef
+                )
+              }
+              className={styles.textField}
+              size="small"
+              variant="filled"
+            />
             <h2>Body Color</h2>
             <HexColorPicker
               color={bodyColor}
@@ -861,26 +917,19 @@ const SingleSite = () => {
             <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>
               Choose from Pexels
             </button>
-            <button
-              onClick={() => setIsDeleteModalShowing(true)}
-              className={styles.deleteSiteButton}
-            >
-              Delete Site
-            </button>
           </div>
         );
       case 2:
         return (
           <div className={styles.editContents}>
             <h1>Analytics</h1>
+            <p>Coming soon</p>
           </div>
         );
       case 3:
         return (
           <div className={styles.editContents}>
             <h1>Settings</h1>
-
-            <h1>Titles</h1>
             <h2>Title</h2>
             <TextField
               type="text"
@@ -1031,70 +1080,18 @@ const SingleSite = () => {
             ) : (
               <div>You have no domains.</div>
             )}
+            <button
+              onClick={() => setIsDeleteModalShowing(true)}
+              className={styles.deleteSiteButton}
+            >
+              Delete Site
+            </button>
           </div>
         );
       default:
         return (
           <div className={styles.editContents}>
             <h1>Links</h1>
-            <h2>Link Text Color</h2>
-            <HexColorPicker
-              color={linkTextColor}
-              onChange={(e) => setLinkTextColor(e.toUpperCase())}
-            />
-            <TextField
-              type="text"
-              value={linkTextColor}
-              onChange={(e) =>
-                standardizeColorInput(
-                  e.target.value,
-                  setLinkTextColor,
-                  linkTextColorRef
-                )
-              }
-              className={styles.textField}
-              size="small"
-              variant="filled"
-            />
-            <h2>Link Background Color</h2>
-            <HexColorPicker
-              color={linkBackgroundColor}
-              onChange={(e) => setLinkBackgroundColor(e.toUpperCase())}
-            />
-            <TextField
-              type="text"
-              value={linkBackgroundColor}
-              onChange={(e) =>
-                standardizeColorInput(
-                  e.target.value,
-                  setLinkBackgroundColor,
-                  linkBackgroundColorRef
-                )
-              }
-              className={styles.textField}
-              size="small"
-              variant="filled"
-            />
-            <h2>Live Notification Color</h2>
-            <HexColorPicker
-              color={liveNotificationColor}
-              onChange={(e) => setLiveNotificationColor(e.toUpperCase())}
-            />
-            <TextField
-              type="text"
-              value={liveNotificationColor}
-              onChange={(e) =>
-                standardizeColorInput(
-                  e.target.value,
-                  setLiveNotificationColor,
-                  liveNotificationColorRef
-                )
-              }
-              className={styles.textField}
-              size="small"
-              variant="filled"
-            />
-            <h2>Links</h2>
             <ul className={styles.linkEditList}>
               {links?.map((link, index) => {
                 return (
@@ -1139,7 +1136,13 @@ const SingleSite = () => {
       <div className={styles.bodyContainer}>
         <div className={styles.singleSiteWrapper}>
           {thisBodyAnimationStyle && !isEditing && memoizedParticles}
-          <div className={styles.tabSection}>
+          <div
+            className={styles.tabSection}
+            style={{
+              color: themeObj.color,
+              backgroundColor: themeObj.editTrayBackground,
+            }}
+          >
             {getTabSection(singleSiteTabIndex)}
           </div>
           <div

@@ -10,7 +10,7 @@ export const lightTheme = {
   accentColor: "blue",
   loggedInColor: "green",
   sitesBoxColor: "lightblue",
-  editTrayBackground: "slateblue"
+  editTrayBackground: "#EEE",
 };
 
 export const darkTheme = {
@@ -23,7 +23,7 @@ export const darkTheme = {
   accentColor: "dodgerblue",
   loggedInColor: "lightgreen",
   sitesBoxColor: "midnightblue",
-  editTrayBackground: "#111122"
+  editTrayBackground: "#111122",
 };
 
 export const muiDarkTheme = createTheme({

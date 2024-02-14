@@ -43,7 +43,7 @@
 
 .tabSection {
   width: 50%;
-  min-height: 400px;
+  min-height: calc(100vh - 100px);
   background-color: #444;
   overflow: scroll;
 }
