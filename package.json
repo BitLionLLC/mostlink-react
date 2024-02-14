@@ -17,7 +17,7 @@
     "axios": "^1.6.7",
     "colornames": "^1.1.1",
     "dotenv": "^16.4.1",
-    "emoji-picker-react": "^4.7.10",
+    "emoji-picker-react": "^3.5.1",
     "eslint-config-react-app": "^7.0.1",
     "immutability-helper": "^3.1.1",
     "invert-color": "^2.0.0",
