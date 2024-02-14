@@ -831,7 +831,7 @@ const SingleSite = () => {
             {headerEmoji && (
               <div className={styles.selectedEmoji}>{headerEmoji}</div>
             )}
-            <Picker onEmojiClick={onEmojiClick} />
+            <Picker onEmojiClick={onEmojiClick} autoFocusSearch={false} />
 
             <div className={styles.titleAndClear}>
               <h2>Background Image</h2>
