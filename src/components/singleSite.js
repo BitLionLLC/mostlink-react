@@ -1156,88 +1156,90 @@ const SingleSite = () => {
             }}
           >
             <img src={iPhoneImage} className={styles.iPhone} />
-            {headerEmoji ? (
-              <div className={styles.headerEmoji}>{headerEmoji}</div>
-            ) : (
-              <img
-                src={thisHeaderImage || defaultHeader}
-                alt={title}
-                className={styles.headerImage}
-                width="200"
-                height="200"
-              />
-            )}
-            <h1 className={styles.singleTitle} style={{ color: titlesColor }}>
-              {thisTitle}
-            </h1>
-            <h3
-              className={styles.singleSubtitle}
-              style={{ color: titlesColor }}
-            >
-              {thisSubtitle}
-            </h3>
-            {links ? (
-              <ul className={styles.linksList}>
-                {theseLinks?.map((link, i) => {
-                  const hoverStyle = {
-                    color: thisLinkBackgroundColor,
-                    background: thisLinkTextColor,
-                  };
-                  const nonHoverStyle = {
-                    color: thisLinkTextColor,
-                    background: thisLinkBackgroundColor,
-                  };
+            <div className={styles.singleSiteContents}>
+              {headerEmoji ? (
+                <div className={styles.headerEmoji}>{headerEmoji}</div>
+              ) : (
+                <img
+                  src={thisHeaderImage || defaultHeader}
+                  alt={title}
+                  className={styles.headerImage}
+                  width="200"
+                  height="200"
+                />
+              )}
+              <h1 className={styles.singleTitle} style={{ color: titlesColor }}>
+                {thisTitle}
+              </h1>
+              <h3
+                className={styles.singleSubtitle}
+                style={{ color: titlesColor }}
+              >
+                {thisSubtitle}
+              </h3>
+              {links ? (
+                <ul className={styles.linksList}>
+                  {theseLinks?.map((link, i) => {
+                    const hoverStyle = {
+                      color: thisLinkBackgroundColor,
+                      background: thisLinkTextColor,
+                    };
+                    const nonHoverStyle = {
+                      color: thisLinkTextColor,
+                      background: thisLinkBackgroundColor,
+                    };
 
-                  return (
-                    <a
-                      href={
-                        link.href.startsWith("http")
-                          ? link.href
-                          : "https://" + link.href
-                      }
-                      target="_blank"
-                      rel="noreferrer"
-                      className={styles.individualLink}
-                      style={{
-                        color:
-                          hoveredLinkIndex === i
-                            ? hoverStyle.color
-                            : nonHoverStyle.color,
-                        background:
-                          hoveredLinkIndex === i
-                            ? hoverStyle.background
-                            : nonHoverStyle.background,
-                      }}
-                      key={i}
-                      onMouseEnter={() => onMouseEnter(i)}
-                      onMouseLeave={onMouseLeave}
-                    >
-                      <div className={styles.linkTextAndLiveStatus}>
-                        <div className={styles.linkText}>{link.text}</div>
-                        {link.live ? (
-                          <div>
-                            {link.live.isLive ? (
-                              <>
-                                <span>-</span>
-                                <span
-                                  style={{ color: thisLiveNotificationColor }}
-                                >
-                                  {" "}
-                                  LIVE!
-                                </span>
-                              </>
-                            ) : (
-                              "- not live"
-                            )}
-                          </div>
-                        ) : null}
-                      </div>
-                      <FontAwesomeIcon icon={link?.icon?.split("_")} />
-                    </a>
-                  );
-                })}
-              </ul>
-            ) : null}
+                    return (
+                      <a
+                        href={
+                          link.href.startsWith("http")
+                            ? link.href
+                            : "https://" + link.href
+                        }
+                        target="_blank"
+                        rel="noreferrer"
+                        className={styles.individualLink}
+                        style={{
+                          color:
+                            hoveredLinkIndex === i
+                              ? hoverStyle.color
+                              : nonHoverStyle.color,
+                          background:
+                            hoveredLinkIndex === i
+                              ? hoverStyle.background
+                              : nonHoverStyle.background,
+                        }}
+                        key={i}
+                        onMouseEnter={() => onMouseEnter(i)}
+                        onMouseLeave={onMouseLeave}
+                      >
+                        <div className={styles.linkTextAndLiveStatus}>
+                          <div className={styles.linkText}>{link.text}</div>
+                          {link.live ? (
+                            <div>
+                              {link.live.isLive ? (
+                                <>
+                                  <span>-</span>
+                                  <span
+                                    style={{ color: thisLiveNotificationColor }}
+                                  >
+                                    {" "}
+                                    LIVE!
+                                  </span>
+                                </>
+                              ) : (
+                                "- not live"
+                              )}
+                            </div>
+                          ) : null}
+                        </div>
+                        <FontAwesomeIcon icon={link?.icon?.split("_")} />
+                      </a>
+                    );
+                  })}
+                </ul>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>
@@ -1302,37 +1304,21 @@ const SingleSite = () => {
 
           {/* tabs go here */}
 
-          {isEditing
-            ? getDisplayContents(
-                title,
-                subtitle,
-                headerImage?.base64 || headerImage?.url,
-                links,
-                titlesColor,
-                containerColor,
-                containerGradient,
-                bodyColor,
-                bodyGradient,
-                linkTextColor,
-                linkBackgroundColor,
-                liveNotificationColor,
-                bodyAnimationStyle
-              )
-            : getDisplayContents(
-                site.title,
-                site.subtitle,
-                site.headerImage?.base64 || site.headerImage?.url,
-                site.links,
-                site.titlesColor,
-                site.containerColor,
-                site.containerGradient,
-                site.bodyColor,
-                site.bodyGradient,
-                site.linkTextColor,
-                site.linkBackgroundColor,
-                site.liveNotificationColor,
-                site.bodyAnimationStyle
-              )}
+          {getDisplayContents(
+            title,
+            subtitle,
+            headerImage?.base64 || headerImage?.url,
+            links,
+            titlesColor,
+            containerColor,
+            containerGradient,
+            bodyColor,
+            bodyGradient,
+            linkTextColor,
+            linkBackgroundColor,
+            liveNotificationColor,
+            bodyAnimationStyle
+          )}
           {isPexelsModalShowing ? (
             <>
               <div

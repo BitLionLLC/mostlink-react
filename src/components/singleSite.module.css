@@ -31,6 +31,16 @@
   width: 1px;
 }
 
+.singleSiteContents {
+  display: inline-flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: scroll;
+  padding-top: 50px;
+  min-height: 100%;
+}
+
 .tabSection {
   width: 50%;
   min-height: 400px;
