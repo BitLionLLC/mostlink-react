@@ -34,8 +34,8 @@
     "react-select": "^5.8.0",
     "react-toastify": "^10.0.4",
     "react-tooltip": "^5.26.0",
-    "react-tsparticles": "^2.12.2",
-    "tsparticles": "^3.2.1",
+    "react-tsparticles": "^2.0.6",
+    "tsparticles": "^2.0.6",
     "web-vitals": "^3.5.2"
   },
   "scripts": {
