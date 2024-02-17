@@ -406,7 +406,7 @@ const SingleSite = () => {
           fetchSite(match.id);
         })
         .catch((err) => {
-          toast(err.response.data.error, { type: "error" });
+          toast(err.response.data.error, { type: "error", theme });
           console.error("Error saving site: " + err);
         });
   };
@@ -499,7 +499,7 @@ const SingleSite = () => {
         setIsDomainAvailable(res.data.domain.isAvailable);
         setHasDomainBeenChecked(true);
       })
-      .catch((err) => toast(err.response.data.error, { type: "error" }));
+      .catch((err) => toast(err.response.data.error, { type: "error", theme }));
   };
 
   const registerDomain = () => {
@@ -521,7 +521,7 @@ const SingleSite = () => {
         setCurrentDomainCname(res.data.cname);
         fetchSiteDomains();
       })
-      .catch((err) => toast(err.response.data.error, { type: "error" }));
+      .catch((err) => toast(err.response.data.error, { type: "error", theme }));
   };
 
   const deleteDomain = () => {
@@ -531,13 +531,14 @@ const SingleSite = () => {
         { withCredentials: true }
       )
       .then(() => {
-        toast("Domain successfully deleted.", { type: "success" });
+        toast("Domain successfully deleted.", { type: "success", theme });
         setIsDeleteDomainModalShowing(false);
         fetchSiteDomains();
       })
       .catch((err) =>
         toast("Could not delete the domain. Please try again.", {
           type: "error",
+          theme,
         })
       );
   };
@@ -616,11 +617,11 @@ const SingleSite = () => {
         { withCredentials: true }
       )
       .then((res) => {
-        toast("Site deleted.", { type: "success" });
+        toast("Site deleted.", { type: "success", theme });
         navigate("/home");
       })
       .catch((err) => {
-        toast(err.response.data.error, { type: "error" });
+        toast(err.response.data.error, { type: "error", theme });
       });
   };
 

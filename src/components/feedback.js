@@ -49,10 +49,16 @@ const Feedback = () => {
     axios
       .post(`${process.env.REACT_APP_API_BASE}/api/feedback`, data)
       .then(() => {
-        toast("Thanks! Successfully sent feedback.", { type: "success" });
+        toast("Thanks! Successfully sent feedback.", {
+          type: "success",
+          theme,
+        });
       })
       .catch(() => {
-        toast("Could not send feedback. Please try again.", { type: "error" });
+        toast("Could not send feedback. Please try again.", {
+          type: "error",
+          theme,
+        });
       });
   };
 

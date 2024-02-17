@@ -45,12 +45,14 @@ const ResetPassword = () => {
       .then((res) => {
         toast("Password successfully reset. Refresh and you'll log in.", {
           type: "success",
+          theme,
         });
         navigate("/");
       })
       .catch((err) => {
         toast("Could not create reset your password. Try again.", {
           type: "error",
+          theme,
         });
       });
   };

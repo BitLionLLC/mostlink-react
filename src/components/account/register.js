@@ -115,11 +115,13 @@ const Register = () => {
           navigate("/account/please-verify");
           toast("Registered successfully. Please verify your email.", {
             type: "success",
+            theme,
           });
         })
         .catch((err) => {
           toast("A user with that username already exists. Please log in.", {
             type: "error",
+            theme,
           });
         });
     } else {
@@ -174,11 +176,12 @@ const Register = () => {
           setJwtToken(res.data.token);
           setUserId(res.data.id);
           navigate("/home");
-          toast("Registered successfully.", { type: "success" });
+          toast("Registered successfully.", { type: "success", theme });
         })
         .catch((err) => {
           toast("A user with that username already exists. Please log in.", {
             type: "error",
+            theme,
           });
         });
     }

@@ -112,13 +112,15 @@ const Account = () => {
       .catch((err) => {
         toast("Could not create portal session. Please subscribe first.", {
           type: "error",
+          theme,
         });
       });
   };
 
   const { signOut } = useGoogleLogout({
     jsSrc: "https://apis.google.com/js/api.js",
-    onFailure: (err) => toast(err.response.data.error, { type: "error" }),
+    onFailure: (err) =>
+      toast(err.response.data.error, { type: "error", theme }),
     clientId:
       "481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com",
     redirectUri: "/",
@@ -139,13 +141,13 @@ const Account = () => {
         setUserId(null);
         localStorage.removeItem("mostlinkUserId");
 
-        toast("Successfully deleted your account.", { type: "success" });
+        toast("Successfully deleted your account.", { type: "success", theme });
         navigate("/");
       })
       .catch((err) => {
         toast(
           "Could not delete your account. Please check your password and try again.",
-          { type: "error" }
+          { type: "error", theme }
         );
       });
   };
@@ -158,11 +160,15 @@ const Account = () => {
         { withCredentials: true }
       )
       .then(() => {
-        toast("Successfully changed your password.", { type: "success" });
+        toast("Successfully changed your password.", {
+          type: "success",
+          theme,
+        });
       })
       .catch(() => {
         toast("There was an issue changing your password. Please try again.", {
           type: "error",
+          theme,
         });
       });
   };

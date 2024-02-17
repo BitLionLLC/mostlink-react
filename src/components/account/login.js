@@ -56,13 +56,13 @@ const Login = () => {
         setWithGoogle(res.data.google);
         navigate("/home");
         localStorage.setItem("mostlinkUserId", res.data.id);
-        toast("Successfully logged in.", { type: "success" });
+        toast("Successfully logged in.", { type: "success", theme });
       })
       .catch((err) => {
         if (err.response.data.error === "Please verify your email.") {
           navigate("/account/resend-verification");
         }
-        toast(err.response.data.error, { type: "error" });
+        toast(err.response.data.error, { type: "error", theme });
       });
   };
 
@@ -94,10 +94,10 @@ const Login = () => {
           setWithGoogle(res.data.google);
           navigate("/home");
           localStorage.setItem("mostlinkUserId", res.data.id);
-          toast("Successfully logged in.", { type: "success" });
+          toast("Successfully logged in.", { type: "success", theme });
         })
         .catch((err) => {
-          toast(err.response.data.error, { type: "error" });
+          toast(err.response.data.error, { type: "error", theme });
         });
     }
   };

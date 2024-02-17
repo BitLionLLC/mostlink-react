@@ -27,12 +27,13 @@ const ForgotPassword = () => {
       .then((res) => {
         toast("Password reset initiated. Check your email inbox.", {
           type: "success",
+          theme,
         });
       })
       .catch((err) => {
         toast(
           "Could not intitiate a password reset. Check your email address and try again.",
-          { type: "error" }
+          { type: "error", theme }
         );
       });
   };

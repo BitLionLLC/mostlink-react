@@ -30,7 +30,7 @@ const SingleSiteHeader = () => {
 
   const { signOut } = useGoogleLogout({
     jsSrc: "https://apis.google.com/js/api.js",
-    onFailure: (err) => toast(err, { type: "error" }),
+    onFailure: (err) => toast(err, { type: "error", theme }),
     clientId:
       "481338672906-flcd6hp10b7svfp0k5q8t289l5bmv40q.apps.googleusercontent.com",
     redirectUri: "/",
@@ -44,7 +44,7 @@ const SingleSiteHeader = () => {
         withCredentials: true,
       })
       .then(() => {
-        toast("Successfully logged out.", { type: "success" });
+        toast("Successfully logged out.", { type: "success", theme });
       });
 
     setJwtToken(null);

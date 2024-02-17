@@ -9,7 +9,7 @@ import styles from "./resendVerification.module.css";
 
 const ResendVerification = () => {
   const navigate = useNavigate();
-  const { themeObj } = useContext(SitesContext);
+  const { themeObj, theme } = useContext(SitesContext);
   const [email, setEmail] = useState("");
 
   const onCancel = () => {
@@ -31,6 +31,7 @@ const ResendVerification = () => {
           navigate("/account/please-verify");
           toast("Email verification re-sent. Please verify your email.", {
             type: "success",
+            theme,
           });
         })
         .catch((err) => {
@@ -40,7 +41,7 @@ const ResendVerification = () => {
           ) {
             navigate("/account/login");
           }
-          toast(err.response.data.error, { type: "error" });
+          toast(err.response.data.error, { type: "error", theme });
         });
   };
 

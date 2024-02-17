@@ -69,7 +69,7 @@ const SitesContextProvider = (props) => {
       })
       .catch((err) => {
         setSiteLoading(false);
-        toast(err.response.data.error, { type: "error" });
+        toast(err.response.data.error, { type: "error", theme });
       });
   };
 
@@ -86,7 +86,7 @@ const SitesContextProvider = (props) => {
       })
       .catch((err) => {
         setSitesLoading(false);
-        toast(err.response.data.error, { type: "error" });
+        toast(err.response.data.error, { type: "error", theme });
       });
   };
 

@@ -10,7 +10,7 @@ const VerifyEmail = () => {
   const match = useParams();
   const { hash, userId } = match.params;
   const [isActive, setIsActive] = useState(false);
-  const { themeObj } = useContext(SitesContext);
+  const { themeObj, theme } = useContext(SitesContext);
 
   useEffect(() => {
     if (hash && userId) {
@@ -22,10 +22,10 @@ const VerifyEmail = () => {
         )
         .then(() => {
           setIsActive(true);
-          toast("Email verified!", { type: "success" });
+          toast("Email verified!", { type: "success", theme });
         })
         .catch((err) => {
-          toast("Could not verify your email.", { type: "error" });
+          toast("Could not verify your email.", { type: "error", theme });
         });
     }
   }, [hash, userId]);
