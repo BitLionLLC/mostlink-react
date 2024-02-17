@@ -10,9 +10,8 @@
 }
 
 .singleSiteContainer {
-  position: absolute;
+  position: fixed;
   right: 150px;
-  top: 50px;
   width: 350px;
   height: 700px;
   transform-origin: top;

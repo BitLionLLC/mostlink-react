@@ -1150,6 +1150,8 @@ const SingleSite = () => {
                   ? windowDimensions.height / 1000
                   : 0.8
               })`,
+              position: windowDimensions.height >= 800 ? "fixed" : "absolute",
+              top: windowDimensions.height >= 800 ? "150px" : "30px",
             }}
           >
             <img src={iPhoneImage} className={styles.iPhone} />
