@@ -10,11 +10,12 @@
 }
 
 .singleSiteContainer {
-  position: fixed;
-  right: 100px;
-  top: 100px;
+  position: absolute;
+  right: 150px;
+  top: 50px;
   width: 350px;
   height: 700px;
+  transform-origin: top;
   border-radius: 30px;
   display: inline-flex;
   flex-flow: column;

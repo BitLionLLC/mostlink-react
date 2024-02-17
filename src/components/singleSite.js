@@ -1146,11 +1146,10 @@ const SingleSite = () => {
               backgroundColor: !thisContainerGradient && thisContainerColor,
               backgroundImage: thisContainerGradient,
               transform: `scale(${
-                windowDimensions.height >= 600
+                windowDimensions.height >= 800
                   ? windowDimensions.height / 1000
-                  : 0.6
+                  : 0.8
               })`,
-              marginTop: windowDimensions.height >= 600 ? "0" : "100px",
             }}
           >
             <img src={iPhoneImage} className={styles.iPhone} />
