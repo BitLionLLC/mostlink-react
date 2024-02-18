@@ -549,7 +549,7 @@ const SingleSite = () => {
     setLinks(newLinks);
   };
 
-  const onEmojiClick = (event, emojiObject) => {
+  const onEmojiClick = (emojiObject) => {
     setHeaderEmoji(emojiObject.emoji);
   };
 
@@ -1088,6 +1088,7 @@ const SingleSite = () => {
         return (
           <div className={styles.editContents}>
             <h1>Links</h1>
+            <button onClick={addLink}>+</button>
             <ul className={styles.linkEditList}>
               {links?.map((link, index) => {
                 return (
@@ -1104,7 +1105,6 @@ const SingleSite = () => {
                 );
               })}
             </ul>
-            <button onClick={addLink}>+</button>
           </div>
         );
     }
@@ -1139,6 +1139,14 @@ const SingleSite = () => {
               backgroundColor: themeObj.editTrayBackground,
             }}
           >
+            <FontAwesomeIcon
+              icon={["fas", "square-check"]}
+              color="green"
+              className={styles.saveButton}
+              size="3x"
+              onClick={onSave}
+            />
+
             {getTabSection(singleSiteTabIndex)}
           </div>
           <div
@@ -1156,6 +1164,7 @@ const SingleSite = () => {
             }}
           >
             <img src={iPhoneImage} className={styles.iPhone} />
+
             <div className={styles.singleSiteContents}>
               {headerEmoji ? (
                 <div className={styles.headerEmoji}>{headerEmoji}</div>
@@ -1221,7 +1230,9 @@ const SingleSite = () => {
                                 <>
                                   <span>-</span>
                                   <span
-                                    style={{ color: thisLiveNotificationColor }}
+                                    style={{
+                                      color: thisLiveNotificationColor,
+                                    }}
                                   >
                                     {" "}
                                     LIVE!

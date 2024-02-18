@@ -1,6 +1,6 @@
 .singleSiteWrapper {
   width: 100vw;
-  min-height: calc(100vh - 120px);
+  height: calc(100vh - 120px);
   margin-top: 120px;
   display: flex;
   justify-content: flex-start;
@@ -10,7 +10,8 @@
 }
 
 .singleSiteContainer {
-  position: fixed;
+  position: absolute;
+  top: 150px;
   right: 150px;
   width: 350px;
   height: 700px;
@@ -42,11 +43,19 @@
 }
 
 .tabSection {
+  position: fixed !important;
+  height: calc(100vh - 120px);
   width: 50%;
-  min-height: calc(100vh - 100px);
   background-color: #444;
   overflow: scroll;
   z-index: 11;
+  padding: 35px;
+}
+
+.saveButton {
+  position: fixed;
+  top: 160px;
+  left: 46%;
 }
 
 .singleTitle,
@@ -79,6 +88,11 @@ input {
 .linksList {
   list-style: none;
   padding: 0;
+}
+
+.iPhoneContainer {
+  height: 100vh;
+  overflow: scroll;
 }
 
 .iPhone {
