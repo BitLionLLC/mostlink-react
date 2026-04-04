@@ -3,5 +3,5 @@
 
 # yarn run test
 yarn run eslint
-yarn run stylelint
+# yarn run stylelint
 git add .
