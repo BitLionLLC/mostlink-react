@@ -92,7 +92,6 @@
   cursor: pointer;
   padding: 10px 16px;
   border-radius: 999px;
-  color: #fff !important;
   font-size: 0.9rem;
   font-weight: 600;
   border: none;
@@ -101,6 +100,7 @@
   transition:
     transform 0.12s ease,
     filter 0.12s ease;
+  text-decoration: none;
 }
 
 .tabBtn:focus-visible {
@@ -418,7 +418,10 @@ button.hamburgerMenuItemHalf {
   color: black;
 }
 
-.accountMenuList a {
+.accountMenuList a,
+.accountMenuList a:hover,
+.accountMenuList a:visited,
+.accountMenuList a:active {
   width: 100%;
   min-height: 42px;
   padding: 0 14px;
@@ -428,6 +431,7 @@ button.hamburgerMenuItemHalf {
   font-size: 0.95rem;
   font-weight: 500;
   transition: background-color 0.12s ease;
+  text-decoration: none;
 }
 
 .accountMenuList li:not(.accountMenuDivider):not(.logoutItem):hover {
@@ -435,9 +439,13 @@ button.hamburgerMenuItemHalf {
 }
 
 .accountMenuList li.logoutItem {
-  margin-top: 4px;
-  padding-top: 4px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 0;
+  padding: 0 18px;
+  min-height: 42px;
+  border-top: 1px solid rgba(128, 128, 128, 0.28);
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-sizing: border-box;
 }
 
 .accountMenuList li.logoutItem:hover {

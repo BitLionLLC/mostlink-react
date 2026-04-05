@@ -151,7 +151,10 @@ const SingleSiteHeader = () => {
               className={`${styles.tabBtn} ${
                 singleSiteTabIndex === tab.id ? styles.tabBtnActive : ""
               }`}
-              style={{ backgroundColor: accent }}
+              style={{
+                backgroundColor: accent,
+                color: theme === "dark" ? "#111827" : "#ffffff",
+              }}
               onClick={() => navigate(`/site/${siteId}/${tab.slug}`)}
             >
               {tab.label}
@@ -238,18 +241,18 @@ const SingleSiteHeader = () => {
               )}
               {!jwtToken && (
                 <li>
-                  <Link
-                    to="/account/resend-verification"
-                    style={{ color: themeObj.color }}
-                  >
-                    Verify email
+                  <Link to="/account/login" style={{ color: themeObj.color }}>
+                    Log in
                   </Link>
                 </li>
               )}
               {!jwtToken && (
                 <li>
-                  <Link to="/account/login" style={{ color: themeObj.color }}>
-                    Log in
+                  <Link
+                    to="/account/resend-verification"
+                    style={{ color: themeObj.color }}
+                  >
+                    Verify email
                   </Link>
                 </li>
               )}
@@ -428,9 +431,9 @@ const SingleSiteHeader = () => {
                     color: themeObj.color,
                     background: themeObj.editTrayBackground,
                   }}
-                  onClick={() => routeTo("/account/resend-verification")}
+                  onClick={() => routeTo("/account/login")}
                 >
-                  Verify email
+                  Log in
                 </li>
               )}
               {!jwtToken && (
@@ -440,9 +443,9 @@ const SingleSiteHeader = () => {
                     color: themeObj.color,
                     background: themeObj.editTrayBackground,
                   }}
-                  onClick={() => routeTo("/account/login")}
+                  onClick={() => routeTo("/account/resend-verification")}
                 >
-                  Log in
+                  Verify email
                 </li>
               )}
               {jwtToken && (

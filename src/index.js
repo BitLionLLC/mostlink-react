@@ -8,6 +8,11 @@ import SitesContextProvider from "./contexts/sitesContext";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import reportWebVitals from "./reportWebVitals";
 
+document.documentElement.setAttribute(
+  "data-mostlink-theme",
+  localStorage.getItem("mostlinkTheme") || "dark"
+);
+
 ReactDOM.render(
   <React.StrictMode>
     <SitesContextProvider>

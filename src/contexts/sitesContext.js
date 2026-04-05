@@ -31,6 +31,10 @@ const SitesContextProvider = (props) => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    document.documentElement.setAttribute("data-mostlink-theme", theme);
+  }, [theme]);
+
   const fetchJwt = async () => {
     axios
       .get(`${process.env.REACT_APP_API_BASE}/api/users/jwt`, {
