@@ -1,7 +1,13 @@
 import "./App.css";
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./components/home";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
+import Dashboard from "./components/dashboard";
 import { SitesContext } from "./contexts/sitesContext";
 import SingleSite from "./components/singleSite";
 import Account from "./components/account/account";
@@ -32,6 +38,11 @@ import "react-toastify/dist/ReactToastify.css";
 import TermsAndConditions from "./components/termsAndConditions";
 import ResendVerification from "./components/account/resendVerification";
 
+function SiteEditorRedirect() {
+  const { id } = useParams();
+  return <Navigate to={`/site/${id}/links`} replace />;
+}
+
 function App() {
   const { theme } = useContext(SitesContext);
 
@@ -52,17 +63,18 @@ function App() {
             }
           />
           <Route
-            path="/home"
+            path="/dashboard"
             element={
               <>
                 <Header />
                 <Footer />
-                <Home />
+                <Dashboard />
               </>
             }
           />
+          <Route path="/home" element={<Navigate to="/dashboard" replace />} />
           <Route
-            path="/site/:id"
+            path="/site/:id/:tab"
             element={
               <>
                 <SingleSiteHeader />
@@ -70,6 +82,7 @@ function App() {
               </>
             }
           />
+          <Route path="/site/:id" element={<SiteEditorRedirect />} />
           <Route
             path="/account"
             exact

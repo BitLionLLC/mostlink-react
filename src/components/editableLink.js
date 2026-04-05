@@ -19,7 +19,7 @@ const LIVE_TYPES = {
   YOUTUBE: "youtube"
 };
 
-const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, key }) => {
+const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id }) => {
   const { isSubscribed, theme } = useContext(SitesContext);
 
   const [typeOfLiveNotification, setTypeOfLiveNotification] = useState(link.live?.type || LIVE_TYPES.NONE);
@@ -78,10 +78,12 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id, 
         }} 
         defaultValue={selectOptions.find(obj => obj.value === link?.icon).value} 
       >
-        {selectOptions.map(option => <MenuItem value={option.value} className={styles.iconOption}>
-          <ListItemText>{option.label}</ListItemText>
-          <FontAwesomeIcon icon={option.value.split("_")} size="2x" className={styles.iconOptionIcon} />
-        </MenuItem>)}
+        {selectOptions.map((option) => (
+          <MenuItem key={option.value} value={option.value} className={styles.iconOption}>
+            <ListItemText>{option.label}</ListItemText>
+            <FontAwesomeIcon icon={option.value.split("_")} size="2x" className={styles.iconOptionIcon} />
+          </MenuItem>
+        ))}
       </Select>
 
       {

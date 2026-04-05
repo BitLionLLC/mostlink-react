@@ -54,7 +54,7 @@ const Login = () => {
         setUserId(res.data.id);
         setIsSubscribed(res.data.isSubscribed);
         setWithGoogle(res.data.google);
-        navigate("/home");
+        navigate("/dashboard");
         localStorage.setItem("mostlinkUserId", res.data.id);
         toast("Successfully logged in.", { type: "success", theme });
       })
@@ -92,7 +92,7 @@ const Login = () => {
           setUserId(res.data.id);
           setIsSubscribed(res.data.isSubscribed);
           setWithGoogle(res.data.google);
-          navigate("/home");
+          navigate("/dashboard");
           localStorage.setItem("mostlinkUserId", res.data.id);
           toast("Successfully logged in.", { type: "success", theme });
         })

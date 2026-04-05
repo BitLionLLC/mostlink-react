@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { useGoogleLogout } from "react-google-login";
 import { toast } from "react-toastify";
@@ -9,17 +9,12 @@ import lightLogo from "./assets/logo-light.png";
 import darkLogo from "./assets/logo-dark.png";
 
 import styles from "./singleSiteHeader.module.css";
-
-const EDITOR_TABS = [
-  { id: 0, label: "Links" },
-  { id: 1, label: "Style" },
-  { id: 2, label: "Analytics" },
-  { id: 3, label: "Settings" },
-];
+import { SITE_EDITOR_TABS } from "../constants/siteEditorTabs";
 
 const SingleSiteHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { id: siteId } = useParams();
 
   const {
     jwtToken,
@@ -30,7 +25,6 @@ const SingleSiteHeader = () => {
     toggleTheme,
     siteLoading,
     singleSiteTabIndex,
-    setSingleSiteTabIndex,
   } = useContext(SitesContext);
   const [isAccountMenuShown, setIsAccountMenuShown] = useState(false);
   const [isHamburgerMenuShown, setIsHamburgerMenuShown] = useState(false);
@@ -140,7 +134,7 @@ const SingleSiteHeader = () => {
     >
       <div className={styles.topRow}>
         <div className={styles.logoWrap}>
-          <Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>
+          <Link to={jwtToken ? "/dashboard" : "/"} style={{ color: themeObj.color }}>
             <img
               src={theme === "light" ? lightLogo : darkLogo}
               className={styles.logo}
@@ -150,7 +144,7 @@ const SingleSiteHeader = () => {
         </div>
 
         <nav className={styles.desktopNav} aria-label="Site editor sections">
-          {EDITOR_TABS.map((tab) => (
+          {SITE_EDITOR_TABS.map((tab) => (
             <button
               key={tab.id}
               type="button"
@@ -158,7 +152,7 @@ const SingleSiteHeader = () => {
                 singleSiteTabIndex === tab.id ? styles.tabBtnActive : ""
               }`}
               style={{ backgroundColor: accent }}
-              onClick={() => setSingleSiteTabIndex(tab.id)}
+              onClick={() => navigate(`/site/${siteId}/${tab.slug}`)}
             >
               {tab.label}
             </button>
@@ -223,7 +217,7 @@ const SingleSiteHeader = () => {
             <ul className={styles.accountMenuList}>
               {jwtToken && (
                 <li>
-                  <Link to="/home" style={{ color: themeObj.color }}>
+                  <Link to="/dashboard" style={{ color: themeObj.color }}>
                     Dashboard
                   </Link>
                 </li>
@@ -293,7 +287,7 @@ const SingleSiteHeader = () => {
         role="tablist"
         aria-label="Editor sections"
       >
-        {EDITOR_TABS.map((tab) => (
+        {SITE_EDITOR_TABS.map((tab) => (
           <button
             key={tab.id}
             type="button"
@@ -306,7 +300,7 @@ const SingleSiteHeader = () => {
               backgroundColor: themeObj.editTrayBackground,
               color: themeObj.color,
             }}
-            onClick={() => setSingleSiteTabIndex(tab.id)}
+            onClick={() => navigate(`/site/${siteId}/${tab.slug}`)}
           >
             {tab.label}
           </button>
@@ -399,7 +393,7 @@ const SingleSiteHeader = () => {
                   color: themeObj.color,
                   background: themeObj.editTrayBackground,
                 }}
-                onClick={() => routeTo(jwtToken ? "/home" : "/")}
+                onClick={() => routeTo(jwtToken ? "/dashboard" : "/")}
               >
                 {jwtToken ? "Dashboard" : "Home"}
               </li>
@@ -478,7 +472,7 @@ const SingleSiteHeader = () => {
                   background: themeObj.editTrayBackground,
                 }}
                 onClick={() => {
-                  setSingleSiteTabIndex(0);
+                  navigate(`/site/${siteId}/links`);
                   setIsHamburgerMenuShown(false);
                 }}
               >
@@ -491,7 +485,7 @@ const SingleSiteHeader = () => {
                   background: themeObj.editTrayBackground,
                 }}
                 onClick={() => {
-                  setSingleSiteTabIndex(1);
+                  navigate(`/site/${siteId}/style`);
                   setIsHamburgerMenuShown(false);
                 }}
               >
@@ -504,7 +498,7 @@ const SingleSiteHeader = () => {
                   background: themeObj.editTrayBackground,
                 }}
                 onClick={() => {
-                  setSingleSiteTabIndex(2);
+                  navigate(`/site/${siteId}/analytics`);
                   setIsHamburgerMenuShown(false);
                 }}
               >
@@ -517,7 +511,7 @@ const SingleSiteHeader = () => {
                   background: themeObj.editTrayBackground,
                 }}
                 onClick={() => {
-                  setSingleSiteTabIndex(3);
+                  navigate(`/site/${siteId}/settings`);
                   setIsHamburgerMenuShown(false);
                 }}
               >

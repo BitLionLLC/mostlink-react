@@ -126,7 +126,7 @@ const Header = () => {
       style={{ backgroundColor: themeObj.headerColor, color: themeObj.color }}
     >
       <div className={styles.logoAndTitle}>
-        <Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>
+        <Link to={jwtToken ? "/dashboard" : "/"} style={{ color: themeObj.color }}>
           <img
             src={theme === "light" ? lightLogo : darkLogo}
             width="300"
@@ -195,7 +195,7 @@ const Header = () => {
           <ul className={styles.accountMenuList}>
             {jwtToken && (
               <li>
-                <Link to="/home" style={{ color: themeObj.color }}>
+                <Link to="/dashboard" style={{ color: themeObj.color }}>
                   Dashboard
                 </Link>
               </li>
@@ -333,7 +333,7 @@ const Header = () => {
                   color: themeObj.color,
                   background: themeObj.editTrayBackground,
                 }}
-                onClick={() => routeTo(jwtToken ? "/home" : "/")}
+                onClick={() => routeTo(jwtToken ? "/dashboard" : "/")}
               >
                 {jwtToken ? "Dashboard" : "Home"}
               </li>

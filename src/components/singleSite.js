@@ -30,6 +30,7 @@ import { TextField, Checkbox, Select, MenuItem } from "@mui/material";
 import iPhoneImage from "./assets/iphone.png";
 import SquareImageCropModal from "./squareImageCropModal";
 import { imageFieldRaw, imageFieldSrc } from "../utils/imageField";
+import { SITE_EDITOR_TAB_SLUGS } from "../constants/siteEditorTabs";
 
 const IMAGE_TYPE = {
   HEADER: "header",
@@ -71,10 +72,17 @@ function hostnameForCustomDomainRegistration(domainToAdd) {
 }
 
 const SingleSite = () => {
-  const { site, siteLoading, fetchSite, theme, themeObj, singleSiteTabIndex } =
-    useContext(SitesContext);
+  const {
+    site,
+    siteLoading,
+    fetchSite,
+    theme,
+    themeObj,
+    singleSiteTabIndex,
+    setSingleSiteTabIndex,
+  } = useContext(SitesContext);
 
-  const match = useParams();
+  const { id, tab } = useParams();
   const navigate = useNavigate();
 
   const [windowDimensions, setWindowDimensions] = useState(
@@ -208,7 +216,7 @@ const SingleSite = () => {
   const fetchSiteDomains = () => {
     axios
       .get(
-        `${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.id}`,
+        `${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${id}`,
         { withCredentials: true }
       )
       .then((res) => {
@@ -224,7 +232,7 @@ const SingleSite = () => {
       .then(() => {
         axios
           .get(
-            `${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${match.id}`,
+            `${process.env.REACT_APP_API_BASE}/api/sites/fetch-domains/${id}`,
             { withCredentials: true }
           )
           .then((res) => setDomains(res.data));
@@ -233,11 +241,25 @@ const SingleSite = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = bodyGradient || null;
-    fetchSite(match.id);
+    fetchSite(id);
     fetchPexels();
     fetchGiphy();
     fetchSiteDomains();
   }, []);
+
+  useEffect(() => {
+    if (tab == null) {
+      setSingleSiteTabIndex(0);
+      return;
+    }
+    const slug = String(tab).toLowerCase();
+    const idx = SITE_EDITOR_TAB_SLUGS.indexOf(slug);
+    if (idx === -1) {
+      navigate(`/site/${id}/links`, { replace: true });
+      return;
+    }
+    setSingleSiteTabIndex(idx);
+  }, [id, tab, navigate, setSingleSiteTabIndex]);
 
   useEffect(() => {
     document.body.style.backgroundImage = bodyGradient || null;
@@ -457,13 +479,13 @@ const SingleSite = () => {
       !subdomainError &&
       axios
         .put(
-          `${process.env.REACT_APP_API_BASE}/api/sites/siteId/${match.id}`,
+          `${process.env.REACT_APP_API_BASE}/api/sites/siteId/${id}`,
           siteToSave,
           { withCredentials: true }
         )
         .then(() => {
           setIsEditing(false);
-          fetchSite(match.id);
+          fetchSite(id);
         })
         .catch((err) => {
           toast(err.response.data.error, { type: "error", theme });
@@ -473,7 +495,7 @@ const SingleSite = () => {
 
   const onCancel = () => {
     setIsEditing(false);
-    fetchSite(match.id);
+    fetchSite(id);
   };
 
   const addLink = () => {
@@ -572,7 +594,7 @@ const SingleSite = () => {
   const registerDomain = () => {
     const body = {
       domain: hostnameForCustomDomainRegistration(domainToAdd),
-      siteId: match.id,
+      siteId: id,
     };
 
     axios
@@ -681,7 +703,7 @@ const SingleSite = () => {
       )
       .then((res) => {
         toast("Site deleted.", { type: "success", theme });
-        navigate("/home");
+        navigate("/dashboard");
       })
       .catch((err) => {
         toast(err.response.data.error, { type: "error", theme });

@@ -3,7 +3,7 @@ import LinkPageBuilder from "./linkPageBuilder";
 import SitesList from "./sitesList";
 import { SitesContext } from "../contexts/sitesContext";
 
-const Home = () => {
+const Dashboard = () => {
   const { themeObj, theme } = useContext(SitesContext);
 
   useEffect(() => {
@@ -18,4 +18,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

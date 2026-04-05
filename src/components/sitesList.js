@@ -43,7 +43,7 @@ const SitesList = () => {
           {sites.map((site, i) => {
             return (
               <Link
-                to={`/site/${site._id}`}
+                to={`/site/${site._id}/links`}
                 className={styles.siteLink}
                 key={site._id}
               >

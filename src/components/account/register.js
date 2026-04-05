@@ -175,7 +175,7 @@ const Register = () => {
         .then((res) => {
           setJwtToken(res.data.token);
           setUserId(res.data.id);
-          navigate("/home");
+          navigate("/dashboard");
           toast("Registered successfully.", { type: "success", theme });
         })
         .catch((err) => {
