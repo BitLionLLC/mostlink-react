@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-
 import { TextField } from "@mui/material";
 import { SitesContext } from "../../contexts/sitesContext";
 
@@ -17,25 +16,33 @@ const ForgotPassword = () => {
     document.body.style.backgroundImage = themeObj.landingBackground;
   }, [theme]);
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+
     axios
       .post(
         `${process.env.REACT_APP_API_BASE}/api/users/forgot-password/initiate`,
         { email },
         { withCredentials: true }
       )
-      .then((res) => {
+      .then(() => {
         toast("Password reset initiated. Check your email inbox.", {
           type: "success",
           theme,
         });
       })
-      .catch((err) => {
+      .catch(() => {
         toast(
-          "Could not intitiate a password reset. Check your email address and try again.",
+          "Could not initiate a password reset. Check your email address and try again.",
           { type: "error", theme }
         );
       });
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === "Enter") {
+      onSubmit(e);
+    }
   };
 
   const onCancel = () => {
@@ -44,35 +51,40 @@ const ForgotPassword = () => {
 
   return (
     <div className={styles.forgotPasswordContainer}>
-      <div
-        className={styles.forgotPassword}
-        style={{ backgroundColor: themeObj.landingCardBackground }}
-      >
+      <div className={styles.forgotPassword}>
         <h1>Reset password</h1>
-        <div className={styles.label}>
+        <form
+          className={styles.forgotPasswordForm}
+          onSubmit={onSubmit}
+          onKeyDown={onKeyDown}
+        >
           <label htmlFor="email">Email*</label>
-        </div>
-        <TextField
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          id="email"
-          className={styles.textField}
-          size="small"
-          variant="filled"
-        />
-        <div className={styles.forgotPasswordButtons}>
-          <button className={styles.cancelButton} onClick={onCancel}>
-            Cancel
-          </button>
-          <button
-            className={styles.submitButton}
-            onClick={onSubmit}
-            disabled={!email}
-          >
-            Submit
-          </button>
-        </div>
+          <TextField
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            className={styles.textField}
+            size="small"
+            variant="filled"
+          />
+          <div className={styles.forgotPasswordButtons}>
+            <button
+              className={styles.cancelButton}
+              type="button"
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+            <button
+              className={styles.submitButton}
+              type="submit"
+              disabled={!email}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

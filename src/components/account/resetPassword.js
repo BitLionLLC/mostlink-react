@@ -3,6 +3,10 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "react-tooltip";
+import {
+  PASSWORD_REQUIREMENTS_TOOLTIP_HTML,
+  PASSWORD_REQUIREMENTS_TOOLTIP_ID,
+} from "../../constants/passwordTooltip";
 import { SitesContext } from "../../contexts/sitesContext";
 import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
@@ -70,14 +74,14 @@ const ResetPassword = () => {
         <h1>Reset password</h1>
         <div className={styles.passwordAndTooltip}>
           <label htmlFor="password">Password*</label>
-          <Tooltip place="right" html={true} />
           <div
             style={{
               color: themeObj.bodyColor,
               backgroundColor: themeObj.color,
             }}
             className={styles.questionMarkTooltip}
-            data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>"
+            data-tooltip-id={PASSWORD_REQUIREMENTS_TOOLTIP_ID}
+            data-tooltip-html={PASSWORD_REQUIREMENTS_TOOLTIP_HTML}
           >
             ?
           </div>
@@ -114,6 +118,7 @@ const ResetPassword = () => {
             Submit
           </button>
         </div>
+        <Tooltip id={PASSWORD_REQUIREMENTS_TOOLTIP_ID} place="right" />
       </div>
     </div>
   );

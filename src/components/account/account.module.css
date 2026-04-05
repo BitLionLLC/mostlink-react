@@ -1,129 +1,201 @@
 .accountContainer {
-  width: 100vw;
-  height: calc(100vh - 150px);
+  width: 100%;
+  min-height: calc(100vh - 80px);
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+  padding: 150px 20px 80px;
+  box-sizing: border-box;
 }
 
 .account {
-  margin-top: 200px;
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  max-width: 460px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  border-radius: 24px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.12),
+    0 1px 4px rgba(0, 0, 0, 0.08);
+  padding: 40px 36px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  border-radius: 20px;
-  padding: 20px;
+  align-items: stretch;
 }
 
-.account::after {
-  position: absolute;
-  content: "";
-  bottom: -150px;
-  height: 500px;
-  width: 1px;
+.account h1 {
+  margin: 0 0 4px;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.account h3 {
+  margin: 0 0 28px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0.55;
 }
 
 .generalButton,
 .deleteAccountButton {
-  width: 70%;
-  height: 50px;
-  margin-top: 25px;
-  border-radius: 5px;
-  font-size: 1rem;
-  background-color: lightblue;
+  width: 100%;
+  height: 44px;
+  margin-top: 12px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
+}
+
+.generalButton:hover,
+.deleteAccountButton:hover {
+  opacity: 0.86;
+}
+
+.generalButton:active,
+.deleteAccountButton:active {
+  transform: scale(0.98);
+}
+
+.generalButton {
+  background: rgba(99, 102, 241, 0.18);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.32) !important;
 }
 
 .deleteAccountButton {
-  background-color: lightcoral;
+  background: rgba(239, 68, 68, 0.14);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
 }
 
-.deleteAccountModal,
-.changePasswordModal {
-  z-index: 16;
-  width: 500px;
-  height: 400px;
-  border: 1px solid black;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 10px;
-  background-color: #444;
-  color: white;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.changePasswordModal {
-  height: 500px;
-}
-
+/* ── Blocker overlay ── */
 .blocker {
   width: 100vw;
   height: 100vh;
-  background-color: rgb(0 0 0 / 75%);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 15;
 }
 
+/* ── Modals ── */
+.deleteAccountModal,
+.changePasswordModal {
+  z-index: 16;
+  width: min(500px, calc(100vw - 32px));
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  background: #1e1e2a;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  color: #e2e8f0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 32px 28px;
+}
+
+.deleteAccountModal h1,
+.changePasswordModal h1 {
+  margin: 0 0 12px;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.deleteAccountModal p {
+  margin: 0 0 20px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+/* ── Close button ── */
 .closeButton {
   transform: rotate(45deg);
-  cursor: default;
-  font-size: 50px;
+  cursor: pointer;
+  font-size: 36px;
+  line-height: 1;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 14px;
+  right: 18px;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  user-select: none;
 }
 
+.closeButton:hover {
+  opacity: 1;
+}
+
+/* ── Form fields inside modals ── */
 .textField {
-  width: 100%;
-  font-size: 20px;
-  padding: 5px;
-  margin: 10px 0 !important;
+  width: 100% !important;
+  margin: 0 0 8px !important;
 }
 
-.textField div {
-  height: 50px;
+.textField > div {
+  border-radius: 10px !important;
 }
 
 .textField input {
-  color: white;
+  color: #e2e8f0;
 }
 
-.deleteAccountButtons {
-  width: 100%;
+.labelAndInput {
   display: flex;
-  justify-content: center;
-  margin-top: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 4px;
 }
 
-.deleteAccountButtons button {
-  width: 40%;
-  margin: 10px;
+.labelAndInput label {
+  font-size: 0.83rem;
+  font-weight: 500;
+  opacity: 0.65;
+  margin-bottom: 4px;
+}
+
+.changePasswordForm {
+  width: 100%;
+}
+
+.changePasswordForm input {
+  width: 100%;
   height: 40px;
-  font-size: 25px;
-}
-
-.cancelButton {
-  background-color: #e2e8f0;
-  color: #334155;
-}
-
-.deleteButton {
-  background-color: red;
-  color: white;
+  font-size: 1rem;
+  padding: 5px;
+  margin: 6px 0 16px;
 }
 
 .passwordAndTooltip {
   display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.passwordAndTooltip label {
+  font-size: 0.83rem;
+  font-weight: 500;
+  opacity: 0.65;
+  margin: 0;
 }
 
 .passwordAndEyeIcon {
@@ -135,68 +207,121 @@
 .passwordAndEyeIcon input {
   width: 100%;
   height: 40px;
-  margin: 10px 0;
+  margin: 6px 0;
 }
 
 .eyeIcon {
   position: absolute;
-  right: 25px;
-  top: 23px;
+  right: 14px;
+  top: 18px;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s;
+  z-index: 1;
 }
 
-.changePasswordForm input {
-  width: 100%;
-  height: 40px;
-  font-size: 20px;
-  padding: 5px;
-  margin: 10px 0 20px;
-}
-
-.changePasswordForm {
-  width: 100%;
-}
-
-.labelAndInput {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-}
-
-.submitButton {
-  background-color: #2563eb;
-  color: #fff;
-}
-
-.cancelChangeButton {
-  background-color: pink;
-}
-
-.errorText {
-  color: red;
-  margin: -10px 0 15px;
-  background-color: white;
-  padding: 10px;
-  border-radius: 2px;
+.eyeIcon:hover {
+  opacity: 1;
 }
 
 .questionMarkTooltip {
-  margin-left: 5px;
-  color: white;
-  background-color: #222;
+  margin-left: 2px;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   width: 17px;
   height: 17px;
-  border-radius: 100%;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 600;
   cursor: default;
+  flex-shrink: 0;
 }
 
-@media (width <= 550px) {
-  .account,
-  .deleteAccountModal {
-    width: 90vw;
+/* ── Modal button rows ── */
+.deleteAccountButtons {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.deleteAccountButtons button {
+  flex: 1;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
+}
+
+.deleteAccountButtons button:hover:not(:disabled) {
+  opacity: 0.86;
+}
+
+.deleteAccountButtons button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.cancelButton {
+  background: rgba(226, 232, 240, 0.1);
+  color: #cbd5e1;
+  border: 1px solid rgba(226, 232, 240, 0.18) !important;
+}
+
+.cancelChangeButton {
+  background: rgba(226, 232, 240, 0.1);
+  color: #cbd5e1;
+  border: 1px solid rgba(226, 232, 240, 0.18) !important;
+}
+
+.deleteButton {
+  background: #ef4444;
+  color: #fff;
+}
+
+.deleteButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.submitButton {
+  background: #6366f1;
+  color: #fff;
+}
+
+.submitButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.errorText {
+  color: #f87171;
+  font-size: 0.8rem;
+  margin: 0 0 12px;
+  text-align: left;
+  width: 100%;
+}
+
+@media (max-width: 520px) {
+  .accountContainer {
+    padding: 140px 14px 60px;
+  }
+
+  .account {
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+
+  .deleteAccountModal,
+  .changePasswordModal {
+    padding: 28px 18px 22px;
   }
 }

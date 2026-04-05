@@ -3,6 +3,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  PASSWORD_REQUIREMENTS_TOOLTIP_HTML,
+  PASSWORD_REQUIREMENTS_TOOLTIP_ID,
+} from "../../constants/passwordTooltip";
 import { SitesContext } from "../../contexts/sitesContext";
 import { toast } from "react-toastify";
 import GoogleLogin from "react-google-login";
@@ -14,6 +18,8 @@ const Register = () => {
   const navigate = useNavigate();
   const { setJwtToken, setUserId, setIsSubscribed, themeObj, theme } =
     useContext(SitesContext);
+
+  const filledInputProps = { disableUnderline: true };
 
   const [firstName, setFirstName] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
@@ -246,6 +252,7 @@ const Register = () => {
             className={styles.textField}
             error={!!firstNameError}
             helperText={firstNameError}
+            InputProps={filledInputProps}
           />
 
           <label htmlFor="lastName">Last name*</label>
@@ -259,6 +266,7 @@ const Register = () => {
             className={styles.textField}
             error={!!lastNameError}
             helperText={lastNameError}
+            InputProps={filledInputProps}
           />
 
           <label htmlFor="email">Email address* (must be verified)</label>
@@ -272,6 +280,7 @@ const Register = () => {
             className={styles.textField}
             error={!!emailError}
             helperText={emailError}
+            InputProps={filledInputProps}
           />
           {emailError && emailError === "This email is already in use." && (
             <div className={styles.errorText}>
@@ -295,18 +304,19 @@ const Register = () => {
             className={styles.textField}
             error={!!usernameError}
             helperText={usernameError}
+            InputProps={filledInputProps}
           />
 
           <div className={styles.passwordAndTooltip}>
             <label htmlFor="password">Password*</label>
-            <Tooltip place="right" html={true} />
             <div
               style={{
                 color: themeObj.bodyColor,
                 backgroundColor: themeObj.color,
               }}
               className={styles.questionMarkTooltip}
-              data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>"
+              data-tooltip-id={PASSWORD_REQUIREMENTS_TOOLTIP_ID}
+              data-tooltip-html={PASSWORD_REQUIREMENTS_TOOLTIP_HTML}
             >
               ?
             </div>
@@ -322,9 +332,10 @@ const Register = () => {
               className={styles.textField}
               error={!!passwordError}
               helperText={passwordError}
+              InputProps={filledInputProps}
             />
             <FontAwesomeIcon
-              color="black"
+              color={theme === "dark" ? "#ffffff" : "#000000"}
               icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]}
               onClick={() => setIsPasswordShowing(!isPasswordShowing)}
               className={styles.eyeIcon}
@@ -333,14 +344,14 @@ const Register = () => {
 
           <div className={styles.passwordAndTooltip}>
             <label htmlFor="passwordAgain">Re-type password*</label>
-            <Tooltip place="right" html={true} />
             <div
               style={{
                 color: themeObj.bodyColor,
                 backgroundColor: themeObj.color,
               }}
               className={styles.questionMarkTooltip}
-              data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>"
+              data-tooltip-id={PASSWORD_REQUIREMENTS_TOOLTIP_ID}
+              data-tooltip-html={PASSWORD_REQUIREMENTS_TOOLTIP_HTML}
             >
               ?
             </div>
@@ -356,9 +367,10 @@ const Register = () => {
               className={styles.textField}
               error={!!passwordAgainError}
               helperText={passwordAgainError}
+              InputProps={filledInputProps}
             />
             <FontAwesomeIcon
-              color="black"
+              color={theme === "dark" ? "#ffffff" : "#000000"}
               icon={
                 isPasswordAgainShowing ? ["fas", "eye"] : ["fas", "eye-slash"]
               }
@@ -388,6 +400,7 @@ const Register = () => {
             </button>
           </div>
         </form>
+        <Tooltip id={PASSWORD_REQUIREMENTS_TOOLTIP_ID} place="right" />
       </div>
     </div>
   );

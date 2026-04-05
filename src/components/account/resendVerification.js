@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SitesContext } from "../../contexts/sitesContext";
 import { TextField } from "@mui/material";
@@ -12,6 +12,10 @@ const ResendVerification = () => {
   const { themeObj, theme } = useContext(SitesContext);
   const [email, setEmail] = useState("");
 
+  useEffect(() => {
+    document.body.style.backgroundImage = themeObj.landingBackground;
+  }, [theme]);
+
   const onCancel = () => {
     navigate("/");
   };
@@ -22,12 +26,10 @@ const ResendVerification = () => {
       axios
         .post(
           `${process.env.REACT_APP_API_BASE}/api/users/resend-verification`,
-          {
-            email,
-          },
+          { email },
           { withCredentials: true }
         )
-        .then((res) => {
+        .then(() => {
           navigate("/account/please-verify");
           toast("Email verification re-sent. Please verify your email.", {
             type: "success",
@@ -53,17 +55,14 @@ const ResendVerification = () => {
 
   return (
     <div className={styles.resendVerificationContainer}>
-      <div
-        className={styles.resendVerification}
-        style={{ backgroundColor: themeObj.landingCardBackground }}
-      >
-        <h1>Resend account verification email</h1>
+      <div className={styles.resendVerification}>
+        <h1>Resend verification email</h1>
         <form
           className={styles.resendForm}
           onSubmit={onSubmit}
           onKeyDown={onKeyDown}
         >
-          <label htmlFor="email">Email address* (must be verified)</label>
+          <label htmlFor="email">Email address*</label>
           <TextField
             type="text"
             value={email}
@@ -74,7 +73,11 @@ const ResendVerification = () => {
             className={styles.textField}
           />
           <div className={styles.resendFormButtons}>
-            <button className={styles.cancelButton} onClick={onCancel}>
+            <button
+              className={styles.cancelButton}
+              type="button"
+              onClick={onCancel}
+            >
               Cancel
             </button>
             <button

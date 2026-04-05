@@ -21,6 +21,8 @@ const Login = () => {
     theme,
   } = useContext(SitesContext);
 
+  const filledInputProps = { disableUnderline: true };
+
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordShowing, setIsPasswordShowing] = useState(false);
@@ -132,6 +134,7 @@ const Login = () => {
             variant="filled"
             className={styles.textField}
             size="small"
+            InputProps={filledInputProps}
           />
 
           <label htmlFor="password">Password</label>
@@ -144,9 +147,10 @@ const Login = () => {
               className={`${styles.password} ${styles.textField}`}
               variant="filled"
               size="small"
+              InputProps={filledInputProps}
             />
             <FontAwesomeIcon
-              color="black"
+              color={theme === "dark" ? "#ffffff" : "#000000"}
               icon={isPasswordShowing ? ["fas", "eye"] : ["fas", "eye-slash"]}
               onClick={() => setIsPasswordShowing(!isPasswordShowing)}
               className={styles.eyeIcon}

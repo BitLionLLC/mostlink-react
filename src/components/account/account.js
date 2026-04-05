@@ -6,6 +6,10 @@ import { useGoogleLogout } from "react-google-login";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "react-tooltip";
 import { TextField } from "@mui/material";
+import {
+  PASSWORD_REQUIREMENTS_TOOLTIP_HTML,
+  PASSWORD_REQUIREMENTS_TOOLTIP_ID,
+} from "../../constants/passwordTooltip";
 import { SitesContext } from "../../contexts/sitesContext";
 
 import styles from "./account.module.css";
@@ -221,14 +225,14 @@ const Account = () => {
                 <>
                   <div className={styles.passwordAndTooltip}>
                     <label htmlFor="password">Password*</label>
-                    <Tooltip place="right" html={true} />
                     <div
                       style={{
                         color: themeObj.bodyColor,
                         backgroundColor: themeObj.color,
                       }}
                       className={styles.questionMarkTooltip}
-                      data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>"
+                      data-tooltip-id={PASSWORD_REQUIREMENTS_TOOLTIP_ID}
+                      data-tooltip-html={PASSWORD_REQUIREMENTS_TOOLTIP_HTML}
                     >
                       ?
                     </div>
@@ -298,14 +302,14 @@ const Account = () => {
               <div className={styles.labelAndInput}>
                 <div className={styles.passwordAndTooltip}>
                   <label htmlFor="oldPassword">Old Password*</label>
-                  <Tooltip place="right" html={true} />
                   <div
                     style={{
                       color: themeObj.bodyColor,
                       backgroundColor: themeObj.color,
                     }}
                     className={styles.questionMarkTooltip}
-                    data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>"
+                    data-tooltip-id={PASSWORD_REQUIREMENTS_TOOLTIP_ID}
+                    data-tooltip-html={PASSWORD_REQUIREMENTS_TOOLTIP_HTML}
                   >
                     ?
                   </div>
@@ -340,14 +344,14 @@ const Account = () => {
               <div className={styles.labelAndInput}>
                 <div className={styles.passwordAndTooltip}>
                   <label htmlFor="newPassword">New Password*</label>
-                  <Tooltip place="right" html={true} />
                   <div
                     style={{
                       color: themeObj.bodyColor,
                       backgroundColor: themeObj.color,
                     }}
                     className={styles.questionMarkTooltip}
-                    data-tip="<div>Password requirements:<ol><li>Minimum 12 characters</li><li>At least one uppercase letter</li><li>At least one lowercase letter</li><li>At least one special character</li><li>At least one numercial digit</li></ol></div>"
+                    data-tooltip-id={PASSWORD_REQUIREMENTS_TOOLTIP_ID}
+                    data-tooltip-html={PASSWORD_REQUIREMENTS_TOOLTIP_HTML}
                   >
                     ?
                   </div>
@@ -407,6 +411,7 @@ const Account = () => {
           </div>
         </>
       ) : null}
+      <Tooltip id={PASSWORD_REQUIREMENTS_TOOLTIP_ID} place="right" />
     </div>
   );
 };
