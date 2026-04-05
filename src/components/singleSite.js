@@ -55,6 +55,19 @@ function getWindowDimensions() {
   };
 }
 
+/**
+ * Hostname stored on Heroku/Convex: apex names (example.com) use www.; hosts with
+ * more labels (app.example.com) are kept as-is so custom subdomains work.
+ */
+function hostnameForCustomDomainRegistration(domainToAdd) {
+  const d = domainToAdd.trim().toLowerCase();
+  const parts = d.split(".").filter(Boolean);
+  if (parts.length === 2) {
+    return d.startsWith("www.") ? d : `www.${d}`;
+  }
+  return d;
+}
+
 const SingleSite = () => {
   const { site, siteLoading, fetchSite, theme, themeObj, singleSiteTabIndex } =
     useContext(SitesContext);
@@ -474,7 +487,7 @@ const SingleSite = () => {
   };
 
   const checkDomain = () => {
-    let properDomain = domainToAdd;
+    let properDomain = domainToAdd.trim();
 
     if (properDomain.startsWith("https://")) {
       properDomain = properDomain.replace("https://", "");
@@ -484,9 +497,16 @@ const SingleSite = () => {
       properDomain = properDomain.replace("http://", "");
     }
 
-    if (properDomain.startsWith("www.")) {
-      properDomain = properDomain.replace("www.", "");
+    const slash = properDomain.indexOf("/");
+    if (slash !== -1) {
+      properDomain = properDomain.slice(0, slash);
     }
+
+    if (properDomain.toLowerCase().startsWith("www.")) {
+      properDomain = properDomain.slice(4);
+    }
+
+    properDomain = properDomain.toLowerCase();
 
     setDomainToAdd(properDomain);
 
@@ -504,9 +524,7 @@ const SingleSite = () => {
 
   const registerDomain = () => {
     const body = {
-      domain: domainToAdd.startsWith("www.")
-        ? domainToAdd
-        : "www." + domainToAdd,
+      domain: hostnameForCustomDomainRegistration(domainToAdd),
       siteId: match.id,
     };
 
@@ -1069,8 +1087,9 @@ const SingleSite = () => {
                   })}
                 </ul>
                 <p>
-                  Reminder: make sure each domain has a<br />
-                  "www" CNAME pointing at the CNAME listed under it.
+                  Reminder: in DNS, point this hostname at the CNAME shown (for
+                  subdomains like app.example.com, add a CNAME for that host; for
+                  apex domains we register a www host by default).
                 </p>
               </>
             ) : (
@@ -1553,7 +1572,7 @@ const SingleSite = () => {
                     name="domainToAdd"
                     value={domainToAdd}
                     onChange={(e) => setDomainToAdd(e.target.value)}
-                    placeholder="Domain"
+                    placeholder="e.g. example.com or app.example.com"
                     className={styles.textField}
                     size="small"
                     variant="filled"
