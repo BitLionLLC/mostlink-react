@@ -1,0 +1,112 @@
+.blocker {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background-color: rgb(0 0 0 / 75%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 17;
+}
+
+.modal {
+  width: min(520px, 96vw);
+  max-height: min(90dvh, 720px);
+  z-index: 18;
+  border: 1px solid #000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background-color: #444;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(44px, 8vw, 56px) clamp(16px, 4vw, 24px) clamp(16px, 4vw, 24px);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.closeButton {
+  transform: rotate(45deg);
+  cursor: pointer;
+  font-size: 50px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  line-height: 1;
+  z-index: 2;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: clamp(1.1rem, 3vw, 1.35rem);
+  text-align: center;
+}
+
+.hint {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.cropWrap {
+  position: relative;
+  width: 100%;
+  height: min(52vw, 280px);
+  max-height: 40dvh;
+  background: #222;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.zoomLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 0.9rem;
+}
+
+.zoomRange {
+  width: 100%;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.btnGhost {
+  flex: 1 1 120px;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid #888;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  flex: 1 1 120px;
+  min-height: 44px;
+  border-radius: 8px;
+  border: none;
+  color: #111;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

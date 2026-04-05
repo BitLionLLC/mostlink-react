@@ -28,6 +28,8 @@ import ANIMATION_PRESETS from "./assets/particlesPresets";
 import invert from "invert-color";
 import { TextField, Checkbox, Select, MenuItem } from "@mui/material";
 import iPhoneImage from "./assets/iphone.png";
+import SquareImageCropModal from "./squareImageCropModal";
+import { imageFieldSrc } from "../utils/imageField";
 
 const IMAGE_TYPE = {
   HEADER: "header",
@@ -108,6 +110,8 @@ const SingleSite = () => {
   const liveNotificationColorRef = useRef(liveNotificationColor);
   const [isPexelsModalShowing, setIsPexelsModalShowing] = useState(false);
   const [isGiphyModalShowing, setIsGiphyModalShowing] = useState(false);
+  /** `{ imageSrc, target }` — opens square crop UI before applying header/background image */
+  const [squareCrop, setSquareCrop] = useState(null);
   const [modalOpenedWith, setModalOpenedWith] = useState("");
   const [photos, setPhotos] = useState([]);
   const [gifs, setGifs] = useState([]);
@@ -290,9 +294,7 @@ const SingleSite = () => {
   }, [site]);
 
   useEffect(() => {
-    document.body.style.backgroundImage = `url(${
-      backgroundImage?.base64 || backgroundImage?.url
-    })`;
+    document.body.style.backgroundImage = `url(${imageFieldSrc(backgroundImage) || ""})`;
   }, [backgroundImage]);
 
   useEffect(() => {
@@ -610,10 +612,8 @@ const SingleSite = () => {
       isEditing &&
       (title !== site.title ||
         subtitle !== site.subtitle ||
-        headerImage?.url !== site.headerImage?.url ||
-        headerImage?.base64 !== site.headerImage?.base64 ||
-        backgroundImage?.url !== site.backgroundImage?.url ||
-        backgroundImage?.base64 !== site.backgroundImage?.base64 ||
+        imageFieldSrc(headerImage) !== imageFieldSrc(site.headerImage) ||
+        imageFieldSrc(backgroundImage) !== imageFieldSrc(site.backgroundImage) ||
         JSON.stringify(links) !== JSON.stringify(site.links) ||
         titlesColor !== site?.titlesColor ||
         containerColor !== site?.containerColor ||
@@ -664,6 +664,7 @@ const SingleSite = () => {
     linkBackgroundColor,
     liveNotificationColor,
     bodyAnimationStyle,
+    site,
   ]);
 
   const onMouseEnter = (index) => {
@@ -869,7 +870,7 @@ const SingleSite = () => {
               to use an image.
             </div>
             <img
-              src={headerImage?.base64 || headerImage?.url || defaultHeader}
+              src={imageFieldSrc(headerImage) || defaultHeader}
               width="200"
               height="200"
               alt="header"
@@ -878,7 +879,12 @@ const SingleSite = () => {
             <div className={styles.imageInput}>
               <FileBase64
                 multiple={false}
-                onDone={(file) => setHeaderImage(file)}
+                onDone={(file) =>
+                  setSquareCrop({
+                    imageSrc: file.base64,
+                    target: IMAGE_TYPE.HEADER,
+                  })
+                }
               />
             </div>
             <button onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>
@@ -915,7 +921,7 @@ const SingleSite = () => {
             </div>
             <img
               src={
-                backgroundImage?.base64 || backgroundImage?.url || defaultHeader
+                imageFieldSrc(backgroundImage) || defaultHeader
               }
               width="200"
               height="200"
@@ -925,7 +931,12 @@ const SingleSite = () => {
             <div className={styles.imageInput}>
               <FileBase64
                 multiple={false}
-                onDone={(file) => setBackgroundImage(file)}
+                onDone={(file) =>
+                  setSquareCrop({
+                    imageSrc: file.base64,
+                    target: IMAGE_TYPE.BACKGROUND,
+                  })
+                }
               />
             </div>
             <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>
@@ -1354,6 +1365,7 @@ const SingleSite = () => {
 
   const onEscKey = (e) => {
     if (e.key === "Escape") {
+      setSquareCrop(null);
       setIsPexelsModalShowing(false);
       setIsGiphyModalShowing(false);
       setIsDeleteModalShowing(false);
@@ -1385,7 +1397,7 @@ const SingleSite = () => {
           {getDisplayContents(
             title,
             subtitle,
-            headerImage?.base64 || headerImage?.url,
+            imageFieldSrc(headerImage),
             links,
             titlesColor,
             containerColor,
@@ -1445,18 +1457,39 @@ const SingleSite = () => {
                         alt="pexel result"
                         width="100"
                         height="100"
-                        onClick={
-                          modalOpenedWith === IMAGE_TYPE.BACKGROUND
-                            ? () =>
-                                setBackgroundImage({ url: photo.src.original })
-                            : () => setHeaderImage({ url: photo.src.original })
-                        }
+                        onClick={() => {
+                          setIsPexelsModalShowing(false);
+                          setSquareCrop({
+                            imageSrc: photo.src.original,
+                            target:
+                              modalOpenedWith === IMAGE_TYPE.BACKGROUND
+                                ? IMAGE_TYPE.BACKGROUND
+                                : IMAGE_TYPE.HEADER,
+                          });
+                        }}
                       />
                     );
                   })}
                 </div>
               </div>
             </>
+          ) : null}
+          {squareCrop ? (
+            <SquareImageCropModal
+              key={squareCrop.imageSrc}
+              imageSrc={squareCrop.imageSrc}
+              theme={theme}
+              accentColor={themeObj.accentColor}
+              onCancel={() => setSquareCrop(null)}
+              onApply={(dataUrl) => {
+                if (squareCrop.target === IMAGE_TYPE.HEADER) {
+                  setHeaderImage({ base64: dataUrl });
+                } else {
+                  setBackgroundImage({ base64: dataUrl });
+                }
+                setSquareCrop(null);
+              }}
+            />
           ) : null}
           {isGiphyModalShowing ? (
             <>
@@ -1506,11 +1539,13 @@ const SingleSite = () => {
                         alt="giphy result"
                         width="100"
                         height="100"
-                        onClick={() =>
-                          setHeaderImage({
-                            url: `https://media.giphy.com/media/${gif.id}/giphy.gif`,
-                          })
-                        }
+                        onClick={() => {
+                          setIsGiphyModalShowing(false);
+                          setSquareCrop({
+                            imageSrc: `https://media.giphy.com/media/${gif.id}/giphy.gif`,
+                            target: IMAGE_TYPE.HEADER,
+                          });
+                        }}
                       />
                     );
                   })}

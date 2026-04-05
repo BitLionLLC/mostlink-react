@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { SitesContext } from "../contexts/sitesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import defaultHeader from "./assets/default-header.png";
+import { imageFieldSrc } from "../utils/imageField";
 
 import styles from "./miniSite.module.css";
 
@@ -48,7 +49,7 @@ const MiniSite = ({ site }) => {
         <span className={styles.headerEmoji}>{headerEmoji}</span>
       ) : (
         <img
-          src={headerImage?.url || headerImage?.base64 || defaultHeader}
+          src={imageFieldSrc(headerImage) || defaultHeader}
           alt="header"
           width="75"
           height="75"
