@@ -199,7 +199,7 @@ const CreateSite = (props) => {
                     error={!isSubdomainValid || subdomainError}
                     helperText={subdomainError}
                   />
-                  .mostlink.io
+                  .mostlink.co
                 </div>
                 {subdomain && subdomainError === SUBDOMAIN_TAKEN_ERROR && (
                   <div

@@ -995,7 +995,7 @@ const SingleSite = () => {
                 error={!isSubdomainValid || subdomainError}
                 helperText={subdomainError}
               />
-              .mostlink.io
+              .mostlink.co
             </div>
             {subdomain && subdomainError === SUBDOMAIN_TAKEN_ERROR && (
               <div
@@ -1010,23 +1010,21 @@ const SingleSite = () => {
             process.env.REACT_APP_ENVIRONMENT === "development" ? (
               <>
                 <a
-                  href={`https://www.${process.env.REACT_APP_HOSTED_BASE}/${site.subdomain}`}
+                  href={`https://${site.subdomain}.${process.env.REACT_APP_HOSTED_BASE}`}
                   style={{ color: themeObj.color }}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  https://www.{process.env.REACT_APP_HOSTED_BASE}/
-                  {site.subdomain}
+                  https://{site.subdomain}.{process.env.REACT_APP_HOSTED_BASE}
                 </a>
                 <br />
                 <a
-                  href={`https://www.${process.env.REACT_APP_HOSTED_BASE_SHORT}/${site.subdomain}`}
+                  href={`https://${site.subdomain}.${process.env.REACT_APP_HOSTED_BASE_SHORT}`}
                   style={{ color: themeObj.color }}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  https://www.{process.env.REACT_APP_HOSTED_BASE_SHORT}/
-                  {site.subdomain}
+                  https://{site.subdomain}.{process.env.REACT_APP_HOSTED_BASE_SHORT}
                 </a>
               </>
             ) : (
