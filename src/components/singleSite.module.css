@@ -59,7 +59,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 11;
-  padding: 8px 14px 24px;
+  padding: 12px 14px 24px;
   padding-bottom: max(24px, env(safe-area-inset-bottom));
   -webkit-overflow-scrolling: touch;
   max-height: none;
@@ -71,7 +71,7 @@
     max-width: 50%;
     min-height: calc(100dvh - 80px);
     max-height: calc(100dvh - 80px);
-    padding: 12px 22px 32px;
+    padding: 16px 22px 32px;
   }
 }
 
@@ -83,8 +83,8 @@
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
-  padding: 8px 4px 14px;
-  margin: -4px -8px 4px;
+  padding: 16px 4px 14px;
+  margin: 0 -8px 4px;
   background: inherit;
 }
 
@@ -156,17 +156,88 @@
   font-size: 0.95rem;
 }
 
+.previewToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: min(420px, 100%);
+  margin: 12px auto 12px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 3;
+}
+
+/* Centers the scaled mockup below the toolbar (wide layout used position:absolute on the mockup, which sat on top of the toolbar). */
+.previewStage {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+@media (width >= 1024px) {
+  .previewToolbar {
+    max-width: min(480px, 90%);
+    margin-top: 14px;
+    margin-bottom: 16px;
+  }
+}
+
+.previewSegmentButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: transparent;
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.previewSegmentButton:hover {
+  filter: brightness(1.06);
+}
+
+.previewSegmentButton:active {
+  transform: scale(0.98);
+}
+
+.previewSegmentButton:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 /* Phone mockup column */
 .previewColumn {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: flex-start;
   min-width: 0;
   width: 100%;
   overflow-x: hidden;
-  padding: 8px 0 20px;
+  padding: 12px 0 20px;
 }
 
 @media (max-width: 1023px) {
@@ -187,9 +258,9 @@
     max-height: calc(100dvh - 80px);
     overflow-y: auto;
     overflow-x: hidden;
-    align-items: center;
-    justify-content: center;
-    padding: 16px 12px 24px;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 20px 12px 24px;
     -webkit-overflow-scrolling: touch;
   }
 }
@@ -218,6 +289,21 @@
   width: 1px;
 }
 
+/* Matches mostlink-next/pages/[subdomain].module.css (.singleSiteContainer) */
+.singleSiteContainerDesktop {
+  width: 800px;
+  height: 700px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.06),
+    0 16px 40px rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+
+.singleSiteContainerDesktop::after {
+  display: none;
+}
+
 .singleSiteContents {
   display: inline-flex;
   flex-flow: column;
@@ -227,6 +313,11 @@
   padding-top: 70px;
   min-height: 100%;
   -webkit-overflow-scrolling: touch;
+}
+
+.singleSiteContentsDesktop {
+  padding: 50px;
+  box-sizing: border-box;
 }
 
 .singleTitle,
@@ -266,6 +357,12 @@
   margin: 0 auto;
 }
 
+.linksListDesktop {
+  max-width: none;
+  width: 100%;
+  padding: 0;
+}
+
 .iPhone {
   z-index: 11;
   position: absolute;
@@ -294,6 +391,15 @@
   transition:
     transform 0.1s ease,
     filter 0.1s ease;
+}
+
+/* Matches mostlink-next/pages/[subdomain].module.css (.individualLink) */
+.individualLink.individualLinkDesktop {
+  width: 600px;
+  max-width: 600px;
+  min-height: 50px;
+  height: 50px;
+  padding: 15px 30px;
 }
 
 .individualLink:active {

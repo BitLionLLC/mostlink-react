@@ -32,6 +32,8 @@ import SquareImageCropModal from "./squareImageCropModal";
 import { imageFieldRaw, imageFieldSrc } from "../utils/imageField";
 import { SITE_EDITOR_TAB_SLUGS } from "../constants/siteEditorTabs";
 
+const PREVIEW_VIEWPORT_STORAGE_KEY = "mostlink-editor-preview-viewport";
+
 const IMAGE_TYPE = {
   HEADER: "header",
   BACKGROUND: "background",
@@ -112,6 +114,16 @@ const SingleSite = () => {
     getWindowDimensions()
   );
 
+  const [previewViewport, setPreviewViewport] = useState(() => {
+    try {
+      return localStorage.getItem(PREVIEW_VIEWPORT_STORAGE_KEY) === "desktop"
+        ? "desktop"
+        : "mobile";
+    } catch {
+      return "mobile";
+    }
+  });
+
   const [isEditing, setIsEditing] = useState(false);
   const [hasEditButtonBeenClicked, setHasEditButtonBeenClicked] =
     useState(false);
@@ -181,6 +193,14 @@ const SingleSite = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(PREVIEW_VIEWPORT_STORAGE_KEY, previewViewport);
+    } catch {
+      /* ignore */
+    }
+  }, [previewViewport]);
 
   const memoizedParticles = useMemo(() => (
     <Particles
@@ -1263,19 +1283,41 @@ const SingleSite = () => {
     const h = windowDimensions.height;
     const isNarrow = w < 1024;
 
+    const isPreviewMobile = previewViewport === "mobile";
+    const previewIntrinsicW = isPreviewMobile ? 350 : 800;
+    const previewIntrinsicH = isPreviewMobile ? 700 : 700;
+
     let previewScale;
     if (isNarrow) {
-      if (w < 380) {
-        previewScale = 0.5;
-      } else if (w < 480) {
-        previewScale = 0.56;
-      } else if (w < 600) {
-        previewScale = 0.64;
+      if (isPreviewMobile) {
+        if (w < 380) {
+          previewScale = 0.5;
+        } else if (w < 480) {
+          previewScale = 0.56;
+        } else if (w < 600) {
+          previewScale = 0.64;
+        } else {
+          previewScale = 0.72;
+        }
       } else {
-        previewScale = 0.72;
+        const colW = Math.max(200, w - 32);
+        const colH = Math.max(240, h * 0.42);
+        previewScale = Math.min(
+          colW / previewIntrinsicW,
+          colH / previewIntrinsicH,
+          0.95
+        );
       }
-    } else {
+    } else if (isPreviewMobile) {
       previewScale = h >= 800 ? h / 1000 : 0.8;
+    } else {
+      const colW = w * 0.5 - 56;
+      const colH = h - 80 - 64;
+      previewScale = Math.min(
+        colW / previewIntrinsicW,
+        colH / previewIntrinsicH,
+        1
+      ) * 0.96;
     }
 
     const containerPosition = isNarrow ? "relative" : "absolute";
@@ -1346,7 +1388,59 @@ const SingleSite = () => {
             aria-label="Live preview of your page"
           >
             <div
-              className={styles.singleSiteContainer}
+              className={styles.previewToolbar}
+              role="group"
+              aria-label="Preview viewport"
+              style={{
+                borderColor: `${accent}40`,
+                backgroundColor: `${themeObj.editTrayBackground}e6`,
+              }}
+            >
+              <button
+                type="button"
+                className={styles.previewSegmentButton}
+                onClick={() => setPreviewViewport("mobile")}
+                aria-pressed={isPreviewMobile}
+                style={
+                  isPreviewMobile
+                    ? {
+                        color: accent,
+                        borderColor: `${accent}66`,
+                        backgroundColor: `${accent}18`,
+                      }
+                    : { color: themeObj.color }
+                }
+              >
+                <FontAwesomeIcon icon={["fas", "mobile-screen-button"]} />
+                <span>Mobile</span>
+              </button>
+              <button
+                type="button"
+                className={styles.previewSegmentButton}
+                onClick={() => setPreviewViewport("desktop")}
+                aria-pressed={!isPreviewMobile}
+                style={
+                  !isPreviewMobile
+                    ? {
+                        color: accent,
+                        borderColor: `${accent}66`,
+                        backgroundColor: `${accent}18`,
+                      }
+                    : { color: themeObj.color }
+                }
+              >
+                <FontAwesomeIcon icon={["fas", "laptop"]} />
+                <span>Desktop</span>
+              </button>
+            </div>
+
+            <div className={styles.previewStage}>
+            <div
+              className={
+                isPreviewMobile
+                  ? styles.singleSiteContainer
+                  : `${styles.singleSiteContainer} ${styles.singleSiteContainerDesktop}`
+              }
               style={{
                 backgroundColor: !thisContainerGradient && thisContainerColor,
                 backgroundImage: thisContainerGradient,
@@ -1362,14 +1456,22 @@ const SingleSite = () => {
                 marginRight: isNarrow ? "auto" : undefined,
               }}
             >
-            <img
-              src={iPhoneImage}
-              className={styles.iPhone}
-              alt=""
-              aria-hidden
-            />
+            {isPreviewMobile ? (
+              <img
+                src={iPhoneImage}
+                className={styles.iPhone}
+                alt=""
+                aria-hidden
+              />
+            ) : null}
 
-            <div className={styles.singleSiteContents}>
+            <div
+              className={
+                isPreviewMobile
+                  ? styles.singleSiteContents
+                  : `${styles.singleSiteContents} ${styles.singleSiteContentsDesktop}`
+              }
+            >
               {headerEmoji ? (
                 <div className={styles.headerEmoji}>{headerEmoji}</div>
               ) : (
@@ -1391,7 +1493,13 @@ const SingleSite = () => {
                 {thisSubtitle}
               </h3>
               {links ? (
-                <ul className={styles.linksList}>
+                <ul
+                  className={
+                    isPreviewMobile
+                      ? styles.linksList
+                      : `${styles.linksList} ${styles.linksListDesktop}`
+                  }
+                >
                   {theseLinks?.map((link, i) => {
                     const hoverStyle = {
                       color: thisLinkBackgroundColor,
@@ -1411,7 +1519,11 @@ const SingleSite = () => {
                         }
                         target="_blank"
                         rel="noreferrer"
-                        className={styles.individualLink}
+                        className={
+                          isPreviewMobile
+                            ? styles.individualLink
+                            : `${styles.individualLink} ${styles.individualLinkDesktop}`
+                        }
                         style={{
                           color:
                             hoveredLinkIndex === i
@@ -1456,6 +1568,7 @@ const SingleSite = () => {
               ) : null}
             </div>
           </div>
+            </div>
           </div>
         </div>
       </div>
