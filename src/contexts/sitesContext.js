@@ -36,7 +36,7 @@ const SitesContextProvider = (props) => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setJwtToken(res.data.token);
       })
       .catch((err) => console.log(err));

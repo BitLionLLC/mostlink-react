@@ -1019,12 +1019,12 @@ const SingleSite = () => {
                 </a>
                 <br />
                 <a
-                  href={`https://${site.subdomain}.${process.env.REACT_APP_HOSTED_BASE_SHORT}`}
+                  href={`https://${process.env.REACT_APP_HOSTED_BASE_SHORT}/${site.subdomain}`}
                   style={{ color: themeObj.color }}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  https://{site.subdomain}.{process.env.REACT_APP_HOSTED_BASE_SHORT}
+                  https://{process.env.REACT_APP_HOSTED_BASE_SHORT}/{site.subdomain}
                 </a>
               </>
             ) : (
@@ -1053,7 +1053,7 @@ const SingleSite = () => {
                           rel="noreferrer"
                           style={{ color: themeObj.color }}
                         >
-                          {data.domain}
+                          {`https://${data.domain}`}
                         </a>
                         &nbsp;
                         {data.isPointing ? (
