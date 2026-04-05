@@ -71,6 +71,29 @@ function hostnameForCustomDomainRegistration(domainToAdd) {
   return d;
 }
 
+/** Avoid sharing nested refs with context `site` so link edits don’t mutate `site.links`. */
+function cloneLinksForEditor(linksFromSite) {
+  if (!linksFromSite || !Array.isArray(linksFromSite)) {
+    return [];
+  }
+  return JSON.parse(JSON.stringify(linksFromSite));
+}
+
+/** Strip client-only `live.isLive` so dirty checks match persisted site data. */
+function linksForDirtyCompare(linksArray) {
+  if (!linksArray || !Array.isArray(linksArray)) {
+    return [];
+  }
+  return linksArray.map((link) => {
+    const copy = { ...link };
+    if (copy.live != null && typeof copy.live === "object") {
+      const { isLive, ...liveRest } = copy.live;
+      copy.live = Object.keys(liveRest).length ? liveRest : undefined;
+    }
+    return copy;
+  });
+}
+
 const SingleSite = () => {
   const {
     site,
@@ -304,7 +327,7 @@ const SingleSite = () => {
     setSubdomain(site.subdomain);
     setHeaderImage(site.headerImage);
     setHeaderEmoji(site.headerEmoji);
-    setLinks(site.links);
+    setLinks(cloneLinksForEditor(site.links));
     setBackgroundImage(site.backgroundImage);
     setTitlesColor(site.titlesColor);
     setContainerColor(site.containerColor);
@@ -445,15 +468,17 @@ const SingleSite = () => {
     }
   });
 
-  const stripIsLiveFromLinks = () => {
-    return links.map((link) => {
+  const stripIsLiveFromLinks = () =>
+    links.map((link) => {
       if (link.live) {
-        delete link.live.isLive;
+        const { isLive, ...rest } = link.live;
+        return {
+          ...link,
+          live: Object.keys(rest).length ? rest : undefined,
+        };
       }
-
-      return link;
+      return { ...link };
     });
-  };
 
   const onSave = () => {
     const siteToSave = {
@@ -484,8 +509,9 @@ const SingleSite = () => {
           { withCredentials: true }
         )
         .then(() => {
+          toast("Changes saved.", { type: "success", theme });
           setIsEditing(false);
-          fetchSite(id);
+          fetchSite(id, { skipLoading: true });
         })
         .catch((err) => {
           toast(err.response.data.error, { type: "error", theme });
@@ -495,7 +521,7 @@ const SingleSite = () => {
 
   const onCancel = () => {
     setIsEditing(false);
-    fetchSite(id);
+    fetchSite(id, { skipLoading: true });
   };
 
   const addLink = () => {
@@ -604,6 +630,10 @@ const SingleSite = () => {
         { withCredentials: true }
       )
       .then((res) => {
+        toast("Domain registered. Add the DNS records below to go live.", {
+          type: "success",
+          theme,
+        });
         setHasDomainBeenRegistered(true);
         setCurrentDomainCname(res.data.cname);
         fetchSiteDomains();
@@ -674,26 +704,24 @@ const SingleSite = () => {
     setExpandedAccordion(isExpanded ? panel : false);
   };
 
-  const shouldBlockNavigation = () => {
-    return (
-      isEditing &&
-      (title !== site.title ||
-        subtitle !== site.subtitle ||
-        imageFieldSrc(headerImage) !== imageFieldSrc(site.headerImage) ||
-        imageFieldSrc(backgroundImage) !== imageFieldSrc(site.backgroundImage) ||
-        JSON.stringify(links) !== JSON.stringify(site.links) ||
-        titlesColor !== site?.titlesColor ||
-        containerColor !== site?.containerColor ||
-        linkTextColor !== site?.linkTextColor ||
-        linkBackgroundColor !== site?.linkBackgroundColor ||
-        bodyColor !== site?.bodyColor ||
-        headerEmoji !== site?.headerEmoji ||
-        liveNotificationColor !== site?.liveNotificationColor ||
-        bodyGradient !== site?.bodyGradient ||
-        containerGradient !== site?.containerGradient ||
-        bodyAnimationStyle !== site?.bodyAnimationStyle)
-    );
-  };
+  const hasUnsavedChanges = () =>
+    title !== site.title ||
+    subtitle !== site.subtitle ||
+    subdomain !== site.subdomain ||
+    imageFieldSrc(headerImage) !== imageFieldSrc(site.headerImage) ||
+    imageFieldSrc(backgroundImage) !== imageFieldSrc(site.backgroundImage) ||
+    JSON.stringify(linksForDirtyCompare(links)) !==
+      JSON.stringify(linksForDirtyCompare(site?.links || [])) ||
+    titlesColor !== site?.titlesColor ||
+    containerColor !== site?.containerColor ||
+    linkTextColor !== site?.linkTextColor ||
+    linkBackgroundColor !== site?.linkBackgroundColor ||
+    bodyColor !== site?.bodyColor ||
+    headerEmoji !== site?.headerEmoji ||
+    liveNotificationColor !== site?.liveNotificationColor ||
+    bodyGradient !== site?.bodyGradient ||
+    containerGradient !== site?.containerGradient ||
+    bodyAnimationStyle !== site?.bodyAnimationStyle;
 
   const deleteSite = () => {
     axios
@@ -711,13 +739,14 @@ const SingleSite = () => {
   };
 
   useEffect(() => {
-    const isCurrentlyDirty = shouldBlockNavigation();
+    const isCurrentlyDirty = hasUnsavedChanges();
     if (isCurrentlyDirty !== isDirty) {
       setIsDirty(isCurrentlyDirty);
     }
   }, [
     title,
     subtitle,
+    subdomain,
     headerImage,
     headerEmoji,
     links,
@@ -1248,16 +1277,10 @@ const SingleSite = () => {
       previewScale = h >= 800 ? h / 1000 : 0.8;
     }
 
-    const containerPosition = isNarrow
-      ? "relative"
-      : h >= 800
-        ? "fixed"
-        : "absolute";
-    const containerTop = isNarrow
-      ? "auto"
-      : h >= 800
-        ? "150px"
-        : "30px";
+    const containerPosition = isNarrow ? "relative" : "absolute";
+
+    const dirty = hasUnsavedChanges();
+    const accent = themeObj.accentColor;
 
     return (
       <div className={styles.bodyContainer}>
@@ -1273,15 +1296,43 @@ const SingleSite = () => {
             <div className={styles.saveToolbar}>
               <button
                 type="button"
-                className={styles.saveFab}
-                onClick={onSave}
-                aria-label="Save changes"
+                className={styles.cancelFab}
+                disabled={!dirty}
+                onClick={onCancel}
+                aria-label={
+                  dirty
+                    ? "Discard unsaved changes"
+                    : "No unsaved changes to discard"
+                }
                 style={{
-                  color: themeObj.accentColor,
-                  backgroundColor: `${themeObj.accentColor}18`,
+                  color: dirty ? accent : themeObj.color,
+                  borderColor: dirty ? `${accent}88` : `${accent}40`,
+                  backgroundColor: dirty ? `${accent}14` : `${accent}08`,
                 }}
               >
-                <FontAwesomeIcon icon={["fas", "save"]} size="lg" />
+                <FontAwesomeIcon
+                  icon={["fas", "arrow-rotate-left"]}
+                  size="lg"
+                  style={{ color: dirty ? accent : themeObj.color }}
+                />
+                <span className={styles.saveFabLabel}>Cancel</span>
+              </button>
+              <button
+                type="button"
+                className={styles.saveFab}
+                disabled={!dirty}
+                onClick={onSave}
+                aria-label={dirty ? "Save changes" : "No changes to save"}
+                style={{
+                  color: dirty ? accent : themeObj.color,
+                  backgroundColor: dirty ? `${accent}18` : `${accent}0c`,
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={["fas", "save"]}
+                  size="lg"
+                  style={{ color: dirty ? accent : themeObj.color }}
+                />
                 <span className={styles.saveFabLabel}>Save</span>
               </button>
             </div>
@@ -1298,12 +1349,14 @@ const SingleSite = () => {
               style={{
                 backgroundColor: !thisContainerGradient && thisContainerColor,
                 backgroundImage: thisContainerGradient,
-                transform: `scale(${previewScale})`,
-                transformOrigin: isNarrow ? "top center" : "top right",
+                transform: isNarrow
+                  ? `scale(${previewScale})`
+                  : `translate(-50%, -50%) scale(${previewScale})`,
+                transformOrigin: isNarrow ? "top center" : "center center",
                 position: containerPosition,
-                top: containerTop,
-                right: isNarrow ? "auto" : "max(16px, 8vw)",
-                left: isNarrow ? "auto" : undefined,
+                top: isNarrow ? "auto" : "50%",
+                left: isNarrow ? "auto" : "50%",
+                right: "auto",
                 marginLeft: isNarrow ? "auto" : undefined,
                 marginRight: isNarrow ? "auto" : undefined,
               }}

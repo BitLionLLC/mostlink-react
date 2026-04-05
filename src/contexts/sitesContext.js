@@ -56,8 +56,11 @@ const SitesContextProvider = (props) => {
       .catch((err) => console.log(err));
   };
 
-  const fetchSite = async (siteId) => {
-    setSiteLoading(true);
+  const fetchSite = async (siteId, options = {}) => {
+    const skipLoading = options.skipLoading === true;
+    if (!skipLoading) {
+      setSiteLoading(true);
+    }
 
     axios
       .get(`${process.env.REACT_APP_API_BASE}/api/sites/siteId/${siteId}`, {
@@ -65,10 +68,14 @@ const SitesContextProvider = (props) => {
       })
       .then((res) => {
         setSite(res.data);
-        setSiteLoading(false);
+        if (!skipLoading) {
+          setSiteLoading(false);
+        }
       })
       .catch((err) => {
-        setSiteLoading(false);
+        if (!skipLoading) {
+          setSiteLoading(false);
+        }
         toast(err.response.data.error, { type: "error", theme });
       });
   };
