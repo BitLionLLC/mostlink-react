@@ -272,7 +272,8 @@ input {
 }
 
 .cancelButton {
-  background-color: lightgreen;
+  background-color: #e2e8f0;
+  color: #334155;
 }
 
 .deleteButton {

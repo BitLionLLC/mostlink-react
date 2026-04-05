@@ -11,7 +11,9 @@ const SubscriptionSingle = ({ attributes, tierName }) => {
   const getDisplayOfAttribute = (attribute) => {
     if (typeof attribute === "boolean") {
       if (attribute) {
-        return <FontAwesomeIcon icon={["fas", "check"]} color="green" />;
+        return (
+          <FontAwesomeIcon icon={["fas", "check"]} color={themeObj.accentColor} />
+        );
       } else {
         return <FontAwesomeIcon icon={["fas", "minus"]} color="red" />;
       }

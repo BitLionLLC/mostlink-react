@@ -70,6 +70,16 @@ const SingleSiteHeader = () => {
   };
 
   useEffect(() => {
+    if (isHamburgerMenuShown) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [isHamburgerMenuShown]);
+
+  useEffect(() => {
     jwtTokenRef.current = jwtToken;
 
     const allowedPathsWhenLoggedOut = [
@@ -174,14 +184,21 @@ const SingleSiteHeader = () => {
           style={{
             display: isAccountMenuShown ? "block" : "none",
             backgroundColor: themeObj.menuColor,
+            borderColor:
+              theme === "dark"
+                ? "rgba(255,255,255,0.1)"
+                : "rgba(0,0,0,0.1)",
           }}
           className={styles.accountMenu}
         >
-          <div
-            className={styles.attachTriangle}
-            style={{ backgroundColor: themeObj.menuColor }}
-          ></div>
           <ul className={styles.accountMenuList}>
+            {jwtToken && (
+              <li>
+                <Link to="/home" style={{ color: themeObj.color }}>
+                  Dashboard
+                </Link>
+              </li>
+            )}
             {jwtToken && (
               <li>
                 <Link to="/account" style={{ color: themeObj.color }}>
@@ -215,6 +232,7 @@ const SingleSiteHeader = () => {
             )}
             {jwtToken && (
               <li
+                className={styles.logoutItem}
                 onClick={onLogOut}
                 style={{ color: themeObj.color, cursor: "pointer" }}
               >
@@ -227,171 +245,303 @@ const SingleSiteHeader = () => {
       <FontAwesomeIcon
         icon={["fas", "bars"]}
         className={styles.hamburgerMenu}
-        size="2x"
+        size="lg"
         onClick={(e) => toggleHamburgerMenu(e)}
         color={theme === "light" ? "black" : "white"}
       />
       {isHamburgerMenuShown ? (
         <>
           <div
-            className={styles.hamburgerMenuClose}
-            onClick={(e) => setIsHamburgerMenuShown(false)}
-            style={{ color: theme === "light" ? "black" : "white" }}
+            className={styles.hamburgerBackdrop}
+            onClick={() => setIsHamburgerMenuShown(false)}
+            aria-hidden
+          />
+          <div
+            className={styles.hamburgerPanel}
+            style={{
+              backgroundColor: themeObj.menuColor,
+              color: themeObj.color,
+            }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
           >
-            +
-          </div>
-          <ul
-            className={styles.hamburgerMenuList}
-            style={{ backgroundColor: themeObj.menuColor }}
-          >
-            <div className={styles.doubleListItem}>
-              <li
-                style={{
-                  color: "white",
-                  background: themeObj.editTrayBackground,
-                }}
-                className={styles.hamburgerMenuItemHalf}
+            <div className={styles.hamburgerHeader}>
+              <span
+                className={styles.hamburgerTitle}
+                style={{ color: themeObj.color }}
               >
-                <FontAwesomeIcon
-                  icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}
-                />
-              </li>
-              <li
-                onClick={toggleTheme}
+                Menu
+              </span>
+              <button
+                type="button"
+                className={styles.hamburgerMenuClose}
+                onClick={() => setIsHamburgerMenuShown(false)}
                 style={{
-                  color: "white",
-                  background: themeObj.editTrayBackground,
+                  color: themeObj.color,
+                  background:
+                    theme === "dark"
+                      ? "rgba(255,255,255,0.08)"
+                      : "rgba(0,0,0,0.06)",
                 }}
-                className={styles.hamburgerMenuItemHalf}
+                aria-label="Close menu"
               >
-                <FontAwesomeIcon
-                  icon={theme === "dark" ? ["fas", "sun"] : ["fas", "moon"]}
-                />
-              </li>
+                <FontAwesomeIcon icon={["fas", "times"]} />
+              </button>
             </div>
-            <li
-              style={{
-                color: "white",
-                background: themeObj.editTrayBackground,
-              }}
-              onClick={() => routeTo(jwtToken ? "/home" : "/")}
-            >
-              {jwtToken ? "Dashboard" : "Home"}
-            </li>
-            {jwtToken && (
+            <ul className={styles.hamburgerMenuList}>
+              <li className={styles.doubleListItem}>
+                <div
+                  style={{
+                    color: themeObj.color,
+                    background: themeObj.editTrayBackground,
+                  }}
+                  className={styles.hamburgerMenuItemHalf}
+                  aria-hidden
+                >
+                  <FontAwesomeIcon
+                    icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  style={{
+                    color: themeObj.color,
+                    background: themeObj.editTrayBackground,
+                  }}
+                  className={styles.hamburgerMenuItemHalf}
+                  aria-label={
+                    theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+                  }
+                >
+                  <FontAwesomeIcon
+                    icon={theme === "dark" ? ["fas", "sun"] : ["fas", "moon"]}
+                  />
+                </button>
+              </li>
               <li
-                style={{
-                  color: "white",
-                  background: themeObj.editTrayBackground,
-                }}
-                onClick={() => routeTo("/account")}
+                className={styles.hamburgerSectionLabel}
+                style={{ color: themeObj.color }}
               >
                 Account
               </li>
-            )}
-            {!jwtToken && (
               <li
+                className={styles.hamburgerItem}
                 style={{
-                  color: "white",
+                  color: themeObj.color,
                   background: themeObj.editTrayBackground,
                 }}
-                onClick={() => routeTo("/account/register")}
+                onClick={() => routeTo(jwtToken ? "/home" : "/")}
               >
-                Register
+                {jwtToken ? "Dashboard" : "Home"}
               </li>
-            )}
-            {!jwtToken && (
+              {jwtToken && (
+                <li
+                  className={styles.hamburgerItem}
+                  style={{
+                    color: themeObj.color,
+                    background: themeObj.editTrayBackground,
+                  }}
+                  onClick={() => routeTo("/account")}
+                >
+                  Account settings
+                </li>
+              )}
+              {!jwtToken && (
+                <li
+                  className={styles.hamburgerItem}
+                  style={{
+                    color: themeObj.color,
+                    background: themeObj.editTrayBackground,
+                  }}
+                  onClick={() => routeTo("/account/register")}
+                >
+                  Register
+                </li>
+              )}
+              {!jwtToken && (
+                <li
+                  className={styles.hamburgerItem}
+                  style={{
+                    color: themeObj.color,
+                    background: themeObj.editTrayBackground,
+                  }}
+                  onClick={() => routeTo("/account/resend-verification")}
+                >
+                  Verify email
+                </li>
+              )}
+              {!jwtToken && (
+                <li
+                  className={styles.hamburgerItem}
+                  style={{
+                    color: themeObj.color,
+                    background: themeObj.editTrayBackground,
+                  }}
+                  onClick={() => routeTo("/account/login")}
+                >
+                  Log in
+                </li>
+              )}
+              {jwtToken && (
+                <li
+                  className={styles.hamburgerItem}
+                  onClick={onLogOut}
+                  style={{
+                    color: themeObj.color,
+                    background: themeObj.editTrayBackground,
+                    cursor: "pointer",
+                  }}
+                >
+                  Log out
+                </li>
+              )}
+              <li className={styles.hamburgerDivider} aria-hidden />
               <li
+                className={styles.hamburgerSectionLabel}
+                style={{ color: themeObj.color }}
+              >
+                Editor
+              </li>
+              <li
+                className={styles.hamburgerItem}
                 style={{
-                  color: "white",
+                  color: themeObj.color,
                   background: themeObj.editTrayBackground,
                 }}
-                onClick={() => routeTo("/account/resend-verification")}
-              >
-                Verify email
-              </li>
-            )}
-            {!jwtToken && (
-              <li
-                style={{
-                  color: "white",
-                  background: themeObj.editTrayBackground,
-                }}
-                onClick={() => routeTo("/account/login")}
-              >
-                Log in
-              </li>
-            )}
-            {jwtToken && (
-              <li
-                onClick={onLogOut}
-                style={{
-                  color: "white",
-                  background: themeObj.editTrayBackground,
-                  cursor: "pointer",
+                onClick={() => {
+                  setSingleSiteTabIndex(0);
+                  setIsHamburgerMenuShown(false);
                 }}
               >
-                Log out
+                Links
               </li>
-            )}
-            <li
-              style={{ background: themeObj.editTrayBackground }}
-              onClick={() => setIsHamburgerMenuShown(false)}
-            >
-              <a href="/#features" style={{ color: "white" }}>
-                Features
-              </a>
-            </li>
-            <li
-              style={{ background: themeObj.editTrayBackground }}
-              onClick={() => setIsHamburgerMenuShown(false)}
-            >
-              <a href="/#examples" style={{ color: "white" }}>
-                Examples
-              </a>
-            </li>
-            <li
-              style={{ background: themeObj.editTrayBackground }}
-              onClick={() => setIsHamburgerMenuShown(false)}
-            >
-              <a href="/#faqs" style={{ color: "white" }}>
-                FAQ's
-              </a>
-            </li>
-            <li
-              style={{
-                color: "white",
-                background: themeObj.editTrayBackground,
-              }}
-              onClick={() => routeTo("/pricing")}
-            >
-              Pricing
-            </li>
-            <li
-              className={styles.feedback}
-              onClick={() => routeTo("/feedback")}
-            >
-              Provide feedback (please!)
-            </li>
-            <li
-              style={{
-                color: "white",
-                background: themeObj.editTrayBackground,
-              }}
-              onClick={() => routeTo("/privacy-policy")}
-            >
-              Privacy Policy
-            </li>
-            <li
-              style={{
-                color: "white",
-                background: themeObj.editTrayBackground,
-              }}
-              onClick={() => routeTo("/terms-and-conditions")}
-            >
-              Terms and Conditions
-            </li>
-          </ul>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => {
+                  setSingleSiteTabIndex(1);
+                  setIsHamburgerMenuShown(false);
+                }}
+              >
+                Style
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => {
+                  setSingleSiteTabIndex(2);
+                  setIsHamburgerMenuShown(false);
+                }}
+              >
+                Analytics
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => {
+                  setSingleSiteTabIndex(3);
+                  setIsHamburgerMenuShown(false);
+                }}
+              >
+                Settings
+              </li>
+              <li className={styles.hamburgerDivider} aria-hidden />
+              <li
+                className={styles.hamburgerSectionLabel}
+                style={{ color: themeObj.color }}
+              >
+                Site
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => setIsHamburgerMenuShown(false)}
+              >
+                <a href="/#features">Features</a>
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => setIsHamburgerMenuShown(false)}
+              >
+                <a href="/#examples">Examples</a>
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => setIsHamburgerMenuShown(false)}
+              >
+                <a href="/#faqs">FAQ&apos;s</a>
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => routeTo("/pricing")}
+              >
+                Pricing
+              </li>
+              <li className={styles.hamburgerDivider} aria-hidden />
+              <li
+                className={styles.hamburgerSectionLabel}
+                style={{ color: themeObj.color }}
+              >
+                More
+              </li>
+              <li
+                className={`${styles.hamburgerItem} ${styles.feedback}`}
+                onClick={() => routeTo("/feedback")}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+              >
+                Provide feedback (please!)
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => routeTo("/privacy-policy")}
+              >
+                Privacy Policy
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => routeTo("/terms-and-conditions")}
+              >
+                Terms and Conditions
+              </li>
+            </ul>
+          </div>
         </>
       ) : null}
     </div>

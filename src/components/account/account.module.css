@@ -113,7 +113,8 @@
 }
 
 .cancelButton {
-  background-color: lightgreen;
+  background-color: #e2e8f0;
+  color: #334155;
 }
 
 .deleteButton {
@@ -163,7 +164,8 @@
 }
 
 .submitButton {
-  background-color: lightgreen;
+  background-color: #2563eb;
+  color: #fff;
 }
 
 .cancelChangeButton {

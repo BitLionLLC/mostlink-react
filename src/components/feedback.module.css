@@ -78,7 +78,8 @@
 }
 
 .submitButton {
-  background-color: lightgreen;
+  background-color: #2563eb;
+  color: #fff;
 }
 
 @media (width <= 550px) {

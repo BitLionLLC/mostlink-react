@@ -40,7 +40,8 @@
 }
 
 .submitButton {
-  background-color: lightgreen;
+  background-color: #2563eb;
+  color: #fff;
 }
 
 .errorText {

@@ -1043,7 +1043,7 @@ const SingleSite = () => {
                         {data.isPointing ? (
                           <FontAwesomeIcon
                             icon={["fas", "check"]}
-                            color="lightgreen"
+                            color={themeObj.accentColor}
                           />
                         ) : (
                           <FontAwesomeIcon
@@ -1141,7 +1141,7 @@ const SingleSite = () => {
           >
             <FontAwesomeIcon
               icon={["fas", "square-check"]}
-              color="green"
+              color={themeObj.accentColor}
               className={styles.saveButton}
               size="3x"
               onClick={onSave}
