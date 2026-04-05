@@ -288,11 +288,12 @@ button.hamburgerMenuItemHalf {
   pointer-events: none;
 }
 
-a,
-a:hover,
-a:active,
-a:visited,
-a:link {
+/* Scope link colors to the header only — unscoped `a` forced black site-wide and broke dark mode elsewhere */
+.header a,
+.header a:hover,
+.header a:active,
+.header a:visited,
+.header a:link {
   color: black;
 }
 

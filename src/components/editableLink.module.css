@@ -1,5 +1,109 @@
+.linkCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  background: rgba(128, 128, 128, 0.05);
+  overflow: hidden;
+  margin-bottom: 10px;
+  transition: box-shadow 0.15s ease;
+}
+
+.linkCard:hover {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Top action bar inside each card */
+.cardTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.12);
+  background: rgba(128, 128, 128, 0.04);
+  gap: 6px;
+}
+
+.reorderGroup {
+  display: flex;
+  gap: 3px;
+}
+
+.reorderBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: background 0.12s ease;
+}
+
+.reorderBtn:hover:not(:disabled) {
+  background: rgba(128, 128, 128, 0.14);
+}
+
+.reorderBtn:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.linkIndex {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  flex: 1;
+  text-align: center;
+}
+
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  cursor: pointer;
+  font: inherit;
+  transition: background 0.12s ease;
+}
+
+.deleteBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Main fields area */
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px 12px;
+}
+
+.textField {
+  width: 100%;
+  margin: 4px 0 !important;
+}
+
+.textField div {
+  min-height: 40px;
+}
+
+/* Icon select */
 .iconOptionSelect {
-  height: 70px;
+  width: 100%;
+  margin-top: 8px !important;
+  min-height: 48px;
 }
 
 .iconOptionSelect div {
@@ -10,41 +114,29 @@
 .iconOption {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .iconOptionIcon {
-  top: 0;
   margin-left: 10px;
-  float: right;
+  flex-shrink: 0;
 }
 
-.linkEditLi {
-  margin: 10px auto;
+/* Live notification section */
+.liveSection {
+  margin-top: 10px;
   display: flex;
-  flex-flow: column;
-  width: 300px;
-  position: relative;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(128, 128, 128, 0.12);
 }
 
-.deleteLink {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.textField {
-  width: 100%;
-  font-size: 20px;
-  padding: 5px;
-  margin: 10px 0 !important;
-}
-
-.textField div {
-  height: 50px;
-}
-
-.reorderLinks {
-  position: absolute;
-  display: flex;
-  width: 100%;
+.liveSectionLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  margin-bottom: 2px;
 }

@@ -410,11 +410,11 @@ button.hamburgerMenuItemHalf {
   pointer-events: none;
 }
 
-a,
-a:hover,
-a:active,
-a:visited,
-a:link {
+.shell a,
+.shell a:hover,
+.shell a:active,
+.shell a:visited,
+.shell a:link {
   color: black;
 }
 

@@ -23,7 +23,12 @@ const CreateSite = (props) => {
     sites,
     theme,
     createSiteModalRef,
+    setIsCreateSiteModalOpen,
   } = useContext(SitesContext);
+
+  useEffect(() => {
+    setIsCreateSiteModalOpen(isModalOpen);
+  }, [isModalOpen, setIsCreateSiteModalOpen]);
 
   const WHITESPACE_REGEX = /\s/;
   const SUBDOMAIN_TAKEN_ERROR =
@@ -157,9 +162,14 @@ const CreateSite = (props) => {
               onKeyDown={onEscKey}
               tabIndex="0"
             >
-              <div className={styles.closeButton} onClick={toggleModal}>
-                +
-              </div>
+              <button
+                type="button"
+                className={styles.closeButton}
+                onClick={toggleModal}
+                aria-label="Close"
+              >
+                <span className={styles.closeButtonGlyph}>+</span>
+              </button>
               <h1>Create a site</h1>
               <form
                 onSubmit={createSite}

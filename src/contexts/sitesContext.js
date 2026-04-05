@@ -21,6 +21,7 @@ const SitesContextProvider = (props) => {
   const [email, setEmail] = useState("");
   const [withGoogle, setWithGoogle] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isCreateSiteModalOpen, setIsCreateSiteModalOpen] = useState(false);
   const [editModalOpenedWith, setEditModalOpenedWith] = useState({});
   const createSiteModalRef = useRef(null);
   const [singleSiteTabIndex, setSingleSiteTabIndex] = useState(0);
@@ -125,6 +126,8 @@ const SitesContextProvider = (props) => {
         email,
         withGoogle,
         isEditModalOpen,
+        isCreateSiteModalOpen,
+        setIsCreateSiteModalOpen,
         editModalOpenedWith,
         singleSiteTabIndex,
         fetchSite,

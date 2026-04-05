@@ -2,129 +2,186 @@ import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
-import { TextField, Select, MenuItem, ListItemText, Button } from "@mui/material";
+import { TextField, Select, MenuItem, ListItemText } from "@mui/material";
 import { SitesContext } from "../contexts/sitesContext";
 
 import styles from "./editableLink.module.css";
 
-const style = {
-  border: "1px dashed gray",
-  padding: "0.5rem 1rem",
-  marginBottom: ".5rem",
-};
-
 const LIVE_TYPES = {
   NONE: "none",
   TWITCH: "twitch",
-  YOUTUBE: "youtube"
+  YOUTUBE: "youtube",
 };
 
 const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id }) => {
   const { isSubscribed, theme } = useContext(SitesContext);
 
-  const [typeOfLiveNotification, setTypeOfLiveNotification] = useState(link.live?.type || LIVE_TYPES.NONE);
+  const [typeOfLiveNotification, setTypeOfLiveNotification] = useState(
+    link.live?.type || LIVE_TYPES.NONE
+  );
   const [liveMeta, setLiveMeta] = useState(link.live?.meta || "");
 
   const transformIconKey = (key, lib) => {
     const arr = key.split("").slice(2);
-    const display = arr.join("");
     let valueArr = [];
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].toUpperCase() === arr[i] && !Number.isInteger(Number(arr[i])) && i !== 0) {
+      if (
+        arr[i].toUpperCase() === arr[i] &&
+        !Number.isInteger(Number(arr[i])) &&
+        i !== 0
+      ) {
         valueArr.push("-");
         valueArr.push(arr[i].toLowerCase());
-      } else if (arr[i].toUpperCase() === arr[i] && !Number.isInteger(Number(arr[i]))) {
+      } else if (
+        arr[i].toUpperCase() === arr[i] &&
+        !Number.isInteger(Number(arr[i]))
+      ) {
         valueArr.push(arr[i].toLowerCase());
       } else {
         valueArr.push(arr[i]);
       }
     }
-
+    const display = arr.join("");
     const value = lib + "_" + valueArr.join("");
     return [display, value];
   };
 
-  const selectOptions = Object.keys(fab).concat(Object.keys(far)).filter((key) => key !== "faFontAwesomeLogoFull").sort().map(key => {
-    let lib;
-    if (Object.keys(far).includes(key)) {
-      lib = "far";
-    } else {
-      lib = "fab";
-    }
-    const [label, value] = transformIconKey(key, lib);
-    return {value, label};
-  });
-    
-  return (
-    <li className={styles.linkEditLi} style={{...style}}>                   
-      {index > 0 && <Button disabled={index === 0} onClick={() => moveLink(index, index - 1)}>move up &uarr;</Button>}
-      <TextField type="text" value={link.text} className={styles.textField} variant="filled" size="small" placeholder={`Link #${index + 1} text`} onChange={e => {
-        const newLinks = links.slice();
-        newLinks[index].text = e.target.value;
-        setLinks(newLinks);
-      }} />
-      <TextField type="text" value={link.href} className={styles.textField} variant="filled" size="small" placeholder={`Link #${index + 1} URI`} onChange={e => {
-        const newLinks = links.slice();
-        newLinks[index].href = e.target.value;
-        setLinks(newLinks);
-      }} />
-      <FontAwesomeIcon icon={["far", "window-close"]} size="1x" onClick={() => deleteLink(index)} color="red" className={styles.deleteLink} />
-      <Select
-        className={styles.iconOptionSelect}
-        onChange={e => {
-          const newLinks = links.slice();
-          newLinks[index].icon = e.target.value;
-          setLinks(newLinks);
-        }} 
-        defaultValue={selectOptions.find(obj => obj.value === link?.icon).value} 
-      >
-        {selectOptions.map((option) => (
-          <MenuItem key={option.value} value={option.value} className={styles.iconOption}>
-            <ListItemText>{option.label}</ListItemText>
-            <FontAwesomeIcon icon={option.value.split("_")} size="2x" className={styles.iconOptionIcon} />
-          </MenuItem>
-        ))}
-      </Select>
+  const selectOptions = Object.keys(fab)
+    .concat(Object.keys(far))
+    .filter((key) => key !== "faFontAwesomeLogoFull")
+    .sort()
+    .map((key) => {
+      const lib = Object.keys(far).includes(key) ? "far" : "fab";
+      const [label, value] = transformIconKey(key, lib);
+      return { value, label };
+    });
 
-      {
-        isSubscribed || true // TODO: remove OR condition when out of beta
-          ?
-          <>
-            <Select 
-              value={typeOfLiveNotification} 
-              onChange={e => {
+  return (
+    <li className={styles.linkCard}>
+      <div className={styles.cardTopBar}>
+        <div className={styles.reorderGroup}>
+          <button
+            type="button"
+            className={styles.reorderBtn}
+            disabled={index === 0}
+            onClick={() => moveLink(index, index - 1)}
+            aria-label="Move link up"
+          >
+            <FontAwesomeIcon icon={["fas", "arrow-up"]} size="xs" />
+          </button>
+          <button
+            type="button"
+            className={styles.reorderBtn}
+            disabled={index === links.length - 1}
+            onClick={() => moveLink(index, index + 1)}
+            aria-label="Move link down"
+          >
+            <FontAwesomeIcon icon={["fas", "arrow-down"]} size="xs" />
+          </button>
+        </div>
+
+        <span className={styles.linkIndex}>Link {index + 1}</span>
+
+        <button
+          type="button"
+          className={styles.deleteBtn}
+          onClick={() => deleteLink(index)}
+          aria-label={`Delete link ${index + 1}`}
+        >
+          <FontAwesomeIcon icon={["fas", "times"]} size="xs" />
+        </button>
+      </div>
+
+      <div className={styles.cardBody}>
+        <TextField
+          type="text"
+          value={link.text}
+          className={styles.textField}
+          variant="filled"
+          size="small"
+          placeholder="Link text"
+          onChange={(e) => {
+            const newLinks = links.slice();
+            newLinks[index].text = e.target.value;
+            setLinks(newLinks);
+          }}
+        />
+        <TextField
+          type="text"
+          value={link.href}
+          className={styles.textField}
+          variant="filled"
+          size="small"
+          placeholder="Link URL"
+          onChange={(e) => {
+            const newLinks = links.slice();
+            newLinks[index].href = e.target.value;
+            setLinks(newLinks);
+          }}
+        />
+        <Select
+          className={styles.iconOptionSelect}
+          onChange={(e) => {
+            const newLinks = links.slice();
+            newLinks[index].icon = e.target.value;
+            setLinks(newLinks);
+          }}
+          defaultValue={selectOptions.find((obj) => obj.value === link?.icon)?.value}
+        >
+          {selectOptions.map((option) => (
+            <MenuItem key={option.value} value={option.value} className={styles.iconOption}>
+              <ListItemText>{option.label}</ListItemText>
+              <FontAwesomeIcon
+                icon={option.value.split("_")}
+                size="lg"
+                className={styles.iconOptionIcon}
+              />
+            </MenuItem>
+          ))}
+        </Select>
+
+        {(isSubscribed || true) /* TODO: remove OR condition when out of beta */ && (
+          <div className={styles.liveSection}>
+            <span className={styles.liveSectionLabel}>Live notification</span>
+            <Select
+              value={typeOfLiveNotification}
+              onChange={(e) => {
                 setTypeOfLiveNotification(e.target.value);
                 const newLinks = links.slice();
-                newLinks[index].live = Object.assign({}, newLinks[index].live, {type: e.target.value}); 
+                newLinks[index].live = Object.assign({}, newLinks[index].live, {
+                  type: e.target.value,
+                });
                 setLinks(newLinks);
               }}
             >
-              <MenuItem value={LIVE_TYPES.NONE}>Not a live notification</MenuItem>
-              <MenuItem value={LIVE_TYPES.TWITCH}>Twitch live notification</MenuItem>
-              <MenuItem value={LIVE_TYPES.YOUTUBE}>YouTube Live Notification</MenuItem>
+              <MenuItem value={LIVE_TYPES.NONE}>None</MenuItem>
+              <MenuItem value={LIVE_TYPES.TWITCH}>Twitch — show live status</MenuItem>
+              <MenuItem value={LIVE_TYPES.YOUTUBE}>YouTube — show live status</MenuItem>
             </Select>
-            {
-              typeOfLiveNotification !== LIVE_TYPES.NONE 
-                ?
-                <TextField 
-                  className={styles.textField} variant="filled" size="small"
-                  value={liveMeta} 
-                  onChange={e => {
-                    setLiveMeta(e.target.value);
-                    const newLinks = links.slice();
-                    newLinks[index].live = Object.assign({}, newLinks[index].live, {meta: e.target.value}); 
-                    setLinks(newLinks);
-                  }}
-                  placeholder={typeOfLiveNotification === LIVE_TYPES.TWITCH ? "channel name" : "channel ID" }
-                />
-                :
-                null
-            }
-          </>
-          :
-          null
-      }
-      {index < links.length - 1 && <Button disabled={index === links.length - 1} onClick={() => moveLink(index, index + 1)}>move down &darr;</Button>}
+            {typeOfLiveNotification !== LIVE_TYPES.NONE && (
+              <TextField
+                className={styles.textField}
+                variant="filled"
+                size="small"
+                value={liveMeta}
+                onChange={(e) => {
+                  setLiveMeta(e.target.value);
+                  const newLinks = links.slice();
+                  newLinks[index].live = Object.assign({}, newLinks[index].live, {
+                    meta: e.target.value,
+                  });
+                  setLinks(newLinks);
+                }}
+                placeholder={
+                  typeOfLiveNotification === LIVE_TYPES.TWITCH
+                    ? "Twitch channel name"
+                    : "YouTube channel ID"
+                }
+              />
+            )}
+          </div>
+        )}
+      </div>
     </li>
   );
 };

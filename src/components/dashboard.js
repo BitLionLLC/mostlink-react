@@ -7,8 +7,9 @@ const Dashboard = () => {
   const { themeObj, theme } = useContext(SitesContext);
 
   useEffect(() => {
-    document.body.style.backgroundImage = themeObj.landingBackground;
-  }, [theme]);
+    document.body.style.backgroundImage = "none";
+    document.body.style.backgroundColor = themeObj.bodyColor;
+  }, [theme, themeObj.bodyColor]);
 
   return (
     <div className="App">

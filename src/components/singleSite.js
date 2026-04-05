@@ -987,10 +987,10 @@ const SingleSite = () => {
                 }
               />
             </div>
-            <button onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>
+            <button className={styles.mediaBtn} onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>
               Choose from Pexels
             </button>
-            <button onClick={() => setIsGiphyModalShowing(true)}>
+            <button className={styles.mediaBtn} onClick={() => setIsGiphyModalShowing(true)}>
               Choose from GIPHY
             </button>
 
@@ -1041,7 +1041,7 @@ const SingleSite = () => {
                 }
               />
             </div>
-            <button onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>
+            <button className={styles.mediaBtn} onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>
               Choose from Pexels
             </button>
           </div>
@@ -1153,7 +1153,7 @@ const SingleSite = () => {
               </>
             )}
             <h2>Domains</h2>
-            <button onClick={openCheckDomainModal}>Add a domain</button>
+            <button className={styles.addBtn} onClick={openCheckDomainModal}>Add a domain</button>
             {domains.length ? (
               <>
                 <ul className={styles.domainList}>
@@ -1182,6 +1182,7 @@ const SingleSite = () => {
                         )}
                         &nbsp;
                         <button
+                          className={styles.smallDangerBtn}
                           onClick={() => openDeleteDomainModal(data.domain)}
                         >
                           Delete
@@ -1218,7 +1219,7 @@ const SingleSite = () => {
         return (
           <div className={styles.editContents}>
             <h1>Links</h1>
-            <button onClick={addLink}>+</button>
+            <button className={styles.addLinkBtn} onClick={addLink}>+ Add link</button>
             <ul className={styles.linkEditList}>
               {links?.map((link, index) => {
                 return (
@@ -1571,7 +1572,7 @@ const SingleSite = () => {
                     size="small"
                     variant="filled"
                   />
-                  <button onClick={fetchPexels} type="submit">
+                  <button className={styles.searchBtn} onClick={fetchPexels} type="submit">
                     Search
                   </button>
                 </form>
@@ -1657,7 +1658,7 @@ const SingleSite = () => {
                     size="small"
                     variant="filled"
                   />
-                  <button onClick={fetchGiphy} type="submit">
+                  <button className={styles.searchBtn} onClick={fetchGiphy} type="submit">
                     Search
                   </button>
                 </form>

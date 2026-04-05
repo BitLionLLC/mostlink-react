@@ -1,73 +1,168 @@
+/* Dashboard card: same 350×700 preview canvas as the editor, scaled down */
+/* scale 0.56 → visible ~196 × 392px */
 .miniSiteWrapper {
-  width: 375px;
-  height: 275px;
-  border-radius: 5px;
+  width: 100%;
+  padding: 4px 2px 8px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  padding: 20px 25px;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.phoneOuter {
+  width: 196px;
+  height: 392px;
   overflow: hidden;
-  border: 1px solid rgb(0 0 0 / 50%);
+  margin: 0 auto;
   position: relative;
+  flex-shrink: 0;
 }
 
-.title {
-  margin-top: 85px;
-  font-size: 20px;
-}
-
-.subtitle {
-  font-size: 10px;
-  margin-top: 8px;
-}
-
-.title,
-.subtitle {
-  font-weight: bold;
-}
-
-.headerImage {
-  border-radius: 100%;
-  margin-bottom: 5px;
+.phoneInner {
+  width: 350px;
+  height: 700px;
+  transform: scale(0.56);
+  transform-origin: top left;
   position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.linksList {
-  margin-top: 10px;
-  list-style: none;
-  padding: 0;
-}
-
-.linkRow {
-  width: 300px;
+.phoneScreen {
+  position: relative;
+  width: 350px;
+  height: 700px;
+  border-radius: 30px;
+  overflow: hidden;
   display: flex;
-  justify-content: space-between;
+  flex-flow: column nowrap;
   align-items: center;
-  margin: 10px 0;
-  padding: 5px 15px;
-  font-size: 10px;
-  border-radius: 20px;
+  justify-content: flex-start;
+  z-index: 10;
 }
 
-.linkText {
+.phoneFrameImg {
+  z-index: 11;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  max-width: none;
+  pointer-events: none;
+}
+
+.phoneContents {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 70px 8px 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.previewHeaderImg {
+  border-radius: 100%;
+  max-width: min(200px, 80vw);
+  height: auto;
+}
+
+.previewHeaderEmoji {
+  font-size: clamp(80px, 18vw, 175px);
+  line-height: 1.05;
+}
+
+.previewTitle {
+  margin: 20px 0 5px;
+  padding: 0 8px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.previewSubtitle {
+  margin: 10px 0;
+  padding: 0 8px;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  word-break: break-word;
+  line-height: 1.25;
+}
+
+.previewLinksList {
+  list-style: none;
+  padding: 0 8px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.previewLink {
+  width: 100%;
+  max-width: 290px;
+  box-sizing: border-box;
+  min-height: 48px;
+  margin: 10px auto;
+  padding: 12px 20px;
+  border-radius: 30px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  list-style: none;
+}
+
+.previewLinkTextWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.previewLinkText {
   font-weight: bold;
 }
 
-.linkAndLive {
-  display: flex;
-}
-
-.liveNotification {
+.previewLive {
+  font-size: 0.85em;
   font-weight: normal;
-}
-
-.headerEmoji {
-  font-size: 60px;
 }
 
 .editButton {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  z-index: 20;
+  transition:
+    background 0.15s ease,
+    transform 0.12s ease;
+  color: #fff;
+}
+
+.editButton:hover {
+  background: rgba(0, 0, 0, 0.5);
+  transform: scale(1.1);
 }

@@ -124,9 +124,14 @@ const EditSite = () => {
               onKeyDown={onEscKey}
               tabIndex="0"
             >
-              <div className={styles.closeButton} onClick={toggleModal}>
-                +
-              </div>
+              <button
+                type="button"
+                className={styles.closeButton}
+                onClick={toggleModal}
+                aria-label="Close"
+              >
+                <span className={styles.closeButtonGlyph}>+</span>
+              </button>
               <h1>Edit site</h1>
               <form
                 onSubmit={updateSite}
