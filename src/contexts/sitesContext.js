@@ -18,6 +18,7 @@ const SitesContextProvider = (props) => {
     localTheme === "light" ? lightTheme : darkTheme
   );
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [foreverFree, setForeverFree] = useState(false);
   const [email, setEmail] = useState("");
   const [withGoogle, setWithGoogle] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -49,6 +50,7 @@ const SitesContextProvider = (props) => {
     setEmail("");
     setWithGoogle(false);
     setIsSubscribed(false);
+    setForeverFree(false);
     axios
       .get(`${process.env.REACT_APP_API_BASE}/api/users/logout`, {
         withCredentials: true,
@@ -101,6 +103,7 @@ const SitesContextProvider = (props) => {
         setUserId(res.data.id);
         setWithGoogle(res.data.google);
         setIsSubscribed(res.data.isSubscribed);
+        setForeverFree(Boolean(res.data.foreverFree));
       })
       .catch((err) => console.log(err));
   };
@@ -134,7 +137,7 @@ const SitesContextProvider = (props) => {
       });
   };
 
-  const fetchSites = () => {
+  const fetchSites = useCallback(() => {
     setSitesLoading(true);
 
     axios
@@ -147,9 +150,9 @@ const SitesContextProvider = (props) => {
       })
       .catch((err) => {
         setSitesLoading(false);
-        toast(err.response.data.error, { type: "error", theme });
+        toast(err.response?.data?.error, { type: "error", theme });
       });
-  };
+  }, [theme]);
 
   const toggleTheme = () => {
     if (theme === "dark") {
@@ -175,6 +178,7 @@ const SitesContextProvider = (props) => {
         theme,
         themeObj,
         isSubscribed,
+        foreverFree,
         createSiteModalRef,
         email,
         withGoogle,
@@ -193,6 +197,7 @@ const SitesContextProvider = (props) => {
         setWithGoogle,
         toggleTheme,
         setIsSubscribed,
+        setForeverFree,
         setIsEditModalOpen,
         setEditModalOpenedWith,
         setSingleSiteTabIndex,

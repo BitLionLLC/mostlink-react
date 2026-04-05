@@ -19,7 +19,7 @@ const CreateSite = (props) => {
   const {
     fetchSites,
     themeObj,
-    isSubscribed,
+    foreverFree,
     sites,
     theme,
     createSiteModalRef,
@@ -93,34 +93,84 @@ const CreateSite = (props) => {
     ];
 
     e.preventDefault();
-    isSubdomainValid &&
+    if (!isSubdomainValid) {
+      return;
+    }
+
+    const payload = {
+      title,
+      subtitle,
+      links,
+      subdomain,
+      titlesColor: "#000000",
+      containerColor: "#ADD8E6",
+      linkTextColor: "#000000",
+      linkBackgroundColor: "#FFFFFF",
+      bodyColor: "#2E8B57",
+    };
+
+    if (sites.length === 0 && !foreverFree) {
       axios
         .post(
-          `${process.env.REACT_APP_API_BASE}/api/sites`,
-          {
-            title,
-            subtitle,
-            links,
-            subdomain,
-            titlesColor: "#000000",
-            containerColor: "#ADD8E6",
-            linkTextColor: "#000000",
-            linkBackgroundColor: "#FFFFFF",
-            bodyColor: "#2E8B57",
-          },
+          `${process.env.REACT_APP_API_BASE}/api/payment/create-first-site-checkout`,
+          payload,
           { withCredentials: true }
         )
-        .then(() => {
-          setIsModalOpen(false);
-          toast("Site created!", { type: "success", theme });
-          setTitle("");
-          setSubtitle("");
-          setSubdomain("");
-          fetchSites();
+        .then((res) => {
+          window.location.href = res.data.redirect;
         })
         .catch((err) => {
-          toast(err.response.data.error, { type: "error", theme });
+          const msg =
+            err.response?.data?.error?.message ||
+            err.response?.data?.error ||
+            "Could not start checkout.";
+          toast(String(msg), { type: "error", theme });
         });
+      return;
+    }
+
+    if (sites.length >= 1 && !foreverFree) {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_BASE}/api/payment/create-additional-site-checkout`,
+          payload,
+          { withCredentials: true }
+        )
+        .then((res) => {
+          window.location.href = res.data.redirect;
+        })
+        .catch((err) => {
+          const msg =
+            err.response?.data?.error?.message ||
+            err.response?.data?.error ||
+            "Could not start checkout.";
+          toast(String(msg), { type: "error", theme });
+        });
+      return;
+    }
+
+    axios
+      .post(
+        `${process.env.REACT_APP_API_BASE}/api/sites`,
+        payload,
+        { withCredentials: true }
+      )
+      .then(() => {
+        setIsModalOpen(false);
+        toast("Site created!", { type: "success", theme });
+        setTitle("");
+        setSubtitle("");
+        setSubdomain("");
+        fetchSites();
+      })
+      .catch((err) => {
+        const data = err.response?.data;
+        const msg =
+          typeof data?.error === "string"
+            ? data.error
+            : data?.error?.message || "Could not create the site.";
+        toast(msg, { type: "error", theme });
+      });
   };
 
   const onKeyDown = (e) => {
@@ -143,13 +193,8 @@ const CreateSite = (props) => {
         style={{
           color: themeObj.accentColor,
           backgroundColor: themeObj.bodyColor,
+          cursor: "pointer",
         }}
-        disabled={!isSubscribed && sites.length > 2 && false} // TODO: remove both of these AND conditions when out of beta
-        title={
-          !isSubscribed && sites.length > 2 && false
-            ? "Subscribe to Premium to add more sites"
-            : null
-        }
       >
         +
       </div>
@@ -171,6 +216,17 @@ const CreateSite = (props) => {
                 <span className={styles.closeButtonGlyph}>+</span>
               </button>
               <h1>Create a site</h1>
+              {!foreverFree && sites.length === 0 ? (
+                <p className={styles.checkoutHint}>
+                  Next you&apos;ll go to Stripe to start your 30-day free trial
+                  ($5/mo for your first site after; $1/mo per extra site).
+                </p>
+              ) : !foreverFree && sites.length >= 1 ? (
+                <p className={styles.checkoutHint}>
+                  Next you&apos;ll go to Stripe to subscribe for this additional
+                  site ($1/mo, no trial).
+                </p>
+              ) : null}
               <form
                 onSubmit={createSite}
                 className={styles.createSiteForm}

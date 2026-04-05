@@ -15,6 +15,7 @@ const Login = () => {
     setJwtToken,
     setUserId,
     setIsSubscribed,
+    setForeverFree,
     setWithGoogle,
     setEmail,
     themeObj,
@@ -55,6 +56,7 @@ const Login = () => {
         setJwtToken(res.data.token);
         setUserId(res.data.id);
         setIsSubscribed(res.data.isSubscribed);
+        setForeverFree(Boolean(res.data.foreverFree));
         setWithGoogle(res.data.google);
         navigate("/dashboard");
         localStorage.setItem("mostlinkUserId", res.data.id);
@@ -93,6 +95,7 @@ const Login = () => {
           setJwtToken(res.data.token);
           setUserId(res.data.id);
           setIsSubscribed(res.data.isSubscribed);
+          setForeverFree(Boolean(res.data.foreverFree));
           setWithGoogle(res.data.google);
           navigate("/dashboard");
           localStorage.setItem("mostlinkUserId", res.data.id);

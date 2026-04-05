@@ -95,7 +95,7 @@ const Account = () => {
     axios
       .post(
         `${process.env.REACT_APP_API_BASE}/api/payment/create-checkout-session`,
-        { priceId: "price_1L70lyKTiWhpJMC5zJmDcOWx" },
+        {},
         { withCredentials: true }
       )
       .then((res) => {
@@ -185,8 +185,14 @@ const Account = () => {
       >
         <h1>Account</h1>
         <h3>{email}</h3>
-        {/* <button className={styles.generalButton} onClick={subscribeToPremium} disabled={isSubscribed}>Subscribe to Premium</button>
-                <button className={styles.generalButton} onClick={createPortalSession}>Log into Stripe portal</button> to cancel or modify your subscription. */}
+        {isSubscribed && (
+          <button
+            className={styles.generalButton}
+            onClick={createPortalSession}
+          >
+            Manage Subscription
+          </button>
+        )}
         {!withGoogle && (
           <button
             className={styles.generalButton}
