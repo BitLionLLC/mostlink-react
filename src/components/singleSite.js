@@ -1218,11 +1218,13 @@ const SingleSite = () => {
                     );
                   })}
                 </ul>
-                <p>
-                  Reminder: in DNS, point this hostname at the CNAME shown (for
-                  subdomains like app.example.com, add a CNAME for that host; for
-                  apex domains we register a www host by default).
-                </p>
+                {domains.some((d) => !d.isPointing) ? (
+                  <p>
+                    Reminder: in DNS, point this hostname at the CNAME shown (for
+                    subdomains like app.example.com, add a CNAME for that host; for
+                    apex domains we register a www host by default).
+                  </p>
+                ) : null}
               </>
             ) : (
               <div>You have no domains.</div>
