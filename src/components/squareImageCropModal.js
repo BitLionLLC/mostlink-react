@@ -1,6 +1,12 @@
 import React, { useState, useCallback } from "react";
+import axios from "axios";
 import Cropper from "react-easy-crop";
 import { toast } from "react-toastify";
+import { compressRasterDataUrl } from "../utils/imageCompress";
+import {
+  cropAnimatedGifToBlob,
+  isAnimatedGifSource,
+} from "../utils/gifSquareCrop";
 import styles from "./squareImageCropModal.module.css";
 
 function createImage(url) {
@@ -8,15 +14,15 @@ function createImage(url) {
     const image = new Image();
     image.addEventListener("load", () => resolve(image));
     image.addEventListener("error", (error) => reject(error));
-    if (!url.startsWith("data:")) {
+    if (!url.startsWith("data:") && !url.startsWith("blob:")) {
       image.setAttribute("crossOrigin", "anonymous");
     }
     image.src = url;
   });
 }
 
-async function getCroppedImgDataUrl(imageSrc, pixelCrop) {
-  const image = await createImage(imageSrc);
+async function rasterCropToJpegDataUrl(src, pixelCrop) {
+  const image = await createImage(src);
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) {
@@ -36,6 +42,73 @@ async function getCroppedImgDataUrl(imageSrc, pixelCrop) {
     pixelCrop.height
   );
   return canvas.toDataURL("image/jpeg", 0.92);
+}
+
+/**
+ * Load remote images via fetch → blob URL so the canvas is not tainted (toDataURL works).
+ * Falls back to drawing the URL directly if fetch is blocked (may still fail with a security error).
+ */
+async function getCroppedImgDataUrl(imageSrc, pixelCrop) {
+  const isHttp =
+    typeof imageSrc === "string" &&
+    (imageSrc.startsWith("http://") || imageSrc.startsWith("https://"));
+
+  if (!isHttp) {
+    return rasterCropToJpegDataUrl(imageSrc, pixelCrop);
+  }
+
+  let objectUrl = null;
+  try {
+    const res = await fetch(imageSrc, { mode: "cors", credentials: "omit" });
+    if (!res.ok) {
+      throw new Error(`Could not fetch image (${res.status})`);
+    }
+    const blob = await res.blob();
+    objectUrl = URL.createObjectURL(blob);
+    return await rasterCropToJpegDataUrl(objectUrl, pixelCrop);
+  } catch (fetchErr) {
+    console.warn("CORS fetch for crop failed, trying direct draw:", fetchErr);
+    return rasterCropToJpegDataUrl(imageSrc, pixelCrop);
+  } finally {
+    if (objectUrl) {
+      URL.revokeObjectURL(objectUrl);
+    }
+  }
+}
+
+async function uploadGifBlob(blob) {
+  const api = process.env.REACT_APP_API_BASE;
+  const { data } = await axios.post(
+    `${api}/api/sites/image-upload-url`,
+    {},
+    { withCredentials: true }
+  );
+  const uploadUrl = data.uploadUrl;
+  if (!uploadUrl) {
+    throw new Error("No upload URL from server");
+  }
+  const res = await fetch(uploadUrl, {
+    method: "POST",
+    headers: { "Content-Type": blob.type || "image/gif" },
+    body: blob,
+  });
+  const text = await res.text();
+  if (!res.ok) {
+    throw new Error(
+      text ? `Upload failed (${res.status}): ${text.slice(0, 200)}` : `Upload failed (${res.status})`
+    );
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    throw new Error("Upload response was not JSON");
+  }
+  const storageId = parsed.storageId;
+  if (!storageId) {
+    throw new Error("No storage id from upload");
+  }
+  return `storage:${storageId}`;
 }
 
 const SquareImageCropModal = ({
@@ -61,14 +134,25 @@ const SquareImageCropModal = ({
     }
     setApplying(true);
     try {
-      const dataUrl = await getCroppedImgDataUrl(imageSrc, croppedAreaPixels);
-      onApply(dataUrl);
+      if (isAnimatedGifSource(imageSrc)) {
+        const blob = await cropAnimatedGifToBlob(imageSrc, croppedAreaPixels);
+        const ref = await uploadGifBlob(blob);
+        onApply(ref);
+      } else {
+        let dataUrl = await getCroppedImgDataUrl(imageSrc, croppedAreaPixels);
+        dataUrl = await compressRasterDataUrl(dataUrl);
+        onApply(dataUrl);
+      }
     } catch (err) {
       console.error(err);
-      toast(
-        "Could not crop that image (try another file or check your connection).",
-        { type: "error", theme }
-      );
+      const serverMsg =
+        err?.response?.data?.error ||
+        (typeof err?.response?.data === "string" ? err.response.data : null);
+      const detail =
+        serverMsg ||
+        err?.message ||
+        "Could not crop or upload that image (try another file or check your connection).";
+      toast(detail, { type: "error", theme });
     } finally {
       setApplying(false);
     }
@@ -87,8 +171,9 @@ const SquareImageCropModal = ({
         </div>
         <h2 className={styles.title}>Crop to square</h2>
         <p className={styles.hint}>
-          Drag to reposition. Use the slider to zoom. The square is what gets
-          saved.
+          {isAnimatedGifSource(imageSrc)
+            ? "Drag and zoom. Animated GIFs are cropped and uploaded in full quality."
+            : "Drag to reposition. Use the slider to zoom. The square is what gets saved."}
         </p>
         <div className={styles.cropWrap}>
           <Cropper
@@ -126,7 +211,11 @@ const SquareImageCropModal = ({
             className={styles.btnPrimary}
             style={{ backgroundColor: accentColor || "#6b9fff" }}
           >
-            {applying ? "Applying…" : "Use cropped image"}
+            {applying
+              ? isAnimatedGifSource(imageSrc)
+                ? "Uploading GIF…"
+                : "Applying…"
+              : "Use cropped image"}
           </button>
         </div>
       </div>

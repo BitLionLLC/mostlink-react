@@ -29,7 +29,7 @@ import invert from "invert-color";
 import { TextField, Checkbox, Select, MenuItem } from "@mui/material";
 import iPhoneImage from "./assets/iphone.png";
 import SquareImageCropModal from "./squareImageCropModal";
-import { imageFieldSrc } from "../utils/imageField";
+import { imageFieldRaw, imageFieldSrc } from "../utils/imageField";
 
 const IMAGE_TYPE = {
   HEADER: "header",
@@ -88,8 +88,11 @@ const SingleSite = () => {
   const [subtitle, setSubtitle] = useState("");
   const [subdomain, setSubdomain] = useState("");
   const [headerImage, setHeaderImage] = useState("");
+  const [headerImageDisplayUrl, setHeaderImageDisplayUrl] = useState(null);
   const [headerEmoji, setHeaderEmoji] = useState("");
   const [backgroundImage, setBackgroundImage] = useState("");
+  const [backgroundImageDisplayUrl, setBackgroundImageDisplayUrl] =
+    useState(null);
   const [links, setLinks] = useState([]);
   const [titlesColor, setTitlesColor] = useState("#000000");
   const titlesColorRef = useRef(titlesColor);
@@ -294,8 +297,50 @@ const SingleSite = () => {
   }, [site]);
 
   useEffect(() => {
-    document.body.style.backgroundImage = `url(${imageFieldSrc(backgroundImage) || ""})`;
+    const raw = imageFieldRaw(backgroundImage);
+    if (typeof raw === "string" && raw.startsWith("storage:")) {
+      let cancelled = false;
+      axios
+        .get(`${process.env.REACT_APP_API_BASE}/api/sites/image-url`, {
+          params: { ref: raw },
+          withCredentials: true,
+        })
+        .then((r) => {
+          if (!cancelled) {
+            setBackgroundImageDisplayUrl(r.data.url);
+            document.body.style.backgroundImage = `url(${r.data.url})`;
+          }
+        })
+        .catch(() => {
+          if (!cancelled) {
+            setBackgroundImageDisplayUrl(null);
+            document.body.style.backgroundImage = "none";
+          }
+        });
+      return () => {
+        cancelled = true;
+      };
+    }
+    setBackgroundImageDisplayUrl(null);
+    document.body.style.backgroundImage = `url(${
+      imageFieldSrc(backgroundImage) || ""
+    })`;
   }, [backgroundImage]);
+
+  useEffect(() => {
+    const raw = imageFieldRaw(headerImage);
+    if (typeof raw === "string" && raw.startsWith("storage:")) {
+      axios
+        .get(`${process.env.REACT_APP_API_BASE}/api/sites/image-url`, {
+          params: { ref: raw },
+          withCredentials: true,
+        })
+        .then((r) => setHeaderImageDisplayUrl(r.data.url))
+        .catch(() => setHeaderImageDisplayUrl(null));
+    } else {
+      setHeaderImageDisplayUrl(null);
+    }
+  }, [headerImage]);
 
   useEffect(() => {
     if (bodyAnimationStyle) {
@@ -870,7 +915,11 @@ const SingleSite = () => {
               to use an image.
             </div>
             <img
-              src={imageFieldSrc(headerImage) || defaultHeader}
+              src={
+                headerImageDisplayUrl ||
+                imageFieldSrc(headerImage) ||
+                defaultHeader
+              }
               width="200"
               height="200"
               alt="header"
@@ -921,7 +970,9 @@ const SingleSite = () => {
             </div>
             <img
               src={
-                imageFieldSrc(backgroundImage) || defaultHeader
+                backgroundImageDisplayUrl ||
+                imageFieldSrc(backgroundImage) ||
+                defaultHeader
               }
               width="200"
               height="200"
@@ -1397,7 +1448,7 @@ const SingleSite = () => {
           {getDisplayContents(
             title,
             subtitle,
-            imageFieldSrc(headerImage),
+            headerImageDisplayUrl || imageFieldSrc(headerImage),
             links,
             titlesColor,
             containerColor,
@@ -1481,11 +1532,15 @@ const SingleSite = () => {
               theme={theme}
               accentColor={themeObj.accentColor}
               onCancel={() => setSquareCrop(null)}
-              onApply={(dataUrl) => {
+              onApply={(value) => {
+                const store =
+                  typeof value === "string" && value.startsWith("storage:")
+                    ? value
+                    : { base64: value };
                 if (squareCrop.target === IMAGE_TYPE.HEADER) {
-                  setHeaderImage({ base64: dataUrl });
+                  setHeaderImage(store);
                 } else {
-                  setBackgroundImage({ base64: dataUrl });
+                  setBackgroundImage(store);
                 }
                 setSquareCrop(null);
               }}
