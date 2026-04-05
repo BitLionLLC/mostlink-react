@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useRef } from "react";
+import React, { createContext, useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import { lightTheme, darkTheme } from "../constants/themes";
 import { toast } from "react-toastify";
@@ -26,10 +26,54 @@ const SitesContextProvider = (props) => {
   const createSiteModalRef = useRef(null);
   const [singleSiteTabIndex, setSingleSiteTabIndex] = useState(0);
 
+  const jwtTokenRef = useRef(jwtToken);
+  const sessionLogoutStartedRef = useRef(false);
+
   useEffect(() => {
-    fetchJwt();
-    fetchUser();
+    jwtTokenRef.current = jwtToken;
+  }, [jwtToken]);
+
+  useEffect(() => {
+    if (jwtToken) {
+      sessionLogoutStartedRef.current = false;
+    }
+  }, [jwtToken]);
+
+  const clearSessionDueToExpiry = useCallback(() => {
+    if (sessionLogoutStartedRef.current) {
+      return;
+    }
+    sessionLogoutStartedRef.current = true;
+    setJwtToken(null);
+    setUserId(null);
+    setEmail("");
+    setWithGoogle(false);
+    setIsSubscribed(false);
+    axios
+      .get(`${process.env.REACT_APP_API_BASE}/api/users/logout`, {
+        withCredentials: true,
+      })
+      .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    const id = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        const code = error.response?.data?.code;
+        const status = error.response?.status;
+        if (
+          status === 401 &&
+          code === "SESSION_EXPIRED" &&
+          jwtTokenRef.current
+        ) {
+          clearSessionDueToExpiry();
+        }
+        return Promise.reject(error);
+      }
+    );
+    return () => axios.interceptors.response.eject(id);
+  }, [clearSessionDueToExpiry]);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-mostlink-theme", theme);
@@ -60,6 +104,11 @@ const SitesContextProvider = (props) => {
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    fetchJwt();
+    fetchUser();
+  }, []);
 
   const fetchSite = async (siteId, options = {}) => {
     const skipLoading = options.skipLoading === true;
