@@ -1128,6 +1128,36 @@ const SingleSite = () => {
     document.body.style.backgroundColor = thisBodyColor;
     document.body.style.backgroundImage = thisBodyGradient;
 
+    const w = windowDimensions.width;
+    const h = windowDimensions.height;
+    const isNarrow = w < 1024;
+
+    let previewScale;
+    if (isNarrow) {
+      if (w < 380) {
+        previewScale = 0.5;
+      } else if (w < 480) {
+        previewScale = 0.56;
+      } else if (w < 600) {
+        previewScale = 0.64;
+      } else {
+        previewScale = 0.72;
+      }
+    } else {
+      previewScale = h >= 800 ? h / 1000 : 0.8;
+    }
+
+    const containerPosition = isNarrow
+      ? "relative"
+      : h >= 800
+        ? "fixed"
+        : "absolute";
+    const containerTop = isNarrow
+      ? "auto"
+      : h >= 800
+        ? "150px"
+        : "30px";
+
     return (
       <div className={styles.bodyContainer}>
         <div className={styles.singleSiteWrapper}>
@@ -1139,31 +1169,50 @@ const SingleSite = () => {
               backgroundColor: themeObj.editTrayBackground,
             }}
           >
-            <FontAwesomeIcon
-              icon={["fas", "square-check"]}
-              color={themeObj.accentColor}
-              className={styles.saveButton}
-              size="3x"
-              onClick={onSave}
-            />
+            <div className={styles.saveToolbar}>
+              <button
+                type="button"
+                className={styles.saveFab}
+                onClick={onSave}
+                aria-label="Save changes"
+                style={{
+                  color: themeObj.accentColor,
+                  backgroundColor: `${themeObj.accentColor}18`,
+                }}
+              >
+                <FontAwesomeIcon icon={["fas", "save"]} size="lg" />
+                <span className={styles.saveFabLabel}>Save</span>
+              </button>
+            </div>
 
             {getTabSection(singleSiteTabIndex)}
           </div>
           <div
-            className={styles.singleSiteContainer}
-            style={{
-              backgroundColor: !thisContainerGradient && thisContainerColor,
-              backgroundImage: thisContainerGradient,
-              transform: `scale(${
-                windowDimensions.height >= 800
-                  ? windowDimensions.height / 1000
-                  : 0.8
-              })`,
-              position: windowDimensions.height >= 800 ? "fixed" : "absolute",
-              top: windowDimensions.height >= 800 ? "150px" : "30px",
-            }}
+            className={styles.previewColumn}
+            role="region"
+            aria-label="Live preview of your page"
           >
-            <img src={iPhoneImage} className={styles.iPhone} />
+            <div
+              className={styles.singleSiteContainer}
+              style={{
+                backgroundColor: !thisContainerGradient && thisContainerColor,
+                backgroundImage: thisContainerGradient,
+                transform: `scale(${previewScale})`,
+                transformOrigin: isNarrow ? "top center" : "top right",
+                position: containerPosition,
+                top: containerTop,
+                right: isNarrow ? "auto" : "max(16px, 8vw)",
+                left: isNarrow ? "auto" : undefined,
+                marginLeft: isNarrow ? "auto" : undefined,
+                marginRight: isNarrow ? "auto" : undefined,
+              }}
+            >
+            <img
+              src={iPhoneImage}
+              className={styles.iPhone}
+              alt=""
+              aria-hidden
+            />
 
             <div className={styles.singleSiteContents}>
               {headerEmoji ? (
@@ -1251,6 +1300,7 @@ const SingleSite = () => {
                 </ul>
               ) : null}
             </div>
+          </div>
           </div>
         </div>
       </div>

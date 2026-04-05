@@ -1,40 +1,170 @@
-.header {
-  height: 150px;
-  width: 100vw;
-  background-color: lightblue;
+/* Fixed shell: two rows on small screens (logo row + editor tabs) */
+.shell {
   position: fixed;
-  top: -25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 12;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  padding-top: env(safe-area-inset-top);
 }
 
-.headerTitle {
-  margin-left: 20px;
+.topRow {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 12px 8px 16px;
+  max-width: 100vw;
 }
 
-.iconRow {
+.logoWrap {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.logoWrap a {
+  display: flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.logo {
+  width: auto;
+  max-width: min(260px, 42vw);
+  height: auto;
+  display: block;
+}
+
+@media (width <= 480px) {
+  .logo {
+    max-width: min(200px, 52vw);
+  }
+}
+
+/* Desktop / tablet: primary editor nav */
+.desktopNav {
   position: relative;
   display: flex;
   flex-direction: row;
-  width: 600px;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
   align-items: center;
-  padding-top: 20px;
-  margin-left: 100px;
+  justify-content: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 8px;
+}
+
+.desktopActions {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .accountIcon,
 .themeIcon {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  transition: background-color 0.15s ease;
+}
+
+.accountIcon:hover,
+.themeIcon:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.tabBtn {
+  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 999px;
+  color: #fff !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  font: inherit;
+  white-space: nowrap;
+  transition:
+    transform 0.12s ease,
+    filter 0.12s ease;
+}
+
+.tabBtn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.tabBtn:active {
+  transform: scale(0.98);
+}
+
+.tabBtnActive {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+  filter: brightness(1.08);
+}
+
+/* Mobile / narrow: quick editor tabs — no need to open hamburger for every switch */
+.mobileEditorTabs {
+  display: none;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 6px;
+  padding: 6px 10px 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mobileEditorTabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.mobileTabBtn {
+  flex: 1 1 0;
+  min-width: 72px;
+  min-height: 44px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: inherit !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.mobileTabBtn:active {
+  transform: scale(0.98);
+}
+
+.mobileTabBtnActive {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.45);
 }
 
 .accountMenu {
   position: absolute;
-  right: 56px;
-  top: 52px;
-  width: min(240px, 92vw);
+  right: 0;
+  top: calc(100% + 6px);
+  width: min(260px, calc(100vw - 24px));
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   box-shadow:
@@ -44,18 +174,21 @@
   z-index: 20;
 }
 
-.hamburgerMenu {
+.hamburgerBtn {
   display: none;
-  position: absolute;
-  right: 20px;
-  top: 70px;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 10px;
+  background: transparent;
   transition: background-color 0.15s ease;
 }
 
-.hamburgerMenu:hover {
+.hamburgerBtn:hover {
   background-color: rgba(0, 0, 0, 0.06);
 }
 
@@ -116,12 +249,6 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.hamburgerRow {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 4px;
 }
 
 .hamburgerMenuItemHalf {
@@ -207,7 +334,6 @@ button.hamburgerMenuItemHalf {
   padding: 16px 16px 12px;
 }
 
-/* Extra air after the icon row / dividers so headings aren’t glued to controls */
 .hamburgerMenuList > li.doubleListItem + li.hamburgerSectionLabel {
   margin-top: 10px;
 }
@@ -241,10 +367,6 @@ button.hamburgerMenuItemHalf {
   gap: 8px;
   width: 100%;
   margin-bottom: 12px;
-}
-
-.hamburgerMenuListHalf {
-  width: 50%;
 }
 
 .hamburgerMenuClose {
@@ -296,13 +418,6 @@ a:link {
   color: black;
 }
 
-.link {
-  cursor: pointer;
-  padding: 10px 20px;
-  border-radius: 10px 20px;
-  color: white !important;
-}
-
 .accountMenuList a {
   width: 100%;
   min-height: 42px;
@@ -329,14 +444,12 @@ a:link {
   background-color: rgba(180, 40, 40, 0.1);
 }
 
-.attachTriangle {
-  display: none;
-}
-
-.logoAndTitle a {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
+.feedback {
+  color: black;
+  animation-name: pulseColor;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
 }
 
 @keyframes pulseColor {
@@ -353,45 +466,25 @@ a:link {
   }
 }
 
-.feedback {
-  color: black;
-  animation-name: pulseColor;
-  animation-duration: 4s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-
-@media (width <= 1500px) {
-  .accountMenu {
-    right: 57px;
-    top: 55px;
-  }
-}
-
+/* ≤1250px: hamburger + mobile editor tab strip; hide desktop tab row in center */
 @media (width <= 1250px) {
-  .header {
-    justify-content: center;
-  }
-
-  .iconRow,
-  .accountMenu {
+  .desktopNav {
     display: none;
   }
 
-  .hamburgerMenu {
-    display: block;
+  .hamburgerBtn {
+    display: flex;
+  }
+
+  .mobileEditorTabs {
+    display: flex;
   }
 }
 
-@media (width <= 600px) {
-  /* .iconRow {
-    right: 50px;
-  } */
-}
-
-@media (width <= 500px) {
-  /* .header {
-    justify-content: flex-start;
-    padding-left: 20px;
-  } */
+/* Very small: tighten top row */
+@media (width <= 380px) {
+  .topRow {
+    padding-left: 10px;
+    padding-right: 8px;
+  }
 }

@@ -10,6 +10,13 @@ import darkLogo from "./assets/logo-dark.png";
 
 import styles from "./singleSiteHeader.module.css";
 
+const EDITOR_TABS = [
+  { id: 0, label: "Links" },
+  { id: 1, label: "Style" },
+  { id: 2, label: "Analytics" },
+  { id: 3, label: "Settings" },
+];
+
 const SingleSiteHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,11 +29,13 @@ const SingleSiteHeader = () => {
     themeObj,
     toggleTheme,
     siteLoading,
+    singleSiteTabIndex,
     setSingleSiteTabIndex,
   } = useContext(SitesContext);
   const [isAccountMenuShown, setIsAccountMenuShown] = useState(false);
   const [isHamburgerMenuShown, setIsHamburgerMenuShown] = useState(false);
   let jwtTokenRef = useRef(jwtToken);
+  const accountWrapRef = useRef(null);
 
   const { signOut } = useGoogleLogout({
     jsSrc: "https://apis.google.com/js/api.js",
@@ -80,6 +89,19 @@ const SingleSiteHeader = () => {
   }, [isHamburgerMenuShown]);
 
   useEffect(() => {
+    if (!isAccountMenuShown) {
+      return;
+    }
+    const onDoc = (e) => {
+      if (accountWrapRef.current && !accountWrapRef.current.contains(e.target)) {
+        setIsAccountMenuShown(false);
+      }
+    };
+    document.addEventListener("click", onDoc);
+    return () => document.removeEventListener("click", onDoc);
+  }, [isAccountMenuShown]);
+
+  useEffect(() => {
     jwtTokenRef.current = jwtToken;
 
     const allowedPathsWhenLoggedOut = [
@@ -109,146 +131,188 @@ const SingleSiteHeader = () => {
     }, 1000);
   }, [jwtToken]);
 
+  const accent = themeObj.accentColor;
+
   return siteLoading ? null : (
-    <div
-      className={styles.header}
+    <header
+      className={styles.shell}
       style={{ backgroundColor: themeObj.headerColor, color: themeObj.color }}
     >
-      <div className={styles.logoAndTitle}>
-        <Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>
-          <img
-            src={theme === "light" ? lightLogo : darkLogo}
-            width="300"
-            alt="Mostlink logo"
-          />
-        </Link>
-      </div>
-      <div className={styles.iconRow}>
-        <span
-          style={{
-            backgroundColor: themeObj.accentColor,
-          }}
-          onClick={() => setSingleSiteTabIndex(0)}
-          className={styles.link}
-        >
-          Links
-        </span>
-        <span
-          style={{
-            backgroundColor: themeObj.accentColor,
-          }}
-          onClick={() => setSingleSiteTabIndex(1)}
-          className={styles.link}
-        >
-          Style
-        </span>
-        <span
-          style={{
-            backgroundColor: themeObj.accentColor,
-          }}
-          onClick={() => setSingleSiteTabIndex(2)}
-          className={styles.link}
-        >
-          Analytics
-        </span>
-        <span
-          style={{
-            backgroundColor: themeObj.accentColor,
-          }}
-          onClick={() => setSingleSiteTabIndex(3)}
-          className={styles.link}
-        >
-          Settings
-        </span>
-
-        <div
-          className={styles.accountIcon}
-          onClick={(e) => toggleAccountMenu(e)}
-          style={{
-            right: jwtToken ? "15px" : "18px",
-            color: jwtToken && themeObj.loggedInColor,
-          }}
-        >
-          <FontAwesomeIcon
-            icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}
-          />
+      <div className={styles.topRow}>
+        <div className={styles.logoWrap}>
+          <Link to={jwtToken ? "/home" : "/"} style={{ color: themeObj.color }}>
+            <img
+              src={theme === "light" ? lightLogo : darkLogo}
+              className={styles.logo}
+              alt="Mostlink — home"
+            />
+          </Link>
         </div>
 
-        <div className={styles.themeIcon} onClick={toggleTheme}>
-          <FontAwesomeIcon
-            icon={theme === "dark" ? ["fas", "sun"] : ["fas", "moon"]}
-          />
-        </div>
+        <nav className={styles.desktopNav} aria-label="Site editor sections">
+          {EDITOR_TABS.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              className={`${styles.tabBtn} ${
+                singleSiteTabIndex === tab.id ? styles.tabBtnActive : ""
+              }`}
+              style={{ backgroundColor: accent }}
+              onClick={() => setSingleSiteTabIndex(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
 
-        <div
-          style={{
-            display: isAccountMenuShown ? "block" : "none",
-            backgroundColor: themeObj.menuColor,
-            borderColor:
-              theme === "dark"
-                ? "rgba(255,255,255,0.1)"
-                : "rgba(0,0,0,0.1)",
-          }}
-          className={styles.accountMenu}
-        >
-          <ul className={styles.accountMenuList}>
-            {jwtToken && (
-              <li>
-                <Link to="/home" style={{ color: themeObj.color }}>
-                  Dashboard
-                </Link>
-              </li>
-            )}
-            {jwtToken && (
-              <li>
-                <Link to="/account" style={{ color: themeObj.color }}>
-                  Account
-                </Link>
-              </li>
-            )}
-            {!jwtToken && (
-              <li>
-                <Link to="/account/register" style={{ color: themeObj.color }}>
-                  Register
-                </Link>
-              </li>
-            )}
-            {!jwtToken && (
-              <li>
-                <Link
-                  to="/account/resend-verification"
-                  style={{ color: themeObj.color }}
+        <div className={styles.desktopActions} ref={accountWrapRef}>
+          <div
+            className={styles.accountIcon}
+            onClick={(e) => toggleAccountMenu(e)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggleAccountMenu(e);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-expanded={isAccountMenuShown}
+            aria-haspopup="true"
+            aria-label="Account menu"
+            style={{
+              color: jwtToken && themeObj.loggedInColor,
+            }}
+          >
+            <FontAwesomeIcon
+              icon={jwtToken ? ["fas", "user-check"] : ["fas", "user"]}
+            />
+          </div>
+
+          <div
+            className={styles.themeIcon}
+            onClick={toggleTheme}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggleTheme();
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={
+              theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+            }
+          >
+            <FontAwesomeIcon
+              icon={theme === "dark" ? ["fas", "sun"] : ["fas", "moon"]}
+            />
+          </div>
+
+          <div
+            style={{
+              display: isAccountMenuShown ? "block" : "none",
+              backgroundColor: themeObj.menuColor,
+              borderColor:
+                theme === "dark"
+                  ? "rgba(255,255,255,0.1)"
+                  : "rgba(0,0,0,0.1)",
+            }}
+            className={styles.accountMenu}
+          >
+            <ul className={styles.accountMenuList}>
+              {jwtToken && (
+                <li>
+                  <Link to="/home" style={{ color: themeObj.color }}>
+                    Dashboard
+                  </Link>
+                </li>
+              )}
+              {jwtToken && (
+                <li>
+                  <Link to="/account" style={{ color: themeObj.color }}>
+                    Account
+                  </Link>
+                </li>
+              )}
+              {!jwtToken && (
+                <li>
+                  <Link to="/account/register" style={{ color: themeObj.color }}>
+                    Register
+                  </Link>
+                </li>
+              )}
+              {!jwtToken && (
+                <li>
+                  <Link
+                    to="/account/resend-verification"
+                    style={{ color: themeObj.color }}
+                  >
+                    Verify email
+                  </Link>
+                </li>
+              )}
+              {!jwtToken && (
+                <li>
+                  <Link to="/account/login" style={{ color: themeObj.color }}>
+                    Log in
+                  </Link>
+                </li>
+              )}
+              {jwtToken && (
+                <li
+                  className={styles.logoutItem}
+                  onClick={onLogOut}
+                  style={{ color: themeObj.color, cursor: "pointer" }}
                 >
-                  Verify email
-                </Link>
-              </li>
-            )}
-            {!jwtToken && (
-              <li>
-                <Link to="/account/login" style={{ color: themeObj.color }}>
-                  Log in
-                </Link>
-              </li>
-            )}
-            {jwtToken && (
-              <li
-                className={styles.logoutItem}
-                onClick={onLogOut}
-                style={{ color: themeObj.color, cursor: "pointer" }}
-              >
-                Log out
-              </li>
-            )}
-          </ul>
+                  Log out
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
+
+        <button
+          type="button"
+          className={styles.hamburgerBtn}
+          onClick={(e) => toggleHamburgerMenu(e)}
+          aria-expanded={isHamburgerMenuShown}
+          aria-controls="single-site-drawer"
+          aria-label={isHamburgerMenuShown ? "Close menu" : "Open menu"}
+        >
+          <FontAwesomeIcon
+            icon={["fas", "bars"]}
+            size="lg"
+            color={theme === "light" ? "black" : "white"}
+          />
+        </button>
       </div>
-      <FontAwesomeIcon
-        icon={["fas", "bars"]}
-        className={styles.hamburgerMenu}
-        size="lg"
-        onClick={(e) => toggleHamburgerMenu(e)}
-        color={theme === "light" ? "black" : "white"}
-      />
+
+      <div
+        className={styles.mobileEditorTabs}
+        role="tablist"
+        aria-label="Editor sections"
+      >
+        {EDITOR_TABS.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            role="tab"
+            aria-selected={singleSiteTabIndex === tab.id}
+            className={`${styles.mobileTabBtn} ${
+              singleSiteTabIndex === tab.id ? styles.mobileTabBtnActive : ""
+            }`}
+            style={{
+              backgroundColor: themeObj.editTrayBackground,
+              color: themeObj.color,
+            }}
+            onClick={() => setSingleSiteTabIndex(tab.id)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
       {isHamburgerMenuShown ? (
         <>
           <div
@@ -257,6 +321,7 @@ const SingleSiteHeader = () => {
             aria-hidden
           />
           <div
+            id="single-site-drawer"
             className={styles.hamburgerPanel}
             style={{
               backgroundColor: themeObj.menuColor,
@@ -312,7 +377,9 @@ const SingleSiteHeader = () => {
                   }}
                   className={styles.hamburgerMenuItemHalf}
                   aria-label={
-                    theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+                    theme === "dark"
+                      ? "Switch to light theme"
+                      : "Switch to dark theme"
                   }
                 >
                   <FontAwesomeIcon
@@ -544,7 +611,7 @@ const SingleSiteHeader = () => {
           </div>
         </>
       ) : null}
-    </div>
+    </header>
   );
 };
 
