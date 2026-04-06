@@ -1,8 +1,16 @@
-import { Checkbox, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import FileBase64 from "react-file-base64";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SitesContext } from "../contexts/sitesContext";
 
@@ -12,6 +20,8 @@ const Feedback = () => {
   const navigate = useNavigate();
 
   const { themeObj, theme } = useContext(SitesContext);
+
+  const filledInputProps = { disableUnderline: true };
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -62,81 +72,109 @@ const Feedback = () => {
       });
   };
 
-  const onKeyDown = (e) => {
-    if (e.key === "Enter") {
-      onSubmit(e);
-    }
-  };
-
   return (
     <div className={styles.feedbackContainer}>
-      <div
-        className={styles.feedback}
-        style={{ backgroundColor: themeObj.landingCardBackground }}
-      >
-        <h3>
-          Thanks for being a beta tester! We really appreciate it. Please
-          provide us with detailed feedback so we can improve the site builder
-          for future users.
+      <div className={styles.feedback}>
+        <h1>Feedback</h1>
+        <p className={styles.feedbackIntro}>
+          Thanks for being a beta tester — we really appreciate it. Detailed
+          feedback helps us improve the site builder for everyone.
+        </p>
+        <h3 className={styles.backLink} style={{ color: themeObj.accentColor }}>
+          <Link to="/" style={{ color: themeObj.accentColor }}>
+            ← Back to home
+          </Link>
         </h3>
-        <form
-          className={styles.feedbackForm}
-          onSubmit={onSubmit}
-          onKeyDown={onKeyDown}
-        >
-          <label>Name</label>
+        <form className={styles.feedbackForm} onSubmit={onSubmit}>
+          <label htmlFor="feedback-name">Name</label>
           <TextField
+            id="feedback-name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             size="small"
             variant="filled"
             className={styles.textField}
-            placeholder="Name"
+            placeholder="Your name"
+            InputProps={filledInputProps}
           />
-          <label>Email address</label>
+
+          <label htmlFor="feedback-email">Email address</label>
           <TextField
+            id="feedback-email"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             size="small"
             variant="filled"
             className={styles.textField}
-            placeholder="Email address"
+            placeholder="you@example.com"
+            InputProps={filledInputProps}
           />
-          <div>
-            <label>Okay to email?</label>
-            <Checkbox
-              checked={okayToEmail}
-              onChange={(e) => setOkayToEmail(e.target.checked)}
-            />
-          </div>
-          <div>
-            <label>Type of feedback</label>
+
+          <FormControlLabel
+            className={styles.checkboxRow}
+            control={
+              <Checkbox
+                checked={okayToEmail}
+                onChange={(e) => setOkayToEmail(e.target.checked)}
+                color="primary"
+              />
+            }
+            label="Okay to email me about this feedback"
+          />
+
+          <FormControl
+            variant="filled"
+            size="small"
+            fullWidth
+            className={styles.textField}
+          >
+            <InputLabel id="feedback-type-label">Type of feedback</InputLabel>
             <Select
+              labelId="feedback-type-label"
               value={feedbackType}
+              label="Type of feedback"
               onChange={(e) => setFeedbackType(e.target.value)}
-              className={styles.typeSelect}
+              disableUnderline
             >
-              <MenuItem value="featureRequest">Feature Request</MenuItem>
-              <MenuItem value="suggestion">Improvement/Suggestion</MenuItem>
-              <MenuItem value="bugReport">Bug Report</MenuItem>
+              <MenuItem value="featureRequest">Feature request</MenuItem>
+              <MenuItem value="suggestion">Improvement / suggestion</MenuItem>
+              <MenuItem value="bugReport">Bug report</MenuItem>
             </Select>
-          </div>
-          <label>Comments</label>
+          </FormControl>
+
+          <label htmlFor="feedback-comments">Comments</label>
           <TextField
+            id="feedback-comments"
             value={comments}
             onChange={(e) => setComments(e.target.value)}
             variant="filled"
-            multiline={true}
-            rows={10}
-            maxRows={10}
+            multiline
+            minRows={8}
             className={styles.commentField}
-            placeholder="Comments"
+            placeholder="What should we know?"
+            InputProps={filledInputProps}
           />
-          <label>Screenshot upload</label>
-          <FileBase64 multiple={false} onDone={(file) => setScreenshot(file)} />
+
+          <label className={styles.fileFieldBlock}>
+            <span className={styles.labelText}>Screenshot (optional)</span>
+            <div className={styles.fileUpload}>
+              <FileBase64
+                multiple={false}
+                onDone={(file) => setScreenshot(file)}
+              />
+              <p className={styles.fileHint}>
+                PNG or JPG — helps a ton for bug reports.
+              </p>
+            </div>
+          </label>
 
           <div className={styles.loginFormButtons}>
-            <button className={styles.cancelButton} onClick={onCancel}>
+            <button
+              type="button"
+              className={styles.cancelButton}
+              onClick={onCancel}
+            >
               Cancel
             </button>
             <button className={styles.submitButton} type="submit">
