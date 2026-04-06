@@ -17,7 +17,7 @@ import { useBeforeunload } from "react-beforeunload";
 import GradientPicker from "./gradientPicker";
 import EditableLink from "./editableLink";
 import update from "immutability-helper";
-import Picker from "emoji-picker-react";
+import EmojiPicker from "emoji-picker-react";
 import styles from "./singleSite.module.css";
 import defaultHeader from "./assets/default-header.png";
 import toHex from "colornames";
@@ -712,7 +712,7 @@ const SingleSite = () => {
     setLinks(newLinks);
   };
 
-  const onEmojiClick = (emojiObject) => {
+  const onEmojiClick = (_, emojiObject) => {
     setHeaderEmoji(emojiObject.emoji);
   };
 
@@ -1056,7 +1056,7 @@ const SingleSite = () => {
             {headerEmoji && (
               <div className={styles.selectedEmoji}>{headerEmoji}</div>
             )}
-            <Picker onEmojiClick={onEmojiClick} autoFocusSearch={false} />
+            <EmojiPicker onEmojiClick={onEmojiClick} autoFocusSearch={false} />
 
             <div className={styles.titleAndClear}>
               <h2>Background Image</h2>
