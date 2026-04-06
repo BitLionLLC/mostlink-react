@@ -658,7 +658,7 @@ const TermsAndConditions = () => {
           contact us:
         </p>
         <ul>
-          <li>By email: hello@mostlink.co</li>
+          <li>By email: grant@mostlink.co</li>
         </ul>
       </div>
     </div>
