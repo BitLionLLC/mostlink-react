@@ -109,6 +109,8 @@ const SingleSiteHeader = () => {
       "/pricing",
       "/privacy-policy",
       "/terms-and-conditions",
+      "/refund-policy",
+      "/support",
       "/feedback",
     ];
 
@@ -603,6 +605,26 @@ const SingleSiteHeader = () => {
                 onClick={() => routeTo("/terms-and-conditions")}
               >
                 Terms and Conditions
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => routeTo("/refund-policy")}
+              >
+                Refund Policy
+              </li>
+              <li
+                className={styles.hamburgerItem}
+                style={{
+                  color: themeObj.color,
+                  background: themeObj.editTrayBackground,
+                }}
+                onClick={() => routeTo("/support")}
+              >
+                Support
               </li>
             </ul>
           </div>

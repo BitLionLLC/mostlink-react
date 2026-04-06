@@ -27,6 +27,16 @@ const Footer = () => {
           Terms and Conditions
         </Link>
       </div>
+      <div>
+        <Link to="/refund-policy" style={{ color: themeObj.color }}>
+          Refund Policy
+        </Link>
+      </div>
+      <div>
+        <Link to="/support" style={{ color: themeObj.color }}>
+          Support
+        </Link>
+      </div>
       {!location.pathname.includes("/feedback") && (
         <Link to="/feedback">
           <div className={styles.feedback}>

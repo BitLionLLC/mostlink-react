@@ -36,6 +36,8 @@ import { muiDarkTheme, muiLightTheme } from "./constants/themes";
 
 import "react-toastify/dist/ReactToastify.css";
 import TermsAndConditions from "./components/termsAndConditions";
+import Support from "./components/support";
+import RefundPolicy from "./components/refundPolicy";
 import ResendVerification from "./components/account/resendVerification";
 
 function SiteEditorRedirect() {
@@ -221,6 +223,26 @@ function App() {
                 <Header />
                 <Footer />
                 <Feedback />
+              </>
+            }
+          />
+          <Route
+            path="/support"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <Support />
+              </>
+            }
+          />
+          <Route
+            path="/refund-policy"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <RefundPolicy />
               </>
             }
           />
