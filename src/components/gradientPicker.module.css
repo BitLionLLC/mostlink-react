@@ -1,16 +1,17 @@
 .gradientPicker {
-  width: 80%;
-  min-height: 400px;
-  background-color: midnightblue;
-  padding: 15px;
-  border: 1px solid white;
-  border-radius: 5px;
-  margin-top: 10px;
+  width: 100%;
+  max-width: 320px;
+  min-height: 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(128, 128, 128, 0.22);
+  border-radius: 12px;
+  margin-top: 8px;
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: stretch;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .row {
@@ -18,12 +19,13 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  height: 25px;
-  margin: 10px 0;
+  gap: 8px;
+  min-height: 32px;
+  margin: 6px 0;
 }
 
 .row:nth-child(1) {
-  margin-top: 30px;
+  margin-top: 4px;
 }
 
 .column {
@@ -31,14 +33,20 @@
 }
 
 .column:last-child {
-  margin-bottom: 20px;
+  margin-bottom: 4px;
 }
 
 .colorsTitleAndButtons {
   width: 100%;
-  margin: 0 auto;
+  margin: 4px auto 0;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.65;
 }
 
 .useGradient {
@@ -47,69 +55,88 @@
 
 .colorBoxes {
   display: flex;
-  justify-content: space-evenly;
-  margin: 10px 0;
+  justify-content: center;
+  margin: 8px 0;
   flex-wrap: wrap;
+  gap: 6px;
 }
 
 .previewBox {
   width: 100%;
-  height: 30px;
-  margin: 10px 0;
+  height: 22px;
+  border-radius: 8px;
+  margin: 6px 0;
+  border: 1px solid rgba(128, 128, 128, 0.2);
 }
 
 .angleInput {
-  width: 70px;
+  width: 56px;
 }
 
 .alphaInput {
-  width: 50px;
+  width: 44px;
 }
 
 .closeButton {
   transform: rotate(45deg);
-  cursor: default;
+  cursor: pointer;
   position: absolute;
-  top: -12px;
-  right: -2px;
-  font-size: 36px;
+  top: 6px;
+  right: 6px;
+  font-size: 22px;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.closeButton:hover {
+  opacity: 1;
 }
 
 .presetSelect {
-  margin-left: 20px;
+  margin-left: 12px;
 }
 
 .hexInput,
 .hexInputShort {
-  margin: 15px;
+  margin: 8px;
 }
 
 .hexInputShort {
-  width: 90px;
+  width: 80px;
 }
 
 .copyButton {
-  width: 80%;
-  margin: 10px 20px;
+  width: 100%;
+  margin: 8px 0;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  background: transparent;
+  cursor: pointer;
 }
 
 .textField {
-  width: 70%;
-  font-size: 20px;
-  padding: 5px;
-  margin: 30px 0 !important;
+  flex: 1;
+  min-width: 0;
+  font-size: 0.9rem;
+  margin: 8px 0 !important;
 }
 
 .textField div {
-  height: 40px;
+  min-height: 36px;
 }
 
 .select {
-  height: 40px;
-  margin-left: 10px;
+  flex: 1;
+  min-width: 0;
+  max-width: 180px;
+  height: 34px;
+  margin-left: 0;
 }
 
 .select div {
   display: flex;
   align-items: center;
+  min-height: 34px;
 }

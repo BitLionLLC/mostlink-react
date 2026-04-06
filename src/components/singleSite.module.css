@@ -424,9 +424,15 @@
   height: auto;
 }
 
-.imageInput input {
-  display: flex;
-  margin: 0 auto;
+/* Full-bleed preview for page background (no square crop). */
+.editBackgroundImage {
+  display: block;
+  margin: 0 auto 10px;
+  max-width: min(100%, 320px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
 }
 
 .saveAndCancelButtons {
@@ -538,6 +544,7 @@
   align-self: stretch;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+  text-align: center;
 }
 
 .editContents h1:first-child {
@@ -554,6 +561,34 @@
   opacity: 0.55;
   align-self: stretch;
   text-align: left;
+}
+
+/* Style + Settings tabs: section subtitles (h2/h3) centered */
+.editContentsCenterSubs h2,
+.editContentsCenterSubs h3 {
+  text-align: center;
+}
+
+.editContentsCenterSubs .titleAndClear {
+  position: relative;
+  width: 100%;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.editContentsCenterSubs .titleAndClear h2 {
+  text-align: center;
+  width: 100%;
+  padding: 0 36px;
+  box-sizing: border-box;
+}
+
+.editContentsCenterSubs .titleAndClear .deleteBtn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0;
 }
 
 .editContents h3 {
@@ -900,9 +935,30 @@
   gap: 8px;
 }
 
-.clearImage {
-  margin-left: 10px;
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 6px;
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
   cursor: pointer;
+  font: inherit;
+  flex-shrink: 0;
+  transition: background 0.12s ease;
+}
+
+.deleteBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.deleteBtn:focus-visible {
+  outline: 2px solid #ef4444;
+  outline-offset: 2px;
 }
 
 .selectedEmoji {

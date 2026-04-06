@@ -1,7 +1,7 @@
 import { parseGIF, decompressFrames } from "gifuct-js";
 import { GIFEncoder, quantize, applyPalette } from "gifenc";
 
-/** Single-pass square output; large GIFs are uploaded to Convex file storage instead of inline base64. */
+/** Single-pass output (square or rectangular crop); large GIFs go to Convex storage instead of inline base64. */
 const DEFAULT_MAX_SIDE = 512;
 const DEFAULT_MAX_COLORS = 256;
 
@@ -32,9 +32,10 @@ function encodeGifCroppedToBlob(parsed, frames, croppedAreaPixels, opts) {
   const { width: fullW, height: fullH } = parsed.lsd;
   const { x: cx, y: cy, width: cw, height: ch } = croppedAreaPixels;
 
-  const side = Math.min(cw, ch, maxSide);
-  const outW = side;
-  const outH = side;
+  const maxDim = Math.max(cw, ch);
+  const scale = maxDim > maxSide ? maxSide / maxDim : 1;
+  const outW = Math.max(1, Math.round(cw * scale));
+  const outH = Math.max(1, Math.round(ch * scale));
 
   const gifCanvas = document.createElement("canvas");
   gifCanvas.width = fullW;
@@ -101,7 +102,7 @@ function encodeGifCroppedToBlob(parsed, frames, croppedAreaPixels, opts) {
 }
 
 /**
- * Crops each composited frame to a square and returns an animated GIF blob (Convex upload).
+ * Crops each composited frame to the selected rectangle and returns an animated GIF blob (Convex upload).
  */
 export async function cropAnimatedGifToBlob(imageSrc, croppedAreaPixels) {
   const buffer = await bufferFromImageSrc(imageSrc);

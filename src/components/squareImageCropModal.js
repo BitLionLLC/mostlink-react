@@ -117,6 +117,10 @@ const SquareImageCropModal = ({
   onApply,
   accentColor,
   theme,
+  /** Width / height of the crop frame (e.g. 1 for square, 16/9 for widescreen). */
+  aspect = 1,
+  cropTitle,
+  cropHint,
 }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -169,18 +173,23 @@ const SquareImageCropModal = ({
         <div className={styles.closeButton} onClick={onCancel}>
           +
         </div>
-        <h2 className={styles.title}>Crop to square</h2>
+        <h2 className={styles.title}>
+          {cropTitle ?? (aspect === 1 ? "Crop to square" : "Crop image")}
+        </h2>
         <p className={styles.hint}>
-          {isAnimatedGifSource(imageSrc)
-            ? "Drag and zoom. Animated GIFs are cropped and uploaded in full quality."
-            : "Drag to reposition. Use the slider to zoom. The square is what gets saved."}
+          {cropHint ??
+            (isAnimatedGifSource(imageSrc)
+              ? "Drag and zoom. Animated GIFs are cropped and uploaded in full quality."
+              : aspect === 1
+                ? "Drag to reposition. Use the slider to zoom. The square is what gets saved."
+                : "Drag to reposition. Use the slider to zoom. The highlighted area is what gets saved.")}
         </p>
         <div className={styles.cropWrap}>
           <Cropper
             image={imageSrc}
             crop={crop}
             zoom={zoom}
-            aspect={1}
+            aspect={aspect}
             cropShape="rect"
             showGrid={false}
             onCropChange={setCrop}

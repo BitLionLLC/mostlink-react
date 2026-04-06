@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
+import React, { useState, useEffect, useRef, useCallback, useContext, useMemo } from "react";
 import { SitesContext } from "../contexts/sitesContext";
 import toHex from "colornames";
 import { HexColorPicker } from "react-colorful";
 import update from "immutability-helper";
 import GradientColorBox from "./gradientColorBox";
 import { MenuItem, Select, Checkbox, TextField } from "@mui/material";
-import { muiDarkTheme, muiLightTheme } from "../constants/themes";
 
 import styles from "./gradientPicker.module.css";
 
@@ -18,7 +17,7 @@ const GRADIENT_PRESETS = {
 };
 
 const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
-  const { themeObj, theme } = useContext(SitesContext);
+  const { themeObj } = useContext(SitesContext);
 
   const [useGradient, setUseGradient] = useState(false);
   const [gradientType, setGradientType] = useState("linear");
@@ -38,6 +37,14 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
   const HEX_COLOR_REGEX_SHORT = "^#(?:[0-9a-fA-F]{3}){1}$";
   const HEX_COLOR_REGEX_LONG = "^#(?:[0-9a-fA-F]{2}){3,4}$";
 
+  /** Always reflects current controls — used for the preview strip even when "Use" is off. */
+  const builtGradientCss = useMemo(() => {
+    const joinedColors = colorBoxArr.join(", ");
+    const angleStr = gradientType === "conic" ? `from ${conicAngle}deg,` : "";
+    const directionStr = gradientType === "linear" ? `${linearDirection},` : "";
+    return `${gradientType}-gradient(${directionStr || angleStr} ${joinedColors})`;
+  }, [gradientType, conicAngle, colorBoxArr, linearDirection]);
+
   useEffect(() => {
     if (value && isColorSet) {
       setUseGradient(!!value);
@@ -55,15 +62,8 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
   }, [value, isColorSet]);
 
   useEffect(() => {
-    if (useGradient) {
-      const angleStr = gradientType === "conic" ? `from ${conicAngle}deg,` : "";
-      const directionStr = gradientType === "linear" ? linearDirection +"," : "";
-      const joinedColors = colorBoxArr.join(", ");
-      setGradientStr(`${gradientType}-gradient(${directionStr || angleStr} ${joinedColors})`);
-    } else {
-      setGradientStr("");
-    }
-  }, [gradientType, conicAngle, colorBoxArr, linearDirection, useGradient]);
+    setGradientStr(useGradient ? builtGradientCss : "");
+  }, [useGradient, builtGradientCss]);
 
   useEffect(() => {
     setter(gradientStr);
@@ -255,7 +255,10 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
             }
             <div className={styles.column}>
                             Preview
-              <div className={styles.previewBox} style={{backgroundImage: gradientStr}} />
+              <div
+                className={styles.previewBox}
+                style={{ backgroundImage: builtGradientCss }}
+              />
               <div className={styles.colorsTitleAndButtons}>
                                 Colors 
                 {!selectedPreset && <button onClick={addColor} disabled={gradientArr.length > 11}>+</button>}
@@ -289,7 +292,19 @@ const GradientPicker = ({ setter, value, place, isContainerTransparent }) => {
                 <MenuItem value='cool'>Cool</MenuItem>
                 <MenuItem value='neon'>Neon</MenuItem>
               </Select>
-              {selectedPreset && selectedPreset !== "custom" && <button onClick={copyPresetToCustom} className={styles.copyButton}>Copy preset to custom</button>}
+              {selectedPreset && selectedPreset !== "custom" && (
+                <button
+                  type="button"
+                  onClick={copyPresetToCustom}
+                  className={styles.copyButton}
+                  style={{
+                    color: themeObj.color,
+                    borderColor: `${themeObj.color}44`,
+                  }}
+                >
+                  Copy preset to custom
+                </button>
+              )}
             </div>
           </>
       }

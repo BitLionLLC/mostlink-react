@@ -11,7 +11,7 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { SitesContext } from "../contexts/sitesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FileBase64 from "react-file-base64";
+import ImageFilePicker from "./imageFilePicker";
 import { HexColorPicker } from "react-colorful";
 import { useBeforeunload } from "react-beforeunload";
 import GradientPicker from "./gradientPicker";
@@ -39,6 +39,9 @@ const IMAGE_TYPE = {
   HEADER: "header",
   BACKGROUND: "background",
 };
+
+/** Widescreen crop for page background (common for full-bleed cover). */
+const BACKGROUND_CROP_ASPECT = 16 / 9;
 
 const particlesInit = async (main) => {
   // console.log(main);
@@ -75,6 +78,29 @@ function hostnameForCustomDomainRegistration(domainToAdd) {
 }
 
 /** Avoid sharing nested refs with context `site` so link edits don’t mutate `site.links`. */
+/** Merge body gradient + optional background image for `document.body` (CSS allows layered backgrounds). */
+function composeBodyBackgroundImageCss(bodyGradient, imageUrl) {
+  const g = bodyGradient && String(bodyGradient).trim();
+  const u = imageUrl && String(imageUrl).trim();
+  if (g && u) {
+    return `${g}, url(${u})`;
+  }
+  if (u) {
+    return `url(${u})`;
+  }
+  if (g) {
+    return g;
+  }
+  return null;
+}
+
+function resolveBackgroundImageDisplayUrl(backgroundImage, backgroundImageDisplayUrl) {
+  if (backgroundImageDisplayUrl) {
+    return backgroundImageDisplayUrl;
+  }
+  return imageFieldSrc(backgroundImage);
+}
+
 function cloneLinksForEditor(linksFromSite) {
   if (!linksFromSite || !Array.isArray(linksFromSite)) {
     return [];
@@ -284,7 +310,6 @@ const SingleSite = () => {
   };
 
   useEffect(() => {
-    document.body.style.backgroundImage = bodyGradient || null;
     fetchSite(id);
     fetchPexels();
     fetchGiphy();
@@ -306,12 +331,17 @@ const SingleSite = () => {
   }, [id, tab, navigate, setSingleSiteTabIndex]);
 
   useEffect(() => {
-    document.body.style.backgroundImage = bodyGradient || null;
-  }, [bodyGradient]);
+    const url = resolveBackgroundImageDisplayUrl(
+      backgroundImage,
+      backgroundImageDisplayUrl
+    );
+    const css = composeBodyBackgroundImageCss(bodyGradient, url);
+    document.body.style.backgroundImage = css || "none";
+  }, [bodyGradient, backgroundImage, backgroundImageDisplayUrl]);
 
   useEffect(() => {
     document.body.style.backgroundColor = bodyColor;
-  }, [theme]);
+  }, [bodyColor]);
 
   useEffect(() => {
     const linksWithLive =
@@ -358,7 +388,7 @@ const SingleSite = () => {
     setLiveNotificationColor(site.liveNotificationColor);
     setBodyGradient(site.bodyGradient);
     setContainerGradient(site.containerGradient);
-    setBodyAnimationStyle(site.bodyAnimationStyle);
+    setBodyAnimationStyle(site.bodyAnimationStyle ?? "");
     setIsContainerTransparent(site.containerColor === "#00000000");
   }, [site]);
 
@@ -374,13 +404,11 @@ const SingleSite = () => {
         .then((r) => {
           if (!cancelled) {
             setBackgroundImageDisplayUrl(r.data.url);
-            document.body.style.backgroundImage = `url(${r.data.url})`;
           }
         })
         .catch(() => {
           if (!cancelled) {
             setBackgroundImageDisplayUrl(null);
-            document.body.style.backgroundImage = "none";
           }
         });
       return () => {
@@ -388,9 +416,6 @@ const SingleSite = () => {
       };
     }
     setBackgroundImageDisplayUrl(null);
-    document.body.style.backgroundImage = `url(${
-      imageFieldSrc(backgroundImage) || ""
-    })`;
   }, [backgroundImage]);
 
   useEffect(() => {
@@ -742,7 +767,7 @@ const SingleSite = () => {
     liveNotificationColor !== site?.liveNotificationColor ||
     bodyGradient !== site?.bodyGradient ||
     containerGradient !== site?.containerGradient ||
-    bodyAnimationStyle !== site?.bodyAnimationStyle;
+    (bodyAnimationStyle ?? "") !== (site?.bodyAnimationStyle ?? "");
 
   const deleteSite = () => {
     axios
@@ -796,7 +821,9 @@ const SingleSite = () => {
     switch (index) {
       case 1:
         return (
-          <div className={styles.editContents}>
+          <div
+            className={`${styles.editContents} ${styles.editContentsCenterSubs}`}
+          >
             <h1>Style</h1>
             <h2>Link Text Color</h2>
             <HexColorPicker
@@ -883,7 +910,7 @@ const SingleSite = () => {
             />
             <h2>Body Animation</h2>
             <Select
-              value={bodyAnimationStyle}
+              value={bodyAnimationStyle ?? ""}
               onChange={(e) => setBodyAnimationStyle(e.target.value)}
               style={{ marginBottom: "20px" }}
             >
@@ -958,7 +985,7 @@ const SingleSite = () => {
               size="small"
               variant="filled"
             />
-            <h3>Transparent?</h3>
+            <h3>Transparent container?</h3>
             <Checkbox
               checked={isContainerTransparent}
               onChange={(e) => setIsContainerTransparent(e.target.checked)}
@@ -974,13 +1001,14 @@ const SingleSite = () => {
 
             <div className={styles.titleAndClear}>
               <h2>Header Image</h2>
-              <FontAwesomeIcon
-                icon={["far", "window-close"]}
-                size="1x"
+              <button
+                type="button"
+                className={styles.deleteBtn}
                 onClick={() => setHeaderImage("")}
-                color="salmon"
-                className={styles.clearImage}
-              />
+                aria-label="Clear header image"
+              >
+                <FontAwesomeIcon icon={["fas", "times"]} size="xs" />
+              </button>
             </div>
             <div className={styles.headerWarning}>
               Note: Emojis override images in the header. You can clear an emoji
@@ -997,17 +1025,16 @@ const SingleSite = () => {
               alt="header"
               className={styles.editImage}
             />
-            <div className={styles.imageInput}>
-              <FileBase64
-                multiple={false}
-                onDone={(file) =>
-                  setSquareCrop({
-                    imageSrc: file.base64,
-                    target: IMAGE_TYPE.HEADER,
-                  })
-                }
-              />
-            </div>
+            <ImageFilePicker
+              ariaLabel="Upload header image"
+              hint="PNG, JPG, or GIF — you'll crop to a square in the next step"
+              onDone={(file) =>
+                setSquareCrop({
+                  imageSrc: file.base64,
+                  target: IMAGE_TYPE.HEADER,
+                })
+              }
+            />
             <button className={styles.mediaBtn} onClick={() => openPexelsModal(IMAGE_TYPE.HEADER)}>
               Choose from Pexels
             </button>
@@ -1017,13 +1044,14 @@ const SingleSite = () => {
 
             <div className={styles.titleAndClear}>
               <h2>Header Emoji</h2>
-              <FontAwesomeIcon
-                icon={["far", "window-close"]}
-                size="1x"
+              <button
+                type="button"
+                className={styles.deleteBtn}
                 onClick={() => setHeaderEmoji("")}
-                color="salmon"
-                className={styles.clearImage}
-              />
+                aria-label="Clear header emoji"
+              >
+                <FontAwesomeIcon icon={["fas", "times"]} size="xs" />
+              </button>
             </div>
             {headerEmoji && (
               <div className={styles.selectedEmoji}>{headerEmoji}</div>
@@ -1032,13 +1060,14 @@ const SingleSite = () => {
 
             <div className={styles.titleAndClear}>
               <h2>Background Image</h2>
-              <FontAwesomeIcon
-                icon={["far", "window-close"]}
-                size="1x"
+              <button
+                type="button"
+                className={styles.deleteBtn}
                 onClick={() => setBackgroundImage("")}
-                color="salmon"
-                className={styles.clearImage}
-              />
+                aria-label="Clear background image"
+              >
+                <FontAwesomeIcon icon={["fas", "times"]} size="xs" />
+              </button>
             </div>
             <img
               src={
@@ -1046,22 +1075,19 @@ const SingleSite = () => {
                 imageFieldSrc(backgroundImage) ||
                 defaultHeader
               }
-              width="200"
-              height="200"
               alt="background"
-              className={styles.editImage}
+              className={styles.editBackgroundImage}
             />
-            <div className={styles.imageInput}>
-              <FileBase64
-                multiple={false}
-                onDone={(file) =>
-                  setSquareCrop({
-                    imageSrc: file.base64,
-                    target: IMAGE_TYPE.BACKGROUND,
-                  })
-                }
-              />
-            </div>
+            <ImageFilePicker
+              ariaLabel="Upload background image"
+              hint="PNG, JPG, or GIF — you'll crop to a wide frame next"
+              onDone={(file) =>
+                setSquareCrop({
+                  imageSrc: file.base64,
+                  target: IMAGE_TYPE.BACKGROUND,
+                })
+              }
+            />
             <button className={styles.mediaBtn} onClick={() => openPexelsModal(IMAGE_TYPE.BACKGROUND)}>
               Choose from Pexels
             </button>
@@ -1075,7 +1101,9 @@ const SingleSite = () => {
         );
       case 3:
         return (
-          <div className={styles.editContents}>
+          <div
+            className={`${styles.editContents} ${styles.editContentsCenterSubs}`}
+          >
             <h1>Settings</h1>
             <h2>Title</h2>
             <TextField
@@ -1278,9 +1306,6 @@ const SingleSite = () => {
     thisLiveNotificationColor,
     thisBodyAnimationStyle
   ) => {
-    document.body.style.backgroundColor = thisBodyColor;
-    document.body.style.backgroundImage = thisBodyGradient;
-
     const w = windowDimensions.width;
     const h = windowDimensions.height;
     const isNarrow = w < 1024;
@@ -1701,13 +1726,17 @@ const SingleSite = () => {
                         height="100"
                         onClick={() => {
                           setIsPexelsModalShowing(false);
-                          setSquareCrop({
-                            imageSrc: photo.src.original,
-                            target:
-                              modalOpenedWith === IMAGE_TYPE.BACKGROUND
-                                ? IMAGE_TYPE.BACKGROUND
-                                : IMAGE_TYPE.HEADER,
-                          });
+                          if (modalOpenedWith === IMAGE_TYPE.BACKGROUND) {
+                            setSquareCrop({
+                              imageSrc: photo.src.original,
+                              target: IMAGE_TYPE.BACKGROUND,
+                            });
+                          } else {
+                            setSquareCrop({
+                              imageSrc: photo.src.original,
+                              target: IMAGE_TYPE.HEADER,
+                            });
+                          }
                         }}
                       />
                     );
@@ -1722,6 +1751,16 @@ const SingleSite = () => {
               imageSrc={squareCrop.imageSrc}
               theme={theme}
               accentColor={themeObj.accentColor}
+              aspect={
+                squareCrop.target === IMAGE_TYPE.BACKGROUND
+                  ? BACKGROUND_CROP_ASPECT
+                  : 1
+              }
+              cropTitle={
+                squareCrop.target === IMAGE_TYPE.BACKGROUND
+                  ? "Crop background"
+                  : undefined
+              }
               onCancel={() => setSquareCrop(null)}
               onApply={(value) => {
                 const store =
