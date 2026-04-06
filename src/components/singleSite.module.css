@@ -76,9 +76,6 @@
 }
 
 .saveToolbar {
-  position: sticky;
-  top: 0;
-  z-index: 4;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -86,6 +83,35 @@
   padding: 16px 4px 14px;
   margin: 0 -8px 4px;
   background: inherit;
+}
+
+/* Fixed to viewport on phones/tablets so Save/Cancel stay reachable without scrolling up */
+@media (max-width: 1023px) {
+  .saveToolbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    margin: 0;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    justify-content: center;
+    z-index: 25;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+    border-top: 1px solid rgba(128, 128, 128, 0.18);
+  }
+
+  .singleSiteWrapper {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 1024px) {
+  .saveToolbar {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+  }
 }
 
 .cancelFab {
