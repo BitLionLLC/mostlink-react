@@ -31,6 +31,7 @@ import iPhoneImage from "./assets/iphone.png";
 import SquareImageCropModal from "./squareImageCropModal";
 import { imageFieldRaw, imageFieldSrc } from "../utils/imageField";
 import { SITE_EDITOR_TAB_SLUGS } from "../constants/siteEditorTabs";
+import AnalyticsTab from "./analyticsTab";
 
 const PREVIEW_VIEWPORT_STORAGE_KEY = "mostlink-editor-preview-viewport";
 
@@ -1069,8 +1070,7 @@ const SingleSite = () => {
       case 2:
         return (
           <div className={styles.editContents}>
-            <h1>Analytics</h1>
-            <p>Coming soon</p>
+            <AnalyticsTab siteId={id} />
           </div>
         );
       case 3:

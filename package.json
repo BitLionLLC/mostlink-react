@@ -39,6 +39,7 @@
     "react-toastify": "^10.0.4",
     "react-tooltip": "^5.26.0",
     "react-tsparticles": "^2.0.6",
+    "recharts": "^3.8.1",
     "tsparticles": "^2.0.6",
     "web-vitals": "^3.5.2"
   },
