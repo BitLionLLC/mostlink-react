@@ -754,8 +754,8 @@ const SingleSite = () => {
     title !== site.title ||
     subtitle !== site.subtitle ||
     subdomain !== site.subdomain ||
-    imageFieldSrc(headerImage) !== imageFieldSrc(site.headerImage) ||
-    imageFieldSrc(backgroundImage) !== imageFieldSrc(site.backgroundImage) ||
+    imageFieldRaw(headerImage) !== imageFieldRaw(site.headerImage) ||
+    imageFieldRaw(backgroundImage) !== imageFieldRaw(site.backgroundImage) ||
     JSON.stringify(linksForDirtyCompare(links)) !==
       JSON.stringify(linksForDirtyCompare(site?.links || [])) ||
     titlesColor !== site?.titlesColor ||
