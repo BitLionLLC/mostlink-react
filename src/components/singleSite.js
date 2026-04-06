@@ -1011,7 +1011,7 @@ const SingleSite = () => {
               </button>
             </div>
             <div className={styles.headerWarning}>
-              Note: Emojis override images in the header. You can clear an emoji
+              Note: Emojis override images in the header.<br/>You can clear an emoji
               to use an image.
             </div>
             <img
@@ -1327,24 +1327,14 @@ const SingleSite = () => {
           previewScale = 0.72;
         }
       } else {
-        const colW = Math.max(200, w - 32);
-        const colH = Math.max(240, h * 0.42);
-        previewScale = Math.min(
-          colW / previewIntrinsicW,
-          colH / previewIntrinsicH,
-          0.95
-        );
+        const colW = Math.max(200, w * 0.95);
+        previewScale = Math.min(colW / previewIntrinsicW, 0.95);
       }
     } else if (isPreviewMobile) {
       previewScale = h >= 800 ? h / 1000 : 0.8;
     } else {
       const colW = w * 0.5 - 56;
-      const colH = h - 80 - 64;
-      previewScale = Math.min(
-        colW / previewIntrinsicW,
-        colH / previewIntrinsicH,
-        1
-      ) * 0.96;
+      previewScale = Math.min(colW / previewIntrinsicW, 1) * 0.96;
     }
 
     const containerPosition = isNarrow ? "relative" : "absolute";
