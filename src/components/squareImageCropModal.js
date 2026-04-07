@@ -139,9 +139,20 @@ const SquareImageCropModal = ({
     setApplying(true);
     try {
       if (isAnimatedGifSource(imageSrc)) {
-        const blob = await cropAnimatedGifToBlob(imageSrc, croppedAreaPixels);
-        const ref = await uploadGifBlob(blob);
-        onApply(ref);
+        try {
+          const blob = await cropAnimatedGifToBlob(imageSrc, croppedAreaPixels);
+          const ref = await uploadGifBlob(blob);
+          onApply(ref);
+        } catch (gifErr) {
+          console.warn("GIF encode/upload failed, using still image:", gifErr);
+          let dataUrl = await getCroppedImgDataUrl(imageSrc, croppedAreaPixels);
+          dataUrl = await compressRasterDataUrl(dataUrl);
+          onApply(dataUrl);
+          toast(
+            "Saved as a still image (animated GIF processing failed).",
+            { type: "info", theme }
+          );
+        }
       } else {
         let dataUrl = await getCroppedImgDataUrl(imageSrc, croppedAreaPixels);
         dataUrl = await compressRasterDataUrl(dataUrl);

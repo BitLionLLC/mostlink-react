@@ -652,7 +652,6 @@
   right: 14px;
   background: rgba(255, 255, 255, 0.08);
   color: #e2e8f0;
-  transform: rotate(45deg);
   transition: background 0.15s ease;
   user-select: none;
   z-index: 2;

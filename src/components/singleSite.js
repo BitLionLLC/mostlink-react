@@ -1677,7 +1677,7 @@ const SingleSite = () => {
                   className={styles.closeButton}
                   onClick={() => setIsPexelsModalShowing(false)}
                 >
-                  +
+                  ×
                 </div>
                 <span>
                   Find and select a photo for your {modalOpenedWith} image from{" "}
@@ -1759,6 +1759,7 @@ const SingleSite = () => {
                     : { base64: value };
                 if (squareCrop.target === IMAGE_TYPE.HEADER) {
                   setHeaderImage(store);
+                  setHeaderEmoji("");
                 } else {
                   setBackgroundImage(store);
                 }
@@ -1777,7 +1778,7 @@ const SingleSite = () => {
                   className={styles.closeButton}
                   onClick={() => setIsGiphyModalShowing(false)}
                 >
-                  +
+                  ×
                 </div>
                 <span>
                   Find and select a photo for your header image from{" "}
@@ -1839,7 +1840,7 @@ const SingleSite = () => {
                   className={styles.closeButton}
                   onClick={() => setIsDeleteModalShowing(false)}
                 >
-                  +
+                  ×
                 </div>
                 <h1>Delete site</h1>
                 <p>
@@ -1872,7 +1873,7 @@ const SingleSite = () => {
                     className={styles.closeButton}
                     onClick={closeCheckDomainModal}
                   >
-                    +
+                    ×
                   </div>
                   <h1>Add a domain</h1>
                   <TextField
@@ -1912,7 +1913,7 @@ const SingleSite = () => {
                     className={styles.closeButton}
                     onClick={closeCheckDomainModal}
                   >
-                    +
+                    ×
                   </div>
                   <h1>This domain is available</h1>
                   <h2>{domainToAdd}</h2>
@@ -1942,7 +1943,7 @@ const SingleSite = () => {
                     className={styles.closeButton}
                     onClick={closeCheckDomainModal}
                   >
-                    +
+                    ×
                   </div>
                   <h1>Domain taken</h1>
                   <h2>Do you own this domain?</h2>
@@ -1977,7 +1978,7 @@ const SingleSite = () => {
                     className={styles.closeButton}
                     onClick={closeRegisterDomainModal}
                   >
-                    +
+                    ×
                   </div>
                   <h1>Register a domain</h1>
                   <h2>Do you want to register this domain? {domainToAdd}</h2>
@@ -2008,7 +2009,7 @@ const SingleSite = () => {
                     className={styles.closeButton}
                     onClick={closeRegisterDomainModal}
                   >
-                    +
+                    ×
                   </div>
                   <h1>Registered!</h1>
                   <h2>{domainToAdd}</h2>
@@ -2040,7 +2041,7 @@ const SingleSite = () => {
                   className={styles.closeButton}
                   onClick={closeDeleteDomainModal}
                 >
-                  +
+                  ×
                 </div>
                 <h1>Delete domain</h1>
                 <h2>

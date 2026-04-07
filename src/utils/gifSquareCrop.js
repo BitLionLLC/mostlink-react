@@ -6,7 +6,10 @@ const DEFAULT_MAX_SIDE = 512;
 const DEFAULT_MAX_COLORS = 256;
 
 async function bufferFromImageSrc(src) {
-  const res = await fetch(src);
+  const res = await fetch(src, {
+    mode: "cors",
+    credentials: "omit",
+  });
   if (!res.ok) {
     throw new Error(`Could not load GIF (${res.status})`);
   }
