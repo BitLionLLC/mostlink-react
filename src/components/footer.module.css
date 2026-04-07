@@ -58,8 +58,9 @@
 
 @media (width <= 600px) {
   .footer {
-    height: 75px;
+    height: 100px;
     flex-direction: column;
+    font-size: 0.8rem;
   }
 
   .footer div:nth-child(2) {

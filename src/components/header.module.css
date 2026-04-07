@@ -348,6 +348,24 @@ button.hamburgerMenuItemHalf {
   align-items: center;
 }
 
+.logoAndTitle img {
+  width: auto;
+  height: auto;
+  max-width: min(300px, 68vw);
+}
+
+@media (width <= 600px) {
+  .logoAndTitle img {
+    max-width: min(220px, 55vw);
+  }
+}
+
+@media (width <= 400px) {
+  .logoAndTitle img {
+    max-width: min(170px, 48vw);
+  }
+}
+
 @keyframes pulseColor {
   0% {
     background-color: plum;

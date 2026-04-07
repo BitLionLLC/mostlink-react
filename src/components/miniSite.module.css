@@ -8,12 +8,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 412px;
 }
 
+/* ~700×0.56 plus a few px so the bezel PNG (extends past the 700px canvas, same as editor .singleSiteContainer) isn’t clipped after scale */
 .phoneOuter {
   width: 196px;
-  height: 392px;
+  height: 404px;
   overflow: hidden;
   margin: 0 auto;
   position: relative;
@@ -35,7 +36,8 @@
   width: 350px;
   height: 700px;
   border-radius: 30px;
-  overflow: hidden;
+  /* Match editor mobile preview: frame asset bleeds past the 700px box; overflow:hidden clipped the bottom bezel */
+  overflow: visible;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -155,7 +157,7 @@
   background: rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(6px);
   cursor: pointer;
-  z-index: 20;
+  z-index: 1;
   transition:
     background 0.15s ease,
     transform 0.12s ease;
