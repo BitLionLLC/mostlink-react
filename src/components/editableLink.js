@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
-import { TextField, Select, MenuItem, ListItemText } from "@mui/material";
+import { TextField, Select, MenuItem, Autocomplete } from "@mui/material";
 import { SitesContext } from "../contexts/sitesContext";
 
 import styles from "./editableLink.module.css";
@@ -13,6 +13,44 @@ const LIVE_TYPES = {
   YOUTUBE: "youtube",
 };
 
+function transformIconKey(key, lib) {
+  const arr = key.split("").slice(2);
+  const valueArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (
+      arr[i].toUpperCase() === arr[i] &&
+      !Number.isInteger(Number(arr[i])) &&
+      i !== 0
+    ) {
+      valueArr.push("-");
+      valueArr.push(arr[i].toLowerCase());
+    } else if (
+      arr[i].toUpperCase() === arr[i] &&
+      !Number.isInteger(Number(arr[i]))
+    ) {
+      valueArr.push(arr[i].toLowerCase());
+    } else {
+      valueArr.push(arr[i]);
+    }
+  }
+  const display = arr.join("");
+  const value = lib + "_" + valueArr.join("");
+  return [display, value];
+}
+
+const FAR_KEYS = new Set(Object.keys(far));
+
+/** Built once — same options for every link row (hundreds of Font Awesome icons). */
+const LINK_ICON_OPTIONS = Object.keys(fab)
+  .concat(Object.keys(far))
+  .filter((key) => key !== "faFontAwesomeLogoFull")
+  .sort()
+  .map((key) => {
+    const lib = FAR_KEYS.has(key) ? "far" : "fab";
+    const [label, value] = transformIconKey(key, lib);
+    return { value, label };
+  });
+
 const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id }) => {
   const { isSubscribed, theme } = useContext(SitesContext);
 
@@ -21,40 +59,8 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id }
   );
   const [liveMeta, setLiveMeta] = useState(link.live?.meta || "");
 
-  const transformIconKey = (key, lib) => {
-    const arr = key.split("").slice(2);
-    let valueArr = [];
-    for (let i = 0; i < arr.length; i++) {
-      if (
-        arr[i].toUpperCase() === arr[i] &&
-        !Number.isInteger(Number(arr[i])) &&
-        i !== 0
-      ) {
-        valueArr.push("-");
-        valueArr.push(arr[i].toLowerCase());
-      } else if (
-        arr[i].toUpperCase() === arr[i] &&
-        !Number.isInteger(Number(arr[i]))
-      ) {
-        valueArr.push(arr[i].toLowerCase());
-      } else {
-        valueArr.push(arr[i]);
-      }
-    }
-    const display = arr.join("");
-    const value = lib + "_" + valueArr.join("");
-    return [display, value];
-  };
-
-  const selectOptions = Object.keys(fab)
-    .concat(Object.keys(far))
-    .filter((key) => key !== "faFontAwesomeLogoFull")
-    .sort()
-    .map((key) => {
-      const lib = Object.keys(far).includes(key) ? "far" : "fab";
-      const [label, value] = transformIconKey(key, lib);
-      return { value, label };
-    });
+  const selectedIconOption =
+    LINK_ICON_OPTIONS.find((obj) => obj.value === link?.icon) ?? null;
 
   return (
     <li className={styles.linkCard}>
@@ -119,26 +125,54 @@ const EditableLink = ({ link, links, setLinks, deleteLink, moveLink, index, id }
             setLinks(newLinks);
           }}
         />
-        <Select
+        <Autocomplete
           className={styles.iconOptionSelect}
-          onChange={(e) => {
+          options={LINK_ICON_OPTIONS}
+          value={selectedIconOption}
+          disableClearable
+          onChange={(event, newValue) => {
+            if (!newValue) {
+              return;
+            }
             const newLinks = links.slice();
-            newLinks[index].icon = e.target.value;
+            newLinks[index].icon = newValue.value;
             setLinks(newLinks);
           }}
-          defaultValue={selectOptions.find((obj) => obj.value === link?.icon)?.value}
-        >
-          {selectOptions.map((option) => (
-            <MenuItem key={option.value} value={option.value} className={styles.iconOption}>
-              <ListItemText>{option.label}</ListItemText>
-              <FontAwesomeIcon
-                icon={option.value.split("_")}
-                size="lg"
-                className={styles.iconOptionIcon}
-              />
-            </MenuItem>
-          ))}
-        </Select>
+          getOptionLabel={(option) => option.label}
+          isOptionEqualToValue={(a, b) => a.value === b.value}
+          filterOptions={(options, state) => {
+            const q = state.inputValue.trim().toLowerCase();
+            if (!q) {
+              return options;
+            }
+            return options.filter(
+              (opt) =>
+                opt.label.toLowerCase().includes(q) ||
+                opt.value.toLowerCase().includes(q)
+            );
+          }}
+          renderOption={(props, option) => {
+            const { key, ...otherProps } = props;
+            return (
+              <li key={key} {...otherProps} className={styles.iconOption}>
+                <span>{option.label}</span>
+                <FontAwesomeIcon
+                  icon={option.value.split("_")}
+                  size="lg"
+                  className={styles.iconOptionIcon}
+                />
+              </li>
+            );
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="filled"
+              size="small"
+              placeholder="Search or pick an icon"
+            />
+          )}
+        />
 
         {(isSubscribed || true) /* TODO: remove OR condition when out of beta */ && (
           <div className={styles.liveSection}>
