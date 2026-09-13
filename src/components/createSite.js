@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import { Portal } from "@mui/material";
 
 import styles from "./createSite.module.css";
+import { subdomainFormatError, normalizeSubdomain } from "../utils/subdomain";
 
 const CreateSite = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,38 +31,48 @@ const CreateSite = (props) => {
     setIsCreateSiteModalOpen(isModalOpen);
   }, [isModalOpen, setIsCreateSiteModalOpen]);
 
-  const WHITESPACE_REGEX = /\s/;
   const SUBDOMAIN_TAKEN_ERROR =
     "That subdomain is taken. Please choose another one.";
 
   useEffect(() => {
     if (!subdomain) {
       setIsSubdomainValid(true);
+      setSubdomainError("");
+      return;
     }
+
+    // A subdomain the host router can never match is rejected here rather than
+    // asking the server whether it is free.
+    const formatError = subdomainFormatError(subdomain);
+    if (formatError) {
+      setIsSubdomainValid(false);
+      setSubdomainError(formatError);
+      return;
+    }
+    setSubdomainError("");
 
     const delayDebounceFn = setTimeout(() => {
-      subdomain &&
-        axios
-          .get(
-            `${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`,
-            { withCredentials: true }
-          )
-          .then(() => {
-            setIsSubdomainValid(true);
-            setSubdomainError("");
-          })
-          .catch((err) => {
-            setIsSubdomainValid(false);
-            setSuggestion(err.response.data.suggestion);
-            setSubdomainError(SUBDOMAIN_TAKEN_ERROR);
-          });
+      axios
+        .get(
+          `${process.env.REACT_APP_API_BASE}/api/sites/register-subdomain/${subdomain}`,
+          { withCredentials: true }
+        )
+        .then(() => {
+          setIsSubdomainValid(true);
+          setSubdomainError("");
+        })
+        .catch((err) => {
+          setIsSubdomainValid(false);
+          // Only "taken" carries a suggestion; anything else is a rule the server enforces.
+          const suggestion = err.response?.data?.suggestion;
+          setSuggestion(suggestion);
+          setSubdomainError(
+            suggestion
+              ? SUBDOMAIN_TAKEN_ERROR
+              : err.response?.data?.error || SUBDOMAIN_TAKEN_ERROR
+          );
+        });
     }, 1000);
-
-    if (subdomain?.match(WHITESPACE_REGEX)) {
-      setSubdomainError("No spaces allowed.");
-    } else {
-      setSubdomainError("");
-    }
 
     return () => clearTimeout(delayDebounceFn);
   }, [subdomain]);
@@ -258,7 +269,7 @@ const CreateSite = (props) => {
                     className={styles.textField}
                     value={subdomain}
                     name="subdomain"
-                    onChange={(e) => setSubdomain(e.target.value)}
+                    onChange={(e) => setSubdomain(normalizeSubdomain(e.target.value))}
                     placeholder="subdomain"
                     variant="filled"
                     size="small"
