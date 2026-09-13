@@ -7,6 +7,15 @@
       "runtimeArgs": ["start"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "mostlink-react-prod-api",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "BROWSER=none PORT=3002 REACT_APP_API_BASE=https://api.mostlink.co REACT_APP_ENVIRONMENT=production REACT_APP_HOSTED_BASE=mostlink.co REACT_APP_HOSTED_BASE_SHORT=mostl.ink npm start"
+      ],
+      "port": 3002
     }
   ]
 }

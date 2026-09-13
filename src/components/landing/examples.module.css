@@ -22,9 +22,10 @@
 }
 
 .example {
-  --site-preview-scale: 0.75;
+  /* 3 cards fit one row at common desktop widths; flex-wrap handles narrower */
+  --site-preview-scale: 0.68;
 
-  margin: 30px;
+  margin: 20px;
   list-style: none;
 }
 
@@ -81,8 +82,6 @@
 
 @media (width <= 600px) {
   .example {
-    --site-preview-scale: 0.65;
-
-    margin: 20px;
+    --site-preview-scale: 0.7;
   }
 }

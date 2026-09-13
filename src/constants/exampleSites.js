@@ -3,6 +3,6 @@
  * Each one is fetched live from the public site API, so a site that is removed
  * (or whose owner's billing lapses) simply drops out of the section.
  */
-const EXAMPLE_SUBDOMAINS = ["first"];
+const EXAMPLE_SUBDOMAINS = ["avarivera", "lanternhours", "tyronelive"];
 
 export default EXAMPLE_SUBDOMAINS;
