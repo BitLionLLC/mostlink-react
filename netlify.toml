@@ -1,3 +1,12 @@
+# www.bitlion.us/apps.json does not send CORS headers, so it is proxied here and
+# fetched same-origin by the "Our Other Apps" page. Must stay above the SPA
+# catch-all below — Netlify applies the first matching rule.
+[[redirects]]
+  from = "/bitlion-apps.json"
+  to = "https://www.bitlion.us/apps.json"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/"

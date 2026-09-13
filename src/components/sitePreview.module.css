@@ -1,0 +1,135 @@
+/* Read-only site render on the editor's 350×700 canvas, scaled by the caller.
+   Callers set --site-preview-scale on an ancestor (default 0.56 → ~196 × 404px) */
+.phoneOuter {
+  width: calc(350px * var(--site-preview-scale, 0.56));
+
+  /* 700px canvas plus a few px so the bezel PNG (extends past the canvas, same as editor .singleSiteContainer) isn’t clipped after scale */
+  height: calc(700px * var(--site-preview-scale, 0.56) + 12px);
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.phoneInner {
+  width: 350px;
+  height: 700px;
+  transform: scale(var(--site-preview-scale, 0.56));
+  transform-origin: top left;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.phoneScreen {
+  position: relative;
+  width: 350px;
+  height: 700px;
+  border-radius: 30px;
+
+  /* Match editor mobile preview: frame asset bleeds past the 700px box; overflow:hidden clipped the bottom bezel */
+  overflow: visible;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 10;
+}
+
+.phoneFrameImg {
+  z-index: 11;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  max-width: none;
+  pointer-events: none;
+}
+
+.phoneContents {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 70px 8px 16px;
+  box-sizing: border-box;
+  overflow: hidden auto;
+  min-height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.previewHeaderImg {
+  border-radius: 100%;
+  max-width: min(200px, 80vw);
+  height: auto;
+}
+
+.previewHeaderEmoji {
+  font-size: clamp(80px, 18vw, 175px);
+  line-height: 1.05;
+}
+
+.previewTitle {
+  margin: 20px 0 5px;
+  padding: 0 8px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.previewSubtitle {
+  margin: 10px 0;
+  padding: 0 8px;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  word-break: break-word;
+  line-height: 1.25;
+}
+
+.previewLinksList {
+  list-style: none;
+  padding: 0 8px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.previewLink {
+  width: 100%;
+  max-width: 290px;
+  box-sizing: border-box;
+  min-height: 48px;
+  margin: 10px auto;
+  padding: 12px 20px;
+  border-radius: 30px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  list-style: none;
+}
+
+.previewLinkTextWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.previewLinkText {
+  font-weight: bold;
+}
+
+.previewLive {
+  font-size: 0.85em;
+  font-weight: normal;
+}

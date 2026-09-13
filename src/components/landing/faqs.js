@@ -46,8 +46,9 @@ const FAQs = () => {
           <Typography>Do you have a free trial?</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>We have completely free accounts that will remain free forever! 
-                        The Premium accounts have more features, such as unlimited sites, custom domains and live Twitch notifications. 
+          <Typography>Yes! Every account starts with a 30-day free trial with full access to every feature, and you
+                        won't be charged until the trial ends. After that, your first site is $5/mo and each additional
+                        site is just $1/mo, so you only pay for what you actually publish.
                         Check out our <Link to="/pricing" style={{ color: themeObj.accentColor }}>Pricing page</Link> for more info.
           </Typography>
         </AccordionDetails>

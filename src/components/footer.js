@@ -15,7 +15,15 @@ const Footer = () => {
   return (
     <div className={styles.footer} style={{ background: themeObj.headerColor }}>
       <div style={{ color: themeObj.color }}>
-        Copyright 2021-{new Date().getFullYear()}, BitLion, LLC
+        Copyright 2021-{new Date().getFullYear()},{" "}
+        <a
+          href="https://www.thebitlion.com"
+          target="_blank"
+          rel="noreferrer"
+          style={{ color: themeObj.color }}
+        >
+          BitLion, LLC
+        </a>
       </div>
       <div>
         <Link to="/privacy-policy" style={{ color: themeObj.color }}>
@@ -35,6 +43,11 @@ const Footer = () => {
       <div>
         <Link to="/support" style={{ color: themeObj.color }}>
           Support
+        </Link>
+      </div>
+      <div>
+        <Link to="/other-apps" style={{ color: themeObj.color }}>
+          Our Other Apps
         </Link>
       </div>
       {!location.pathname.includes("/feedback") && (

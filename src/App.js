@@ -38,6 +38,7 @@ import "react-toastify/dist/ReactToastify.css";
 import TermsAndConditions from "./components/termsAndConditions";
 import Support from "./components/support";
 import RefundPolicy from "./components/refundPolicy";
+import OtherApps from "./components/otherApps";
 import ResendVerification from "./components/account/resendVerification";
 
 function SiteEditorRedirect() {
@@ -243,6 +244,16 @@ function App() {
                 <Header />
                 <Footer />
                 <RefundPolicy />
+              </>
+            }
+          />
+          <Route
+            path="/other-apps"
+            element={
+              <>
+                <Header />
+                <Footer />
+                <OtherApps />
               </>
             }
           />
