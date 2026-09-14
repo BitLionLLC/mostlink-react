@@ -199,6 +199,22 @@
   cursor: not-allowed;
 }
 
+/*
+ * Honeypot: present in the DOM for bots that autofill every input, invisible
+ * and unreachable for people. Positioned off-screen rather than display:none —
+ * some scrapers skip hidden fields, and we want them to take the bait.
+ */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
 @media (max-width: 520px) {
   .feedbackContainer {
     padding: 140px 14px 60px;

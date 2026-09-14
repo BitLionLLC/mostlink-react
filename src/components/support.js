@@ -29,6 +29,8 @@ const Support = () => {
   const [topic, setTopic] = useState("general");
   const [message, setMessage] = useState("");
   const [captchaToken, setCaptchaToken] = useState("");
+  // Honeypot — see .honeypot in feedback.module.css. Always empty for humans.
+  const [website, setWebsite] = useState("");
 
   const captchaRef = useRef(null);
 
@@ -46,6 +48,7 @@ const Support = () => {
     setEmail("");
     setTopic("general");
     setMessage("");
+    setWebsite("");
     resetCaptcha();
     navigate("/");
   };
@@ -76,6 +79,7 @@ const Support = () => {
         topic,
         message: message.trim(),
         recaptchaToken: captchaToken,
+        website,
       })
       .then(() => {
         toast("Thanks — we got your message and will get back to you soon.", {
@@ -86,6 +90,7 @@ const Support = () => {
         setEmail("");
         setTopic("general");
         setMessage("");
+        setWebsite("");
         resetCaptcha();
       })
       .catch(() => {
@@ -181,6 +186,19 @@ const Support = () => {
             placeholder="How can we help?"
             InputProps={filledInputProps}
           />
+
+          <div className={styles.honeypot} aria-hidden="true">
+            <label htmlFor="support-website">Leave this field empty</label>
+            <input
+              id="support-website"
+              name="website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+          </div>
 
           {RECAPTCHA_SITE_KEY ? (
             <div className={styles.captchaRow}>

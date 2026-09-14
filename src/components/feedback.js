@@ -8,13 +8,16 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import FileBase64 from "react-file-base64";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SitesContext } from "../contexts/sitesContext";
+import ReCaptcha from "./recaptcha";
 
 import styles from "./feedback.module.css";
+
+const RECAPTCHA_SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
 
 const Feedback = () => {
   const navigate = useNavigate();
@@ -29,6 +32,16 @@ const Feedback = () => {
   const [feedbackType, setFeedbackType] = useState("featureRequest");
   const [comments, setComments] = useState("");
   const [screenshot, setScreenshot] = useState(null);
+  const [captchaToken, setCaptchaToken] = useState("");
+  // Honeypot — see .honeypot in feedback.module.css. Always empty for humans.
+  const [website, setWebsite] = useState("");
+
+  const captchaRef = useRef(null);
+
+  const resetCaptcha = () => {
+    captchaRef.current?.reset();
+    setCaptchaToken("");
+  };
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
@@ -41,11 +54,29 @@ const Feedback = () => {
     setFeedbackType("featureRequest");
     setComments("");
     setScreenshot(null);
+    setWebsite("");
+    resetCaptcha();
     navigate("/");
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    if (!email.trim() || !comments.trim()) {
+      toast("Please enter your email and some comments.", {
+        type: "error",
+        theme,
+      });
+      return;
+    }
+
+    if (RECAPTCHA_SITE_KEY && !captchaToken) {
+      toast("Please confirm you are not a robot.", {
+        type: "error",
+        theme,
+      });
+      return;
+    }
 
     const data = {
       name,
@@ -54,6 +85,8 @@ const Feedback = () => {
       feedbackType,
       comments,
       screenshot: screenshot?.base64 || null,
+      recaptchaToken: captchaToken,
+      website,
     };
 
     axios
@@ -63,12 +96,16 @@ const Feedback = () => {
           type: "success",
           theme,
         });
+        resetCaptcha();
       })
       .catch(() => {
         toast("Could not send feedback. Please try again.", {
           type: "error",
           theme,
         });
+        // The token is single-use once the server checks it, so make the user
+        // tick the box again before retrying.
+        resetCaptcha();
       });
   };
 
@@ -102,6 +139,7 @@ const Feedback = () => {
           <TextField
             id="feedback-email"
             type="email"
+            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             size="small"
@@ -149,6 +187,7 @@ const Feedback = () => {
             value={comments}
             onChange={(e) => setComments(e.target.value)}
             variant="filled"
+            required
             multiline
             minRows={8}
             className={styles.commentField}
@@ -168,6 +207,30 @@ const Feedback = () => {
               </p>
             </div>
           </label>
+
+          <div className={styles.honeypot} aria-hidden="true">
+            <label htmlFor="feedback-website">Leave this field empty</label>
+            <input
+              id="feedback-website"
+              name="website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+          </div>
+
+          {RECAPTCHA_SITE_KEY ? (
+            <div className={styles.captchaRow}>
+              <ReCaptcha
+                ref={captchaRef}
+                siteKey={RECAPTCHA_SITE_KEY}
+                theme={theme === "dark" ? "dark" : "light"}
+                onChange={setCaptchaToken}
+              />
+            </div>
+          ) : null}
 
           <div className={styles.loginFormButtons}>
             <button
