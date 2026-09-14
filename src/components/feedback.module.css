@@ -148,6 +148,14 @@
   opacity: 0.6;
 }
 
+.captchaRow {
+  margin: -4px 0 22px;
+  width: 100%;
+
+  /* The widget has a fixed 304px width, so let it shrink on narrow screens. */
+  overflow-x: auto;
+}
+
 .loginFormButtons {
   display: flex;
   gap: 12px;

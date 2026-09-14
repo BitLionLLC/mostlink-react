@@ -6,15 +6,17 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SitesContext } from "../contexts/sitesContext";
+import ReCaptcha from "./recaptcha";
 
 import styles from "./feedback.module.css";
 
 const SUPPORT_EMAIL = "grant@mostlink.co";
 const SUPPORT_MAILTO = `mailto:${SUPPORT_EMAIL}`;
+const RECAPTCHA_SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
 
 const Support = () => {
   const navigate = useNavigate();
@@ -26,6 +28,14 @@ const Support = () => {
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("general");
   const [message, setMessage] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
+
+  const captchaRef = useRef(null);
+
+  const resetCaptcha = () => {
+    captchaRef.current?.reset();
+    setCaptchaToken("");
+  };
 
   useEffect(() => {
     document.body.style.backgroundImage = themeObj.landingBackground;
@@ -36,6 +46,7 @@ const Support = () => {
     setEmail("");
     setTopic("general");
     setMessage("");
+    resetCaptcha();
     navigate("/");
   };
 
@@ -50,12 +61,21 @@ const Support = () => {
       return;
     }
 
+    if (RECAPTCHA_SITE_KEY && !captchaToken) {
+      toast("Please confirm you are not a robot.", {
+        type: "error",
+        theme,
+      });
+      return;
+    }
+
     axios
       .post(`${process.env.REACT_APP_API_BASE}/api/support`, {
         name: name.trim(),
         email: email.trim(),
         topic,
         message: message.trim(),
+        recaptchaToken: captchaToken,
       })
       .then(() => {
         toast("Thanks — we got your message and will get back to you soon.", {
@@ -66,12 +86,16 @@ const Support = () => {
         setEmail("");
         setTopic("general");
         setMessage("");
+        resetCaptcha();
       })
       .catch(() => {
         toast("Could not send your message. Please try again or email us.", {
           type: "error",
           theme,
         });
+        // The token is single-use once the server checks it, so make the user
+        // tick the box again before retrying.
+        resetCaptcha();
       });
   };
 
@@ -157,6 +181,17 @@ const Support = () => {
             placeholder="How can we help?"
             InputProps={filledInputProps}
           />
+
+          {RECAPTCHA_SITE_KEY ? (
+            <div className={styles.captchaRow}>
+              <ReCaptcha
+                ref={captchaRef}
+                siteKey={RECAPTCHA_SITE_KEY}
+                theme={theme === "dark" ? "dark" : "light"}
+                onChange={setCaptchaToken}
+              />
+            </div>
+          ) : null}
 
           <div className={styles.loginFormButtons}>
             <button
